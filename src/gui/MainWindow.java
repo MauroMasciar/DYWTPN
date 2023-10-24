@@ -11,8 +11,6 @@ public class MainWindow extends JFrame {
 	private JMenu mnuGames = new JMenu("Juegos");
 	private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar");
 	public MainWindow() {
-		
-
 		j.setTitle("DYWTPN");
 		j.setSize(800, 600);
 		j.setDefaultCloseOperation(EXIT_ON_CLOSE);

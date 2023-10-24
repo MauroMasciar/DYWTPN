@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
-
 public class model {
     public static Connection conex;
 
-    public void connectDD() {
+    public void connectDB() {
         try {
             Class.forName("org.sqlite.JDBC");
             conex = DriverManager.getConnection("jdbc:sqlite:database.db");
