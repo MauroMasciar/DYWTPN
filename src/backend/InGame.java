@@ -1,6 +1,9 @@
 package backend;
 
 import javax.imageio.ImageIO;
+
+import database.Games2;
+
 import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -21,8 +24,11 @@ public class InGame {
                 while (gameIdLaunched != 0) {
                     try {
                     	gameTimePlayed ++;
-                        System.out.println("id Juego lanzado: " + gameIdLaunched + ". Tiempo jugando: " + gameTimePlayed);
-                        Thread.sleep(1000);
+                        System.out.println("id juego lanzado: " + gameIdLaunched + ". Tiempo jugando: " + gameTimePlayed);
+                        Thread.sleep(1000); //TODO El contador deberia ser de 60 segundos
+                        
+                        /*Games g = new Games();
+                    	g.saveGameTime(gameIdLaunched, gameTimePlayed);*/
                     } catch (InterruptedException ex) {
                         System.out.println(ex.getMessage());
                     }
@@ -32,6 +38,8 @@ public class InGame {
     }
 
     public void closeGame() {
+    	Games2 g = new Games2();
+    	g.saveGameTime(gameIdLaunched, gameTimePlayed);
         gameIdLaunched = 0;
     }
     

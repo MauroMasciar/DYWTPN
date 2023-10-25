@@ -1,6 +1,6 @@
 package gui;
 
-import database.Games;
+import database.Games2;
 import backend.InGame;
 
 import java.awt.FlowLayout;
@@ -77,11 +77,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	public void UpdateGameList() {
 		jlistGames.removeAll();
 		modelList.clear();
+		txtHoursPlayed.setText("");
 
-		Games g = new Games();
+		Games2 g = new Games2();
 		ArrayList<String> listGames = new ArrayList<String>();
 		listGames = g.getGamesNameList();
-		for (int i = 1; i < listGames.size(); i++) {
+		for(int i = 1; i < listGames.size(); i++) {
 			modelList.addElement(listGames.get(i));
 		}
 	}
@@ -92,7 +93,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 			System.out.println("Lista de juegos actualizada");
 		} else if (e.getSource() == btnLaunchGame) {
 			try {
-				Games g = new Games();
+				Games2 g = new Games2();
 				String path = g.getPathFromGame(gameIdSelected);
 				ProcessBuilder pb = new ProcessBuilder(path);
 				Process p = pb.start();
@@ -102,7 +103,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 					gameIdLaunched = gameIdSelected;
 					
 					int statusProcess = p.waitFor();
-					System.out.println("Estado del proceso: " + statusProcess);
+					System.out.println("Estado del proceso al cerrar: " + statusProcess);
 					System.out.println("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
 					ig.closeGame();
 				}
@@ -118,7 +119,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 		if(e.getSource() == jlistGames) {
 			String s = jlistGames.getSelectedValue();
 			txtGameName.setText(s);
-			Games g = new Games();
+			Games2 g = new Games2();
 
 			gameIdSelected = g.getIdFromGameName(txtGameName.getText());
 			double hours_played = g.getHoursPlayed(gameIdSelected);

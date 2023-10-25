@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Games {
+public class Games2 {
     public static Connection conex;
     private static Statement stmt;
     private static ResultSet rs;
@@ -13,7 +13,7 @@ public class Games {
     private ArrayList<Double> gameHoursPlayed = new ArrayList<Double>();
     private ArrayList<String> gamePath = new ArrayList<String>();
 
-    public Games() {
+    public Games2() {
         gameName.add("null");
         gameHoursPlayed.add(0.0);
         gamePath.add("null");
@@ -62,5 +62,21 @@ public class Games {
 
     public ArrayList<String> getGamesNameList() {
         return gameName;
+    }
+    
+    public void saveGameTime(int gameId, int sesionPlayed) {
+    	Conn c = new Conn();
+        String query = "SELECT id, hours_played FROM games WHERE id = '" + gameId + "'";
+        try {
+            stmt = c.conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                //TODO: Tomar el tiempo, sumar y guardar
+            } else {
+            	//TODO: Mensaje de error
+            }
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
     }
 }
