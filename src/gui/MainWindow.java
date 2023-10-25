@@ -1,6 +1,6 @@
 package gui;
 
-import database.Games2;
+import database.Games;
 import backend.InGame;
 
 import java.awt.FlowLayout;
@@ -79,7 +79,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 		modelList.clear();
 		txtHoursPlayed.setText("");
 
-		Games2 g = new Games2();
+		Games g = new Games();
 		ArrayList<String> listGames = new ArrayList<String>();
 		listGames = g.getGamesNameList();
 		for(int i = 1; i < listGames.size(); i++) {
@@ -93,7 +93,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 			System.out.println("Lista de juegos actualizada");
 		} else if (e.getSource() == btnLaunchGame) {
 			try {
-				Games2 g = new Games2();
+				Games g = new Games();
 				String path = g.getPathFromGame(gameIdSelected);
 				ProcessBuilder pb = new ProcessBuilder(path);
 				Process p = pb.start();
@@ -119,7 +119,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 		if(e.getSource() == jlistGames) {
 			String s = jlistGames.getSelectedValue();
 			txtGameName.setText(s);
-			Games2 g = new Games2();
+			Games g = new Games();
 
 			gameIdSelected = g.getIdFromGameName(txtGameName.getText());
 			double hours_played = g.getHoursPlayed(gameIdSelected);

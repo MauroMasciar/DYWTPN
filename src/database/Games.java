@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class Games2 {
+public class Games {
     public static Connection conex;
     private static Statement stmt;
     private static ResultSet rs;
@@ -13,7 +13,7 @@ public class Games2 {
     private ArrayList<Double> gameHoursPlayed = new ArrayList<Double>();
     private ArrayList<String> gamePath = new ArrayList<String>();
 
-    public Games2() {
+    public Games() {
         gameName.add("null");
         gameHoursPlayed.add(0.0);
         gamePath.add("null");

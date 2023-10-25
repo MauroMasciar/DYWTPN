@@ -2,7 +2,7 @@ package backend;
 
 import javax.imageio.ImageIO;
 
-import database.Games2;
+import database.Games;
 
 import java.awt.AWTException;
 import java.awt.Rectangle;
@@ -38,7 +38,7 @@ public class InGame {
     }
 
     public void closeGame() {
-    	Games2 g = new Games2();
+    	Games g = new Games();
     	g.saveGameTime(gameIdLaunched, gameTimePlayed);
         gameIdLaunched = 0;
     }
