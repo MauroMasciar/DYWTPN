@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Games {
     public static Connection conex;
@@ -20,35 +21,19 @@ public class Games {
         String query = "SELECT name, hours_played, path FROM games";
         Conn c = new Conn();
         try {
-            stmt = c.conex.createStatement();
+            stmt = c.Conn().createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
                 gameName.add(rs.getString("name"));
                 gameHoursPlayed.add(rs.getDouble("hours_played"));
                 gamePath.add(rs.getString("path"));
             }
-            c.conex.close();
+            c.Conn().close();
         } catch (Exception ex) {
             ex.getMessage();
         }
     }
-
-    public int getIdFromGameName(String name) {
-        Conn c = new Conn();
-        String query = "SELECT id FROM games WHERE name = '" + name + "'";
-        try {
-            stmt = c.conex.createStatement();
-            rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                return rs.getInt("id");
-            } else
-                return 0;
-        } catch (Exception ex) {
-            ex.getMessage();
-        }
-        return 0;
-    }
-
+    
     public String getPathFromGame(int gameid) {
         String path = gamePath.get(gameid);
         System.out.println(path);
@@ -63,17 +48,50 @@ public class Games {
     public ArrayList<String> getGamesNameList() {
         return gameName;
     }
-    
+
+    public int getIdFromGameName(String name) {
+        Conn c = new Conn();
+        String query = "SELECT id FROM games WHERE name = '" + name + "'";
+        try {
+        	stmt = c.Conn().createStatement();
+            rs = stmt.executeQuery(query);
+            if (rs.next()) {
+                return rs.getInt("id");
+            } else
+                return 0;
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
+        return 0;
+    }
+
     public void saveGameTime(int gameId, int sesionPlayed) {
     	Conn c = new Conn();
         String query = "SELECT id, hours_played FROM games WHERE id = '" + gameId + "'";
+        System.out.println(query);
         try {
-            stmt = c.conex.createStatement();
+        	Statement stmt;
+        	stmt = c.Conn().createStatement();
             rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                //TODO: Tomar el tiempo, sumar y guardar
+            if (rs.next()) {               
+               new Thread(new Runnable() {
+                   public void run() {
+                       try {
+                           double hoursPlayed = rs.getDouble(2);
+                           hoursPlayed += sesionPlayed;
+                           
+                           String query;
+                           query = "UPDATE games SET hours_played = " + hoursPlayed + " WHERE id = " + gameId;
+                           stmt.execute(query);
+                           System.out.println(query);
+                       } catch (Exception ex) {
+                           System.out.println(ex.getMessage());
+                       }
+                   }
+               }).start();
             } else {
-            	//TODO: Mensaje de error
+            	String string = "No se ha podido guardar el tiempo jugado. Puede sumarlo manualmente\nUltima sesion: " + sesionPlayed + " segundos.";
+            	JOptionPane.showMessageDialog(null, string, "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);            	
             }
         } catch (Exception ex) {
             ex.getMessage();

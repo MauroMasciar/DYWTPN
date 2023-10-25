@@ -1,7 +1,7 @@
 package gui;
 
-import database.Games;
 import backend.InGame;
+import database.Games;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
