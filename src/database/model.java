@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class model {
+public class Model {
     public static Connection conex;
 
     public void connectDB() {
@@ -14,7 +14,8 @@ public class model {
             System.out.println("Conectado");
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println("Error en la conexión de la base de datos");
-            //JOptionPane.showMessageDialog(null, "Error en la conexión a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            // JOptionPane.showMessageDialog(null, "Error en la conexión a la base de
+            // datos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

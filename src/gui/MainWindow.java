@@ -1,11 +1,11 @@
 package gui;
 
-import database.games;
+import database.Games;
+import backend.InGame;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.DefaultListModel;
@@ -19,7 +19,11 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.util.ArrayList;
 
-public class MainWindow extends JFrame implements ActionListener {
+public class MainWindow extends JFrame implements ActionListener, ListSelectionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -82854956961477559L;
 	private JFrame j = new JFrame();
 	private JMenuBar menubar = new JMenuBar();
 	private JMenu mnuGames = new JMenu("Juegos");
@@ -32,9 +36,8 @@ public class MainWindow extends JFrame implements ActionListener {
 	private JTextField txtHoursPlayed = new JTextField(20);
 	private JButton btnLaunchGame = new JButton("Lanzar");
 
-	private int gameIdSelected = 0;
-	private int gameIdLaunched = 0;
-
+	public int gameIdSelected = 0;
+	public int gameIdLaunched = 0;
 
 	public MainWindow() {
 		j.setTitle("DYWTPN");
@@ -48,24 +51,11 @@ public class MainWindow extends JFrame implements ActionListener {
 		j.setJMenuBar(menubar);
 
 		mnuiGamesRefresh.addActionListener(this);
-		
-		//j.add(jlistGames);
+
 		j.add(scrListGame);
 		jlistGames.setModel(modelList);
-		UpdateGameList();
 
-		jlistGames.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				String s = jlistGames.getSelectedValue();
-				txtGameName.setText(s);
-				games g = new games();
-
-				gameIdSelected = g.getIdFromGameName(txtGameName.getText());
-				double hours_played = g.getHoursPlayed(gameIdSelected);
-				txtHoursPlayed.setText(String.valueOf(hours_played));
-			}
-		});
+		jlistGames.addListSelectionListener(this);
 
 		txtGameName.setEditable(false);
 		txtHoursPlayed.setEditable(false);
@@ -75,46 +65,64 @@ public class MainWindow extends JFrame implements ActionListener {
 		j.add(txtGameName);
 		j.add(txtHoursPlayed);
 		j.add(btnLaunchGame);
+		
+		LoadData();
 
 		j.setVisible(true);
 	}
-
+	
+	public void LoadData() {
+		UpdateGameList();
+	}
 	public void UpdateGameList() {
 		jlistGames.removeAll();
 		modelList.clear();
 
-		games g = new games();
+		Games g = new Games();
 		ArrayList<String> listGames = new ArrayList<String>();
 		listGames = g.getGamesNameList();
-		for(int i=1;i<listGames.size();i++) {
+		for (int i = 1; i < listGames.size(); i++) {
 			modelList.addElement(listGames.get(i));
 		}
 	}
+
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == mnuiGamesRefresh) {
 			UpdateGameList();
 			System.out.println("Lista de juegos actualizada");
-		} else if(e.getSource() == btnLaunchGame) {
+		} else if (e.getSource() == btnLaunchGame) {
 			try {
-				Runtime app = Runtime.getRuntime();
-				games g = new games();
+				Games g = new Games();
 				String path = g.getPathFromGame(gameIdSelected);
-				System.out.println(path);
-				System.out.println(gameIdSelected);
-				app.exec(path);
-			} catch(Exception ex) {
+				ProcessBuilder pb = new ProcessBuilder(path);
+				Process p = pb.start();
+			
+				if(p.isAlive()) {
+					InGame ig = new InGame(gameIdSelected);
+					gameIdLaunched = gameIdSelected;
+					
+					int statusProcess = p.waitFor();
+					System.out.println("Estado del proceso: " + statusProcess);
+					System.out.println("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
+					ig.closeGame();
+				}
+			} catch (Exception ex) {
 				ex.getMessage();
 			}
+			gameIdLaunched = 0;
 		}
 	}
+	
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		if(e.getSource() == jlistGames) {
+			String s = jlistGames.getSelectedValue();
+			txtGameName.setText(s);
+			Games g = new Games();
 
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    	} catch (Exception e) {
-			System. out. println("No se ha podido configurar el look and feel: " + e.getMessage( ));
-			e.printStackTrace();
-       }
-	   new MainWindow();
+			gameIdSelected = g.getIdFromGameName(txtGameName.getText());
+			double hours_played = g.getHoursPlayed(gameIdSelected);
+			txtHoursPlayed.setText(String.valueOf(hours_played));
+		}
 	}
 }
