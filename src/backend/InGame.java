@@ -17,46 +17,53 @@ public class InGame {
     private int gameTimePlayed = 0;
 
     public InGame(int IdLaunched) {
-    	this.gameIdLaunched = IdLaunched;
-        new Thread(new Runnable() {
-            public void run() {
-                while (gameIdLaunched != 0) {
-                    try {
-                    	gameTimePlayed ++;
-                        System.out.println("id juego lanzado: " + gameIdLaunched + ". Tiempo jugando: " + gameTimePlayed);
-                        Thread.sleep(1000); //TODO El contador deberia ser de 60 segundos
-                    } catch (InterruptedException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-            }
-        }).start();
+	if(IdLaunched != 0) {
+	    this.gameIdLaunched = IdLaunched;
+	    LaunchGame(IdLaunched);
+	}
+    }
+
+    public void LaunchGame(int IdLaunched) {
+	new Thread(new Runnable() {
+	    public void run() {
+		while (gameIdLaunched != 0) {
+		    try {
+			System.out.println("ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed);
+			//Thread.sleep(60000);
+			Thread.sleep(500);
+			gameTimePlayed ++;
+		    } catch (InterruptedException ex) {
+			System.out.println(ex.getMessage());
+		    }
+		}
+	    }
+	}).start();
     }
 
     public void closeGame() {
-    	Games g = new Games();
-    	g.saveGameTime(gameIdLaunched, gameTimePlayed);
-        gameIdLaunched = 0;
+	Games g = new Games();
+	g.saveGameTime(gameIdLaunched, gameTimePlayed);
+	gameIdLaunched = 0;
     }
-    
+
     public int getGameTimePlayed() {
-    	return gameTimePlayed;
+	return gameTimePlayed;
     }
 
     public void takeScreenshot() {
-    	if(gameIdLaunched != 0) {
-    		try {
-                Robot bot = new Robot();
-                BufferedImage screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-                File f = new File("screen.jpg");
-                try {
-                    ImageIO.write(screen, "jpg", f);
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            } catch (AWTException ex) {
-                System.out.println(ex.getMessage());
-            }
-    	}        
+	if(gameIdLaunched != 0) {
+	    try {
+		Robot bot = new Robot();
+		BufferedImage screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+		File f = new File("screen.jpg");
+		try {
+		    ImageIO.write(screen, "jpg", f);
+		} catch (IOException ex) {
+		    System.out.println(ex.getMessage());
+		}
+	    } catch (AWTException ex) {
+		System.out.println(ex.getMessage());
+	    }
+	}        
     }
 }
