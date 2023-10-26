@@ -1,11 +1,14 @@
-package gui;
+package frontend;
 
 import backend.InGame;
 import database.Games;
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import javax.swing.event.ListSelectionEvent;
@@ -22,12 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.util.ArrayList;
 
-public class MainWindow extends JFrame implements ActionListener, ListSelectionListener {
-    /**
-     * 
-     */
+public class MainWindow extends JFrame implements ActionListener, ListSelectionListener, WindowListener {
     private static final long serialVersionUID = -82854956961477559L;
-    private JFrame j = new JFrame();
+    public static JFrame j = new JFrame();
     private JMenuBar menubar = new JMenuBar();
     private JMenu mnuGames = new JMenu("Juegos");
     private JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego");
@@ -39,6 +39,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JTextField txtHoursPlayed = new JTextField(20);
     private DecimalFormat txtHoursPlayedDecimal = new DecimalFormat("#.##");
     private JButton btnLaunchGame = new JButton("Lanzar");
+    private JButton btnEditGame = new JButton("Editar");
 
     public int gameIdSelected = 0;
     public int gameIdLaunched = 0;
@@ -47,14 +48,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	j.setTitle("DYWTPN");
 	j.setSize(800, 600);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	j.setLayout(new FlowLayout());
-
+	j.setLayout(new GridBagLayout());
+	GridBagConstraints g = new GridBagConstraints();
+	
 	mnuGames.add(mnuiGamesAdd);
 	mnuGames.add(mnuiGamesRefresh);
 	menubar.add(mnuGames);
 	j.setJMenuBar(menubar);
 
 	mnuiGamesRefresh.addActionListener(this);
+	mnuiGamesAdd.addActionListener(this);
 
 	j.add(scrListGame);
 	jlistGames.setModel(modelList);
@@ -69,8 +72,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	j.add(txtGameName);
 	j.add(txtHoursPlayed);
 	j.add(btnLaunchGame);
+	j.add(btnEditGame);
 
 	btnLaunchGame.setEnabled(false);
+
+	j.addWindowListener(this);
 
 	LoadData();
 
@@ -100,9 +106,12 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	if (e.getSource() == mnuiGamesRefresh) {
 	    UpdateGameList();
 	    System.out.println("Lista de juegos actualizada");
-	} else if (e.getSource() == btnLaunchGame) { //TODO: Que al no tener ningun juego seleccionado no intente lanzarlo
+	} else if(e.getSource() == mnuiGamesAdd) {
+	    j.setVisible(false);
+	    new AddGame();
+	} else if (e.getSource() == btnLaunchGame) {
 	    Games g = new Games();
-	    String path = g.getPathFromGame(gameIdSelected); // Aca recibe el null si el juego no esta seleccionado
+	    String path = g.getPathFromGame(gameIdSelected);
 	    System.out.println(path);
 	    if(path == "null") {
 		btnLaunchGame.setEnabled(false);
@@ -115,17 +124,23 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 			InGame ig = new InGame(gameIdSelected);
 			gameIdLaunched = gameIdSelected;
 
-			int statusProcess;
-			statusProcess = p.waitFor();
-			System.out.println("Estado del proceso al cerrar: " + statusProcess);
-			System.out.println("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
-			ig.closeGame();
-			UpdateGameList();
+			new Thread(new Runnable() {
+			    public void run() {
+				int statusProcess;
+				try {
+				    statusProcess = p.waitFor();
+				    System.out.println("Estado del proceso al cerrar: " + statusProcess);
+				    System.out.println("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
+				    ig.closeGame();
+				    UpdateGameList();
+				} catch (InterruptedException e) {
+				    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+				}
+			    }
+			}).start();
 		    }
 		} catch (IOException ex) {
 		    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-		} catch (InterruptedException ex) {
-		    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(2)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 		}
 	    }
 	}
@@ -144,4 +159,33 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	    txtHoursPlayed.setText(txtHoursPlayedDecimal.format(hours_played));
 	}
     }
+    
+    @Override
+    public void windowOpened(WindowEvent e) {	
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
+
 }

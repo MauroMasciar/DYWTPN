@@ -2,15 +2,6 @@ package backend;
 
 import database.Games;
 
-import javax.imageio.ImageIO;
-import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 public class InGame {
     Runnable runnable = null;
     private int gameIdLaunched = 0;
@@ -48,22 +39,5 @@ public class InGame {
 
     public int getGameTimePlayed() {
 	return gameTimePlayed;
-    }
-
-    public void takeScreenshot() {
-	if(gameIdLaunched != 0) {
-	    try {
-		Robot bot = new Robot();
-		BufferedImage screen = bot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-		File f = new File("screen.jpg");
-		try {
-		    ImageIO.write(screen, "jpg", f);
-		} catch (IOException ex) {
-		    System.out.println(ex.getMessage());
-		}
-	    } catch (AWTException ex) {
-		System.out.println(ex.getMessage());
-	    }
-	}        
     }
 }

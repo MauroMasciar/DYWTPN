@@ -3,8 +3,9 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
-public class Conn {
+class Conn {
     public String driver = "com.mysql.cj.jdbc.Driver";
     public String database = "DYWTPN";
     public String hostname = "localhost";
@@ -12,15 +13,14 @@ public class Conn {
     public String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
     public String username = "root";
     public String password = "123456";
-
-    public Connection Conn() {
-	Connection conn = null;
+    Connection conex = null;
+    
+    public Conn() {
 	try {
-	    Class.forName(driver);
-	    conn = DriverManager.getConnection(url, username, password);
-	} catch (ClassNotFoundException | SQLException e) {
-	    e.printStackTrace();
+	    conex = DriverManager.getConnection(url, username, password);
+	} catch (SQLException e) {
+	    JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos\nSe reintentara en un momento", "Error de conexion", JOptionPane.ERROR_MESSAGE);
+	    //TODO: Reintentar conectar a la base de datos
 	}
-	return conn;
-    }
+    }    
 }

@@ -21,14 +21,14 @@ public class Games {
 	String query = "SELECT name, hours_played, path FROM games";
 	Conn c = new Conn();
 	try {
-	    stmt = c.Conn().createStatement();
+	    stmt = c.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    while (rs.next()) {
 		gameName.add(rs.getString("name"));
 		gameHoursPlayed.add(rs.getDouble("hours_played"));
 		gamePath.add(rs.getString("path"));
 	    }
-	    c.Conn().close();
+	    c.conex.close();
 	} catch (Exception ex) {
 	    ex.getMessage();
 	}
@@ -50,10 +50,10 @@ public class Games {
     }
 
     public int getIdFromGameName(String name) {
-	Conn c = new Conn();
 	String query = "SELECT id FROM games WHERE name = '" + name + "'";
+	Conn c = new Conn();
 	try {
-	    stmt = c.Conn().createStatement();
+	    stmt = c.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if (rs.next()) {
 		return rs.getInt("id");
@@ -71,28 +71,23 @@ public class Games {
 	System.out.println(query);
 	try {
 	    Statement stmt;
-	    stmt = c.Conn().createStatement();
+	    stmt = c.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if (rs.next()) {
-		new Thread(new Runnable() {
-		    public void run() {
-			try {
-			    double hoursPlayed = rs.getDouble(1);
-			    double sessionHoursPlayed = (double)sessionPlayed / 60;
-			    double totalHoursPlayed = (double)hoursPlayed + sessionHoursPlayed;
-			    System.out.println("Horas jugadas anteriormente: " + hoursPlayed + " Horas de ultima sesion: " + sessionHoursPlayed + " Total: " + totalHoursPlayed);
-			    String query;
-			    query = "UPDATE games SET hours_played = " + totalHoursPlayed + " WHERE id = " + gameId;
-			    stmt.execute(query);
-			    System.out.println(query);
-			    query = "INSERT INTO games_sessions_history (hours, game_id) VALUES (" + sessionHoursPlayed + ", " + gameId + ")";
-			    stmt.execute(query);
-			    System.out.println(query);
-			} catch (Exception ex) {
-			    System.out.println(ex.getMessage());
-			}
-		    }
-		}).start();
+		try {
+		    double hoursPlayed = rs.getDouble(1);
+		    double sessionHoursPlayed = (double)sessionPlayed / 60;
+		    double totalHoursPlayed = (double)hoursPlayed + sessionHoursPlayed;
+		    System.out.println("Horas jugadas anteriormente: " + hoursPlayed + " Horas de ultima sesion: " + sessionHoursPlayed + " Total: " + totalHoursPlayed);
+		    query = "UPDATE games SET hours_played = " + totalHoursPlayed + " WHERE id = " + gameId;
+		    stmt.execute(query);
+		    System.out.println(query);
+		    query = "INSERT INTO games_sessions_history (hours, game_id) VALUES (" + sessionHoursPlayed + ", " + gameId + ")";
+		    stmt.execute(query);
+		    System.out.println(query);
+		} catch (Exception ex) {
+		    System.out.println(ex.getMessage());
+		}
 	    } else {
 		String string = "No se ha podido guardar el tiempo jugado. Puede sumarlo manualmente\nUltima sesion: "
 			+ sessionPlayed + " minutos.";
