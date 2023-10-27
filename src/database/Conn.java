@@ -18,7 +18,8 @@ class Conn {
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	} catch (SQLException e) {
-	    JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos\nSe reintentara en un momento", "Error de conexion", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(null, "No se ha podido conectar a la base de datos", "Error de conexion", JOptionPane.ERROR_MESSAGE);
+	    System.exit(0);
 	    //TODO: Reintentar conectar a la base de datos
 	}
     }    

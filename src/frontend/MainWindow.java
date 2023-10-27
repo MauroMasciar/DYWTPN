@@ -32,6 +32,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JMenu mnuGames = new JMenu("Juegos");
     private JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego");
     private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar lista de juegos");
+    private JMenu mnuHelp = new JMenu("Ayuda");
+    private JMenuItem mnuHelpAbout = new JMenuItem("Acerca de");
     private JList<String> jlistGames = new JList<String>();
     private JScrollPane scrListGame = new JScrollPane(jlistGames);
     private DefaultListModel<String> modelList = new DefaultListModel<String>();
@@ -50,10 +52,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	j.setLayout(new GridBagLayout());
 	GridBagConstraints g = new GridBagConstraints();
-
+	
+	menubar.add(mnuGames);
+	menubar.add(mnuHelp);
 	mnuGames.add(mnuiGamesAdd);
 	mnuGames.add(mnuiGamesRefresh);
-	menubar.add(mnuGames);
+	mnuHelp.add(mnuHelpAbout);
+	
 	j.setJMenuBar(menubar);
 
 	mnuiGamesRefresh.addActionListener(this);
@@ -121,7 +126,13 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	    if(path == "null") {
 		btnLaunchGame.setEnabled(false);
 	    } else {
-		ProcessBuilder pb = new ProcessBuilder(path);
+		ProcessBuilder pb;
+		if(g.isGhost(gameIdSelected)) {
+		    pb = new ProcessBuilder("notepad.exe");
+		    JOptionPane.showMessageDialog(this, "Se ha abierto el bloc de notas. Cuando termine de jugar cierrelo"); // Hacer un .exe con un cartel
+		} else {
+		    pb = new ProcessBuilder(path);
+		}
 		Process p;
 		try {
 		    p = pb.start();
@@ -170,6 +181,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public void windowActivated(WindowEvent e) {
 	LoadData();
     }
+    
     @Override
     public void windowOpened(WindowEvent e) {	
     }
@@ -193,5 +205,4 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     @Override
     public void windowDeactivated(WindowEvent e) {
     }
-
 }

@@ -2,11 +2,12 @@ package frontend;
 
 import database.Games;
 
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -15,21 +16,23 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
-public class AddGame extends JDialog implements ActionListener, WindowListener {
+public class AddGame extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = 6759981496451639858L;
-    private JDialog j = new JDialog();
+    private JFrame j = new JFrame();
     private JLabel lblGameName = new JLabel("Juego:");
     private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
     private JLabel lblPath = new JLabel("Ubicacion:");
+    private JLabel lblGhost = new JLabel("Fantasma:");
     private JTextField txtGameName = new JTextField(20);
     private JTextField txtHoursPlayed = new JTextField(20);
     private JTextField txtPath = new JTextField(20);
+    private JCheckBox cbGhost = new JCheckBox();
     private JButton btnAdd = new JButton("Añadir");
     public AddGame() {
 	j.setTitle("DYWTPN - Añadir nuevo juego");
-	j.setSize(400, 130);
+	j.setSize(400, 150);
 	j.setResizable(false);
-	j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	j.setLayout(new GridBagLayout());
 	
 	JPanel panel = new JPanel();
@@ -60,6 +63,11 @@ public class AddGame extends JDialog implements ActionListener, WindowListener {
 	panel.add(txtPath, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
+	panel.add(lblGhost, gbc);
+	gbc.gridx = 1;
+	panel.add(cbGhost, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
 	gbc.gridwidth = 2;
 	panel.add(btnAdd, gbc);
 	
@@ -74,7 +82,10 @@ public class AddGame extends JDialog implements ActionListener, WindowListener {
 	if(e.getSource() == btnAdd) { 
 	    //TODO: Verificar que hoursplayed sea numeros
 	    Games g = new Games();
-	    int a = g.addGame(txtGameName.getText(), txtHoursPlayed.getText(), txtPath.getText());
+	    int c;
+	    if(cbGhost.isSelected()) c = 1;
+	    else c = 0;
+	    int a = g.addGame(txtGameName.getText(), txtHoursPlayed.getText(), txtPath.getText(), c);
 	    if(a == 1) {
 		JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
 		txtGameName.setText("");

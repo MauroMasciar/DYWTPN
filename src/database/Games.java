@@ -22,6 +22,7 @@ public class Games {
     private ArrayList<String> gameName = new ArrayList<String>();
     private ArrayList<Double> gameHoursPlayed = new ArrayList<Double>();
     private ArrayList<String> gamePath = new ArrayList<String>();
+    private ArrayList<Integer> gameGhost = new ArrayList<Integer>();
 
     public Games() {
 	try {
@@ -32,7 +33,8 @@ public class Games {
 	gameName.add("null");
 	gameHoursPlayed.add(0.0);
 	gamePath.add("null");
-	String query = "SELECT name, hours_played, path FROM games";
+	gameGhost.add(0);
+	String query = "SELECT name, hours_played, path, ghost FROM games";
 	Conn c = new Conn();
 	try {
 	    stmt = c.conex.createStatement();
@@ -41,6 +43,7 @@ public class Games {
 		gameName.add(rs.getString("name"));
 		gameHoursPlayed.add(rs.getDouble("hours_played"));
 		gamePath.add(rs.getString("path"));
+		gameGhost.add(rs.getInt("ghost"));
 	    }
 	    c.conex.close();
 	} catch (Exception ex) {
@@ -78,6 +81,7 @@ public class Games {
 	}
 	return 0;
     }
+
     public String getNameFromId(int gameId) {
 	String query = "SELECT name FROM games WHERE id = " + gameId;
 	try {
@@ -94,68 +98,74 @@ public class Games {
 	return "ERROR";
     }
 
+    public boolean isGhost(int gameId) {
+	if(gameGhost.get(gameId) == 1) return true;
+	else return false;
+    }
+
     public void saveGameTime(int gameId, int sessionPlayed) {
-	Conn c = new Conn();
-	String query = "SELECT hours_played FROM games WHERE id = '" + gameId + "'";
-	System.out.println(query);
-	try {
-	    Statement stmt;
-	    stmt = c.conex.createStatement();
-	    rs = stmt.executeQuery(query);
-	    if (rs.next()) {
-		try {
-		    double hoursPlayed = rs.getDouble(1);
-		    double sessionHoursPlayed = (double)sessionPlayed / 60;
-		    double totalHoursPlayed = (double)hoursPlayed + sessionHoursPlayed;
-		    System.out.println("Horas jugadas anteriormente: " + hoursPlayed + " Horas de ultima sesion: " + sessionHoursPlayed + " Total: " + totalHoursPlayed);
-		    query = "UPDATE games SET hours_played = " + totalHoursPlayed + " WHERE id = " + gameId;
-		    stmt.execute(query);
-		    System.out.println(query);
-		    query = "INSERT INTO games_sessions_history (hours, game_id) VALUES (" + sessionHoursPlayed + ", " + gameId + ")";
-		    stmt.execute(query);
-		    System.out.println(query);
-		} catch (Exception ex) {
-		    System.out.println(ex.getMessage());
+	if(gameId != 0) {
+	    Conn c = new Conn();
+	    String query = "SELECT hours_played FROM games WHERE id = '" + gameId + "'";
+	    System.out.println(query);
+	    try {
+		Statement stmt;
+		stmt = c.conex.createStatement();
+		rs = stmt.executeQuery(query);
+		if (rs.next()) {
+		    try {
+			double hoursPlayed = rs.getDouble(1);
+			double sessionHoursPlayed = (double)sessionPlayed / 60;
+			double totalHoursPlayed = (double)hoursPlayed + sessionHoursPlayed;
+			System.out.println("Horas jugadas anteriormente: " + hoursPlayed + " Horas de ultima sesion: " + sessionHoursPlayed + " Total: " + totalHoursPlayed);
+			query = "UPDATE games SET hours_played = " + totalHoursPlayed + " WHERE id = " + gameId;
+			stmt.execute(query);
+			System.out.println(query);
+		    } catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		    }
+		} else {
+		    String string = "No se ha podido guardar el tiempo jugado. Puede sumarlo manualmente\nUltima sesion: "
+			    + sessionPlayed + " minutos.";
+		    JOptionPane.showMessageDialog(null, string, "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
 		}
-	    } else {
-		String string = "No se ha podido guardar el tiempo jugado. Puede sumarlo manualmente\nUltima sesion: "
-			+ sessionPlayed + " minutos.";
-		JOptionPane.showMessageDialog(null, string, "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+	    } catch (Exception ex) {
+		ex.getMessage();
 	    }
-	} catch (Exception ex) {
-	    ex.getMessage();
 	}
     }
-    public int addGame(String name, String hoursPlayed, String path) {
+
+    public int addGame(String name, String hoursPlayed, String path, int ghost) {
 	try {
-	    String query = "INSERT INTO games (name, hours_played, path) VALUES (?,?,?)";
+	    String query = "INSERT INTO games (name, hours_played, path, ghost) VALUES (?,?,?,?)";
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
 	    p.setString(2, hoursPlayed);
 	    p.setString(3, path);
+	    p.setInt(4, ghost);
 	    int resultado = p.executeUpdate();
 	    if(resultado == 1) return 1;
 	    else return 0;
 	} catch (SQLException ex) {
 	    System.out.println("No se ha podido conectar a la BD");
+	    ex.getMessage();
 	}
 	return 0;
     }
-    
-    public int editGame(int gameId, String name, String hoursPlayed, String path) {
+
+    public int editGame(int gameId, String name, String hoursPlayed, String path, String ghost) {
 	try {
-	    String query = "UPDATE games SET name = ?, hours_played = ?, path = ? WHERE id = ?";
+	    System.out.println(hoursPlayed);
+	    String query = "UPDATE games SET name = ?, hours_played = ?, path = ?, ghost = ? WHERE id = ?";
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
 	    p.setString(2, hoursPlayed);
 	    p.setString(3, path);
-	    p.setInt(4, gameId);
+	    p.setString(4, ghost);
+	    p.setInt(5, gameId);
 	    int res = p.executeUpdate();
-	    if(res == 1) {
-		
-	    } else {
-		
-	    }
+	    if(res == 1) return 1;
+	    else return 0;
 	} catch (SQLException ex) {
 	    ex.getMessage();
 	}

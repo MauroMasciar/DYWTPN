@@ -9,22 +9,25 @@ import java.awt.event.WindowListener;
 import java.text.DecimalFormat;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 import javax.swing.JButton;
 
-public class EditGame extends JDialog implements ActionListener, WindowListener {
+public class EditGame extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = 2260581778638759215L;
-    JDialog j = new JDialog();
+    private JFrame j = new JFrame();
     private DecimalFormat txtHoursPlayedDecimal = new DecimalFormat("#.##");
     private JLabel lblGameName = new JLabel("Juego:");
     private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
     private JLabel lblPath = new JLabel("Ubicacion:");
+    private JLabel lblGhostGame = new JLabel("Juego fantasma");
     private JTextField txtGameName = new JTextField(20);
     private JTextField txtHoursPlayed = new JTextField(20);
     private JTextField txtPath = new JTextField(20);
+    private JCheckBox cbGhostGame = new JCheckBox();
     private JButton btnEdit = new JButton("Editar");
     private int gameId;
     
@@ -32,7 +35,7 @@ public class EditGame extends JDialog implements ActionListener, WindowListener 
 	j.setSize(800, 600);
 	String title = "Editar juego - "; //TODO: Poner nombre del juego
 	j.setTitle(title);
-	j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	j.setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
 	this.gameId = gameId;
@@ -64,10 +67,19 @@ public class EditGame extends JDialog implements ActionListener, WindowListener 
 	j.add(lblPath, gbc);
 	gbc.gridx = 1;
 	j.add(txtPath, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	j.add(lblGhostGame, gbc);
+	gbc.gridx++;
+	j.add(cbGhostGame, gbc);
+	
 	gbc.gridy ++;
 	gbc.gridx = 0;
 	gbc.gridwidth = 2;
 	j.add(btnEdit, gbc);
+
+	if(g.isGhost(gameId)) cbGhostGame.setSelected(true);
+	else cbGhostGame.setSelected(false);
 	
 	j.addWindowListener(this);
 	btnEdit.addActionListener(this);
@@ -79,7 +91,17 @@ public class EditGame extends JDialog implements ActionListener, WindowListener 
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnEdit) {
 	    Games g = new Games();
-	    g.editGame(gameId, txtGameName.getText(), txtHoursPlayed.getText(), txtPath.getText());
+	    String ghostGame, hoursPlayed;
+	    if(cbGhostGame.isSelected()) ghostGame = "1";
+	    else ghostGame = "0";
+	    
+	    hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
+
+	    if(g.editGame(gameId, txtGameName.getText(), hoursPlayed, txtPath.getText(), ghostGame) == 1) {
+		JOptionPane.showMessageDialog(null, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
+	    } else {
+		JOptionPane.showMessageDialog(null,  "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
     }
 
