@@ -37,8 +37,8 @@ public class InGame {
 		while (gameIdLaunched != 0) {
 		    try {
 			//System.out.println("ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed);
-			Thread.sleep(60000);
-			//Thread.sleep(1000);
+			//Thread.sleep(60000);
+			Thread.sleep(1000);
 			gameTimePlayed ++;
 			saveGameTime();
 		    } catch (InterruptedException ex) {

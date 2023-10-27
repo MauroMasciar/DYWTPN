@@ -128,8 +128,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	    } else {
 		ProcessBuilder pb;
 		if(g.isGhost(gameIdSelected)) {
-		    pb = new ProcessBuilder("notepad.exe");
-		    JOptionPane.showMessageDialog(this, "Se ha abierto el bloc de notas. Cuando termine de jugar cierrelo"); // Hacer un .exe con un cartel
+		    pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\GhostGame.exe");
 		} else {
 		    pb = new ProcessBuilder(path);
 		}

@@ -1,0 +1,16 @@
+C:\Users\mauro\source\repos\GhostGame\bin\Debug\net6.0-windows\GhostGame.exe
+C:\Users\mauro\source\repos\GhostGame\bin\Debug\net6.0-windows\GhostGame.deps.json
+C:\Users\mauro\source\repos\GhostGame\bin\Debug\net6.0-windows\GhostGame.runtimeconfig.json
+C:\Users\mauro\source\repos\GhostGame\bin\Debug\net6.0-windows\GhostGame.dll
+C:\Users\mauro\source\repos\GhostGame\bin\Debug\net6.0-windows\GhostGame.pdb
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.Form1.resources
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.csproj.GenerateResource.cache
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.AssemblyInfoInputs.cache
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.AssemblyInfo.cs
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.csproj.CoreCompileInputs.cache
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.dll
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\refint\GhostGame.dll
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.pdb
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\GhostGame.genruntimeconfig.cache
+C:\Users\mauro\source\repos\GhostGame\obj\Debug\net6.0-windows\ref\GhostGame.dll
