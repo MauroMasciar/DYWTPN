@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 class Conn {
-    public String driver = "com.mysql.cj.jdbc.Driver";
     public String database = "DYWTPN";
     public String hostname = "localhost";
     public String port = "3306";

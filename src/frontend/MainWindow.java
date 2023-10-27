@@ -50,7 +50,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	j.setLayout(new GridBagLayout());
 	GridBagConstraints g = new GridBagConstraints();
-	
+
 	mnuGames.add(mnuiGamesAdd);
 	mnuGames.add(mnuiGamesRefresh);
 	menubar.add(mnuGames);
@@ -65,6 +65,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	jlistGames.addListSelectionListener(this);
 
 	btnLaunchGame.addActionListener(this);
+	btnEditGame.addActionListener(this);
 
 	txtGameName.setEditable(false);
 	txtHoursPlayed.setEditable(false);
@@ -75,6 +76,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	j.add(btnEditGame);
 
 	btnLaunchGame.setEnabled(false);
+	btnEditGame.setEnabled(false);
 
 	j.addWindowListener(this);
 
@@ -103,13 +105,16 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     }
 
     public void actionPerformed(ActionEvent e) {
-	if (e.getSource() == mnuiGamesRefresh) {
+	if(e.getSource() == mnuiGamesRefresh) {
 	    UpdateGameList();
 	    System.out.println("Lista de juegos actualizada");
 	} else if(e.getSource() == mnuiGamesAdd) {
 	    j.setVisible(false);
 	    new AddGame();
-	} else if (e.getSource() == btnLaunchGame) {
+	} else if(e.getSource() == btnEditGame) {
+	    j.setVisible(false);
+	    new EditGame(gameIdSelected);
+	} else if(e.getSource() == btnLaunchGame) {
 	    Games g = new Games();
 	    String path = g.getPathFromGame(gameIdSelected);
 	    System.out.println(path);
@@ -148,8 +153,9 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-	if (e.getSource() == jlistGames) {
+	if(e.getSource() == jlistGames) {
 	    btnLaunchGame.setEnabled(true);
+	    btnEditGame.setEnabled(true);
 	    String s = jlistGames.getSelectedValue();
 	    txtGameName.setText(s);
 	    Games g = new Games();
@@ -159,7 +165,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	    txtHoursPlayed.setText(txtHoursPlayedDecimal.format(hours_played));
 	}
     }
-    
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+	LoadData();
+    }
     @Override
     public void windowOpened(WindowEvent e) {	
     }
@@ -178,10 +188,6 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
     }
 
     @Override

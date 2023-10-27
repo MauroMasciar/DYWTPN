@@ -1,13 +1,22 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Games {
-    public static Connection conex;
+    private String database = "DYWTPN";
+    private String hostname = "localhost";
+    private String port = "3306";
+    private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
+    private String username = "root";
+    private String password = "123456";
+    private Connection conex = null;
     private static Statement stmt;
     private static ResultSet rs;
     private ArrayList<String> gameName = new ArrayList<String>();
@@ -15,6 +24,11 @@ public class Games {
     private ArrayList<String> gamePath = new ArrayList<String>();
 
     public Games() {
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	} catch (SQLException ex) {
+	    System.out.println(ex.getMessage());
+	}
 	gameName.add("null");
 	gameHoursPlayed.add(0.0);
 	gamePath.add("null");
@@ -64,6 +78,21 @@ public class Games {
 	}
 	return 0;
     }
+    public String getNameFromId(int gameId) {
+	String query = "SELECT name FROM games WHERE id = " + gameId;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) return rs.getString("name");
+	    else return "ERROR";
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+	return "ERROR";
+    }
 
     public void saveGameTime(int gameId, int sessionPlayed) {
 	Conn c = new Conn();
@@ -96,5 +125,40 @@ public class Games {
 	} catch (Exception ex) {
 	    ex.getMessage();
 	}
+    }
+    public int addGame(String name, String hoursPlayed, String path) {
+	try {
+	    String query = "INSERT INTO games (name, hours_played, path) VALUES (?,?,?)";
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    p.setString(2, hoursPlayed);
+	    p.setString(3, path);
+	    int resultado = p.executeUpdate();
+	    if(resultado == 1) return 1;
+	    else return 0;
+	} catch (SQLException ex) {
+	    System.out.println("No se ha podido conectar a la BD");
+	}
+	return 0;
+    }
+    
+    public int editGame(int gameId, String name, String hoursPlayed, String path) {
+	try {
+	    String query = "UPDATE games SET name = ?, hours_played = ?, path = ? WHERE id = ?";
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    p.setString(2, hoursPlayed);
+	    p.setString(3, path);
+	    p.setInt(4, gameId);
+	    int res = p.executeUpdate();
+	    if(res == 1) {
+		
+	    } else {
+		
+	    }
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return 1;
     }
 }

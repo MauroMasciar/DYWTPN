@@ -1,6 +1,9 @@
 package frontend;
 
+import database.Games;
+
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -32,11 +35,7 @@ public class AddGame extends JDialog implements ActionListener, WindowListener {
 	JPanel panel = new JPanel();
 	panel.setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
-	
 
-
-	
-	
 	gbc.gridheight = 1;
 	gbc.gridwidth = 1;
 	gbc.weightx = 1.0;
@@ -62,52 +61,60 @@ public class AddGame extends JDialog implements ActionListener, WindowListener {
 	gbc.gridx = 0;
 	gbc.gridy++;
 	gbc.gridwidth = 2;
-	gbc.fill = GridBagConstraints.BOTH;
 	panel.add(btnAdd, gbc);
 	
 	j.add(panel);
 	j.addWindowListener(this);
+	btnAdd.addActionListener(this);
 	
 	j.setVisible(true);
-	
     }
     
     public void actionPerformed(ActionEvent e) {
-	
+	if(e.getSource() == btnAdd) { 
+	    //TODO: Verificar que hoursplayed sea numeros
+	    Games g = new Games();
+	    int a = g.addGame(txtGameName.getText(), txtHoursPlayed.getText(), txtPath.getText());
+	    if(a == 1) {
+		JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
+		txtGameName.setText("");
+		txtHoursPlayed.setText("");
+		txtPath.setText("");
+
+		j.setVisible(false);
+		MainWindow.j.setVisible(true);
+	    } else {
+		JOptionPane.showMessageDialog(null, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+	    }
+	}
     }
     
     @Override
-    public void windowDeactivated(WindowEvent e) {
+    public void windowClosing(WindowEvent e) {
 	MainWindow.j.setVisible(true);
     }
     
     @Override
-    public void windowOpened(WindowEvent e) {
-	
+    public void windowDeactivated(WindowEvent e) {
     }
-
+    
     @Override
-    public void windowClosing(WindowEvent e) {
-	
+    public void windowOpened(WindowEvent e) {
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
-	
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-	
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-	
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
-	
     }
 }
