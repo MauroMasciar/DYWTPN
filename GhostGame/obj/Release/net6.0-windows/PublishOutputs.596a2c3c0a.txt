@@ -1,5 +1,0 @@
-C:\Users\mauro\OneDrive\Escritorio\Nueva carpeta\GhostGame.exe
-C:\Users\mauro\OneDrive\Escritorio\Nueva carpeta\GhostGame.dll
-C:\Users\mauro\OneDrive\Escritorio\Nueva carpeta\GhostGame.deps.json
-C:\Users\mauro\OneDrive\Escritorio\Nueva carpeta\GhostGame.runtimeconfig.json
-C:\Users\mauro\OneDrive\Escritorio\Nueva carpeta\GhostGame.pdb

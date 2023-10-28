@@ -1,0 +1,610 @@
+2023-10-28 14:03:23.686021400: Juegos cargados: 10
+2023-10-28 14:03:25.283766200: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:03:25.293755700: getMinsPlayed(int 6)
+2023-10-28 14:03:25.332734800: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:03:25.338728900: getMinsPlayed(int 6)
+2023-10-28 14:03:27.874478500: getMinsPlayed(int 6)
+2023-10-28 14:03:27.894468500: SELECT ghost FROM games WHERE id = 6
+2023-10-28 14:03:34.745531200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.771517400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.784508900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.799500500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.815491700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.832482100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.849472800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.865467700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.883454100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.899445500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:34.908438400: Juegos cargados: 10
+2023-10-28 14:03:36.048011800: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:03:36.063003900: getMinsPlayed(int 6)
+2023-10-28 14:03:36.139711200: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:03:36.146709700: getMinsPlayed(int 6)
+2023-10-28 14:03:40.571134400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.585128400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.596123400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.605115300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.620106500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.636099600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.658086300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.673076100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.685070900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.697063800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:40.703059300: Juegos cargados: 10
+2023-10-28 14:03:48.104448200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.130440100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.140428700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.152422600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.165415600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.175412100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.189401400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.202396600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.217384600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.225380300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:48.233376400: Juegos cargados: 10
+2023-10-28 14:03:50.138065400: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 14:03:50.149059100: getMinsPlayed(int 4)
+2023-10-28 14:03:50.216738700: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 14:03:50.221718100: getMinsPlayed(int 4)
+2023-10-28 14:03:53.147269400: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:03:53.158295: getMinsPlayed(int 6)
+2023-10-28 14:03:53.203672: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:03:53.208670900: getMinsPlayed(int 6)
+2023-10-28 14:03:54.490505900: SELECT ghost FROM games WHERE id = 6
+2023-10-28 14:03:54.496503: Lanzando juego fantasma
+2023-10-28 14:03:54.518490400: ID del juego lanzado: 6. Sesion actual: 0
+2023-10-28 14:03:57.662261800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.680249500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.689244400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.697240300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.705238100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.713233300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.720228: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.732219600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.741214700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.751208900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:03:57.755208100: Juegos cargados: 10
+2023-10-28 14:04:54.531572500: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:04:54.553768300: UPDATE games SET mins_played = 1 WHERE id = 6
+2023-10-28 14:04:54.556644: ID del juego lanzado: 6. Sesion actual: 1
+2023-10-28 14:05:54.571824500: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:05:54.593690400: UPDATE games SET mins_played = 2 WHERE id = 6
+2023-10-28 14:05:54.595691800: ID del juego lanzado: 6. Sesion actual: 2
+2023-10-28 14:06:54.606765100: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:06:54.627743100: UPDATE games SET mins_played = 3 WHERE id = 6
+2023-10-28 14:06:54.630743100: ID del juego lanzado: 6. Sesion actual: 3
+2023-10-28 14:07:54.643478800: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:07:54.664463600: UPDATE games SET mins_played = 4 WHERE id = 6
+2023-10-28 14:07:54.667464800: ID del juego lanzado: 6. Sesion actual: 4
+2023-10-28 14:08:54.685538500: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:08:54.705710300: UPDATE games SET mins_played = 5 WHERE id = 6
+2023-10-28 14:08:54.707720600: ID del juego lanzado: 6. Sesion actual: 5
+2023-10-28 14:09:54.718797: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:09:54.737793500: UPDATE games SET mins_played = 6 WHERE id = 6
+2023-10-28 14:09:54.739784700: ID del juego lanzado: 6. Sesion actual: 6
+2023-10-28 14:10:54.749996800: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:10:54.768983: UPDATE games SET mins_played = 7 WHERE id = 6
+2023-10-28 14:10:54.770973600: ID del juego lanzado: 6. Sesion actual: 7
+2023-10-28 14:11:54.781062100: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:11:54.799102100: UPDATE games SET mins_played = 8 WHERE id = 6
+2023-10-28 14:11:54.801039900: ID del juego lanzado: 6. Sesion actual: 8
+2023-10-28 14:12:54.813110500: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:12:54.832100200: UPDATE games SET mins_played = 9 WHERE id = 6
+2023-10-28 14:12:54.833097500: ID del juego lanzado: 6. Sesion actual: 9
+2023-10-28 14:13:54.843490900: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:13:54.861484800: UPDATE games SET mins_played = 10 WHERE id = 6
+2023-10-28 14:13:54.862443400: ID del juego lanzado: 6. Sesion actual: 10
+2023-10-28 14:14:54.874523: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:14:54.894508300: UPDATE games SET mins_played = 11 WHERE id = 6
+2023-10-28 14:14:54.896502500: ID del juego lanzado: 6. Sesion actual: 11
+2023-10-28 14:15:54.907597: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:15:54.926584300: UPDATE games SET mins_played = 12 WHERE id = 6
+2023-10-28 14:15:54.928576800: ID del juego lanzado: 6. Sesion actual: 12
+2023-10-28 14:16:54.941694800: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:16:54.959682: UPDATE games SET mins_played = 13 WHERE id = 6
+2023-10-28 14:16:54.962648500: ID del juego lanzado: 6. Sesion actual: 13
+2023-10-28 14:17:54.975440700: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:17:54.991423: UPDATE games SET mins_played = 14 WHERE id = 6
+2023-10-28 14:17:54.993425500: ID del juego lanzado: 6. Sesion actual: 14
+2023-10-28 14:18:55.004972400: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:18:55.022015500: UPDATE games SET mins_played = 15 WHERE id = 6
+2023-10-28 14:18:55.024051800: ID del juego lanzado: 6. Sesion actual: 15
+2023-10-28 14:19:55.037961400: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:19:55.058946900: UPDATE games SET mins_played = 16 WHERE id = 6
+2023-10-28 14:19:55.061945700: ID del juego lanzado: 6. Sesion actual: 16
+2023-10-28 14:20:55.072738500: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:20:55.090744100: UPDATE games SET mins_played = 17 WHERE id = 6
+2023-10-28 14:20:55.092693600: ID del juego lanzado: 6. Sesion actual: 17
+2023-10-28 14:21:55.104700500: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:21:55.121738200: UPDATE games SET mins_played = 18 WHERE id = 6
+2023-10-28 14:21:55.123688: ID del juego lanzado: 6. Sesion actual: 18
+2023-10-28 14:22:55.135588200: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:22:55.153631900: UPDATE games SET mins_played = 19 WHERE id = 6
+2023-10-28 14:22:55.155578900: ID del juego lanzado: 6. Sesion actual: 19
+2023-10-28 14:23:55.167603400: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:23:55.184612600: UPDATE games SET mins_played = 20 WHERE id = 6
+2023-10-28 14:23:55.187558300: ID del juego lanzado: 6. Sesion actual: 20
+2023-10-28 14:24:55.198982600: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:24:55.211979900: UPDATE games SET mins_played = 21 WHERE id = 6
+2023-10-28 14:24:55.214973: ID del juego lanzado: 6. Sesion actual: 21
+2023-10-28 14:25:55.226051100: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:25:55.248030: UPDATE games SET mins_played = 22 WHERE id = 6
+2023-10-28 14:25:55.249031500: ID del juego lanzado: 6. Sesion actual: 22
+2023-10-28 14:26:55.260108200: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:26:55.279087300: UPDATE games SET mins_played = 23 WHERE id = 6
+2023-10-28 14:26:55.280085200: ID del juego lanzado: 6. Sesion actual: 23
+2023-10-28 14:27:55.292051100: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:27:55.311089300: UPDATE games SET mins_played = 24 WHERE id = 6
+2023-10-28 14:27:55.313040100: ID del juego lanzado: 6. Sesion actual: 24
+2023-10-28 14:28:55.325387600: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:28:55.342411900: UPDATE games SET mins_played = 25 WHERE id = 6
+2023-10-28 14:28:55.343367900: ID del juego lanzado: 6. Sesion actual: 25
+2023-10-28 14:29:55.353467300: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:29:55.374451900: UPDATE games SET mins_played = 26 WHERE id = 6
+2023-10-28 14:29:55.376452500: ID del juego lanzado: 6. Sesion actual: 26
+2023-10-28 14:30:55.386501800: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:30:55.405495800: UPDATE games SET mins_played = 27 WHERE id = 6
+2023-10-28 14:30:55.408489500: ID del juego lanzado: 6. Sesion actual: 27
+2023-10-28 14:31:55.419558200: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:31:55.438553200: UPDATE games SET mins_played = 28 WHERE id = 6
+2023-10-28 14:31:55.440546400: ID del juego lanzado: 6. Sesion actual: 28
+2023-10-28 14:32:55.450158700: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:32:55.468169600: UPDATE games SET mins_played = 29 WHERE id = 6
+2023-10-28 14:32:55.470113800: ID del juego lanzado: 6. Sesion actual: 29
+2023-10-28 14:33:55.482182300: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:33:55.502176400: UPDATE games SET mins_played = 30 WHERE id = 6
+2023-10-28 14:33:55.503169900: ID del juego lanzado: 6. Sesion actual: 30
+2023-10-28 14:34:55.515306300: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:34:55.532306: UPDATE games SET mins_played = 31 WHERE id = 6
+2023-10-28 14:34:55.534294600: ID del juego lanzado: 6. Sesion actual: 31
+2023-10-28 14:35:55.545471900: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:35:55.557463200: UPDATE games SET mins_played = 32 WHERE id = 6
+2023-10-28 14:35:55.558459700: ID del juego lanzado: 6. Sesion actual: 32
+2023-10-28 14:36:16.740604900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.753597900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.761593200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.770589600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.780582100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.789577500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.798574200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.806566700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.814563400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.824557400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:36:16.828555: Juegos cargados: 10
+2023-10-28 14:36:55.571091400: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:36:55.588081600: UPDATE games SET mins_played = 33 WHERE id = 6
+2023-10-28 14:36:55.590080100: ID del juego lanzado: 6. Sesion actual: 33
+2023-10-28 14:37:08.354049800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.369042: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.377035900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.385031500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.393031500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.403022600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.411030700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.420012: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.430007800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.437003600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:37:08.441000400: Juegos cargados: 10
+2023-10-28 14:37:55.601166200: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:37:55.619152100: UPDATE games SET mins_played = 34 WHERE id = 6
+2023-10-28 14:37:55.621151600: ID del juego lanzado: 6. Sesion actual: 34
+2023-10-28 14:38:17.829705: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.844695900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.853691300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.863686: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.872677900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.880675300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.891669: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.900664400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.910658100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.917653300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:38:17.923650300: Juegos cargados: 10
+2023-10-28 14:38:55.633657600: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:38:55.645669500: UPDATE games SET mins_played = 35 WHERE id = 6
+2023-10-28 14:38:55.647616700: ID del juego lanzado: 6. Sesion actual: 35
+2023-10-28 14:39:55.660867500: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:39:55.671903300: UPDATE games SET mins_played = 36 WHERE id = 6
+2023-10-28 14:39:55.672884800: ID del juego lanzado: 6. Sesion actual: 36
+2023-10-28 14:40:55.684604600: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:40:55.706581400: UPDATE games SET mins_played = 37 WHERE id = 6
+2023-10-28 14:40:55.707584: ID del juego lanzado: 6. Sesion actual: 37
+2023-10-28 14:41:55.722649600: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:41:55.747634400: UPDATE games SET mins_played = 38 WHERE id = 6
+2023-10-28 14:41:55.749633: ID del juego lanzado: 6. Sesion actual: 38
+2023-10-28 14:42:07.130058400: Estado del proceso al cerrar: 0
+2023-10-28 14:42:07.131062200: Tiempo en la ultima sesion: 38
+2023-10-28 14:42:07.137054700: INSERT INTO games_sessions_history (game_id, mins) VALUES (6,38)
+2023-10-28 14:42:07.148070300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.160041900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.167037400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.175032700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.184027600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.194022300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.201018800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.210013800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.218009300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.228005300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:07.232001600: Juegos cargados: 10
+2023-10-28 14:42:46.570711100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.581693500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.589691700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.596685200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.606680200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.613674800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.623669700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.631665400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.640661300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.647654800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:46.652654300: Juegos cargados: 10
+2023-10-28 14:42:50.106820500: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:42:50.115816400: getMinsPlayed(int 6)
+2023-10-28 14:42:50.156416100: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:42:50.159411700: getMinsPlayed(int 6)
+2023-10-28 14:42:52.595126400: getMinsPlayed(int 6)
+2023-10-28 14:42:52.605111200: SELECT ghost FROM games WHERE id = 6
+2023-10-28 14:42:53.926117500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:53.939106600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:53.947102600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:53.958096300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:53.966094400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:53.975086900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:53.982082100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:53.994076500: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:54.004069100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:54.013066600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:54.019078700: Juegos cargados: 10
+2023-10-28 14:42:56.357952700: SELECT ghost FROM games WHERE id = 0
+2023-10-28 14:42:56.364950900: Lanzando juego fantasma
+2023-10-28 14:42:58.668019300: Estado del proceso al cerrar: 0
+2023-10-28 14:42:58.669018300: Tiempo en la ultima sesion: 0
+2023-10-28 14:42:58.688193600: Data source rejected establishment of connection,  message from server: "Too many connections"
+2023-10-28 14:42:58.688193600: Data source rejected establishment of connection,  message from server: "Too many connections"
+2023-10-28 14:42:58.690190900: SELECT id FROM games WHERE name = ''
+2023-10-28 14:42:58.693189800: Data source rejected establishment of connection,  message from server: "Too many connections"
+2023-10-28 14:42:58.694189900: Juegos cargados: 1
+2023-10-28 14:42:58.694189900: Data source rejected establishment of connection,  message from server: "Too many connections"
+2023-10-28 14:42:58.695188700: Juegos cargados: 1
+2023-10-28 14:43:03.914846100: Data source rejected establishment of connection,  message from server: "Too many connections"
+2023-10-28 14:43:03.915850100: Juegos cargados: 1
+2023-10-28 14:43:03.915850100: Lista de juegos actualizada
+2023-10-28 14:43:24.407355700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.414337100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.420333300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.427326600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.435325200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.441336700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.448314700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.454310200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.462309600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:43:24.466304500: Juegos cargados: 10
+2023-10-28 14:43:24.467303200: Lista de juegos actualizada
+2023-10-28 14:43:26.806067300: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:43:26.814057400: getMinsPlayed(int 6)
+2023-10-28 14:43:26.895121200: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 14:43:26.900115700: getMinsPlayed(int 6)
+2023-10-28 14:43:29.783853800: SELECT ghost FROM games WHERE id = 6
+2023-10-28 14:43:29.787852600: Lanzando juego fantasma
+2023-10-28 14:43:29.792849400: ID del juego lanzado: 6. Sesion actual: 0
+2023-10-28 14:44:29.803917600: SELECT mins_played FROM games WHERE id = '6'
+2023-10-28 14:44:29.818909: UPDATE games SET mins_played = 39 WHERE id = 6
+2023-10-28 14:44:29.819909900: ID del juego lanzado: 6. Sesion actual: 1
+2023-10-28 14:44:44.863820500: Estado del proceso al cerrar: 0
+2023-10-28 14:44:44.865817900: Tiempo en la ultima sesion: 1
+2023-10-28 14:44:44.870819500: INSERT INTO games_sessions_history (game_id, mins) VALUES (6,1)
+2023-10-28 14:44:44.880848800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.895839800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.904833800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.913827400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.922823700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.934818100: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.945810: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.954803600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.964799800: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.971797700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:44.975792600: Juegos cargados: 10
+2023-10-28 14:44:45.682048700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.693066200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.700037700: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.707032: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.715027300: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.722025200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.730020200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.737017400: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.747010600: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.754005200: SELECT id FROM games WHERE name = ''
+2023-10-28 14:44:45.760001600: Juegos cargados: 10
+2023-10-28 15:08:47.443980700: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2023-10-28 15:08:47.446978600: Juegos cargados: 1
+2023-10-28 15:08:53.422663800: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2023-10-28 15:08:53.423665400: Juegos cargados: 1
+2023-10-28 15:08:53.424664800: Lista de juegos actualizada
+2023-10-28 15:09:04.412993100: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2023-10-28 15:09:04.415993300: Juegos cargados: 1
+2023-10-28 15:09:08.811299900: Juegos cargados: 10
+2023-10-28 15:09:10.926206700: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:09:10.944205: getMinsPlayed(int 5)
+2023-10-28 15:09:10.972196300: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:09:10.979194200: getMinsPlayed(int 5)
+2023-10-28 15:11:31.020253400: Juegos cargados: 10
+2023-10-28 15:11:32.716626300: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:11:32.725622500: getMinsPlayed(int 9)
+2023-10-28 15:11:32.794305400: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:11:32.801303600: getMinsPlayed(int 9)
+2023-10-28 15:11:39.061871200: SELECT id FROM games WHERE name = ''
+2023-10-28 15:11:39.078861400: Juegos cargados: 10
+2023-10-28 15:11:39.079859: Lista de juegos actualizada
+2023-10-28 15:13:09.876028900: Juegos cargados: 10
+2023-10-28 15:13:11.503174600: SELECT id FROM games WHERE name = ''
+2023-10-28 15:13:11.595504700: SELECT id FROM games WHERE name = ''
+2023-10-28 15:13:13.141480800: SELECT id FROM games WHERE name = ''
+2023-10-28 15:13:13.222100800: SELECT id FROM games WHERE name = ''
+2023-10-28 15:13:24.213528500: Juegos cargados: 10
+2023-10-28 15:13:25.269501500: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:13:25.281514200: getMinsPlayed(int 5)
+2023-10-28 15:13:25.324507: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:13:25.331500300: getMinsPlayed(int 5)
+2023-10-28 15:16:13.042636800: Juegos cargados: 10
+2023-10-28 15:16:39.311507200: Juegos cargados: 10
+2023-10-28 15:16:47.881262900: Juegos cargados: 10
+2023-10-28 15:16:55.109485700: Juegos cargados: 10
+2023-10-28 15:16:57.841202700: Juegos cargados: 10
+2023-10-28 15:17:06.459413800: Juegos cargados: 10
+2023-10-28 15:17:14.157334500: Juegos cargados: 10
+2023-10-28 15:17:25.773378: Juegos cargados: 10
+2023-10-28 15:17:31.561937900: Juegos cargados: 10
+2023-10-28 15:17:45.653032600: Juegos cargados: 10
+2023-10-28 15:18:00.437336300: Juegos cargados: 10
+2023-10-28 15:18:08.122371100: Juegos cargados: 10
+2023-10-28 15:18:09.895879300: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:09.908873: getMinsPlayed(int 8)
+2023-10-28 15:18:09.986318500: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:09.994315700: getMinsPlayed(int 8)
+2023-10-28 15:18:11.174123300: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:11.190121700: getMinsPlayed(int 9)
+2023-10-28 15:18:11.257185800: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:11.264182400: getMinsPlayed(int 9)
+2023-10-28 15:18:11.810075500: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:11.822066100: getMinsPlayed(int 6)
+2023-10-28 15:18:11.907782400: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:11.915778: getMinsPlayed(int 6)
+2023-10-28 15:18:12.447662800: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:18:12.461655300: getMinsPlayed(int 5)
+2023-10-28 15:18:12.566775500: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:18:12.573771600: getMinsPlayed(int 5)
+2023-10-28 15:18:13.336646500: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:13.350632200: getMinsPlayed(int 6)
+2023-10-28 15:18:13.411126300: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:13.418124600: getMinsPlayed(int 6)
+2023-10-28 15:18:14.534503200: SELECT id FROM games WHERE name = 'World of Warcraft'
+2023-10-28 15:18:14.547489500: getMinsPlayed(int 1)
+2023-10-28 15:18:14.595648400: SELECT id FROM games WHERE name = 'World of Warcraft'
+2023-10-28 15:18:14.601644700: getMinsPlayed(int 1)
+2023-10-28 15:18:17.119658500: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:17.132648600: getMinsPlayed(int 8)
+2023-10-28 15:18:17.206265200: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:17.212260600: getMinsPlayed(int 8)
+2023-10-28 15:18:19.012654900: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:18:19.025647300: getMinsPlayed(int 7)
+2023-10-28 15:18:19.080644900: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:18:19.086638300: getMinsPlayed(int 7)
+2023-10-28 15:18:20.274908600: SELECT id FROM games WHERE name = 'Tibia'
+2023-10-28 15:18:20.285900: getMinsPlayed(int 2)
+2023-10-28 15:18:20.357878400: SELECT id FROM games WHERE name = 'Tibia'
+2023-10-28 15:18:20.363854500: getMinsPlayed(int 2)
+2023-10-28 15:18:21.063546700: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:21.077575: getMinsPlayed(int 9)
+2023-10-28 15:18:21.173653500: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:21.179651300: getMinsPlayed(int 9)
+2023-10-28 15:18:21.727651500: SELECT id FROM games WHERE name = 'mm'
+2023-10-28 15:18:21.739677900: getMinsPlayed(int 3)
+2023-10-28 15:18:21.841554400: SELECT id FROM games WHERE name = 'mm'
+2023-10-28 15:18:21.846554100: getMinsPlayed(int 3)
+2023-10-28 15:18:22.816657800: SELECT id FROM games WHERE name = 'Tibia'
+2023-10-28 15:18:22.829643300: getMinsPlayed(int 2)
+2023-10-28 15:18:22.874620400: SELECT id FROM games WHERE name = 'Tibia'
+2023-10-28 15:18:22.880604600: getMinsPlayed(int 2)
+2023-10-28 15:18:23.365649200: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:23.377641800: getMinsPlayed(int 9)
+2023-10-28 15:18:23.458767800: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:23.464768500: getMinsPlayed(int 9)
+2023-10-28 15:18:24.153453600: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 15:18:24.164462400: getMinsPlayed(int 4)
+2023-10-28 15:18:24.248649500: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 15:18:24.253651300: getMinsPlayed(int 4)
+2023-10-28 15:18:24.975654100: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:18:24.987638700: getMinsPlayed(int 5)
+2023-10-28 15:18:25.064503700: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:18:25.069493100: getMinsPlayed(int 5)
+2023-10-28 15:18:26.321652400: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:26.332638700: getMinsPlayed(int 6)
+2023-10-28 15:18:26.394600900: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:26.401595600: getMinsPlayed(int 6)
+2023-10-28 15:18:27.575762: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:18:27.586756700: getMinsPlayed(int 5)
+2023-10-28 15:18:27.651043400: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:18:27.655042400: getMinsPlayed(int 5)
+2023-10-28 15:18:27.972411400: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 15:18:27.983398500: getMinsPlayed(int 4)
+2023-10-28 15:18:28.036443500: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 15:18:28.041443300: getMinsPlayed(int 4)
+2023-10-28 15:18:28.338641400: SELECT id FROM games WHERE name = 'mm'
+2023-10-28 15:18:28.349641900: getMinsPlayed(int 3)
+2023-10-28 15:18:28.408598700: SELECT id FROM games WHERE name = 'mm'
+2023-10-28 15:18:28.413598300: getMinsPlayed(int 3)
+2023-10-28 15:18:29.468640: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:29.478637600: getMinsPlayed(int 9)
+2023-10-28 15:18:29.560188400: SELECT id FROM games WHERE name = 'Prueba18.47'
+2023-10-28 15:18:29.566185900: getMinsPlayed(int 9)
+2023-10-28 15:18:30.339570900: SELECT id FROM games WHERE name = 'Tibia'
+2023-10-28 15:18:30.349599100: getMinsPlayed(int 2)
+2023-10-28 15:18:30.409115400: SELECT id FROM games WHERE name = 'Tibia'
+2023-10-28 15:18:30.414114300: getMinsPlayed(int 2)
+2023-10-28 15:18:31.726975: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:18:31.745962300: getMinsPlayed(int 7)
+2023-10-28 15:18:31.829500200: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:18:31.834495300: getMinsPlayed(int 7)
+2023-10-28 15:18:34.332963900: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:34.342959500: getMinsPlayed(int 8)
+2023-10-28 15:18:34.441633600: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:34.446630: getMinsPlayed(int 8)
+2023-10-28 15:18:35.590630100: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:18:35.600658500: getMinsPlayed(int 7)
+2023-10-28 15:18:35.666633900: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:18:35.672644800: getMinsPlayed(int 7)
+2023-10-28 15:18:37.850641700: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:37.863633400: getMinsPlayed(int 8)
+2023-10-28 15:18:37.958631200: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:18:37.962628700: getMinsPlayed(int 8)
+2023-10-28 15:18:38.939626600: SELECT id FROM games WHERE name = 'World of Warcraft'
+2023-10-28 15:18:38.950628800: getMinsPlayed(int 1)
+2023-10-28 15:18:39.015682600: SELECT id FROM games WHERE name = 'World of Warcraft'
+2023-10-28 15:18:39.019680500: getMinsPlayed(int 1)
+2023-10-28 15:18:45.628460700: SELECT id FROM games WHERE name = ''
+2023-10-28 15:18:45.639461900: Juegos cargados: 10
+2023-10-28 15:18:45.640455100: Lista de juegos actualizada
+2023-10-28 15:18:47.391939700: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:47.401925600: getMinsPlayed(int 6)
+2023-10-28 15:18:47.479462400: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:18:47.484462800: getMinsPlayed(int 6)
+2023-10-28 15:19:02.130309100: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.149301700: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.164290800: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.175283: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.185277600: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.195271600: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.202270200: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.212266300: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.221258700: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.231253900: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.241245400: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:02.247244100: Juegos cargados: 11
+2023-10-28 15:19:05.840619100: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:19:05.852604200: getMinsPlayed(int 10)
+2023-10-28 15:19:05.909572800: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:19:05.913571300: getMinsPlayed(int 10)
+2023-10-28 15:19:08.121672500: getMinsPlayed(int 10)
+2023-10-28 15:19:08.135660800: SELECT ghost FROM games WHERE id = 10
+2023-10-28 15:19:12.229225900: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:12.241218900: Juegos cargados: 11
+2023-10-28 15:19:13.089518200: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:19:13.100509600: getMinsPlayed(int 10)
+2023-10-28 15:19:13.159017100: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:19:13.163013600: getMinsPlayed(int 10)
+2023-10-28 15:19:16.829755600: getMinsPlayed(int 10)
+2023-10-28 15:19:16.843747300: SELECT ghost FROM games WHERE id = 10
+2023-10-28 15:19:20.605045: SELECT id FROM games WHERE name = ''
+2023-10-28 15:19:20.616036800: Juegos cargados: 11
+2023-10-28 15:19:24.098955800: Juegos cargados: 11
+2023-10-28 15:19:25.627537600: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:19:25.638531: getMinsPlayed(int 10)
+2023-10-28 15:19:25.664571700: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:19:25.672566900: getMinsPlayed(int 10)
+2023-10-28 15:20:59.003918700: Juegos cargados: 11
+2023-10-28 15:21:00.078423400: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 15:21:00.092412900: getMinsPlayed(int 4)
+2023-10-28 15:21:00.130390200: SELECT id FROM games WHERE name = 'GTA San Andreas'
+2023-10-28 15:21:00.137388400: getMinsPlayed(int 4)
+2023-10-28 15:21:01.067470900: SELECT ghost FROM games WHERE id = 4
+2023-10-28 15:21:01.074466900: Lanzando juego fantasma
+2023-10-28 15:21:01.113445600: ID del juego lanzado: 4. Sesion actual: 0
+2023-10-28 15:22:01.134213400: SELECT mins_played FROM games WHERE id = '4'
+2023-10-28 15:22:01.162194500: UPDATE games SET mins_played = 751 WHERE id = 4
+2023-10-28 15:22:01.163194700: ID del juego lanzado: 4. Sesion actual: 1
+2023-10-28 15:22:04.155965: Estado del proceso al cerrar: 0
+2023-10-28 15:22:04.157974: Tiempo en la ultima sesion: 1
+2023-10-28 15:22:04.165962300: INSERT INTO games_sessions_history (game_id, mins) VALUES (4,1)
+2023-10-28 15:22:04.184949900: SELECT id FROM games WHERE name = ''
+2023-10-28 15:22:04.202940900: Juegos cargados: 11
+2023-10-28 15:22:25.145631100: Juegos cargados: 11
+2023-10-28 15:22:32.865561300: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:22:32.881550600: getMinsPlayed(int 6)
+2023-10-28 15:22:32.938652300: SELECT id FROM games WHERE name = 'Dragon Age'
+2023-10-28 15:22:32.944646700: getMinsPlayed(int 6)
+2023-10-28 15:31:38.716839: Juegos cargados: 11
+2023-10-28 15:31:39.590067200: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:31:39.603060100: getMinsPlayed(int 5)
+2023-10-28 15:31:39.663081200: SELECT id FROM games WHERE name = 'Euro Truck Simulator 2'
+2023-10-28 15:31:39.671077400: getMinsPlayed(int 5)
+2023-10-28 15:31:40.796573600: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:31:40.810573600: getMinsPlayed(int 10)
+2023-10-28 15:31:40.875585300: SELECT id FROM games WHERE name = 'OTROJUEGOLA'
+2023-10-28 15:31:40.884578900: getMinsPlayed(int 10)
+2023-10-28 15:31:42.745355600: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:31:42.762349900: getMinsPlayed(int 8)
+2023-10-28 15:31:42.835710600: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:31:42.842706300: getMinsPlayed(int 8)
+2023-10-28 15:31:44.377888900: SELECT id FROM games WHERE name = ''
+2023-10-28 15:31:44.389879600: Juegos cargados: 11
+2023-10-28 15:31:44.389879600: Lista de juegos actualizada
+2023-10-28 15:34:12.730125100: Juegos cargados: 11
+2023-10-28 15:34:16.813115400: Juegos cargados: 11
+2023-10-28 15:34:25.422026300: Juegos cargados: 11
+2023-10-28 15:34:28.545403900: Juegos cargados: 11
+2023-10-28 15:34:42.480429900: Juegos cargados: 11
+2023-10-28 15:34:47.895520600: Juegos cargados: 11
+2023-10-28 15:34:56.835074900: Juegos cargados: 11
+2023-10-28 15:34:59.962758300: Juegos cargados: 11
+2023-10-28 15:35:19.548789500: Juegos cargados: 11
+2023-10-28 15:35:24.698164600: Juegos cargados: 11
+2023-10-28 15:45:10.927744400: Juegos cargados: 11
+2023-10-28 15:45:22.495132500: Juegos cargados: 11
+2023-10-28 15:45:30.824840500: Juegos cargados: 11
+2023-10-28 15:45:42.674064: Juegos cargados: 11
+2023-10-28 15:45:52.154430900: Juegos cargados: 11
+2023-10-28 15:45:58.589958: Juegos cargados: 11
+2023-10-28 15:46:27.587656800: Juegos cargados: 11
+2023-10-28 15:46:36.181120800: Juegos cargados: 11
+2023-10-28 15:46:45.471829300: Juegos cargados: 11
+2023-10-28 15:46:47.607802900: Juegos cargados: 11
+2023-10-28 15:47:00.983728: Juegos cargados: 11
+2023-10-28 15:47:04.600582700: Juegos cargados: 11
+2023-10-28 15:47:13.816641: Juegos cargados: 11
+2023-10-28 15:47:30.004925600: Juegos cargados: 11
+2023-10-28 15:47:42.974779100: Juegos cargados: 11
+2023-10-28 15:47:54.183599700: Juegos cargados: 11
+2023-10-28 15:48:11.389916700: Juegos cargados: 11
+2023-10-28 15:48:13.970651300: Juegos cargados: 11
+2023-10-28 15:48:21.415924: Juegos cargados: 11
+2023-10-28 15:48:23.803002800: Juegos cargados: 11
+2023-10-28 15:48:26.325942500: Juegos cargados: 11
+2023-10-28 15:48:26.326942500: Lista de juegos actualizada
+2023-10-28 15:48:34.461749300: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:48:34.477730500: getMinsPlayed(int 8)
+2023-10-28 15:48:34.664223300: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:48:34.672216800: getMinsPlayed(int 8)
+2023-10-28 15:48:36.542916700: getMinsPlayed(int 8)
+2023-10-28 15:48:36.559905500: SELECT ghost FROM games WHERE id = 8
+2023-10-28 15:48:41.226743700: SELECT id FROM games WHERE name = ''
+2023-10-28 15:48:41.242699400: Juegos cargados: 11
+2023-10-28 15:48:43.701733700: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:48:43.717744400: getMinsPlayed(int 8)
+2023-10-28 15:48:43.775660700: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:48:43.781659500: getMinsPlayed(int 8)
+2023-10-28 15:48:44.710687100: getMinsPlayed(int 8)
+2023-10-28 15:48:44.728676200: SELECT ghost FROM games WHERE id = 8
+2023-10-28 15:48:46.316086200: SELECT id FROM games WHERE name = ''
+2023-10-28 15:48:46.331099200: Juegos cargados: 11
+2023-10-28 15:48:47.101348700: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:48:47.114342: getMinsPlayed(int 7)
+2023-10-28 15:48:47.182304: SELECT id FROM games WHERE name = 'unjuegofantasma'
+2023-10-28 15:48:47.191295900: getMinsPlayed(int 7)
+2023-10-28 15:48:48.049840600: getMinsPlayed(int 7)
+2023-10-28 15:48:48.063833100: SELECT ghost FROM games WHERE id = 7
+2023-10-28 15:48:49.117245900: SELECT id FROM games WHERE name = ''
+2023-10-28 15:48:49.129234500: Juegos cargados: 11
+2023-10-28 15:48:49.874733900: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:48:49.887717900: getMinsPlayed(int 8)
+2023-10-28 15:48:49.968725500: SELECT id FROM games WHERE name = 'unjuegonormal'
+2023-10-28 15:48:49.974720700: getMinsPlayed(int 8)
+2023-10-28 15:48:50.617723700: SELECT ghost FROM games WHERE id = 8
+2023-10-28 15:48:50.623742200: Lanzando juego
+2023-10-28 15:48:53.444652400: SELECT id FROM games WHERE name = ''
+2023-10-28 15:48:53.455647300: Juegos cargados: 11
+2023-10-28 15:50:22.101538300: Juegos cargados: 11
+2023-10-28 15:51:44.568009100: Juegos cargados: 11

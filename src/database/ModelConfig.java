@@ -1,0 +1,47 @@
+package database;
+
+import debug.Log;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class ModelConfig {
+	private String database = "DYWTPN";
+	private String hostname = "localhost";
+	private String port = "3306";
+	private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
+	private String username = "root";
+	private String password = "123456";
+	private Connection conex = null;
+	private static Statement stmt;
+	//private static ResultSet rs;
+	public void truncateData() {
+		try {
+			conex = DriverManager.getConnection(url, username, password);
+			stmt = conex.createStatement();
+			
+			String query = "TRUNCATE games";
+			Log.Loguear(query);
+			stmt.execute(query);
+			
+			query = "TRUNCATE config";
+			Log.Loguear(query);
+			stmt.execute(query);
+			
+			query = "TRUNCATE games_sessions_history";
+			Log.Loguear(query);
+			stmt.execute(query);
+			
+			query = "INSERT INTO config (name) VALUES ('Usuario')";
+			Log.Loguear(query);
+			stmt.execute(query);
+			
+			stmt.close();
+			conex.close();
+		} catch (SQLException ex) {
+			Log.Loguear(ex.getMessage());
+		}
+	}
+}
