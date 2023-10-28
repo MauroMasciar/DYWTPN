@@ -38,8 +38,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JScrollPane scrListGame = new JScrollPane(jlistGames);
     private DefaultListModel<String> modelList = new DefaultListModel<String>();
     private JTextField txtGameName = new JTextField(20);
-    private JTextField txtHoursPlayed = new JTextField(20);
-    private DecimalFormat txtHoursPlayedDecimal = new DecimalFormat("#.##");
+    private JTextField txtMinsPlayed = new JTextField(20);
+    private DecimalFormat txtMinsPlayedDecimal = new DecimalFormat("#.#");
     private JButton btnLaunchGame = new JButton("Lanzar");
     private JButton btnEditGame = new JButton("Editar");
 
@@ -52,6 +52,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	j.setLayout(new GridBagLayout());
 	GridBagConstraints g = new GridBagConstraints();
+	
+	g.ipadx = 0;
 	
 	menubar.add(mnuGames);
 	menubar.add(mnuHelp);
@@ -73,10 +75,10 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	btnEditGame.addActionListener(this);
 
 	txtGameName.setEditable(false);
-	txtHoursPlayed.setEditable(false);
+	txtMinsPlayed.setEditable(false);
 
 	j.add(txtGameName);
-	j.add(txtHoursPlayed);
+	j.add(txtMinsPlayed);
 	j.add(btnLaunchGame);
 	j.add(btnEditGame);
 
@@ -99,7 +101,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	jlistGames.removeAll();
 	modelList.clear();
 	txtGameName.setText("");
-	txtHoursPlayed.setText("");
+	txtMinsPlayed.setText("");
 
 	Games g = new Games();
 	ArrayList<String> listGames = new ArrayList<String>();
@@ -171,8 +173,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	    Games g = new Games();
 
 	    gameIdSelected = g.getIdFromGameName(txtGameName.getText());
-	    double hours_played = g.getHoursPlayed(gameIdSelected);
-	    txtHoursPlayed.setText(txtHoursPlayedDecimal.format(hours_played));
+	    double hours_played = g.getMinsPlayed(gameIdSelected);
+	    txtMinsPlayed.setText(txtMinsPlayedDecimal.format(hours_played));
 	}
     }
 

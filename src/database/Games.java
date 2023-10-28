@@ -20,7 +20,7 @@ public class Games {
     private static Statement stmt;
     private static ResultSet rs;
     private ArrayList<String> gameName = new ArrayList<String>();
-    private ArrayList<Double> gameHoursPlayed = new ArrayList<Double>();
+    private ArrayList<Double> gameMinsPlayed = new ArrayList<Double>();
     private ArrayList<String> gamePath = new ArrayList<String>();
     private ArrayList<Integer> gameGhost = new ArrayList<Integer>();
 
@@ -31,17 +31,17 @@ public class Games {
 	    System.out.println(ex.getMessage());
 	}
 	gameName.add("null");
-	gameHoursPlayed.add(0.0);
+	gameMinsPlayed.add(0.0);
 	gamePath.add("null");
 	gameGhost.add(0);
-	String query = "SELECT name, hours_played, path, ghost FROM games";
+	String query = "SELECT name, mins_played, path, ghost FROM games";
 	Conn c = new Conn();
 	try {
 	    stmt = c.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    while (rs.next()) {
 		gameName.add(rs.getString("name"));
-		gameHoursPlayed.add(rs.getDouble("hours_played"));
+		gameMinsPlayed.add(rs.getDouble("mins_played")/60);
 		gamePath.add(rs.getString("path"));
 		gameGhost.add(rs.getInt("ghost"));
 	    }
@@ -57,9 +57,9 @@ public class Games {
 	return path;
     }
 
-    public double getHoursPlayed(int gameid) {
-	double hoursplayed = gameHoursPlayed.get(gameid);
-	return hoursplayed;
+    public double getMinsPlayed(int gameid) {
+	double MinsPlayed = gameMinsPlayed.get(gameid);
+	return MinsPlayed;
     }
 
     public ArrayList<String> getGamesNameList() {
@@ -103,10 +103,10 @@ public class Games {
 	else return false;
     }
 
-    public void saveGameTime(int gameId, int sessionPlayed) {
+    public void saveGameTime(int gameId) {
 	if(gameId != 0) {
 	    Conn c = new Conn();
-	    String query = "SELECT hours_played FROM games WHERE id = '" + gameId + "'";
+	    String query = "SELECT mins_played FROM games WHERE id = '" + gameId + "'";
 	    System.out.println(query);
 	    try {
 		Statement stmt;
@@ -114,20 +114,16 @@ public class Games {
 		rs = stmt.executeQuery(query);
 		if (rs.next()) {
 		    try {
-			double hoursPlayed = rs.getDouble(1);
-			double sessionHoursPlayed = (double)sessionPlayed / 60;
-			double totalHoursPlayed = (double)hoursPlayed + sessionHoursPlayed;
-			System.out.println("Horas jugadas anteriormente: " + hoursPlayed + " Horas de ultima sesion: " + sessionHoursPlayed + " Total: " + totalHoursPlayed);
-			query = "UPDATE games SET hours_played = " + totalHoursPlayed + " WHERE id = " + gameId;
+			int MinsPlayed = rs.getInt(1);
+			int totalMinsPlayed = MinsPlayed + 1;
+			query = "UPDATE games SET mins_played = " + totalMinsPlayed + " WHERE id = " + gameId;
 			stmt.execute(query);
 			System.out.println(query);
 		    } catch (Exception ex) {
 			System.out.println(ex.getMessage());
 		    }
 		} else {
-		    String string = "No se ha podido guardar el tiempo jugado. Puede sumarlo manualmente\nUltima sesion: "
-			    + sessionPlayed + " minutos.";
-		    JOptionPane.showMessageDialog(null, string, "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(null, "No se ha podido guardar el tiempo jugado", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
 		}
 	    } catch (Exception ex) {
 		ex.getMessage();
@@ -135,12 +131,13 @@ public class Games {
 	}
     }
 
-    public int addGame(String name, String hoursPlayed, String path, int ghost) {
+    public int addGame(String name, String MinsPlayed, String path, int ghost) {
 	try {
-	    String query = "INSERT INTO games (name, hours_played, path, ghost) VALUES (?,?,?,?)";
+	    String query = "INSERT INTO games (name, mins_played, path, ghost) VALUES (?,?,?,?)";
 	    PreparedStatement p = conex.prepareStatement(query);
+	    double hoursPlayed = Double.parseDouble(MinsPlayed) * 60;
 	    p.setString(1, name);
-	    p.setString(2, hoursPlayed);
+	    p.setString(2, String.valueOf(hoursPlayed));
 	    p.setString(3, path);
 	    p.setInt(4, ghost);
 	    int resultado = p.executeUpdate();
@@ -153,13 +150,13 @@ public class Games {
 	return 0;
     }
 
-    public int editGame(int gameId, String name, String hoursPlayed, String path, String ghost) {
+    public int editGame(int gameId, String name, String MinsPlayed, String path, String ghost) {
 	try {
-	    System.out.println(hoursPlayed);
-	    String query = "UPDATE games SET name = ?, hours_played = ?, path = ?, ghost = ? WHERE id = ?";
+	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ? WHERE id = ?";
+	    double hoursPlayed = Double.parseDouble(MinsPlayed) * 60;
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
-	    p.setString(2, hoursPlayed);
+	    p.setString(2, String.valueOf(hoursPlayed));
 	    p.setString(3, path);
 	    p.setString(4, ghost);
 	    p.setInt(5, gameId);

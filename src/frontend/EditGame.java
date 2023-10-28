@@ -19,13 +19,13 @@ import javax.swing.JButton;
 public class EditGame extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = 2260581778638759215L;
     private JFrame j = new JFrame();
-    private DecimalFormat txtHoursPlayedDecimal = new DecimalFormat("#.##");
+    private DecimalFormat txtminsPlayedDecimal = new DecimalFormat("#.##");
     private JLabel lblGameName = new JLabel("Juego:");
-    private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
+    private JLabel lblminsPlayed = new JLabel("Horas jugadas:");
     private JLabel lblPath = new JLabel("Ubicacion:");
     private JLabel lblGhostGame = new JLabel("Juego fantasma");
     private JTextField txtGameName = new JTextField(20);
-    private JTextField txtHoursPlayed = new JTextField(20);
+    private JTextField txtminsPlayed = new JTextField(20);
     private JTextField txtPath = new JTextField(20);
     private JCheckBox cbGhostGame = new JCheckBox();
     private JButton btnEdit = new JButton("Editar");
@@ -42,7 +42,7 @@ public class EditGame extends JFrame implements ActionListener, WindowListener {
 	
 	Games g = new Games();
 	txtGameName.setText(g.getNameFromId(gameId));
-	txtHoursPlayed.setText(txtHoursPlayedDecimal.format(g.getHoursPlayed(gameId)));
+	txtminsPlayed.setText(txtminsPlayedDecimal.format(g.getMinsPlayed(gameId)));
 	txtPath.setText(g.getPathFromGame(gameId));
 	
 	gbc.gridheight = 1;
@@ -59,9 +59,9 @@ public class EditGame extends JFrame implements ActionListener, WindowListener {
 	j.add(txtGameName, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	j.add(lblHoursPlayed, gbc);
+	j.add(lblminsPlayed, gbc);
 	gbc.gridx = 1;
-	j.add(txtHoursPlayed, gbc);
+	j.add(txtminsPlayed, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	j.add(lblPath, gbc);
@@ -91,13 +91,13 @@ public class EditGame extends JFrame implements ActionListener, WindowListener {
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnEdit) {
 	    Games g = new Games();
-	    String ghostGame, hoursPlayed;
+	    String ghostGame, minsPlayed;
 	    if(cbGhostGame.isSelected()) ghostGame = "1";
 	    else ghostGame = "0";
 	    
-	    hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
+	    minsPlayed = txtminsPlayed.getText().replaceAll(",", ".");
 
-	    if(g.editGame(gameId, txtGameName.getText(), hoursPlayed, txtPath.getText(), ghostGame) == 1) {
+	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame) == 1) {
 		JOptionPane.showMessageDialog(null, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 	    } else {
 		JOptionPane.showMessageDialog(null,  "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);

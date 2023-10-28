@@ -1,6 +1,7 @@
 Falta:
-- StatusBar con los datos del usuario, horas totales y horas totales los últimos X días (Configurable)
 - Lista de últimos juegos jugados pudiendo agrupar por nombre, rango de fecha y horas jugadas
 - Función para truncar tablas de la base de datos
-- AddGame - Reemplazar , por .
 - Al perder la conexion a la BD que espere unos segundos y reintente
+- Acomodar dialogos y ubicarlos en el centro de la pantalla
+- Delay de un segundo al actualizar lista
+- quitar flowlayout en addgame

@@ -80,12 +80,13 @@ public class AddGame extends JFrame implements ActionListener, WindowListener {
     
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnAdd) { 
-	    //TODO: Verificar que hoursplayed sea numeros
+	    //TODO: Verificar que MinsPlayed sea numeros
 	    Games g = new Games();
 	    int c;
 	    if(cbGhost.isSelected()) c = 1;
 	    else c = 0;
-	    int a = g.addGame(txtGameName.getText(), txtHoursPlayed.getText(), txtPath.getText(), c);
+	    String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
+	    int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c);
 	    if(a == 1) {
 		JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
 		txtGameName.setText("");
