@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -37,6 +38,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     private JMenuItem mnuiConfigAdd = new JMenuItem("Añadir nuevo juego");
     private JMenuItem mnuiConfigRefresh = new JMenuItem("Actualizar lista de juegos");
     private JMenuItem mnuiConfigConfig = new JMenuItem("Configuración");
+    private JMenu mnuPlayer = new JMenu("Jugador");
+    private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad");
     private JMenu mnuHelp = new JMenu("Ayuda");
     private JMenuItem mnuHelpAbout = new JMenuItem("Acerca de");
     private JList<String> jlistGames = new JList<String>();
@@ -57,12 +60,21 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
     public int gameIdLaunched = 0;
 
     public MainWindow() {
+	try {
+	    j.setIconImage(new ImageIcon(getClass().getResource(
+		    "/gfx/icon.png")).getImage());
+	} catch (Exception ex) {
+	    JOptionPane.showMessageDialog(null,
+		    "No se ha podido cargar algunos recursos.",
+		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
 	j.setTitle("DYWTPN");
 	j.setSize(850, 600);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	j.setLayout(new GridBagLayout());
+	//j.setLayout(new GridBagLayout());
+	j.setLayout(null);
 	GridBagConstraints gbc = new GridBagConstraints();
-	
+
 	// Interfaz izquierda
 	JPanel pnlLeft = new JPanel();
 	pnlLeft.setLayout(new GridBagLayout());
@@ -80,7 +92,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	pnlLeft.add(txtGamePlaying, gbc);
 	gbc.gridy = 2;	
 	pnlLeft.add(txtTimePlaying, gbc);
-	
+
 	// Interfaz superior
 	JPanel pnlTop = new JPanel();
 	pnlTop.setLayout(new GridBagLayout());
@@ -92,11 +104,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.HORIZONTAL;
 	pnlTop.add(txtStatistics, gbc);
-	
+
 	// Interfaz inferior - controles
 	JPanel pnlBottom = new JPanel();
 	pnlBottom.setLayout(new GridBagLayout());
-	
+
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	gbc.gridwidth = 1;
@@ -114,11 +126,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	pnlBottom.add(txtPathGame, gbc);
 	gbc.gridx = 0;
 	gbc.gridy ++;
-	pnlBottom.add(btnLaunchGame, gbc);
+	pnlBottom.add(btnEditGame, gbc);
 	gbc.gridx ++;
 	gbc.gridx = 1;
-	pnlBottom.add(btnEditGame, gbc);
-	
+	pnlBottom.add(btnLaunchGame, gbc);
+
 	// Paneles
 	gbc.gridx = 0;
 	gbc.gridy = 0;
@@ -128,7 +140,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.BOTH;
 	j.add(pnlLeft, gbc);
-	
+
 	gbc.gridx = 1;
 	gbc.gridy = 0;
 	gbc.gridwidth = 3; //ancho
@@ -137,7 +149,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.BOTH;
 	j.add(pnlTop, gbc);
-	
+
 	gbc.gridx = 1;
 	gbc.gridy = 1;
 	gbc.gridwidth = 2; //ancho
@@ -149,9 +161,11 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 
 	menubar.add(mnuConfig);
 	menubar.add(mnuHelp);
+	menubar.add(mnuPlayer);
 	mnuConfig.add(mnuiConfigAdd);
 	mnuConfig.add(mnuiConfigRefresh);
 	mnuConfig.add(mnuiConfigConfig);
+	mnuPlayer.add(mnuiPlayerActivities);
 	mnuHelp.add(mnuHelpAbout);
 
 	j.setJMenuBar(menubar);
@@ -159,6 +173,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	mnuiConfigRefresh.addActionListener(this);
 	mnuiConfigAdd.addActionListener(this);
 	mnuiConfigConfig.addActionListener(this);
+	mnuiPlayerActivities.addActionListener(this);
 
 	jlistGames.setModel(modelList);
 	jlistGames.addListSelectionListener(this);
@@ -181,7 +196,7 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	btnEditGame.setEnabled(false);
 
 	j.addWindowListener(this);
-	
+
 	j.setVisible(true);
     }
 
@@ -222,6 +237,8 @@ public class MainWindow extends JFrame implements ActionListener, ListSelectionL
 	} else if(e.getSource() == mnuiConfigConfig) {
 	    j.setVisible(false);
 	    new Config();
+	} else if(e.getSource() == mnuiPlayerActivities) {
+	    add(new PlayerActivities());
 	} else if(e.getSource() == btnEditGame) {
 	    j.setVisible(false);
 	    new EditGame(gameIdSelected);

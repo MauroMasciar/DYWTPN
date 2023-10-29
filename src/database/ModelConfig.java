@@ -65,10 +65,10 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.getMessage();
 	}
-	
+
 	return name;
     }
-    
+
     public int GetHoursTotalPlayed() {
 	String query = "SELECT SUM(mins_played) AS minutes FROM games";
 	int minutes = 0;
