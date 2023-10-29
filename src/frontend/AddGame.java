@@ -16,114 +16,114 @@ import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
 public class AddGame extends JFrame implements ActionListener, WindowListener {
-	private static final long serialVersionUID = 6759981496451639858L;
-	private JFrame j = new JFrame();
-	private JLabel lblGameName = new JLabel("Juego:");
-	private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
-	private JLabel lblPath = new JLabel("Ubicacion:");
-	private JLabel lblGhost = new JLabel("Fantasma:");
-	private JTextField txtGameName = new JTextField(20);
-	private JTextField txtHoursPlayed = new JTextField(20);
-	private JTextField txtPath = new JTextField(20);
-	private JCheckBox cbGhost = new JCheckBox();
-	private JButton btnAdd = new JButton("Añadir");
-	public AddGame() {
-		j.setTitle("DYWTPN - Añadir nuevo juego");
-		//j.setSize(400, 150);
-		j.setBounds(200, 200, 400, 150);
-		//j.setResizable(false);
-		j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		j.setLayout(new GridBagLayout());
-		
-		GridBagConstraints gbc = new GridBagConstraints();
+    private static final long serialVersionUID = 6759981496451639858L;
+    private JFrame j = new JFrame();
+    private JLabel lblGameName = new JLabel("Juego:");
+    private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
+    private JLabel lblPath = new JLabel("Ubicacion:");
+    private JLabel lblGhost = new JLabel("Fantasma:");
+    private JTextField txtGameName = new JTextField(20);
+    private JTextField txtHoursPlayed = new JTextField(20);
+    private JTextField txtPath = new JTextField(20);
+    private JCheckBox cbGhost = new JCheckBox();
+    private JButton btnAdd = new JButton("Añadir");
+    public AddGame() {
+	j.setTitle("DYWTPN - Añadir nuevo juego");
+	//j.setSize(400, 150);
+	j.setBounds(200, 200, 400, 150);
+	//j.setResizable(false);
+	j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	j.setLayout(new GridBagLayout());
 
-		gbc.gridheight = 1;
-		gbc.gridwidth = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
-		gbc.ipadx = 40;
-		gbc.ipady = 40;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		j.add(lblGameName, gbc);
-		gbc.gridx = 1;
-		j.add(txtGameName, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		j.add(lblHoursPlayed, gbc);
-		gbc.gridx = 1;
-		j.add(txtHoursPlayed, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		j.add(lblPath, gbc);
-		gbc.gridx = 1;
-		j.add(txtPath, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		j.add(lblGhost, gbc);
-		gbc.gridx = 1;
-		j.add(cbGhost, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		gbc.gridwidth = 2;
-		j.add(btnAdd, gbc);
+	GridBagConstraints gbc = new GridBagConstraints();
 
-		j.addWindowListener(this);
-		btnAdd.addActionListener(this);
+	gbc.gridheight = 1;
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.ipadx = 40;
+	gbc.ipady = 40;
+	gbc.fill = GridBagConstraints.BOTH;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	j.add(lblGameName, gbc);
+	gbc.gridx = 1;
+	j.add(txtGameName, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	j.add(lblHoursPlayed, gbc);
+	gbc.gridx = 1;
+	j.add(txtHoursPlayed, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	j.add(lblPath, gbc);
+	gbc.gridx = 1;
+	j.add(txtPath, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	j.add(lblGhost, gbc);
+	gbc.gridx = 1;
+	j.add(cbGhost, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	gbc.gridwidth = 2;
+	j.add(btnAdd, gbc);
 
-		j.setVisible(true);
-	}
+	j.addWindowListener(this);
+	btnAdd.addActionListener(this);
 
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == btnAdd) { 
-			//TODO: Verificar que MinsPlayed sea numeros
-			ModelGames g = new ModelGames();
-			int c;
-			if(cbGhost.isSelected()) c = 1;
-			else c = 0;
-			String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
-			int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c);
-			if(a == 1) {
-				JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
-				txtGameName.setText("");
-				txtHoursPlayed.setText("");
-				txtPath.setText("");
+	j.setVisible(true);
+    }
 
-				j.setVisible(false);
-				MainWindow.j.setVisible(true);
-			} else {
-				JOptionPane.showMessageDialog(null, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
+    public void actionPerformed(ActionEvent e) {
+	if(e.getSource() == btnAdd) { 
+	    //TODO: Verificar que MinsPlayed sea numeros
+	    ModelGames g = new ModelGames();
+	    int c;
+	    if(cbGhost.isSelected()) c = 1;
+	    else c = 0;
+	    String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
+	    int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c);
+	    if(a == 1) {
+		JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
+		txtGameName.setText("");
+		txtHoursPlayed.setText("");
+		txtPath.setText("");
 
-	@Override
-	public void windowClosing(WindowEvent e) {
+		j.setVisible(false);
 		MainWindow.j.setVisible(true);
+	    } else {
+		JOptionPane.showMessageDialog(null, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
+    }
 
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-	}
+    @Override
+    public void windowClosing(WindowEvent e) {
+	MainWindow.j.setVisible(true);
+    }
 
-	@Override
-	public void windowOpened(WindowEvent e) {
-	}
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
 
-	@Override
-	public void windowClosed(WindowEvent e) {
-	}
+    @Override
+    public void windowOpened(WindowEvent e) {
+    }
 
-	@Override
-	public void windowIconified(WindowEvent e) {
-	}
+    @Override
+    public void windowClosed(WindowEvent e) {
+    }
 
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-	}
+    @Override
+    public void windowIconified(WindowEvent e) {
+    }
 
-	@Override
-	public void windowActivated(WindowEvent e) {
-	}
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+    }
 }

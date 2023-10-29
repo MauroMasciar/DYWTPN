@@ -1,3 +1,2 @@
 Falta:
 - Lista de últimos juegos jugados pudiendo agrupar por nombre, rango de fecha y horas jugadas
-- Acomodar dialogos y ubicarlos en el centro de la pantalla
