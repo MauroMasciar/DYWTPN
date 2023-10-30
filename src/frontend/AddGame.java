@@ -2,7 +2,7 @@ package frontend;
 
 import database.ModelGames;
 
-import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -11,13 +11,10 @@ import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
-public class AddGame extends JFrame implements ActionListener, WindowListener {
+public class AddGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6759981496451639858L;
-    private JFrame j = new JFrame();
     private JLabel lblGameName = new JLabel("Juego:");
     private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
     private JLabel lblPath = new JLabel("Ubicacion:");
@@ -28,12 +25,11 @@ public class AddGame extends JFrame implements ActionListener, WindowListener {
     private JCheckBox cbGhost = new JCheckBox();
     private JButton btnAdd = new JButton("Añadir");
     public AddGame() {
-	j.setTitle("DYWTPN - Añadir nuevo juego");
-	//j.setSize(400, 150);
-	j.setBounds(200, 200, 400, 150);
-	//j.setResizable(false);
-	j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	j.setLayout(new GridBagLayout());
+	setTitle("DYWTPN - Añadir nuevo juego");
+	setBounds(200, 200, 400, 150);
+	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	setClosable(true);
+	setLayout(new GridBagLayout());
 
 	GridBagConstraints gbc = new GridBagConstraints();
 
@@ -46,84 +42,58 @@ public class AddGame extends JFrame implements ActionListener, WindowListener {
 	gbc.fill = GridBagConstraints.BOTH;
 	gbc.gridx = 0;
 	gbc.gridy = 0;
-	j.add(lblGameName, gbc);
+	add(lblGameName, gbc);
 	gbc.gridx = 1;
-	j.add(txtGameName, gbc);
+	add(txtGameName, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	j.add(lblHoursPlayed, gbc);
+	add(lblHoursPlayed, gbc);
 	gbc.gridx = 1;
-	j.add(txtHoursPlayed, gbc);
+	add(txtHoursPlayed, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	j.add(lblPath, gbc);
+	add(lblPath, gbc);
 	gbc.gridx = 1;
-	j.add(txtPath, gbc);
+	add(txtPath, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	j.add(lblGhost, gbc);
+	add(lblGhost, gbc);
 	gbc.gridx = 1;
-	j.add(cbGhost, gbc);
+	add(cbGhost, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	gbc.gridwidth = 2;
-	j.add(btnAdd, gbc);
+	add(btnAdd, gbc);
 
-	j.addWindowListener(this);
 	btnAdd.addActionListener(this);
 
-	j.setVisible(true);
+	setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnAdd) { 
-	    //TODO: Verificar que MinsPlayed sea numeros
-	    ModelGames g = new ModelGames();
-	    int c;
-	    if(cbGhost.isSelected()) c = 1;
-	    else c = 0;
-	    String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
-	    int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c);
-	    if(a == 1) {
-		JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
-		txtGameName.setText("");
-		txtHoursPlayed.setText("");
-		txtPath.setText("");
-
-		j.setVisible(false);
-		MainWindow.j.setVisible(true);
+	if(e.getSource() == btnAdd) {
+	    if(!txtGameName.getText().isEmpty()) {
+		try {
+		    ModelGames g = new ModelGames();
+		    int c;
+		    if(cbGhost.isSelected()) c = 1;
+		    else c = 0;
+		    String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
+		    int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c);
+		    if(a == 1) {
+			JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
+			txtGameName.setText("");
+			txtHoursPlayed.setText("");
+			txtPath.setText("");
+		    } else {
+			JOptionPane.showMessageDialog(null, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+		    }
+		} catch (NumberFormatException ex) {
+		    JOptionPane.showMessageDialog(null, "El tiempo jugado debe ser un numero entero o decimal.", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+		}
 	    } else {
-		JOptionPane.showMessageDialog(null, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Debes al menos especificar el nombre del juego", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-	MainWindow.j.setVisible(true);
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
     }
 }

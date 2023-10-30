@@ -4,21 +4,18 @@ import database.ModelGames;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.text.DecimalFormat;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 
-public class EditGame extends JFrame implements ActionListener, WindowListener {
+public class EditGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 2260581778638759215L;
-    private JFrame j = new JFrame();
     private DecimalFormat txtminsPlayedDecimal = new DecimalFormat("#.##");
     private JLabel lblGameName = new JLabel("Juego:");
     private JLabel lblminsPlayed = new JLabel("Horas jugadas:");
@@ -32,17 +29,19 @@ public class EditGame extends JFrame implements ActionListener, WindowListener {
     private int gameId;
 
     public EditGame(int gameId) {
-	j.setSize(800, 600);
+	setBounds(50, 50, 450, 160);
 	String title = "Editar juego - "; //TODO: Poner nombre del juego
-	j.setTitle(title);
-	j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	j.setLayout(new GridBagLayout());
+	setTitle(title);
+	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	setClosable(true);
+	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
 	this.gameId = gameId;
 
 	ModelGames g = new ModelGames();
 	txtGameName.setText(g.getNameFromId(gameId));
-	txtminsPlayed.setText(txtminsPlayedDecimal.format(g.getMinsPlayed(gameId)/60));
+	double mins_played = g.getMinsPlayed(gameId);
+	txtminsPlayed.setText(txtminsPlayedDecimal.format(mins_played/60));
 	txtPath.setText(g.getPathFromGame(gameId));
 
 	gbc.gridheight = 1;
@@ -54,37 +53,36 @@ public class EditGame extends JFrame implements ActionListener, WindowListener {
 	gbc.fill = GridBagConstraints.BOTH;
 	gbc.gridx = 0;
 	gbc.gridy = 0;
-	j.add(lblGameName, gbc);
+	add(lblGameName, gbc);
 	gbc.gridx++;
-	j.add(txtGameName, gbc);
+	add(txtGameName, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	j.add(lblminsPlayed, gbc);
+	add(lblminsPlayed, gbc);
 	gbc.gridx = 1;
-	j.add(txtminsPlayed, gbc);
+	add(txtminsPlayed, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	j.add(lblPath, gbc);
+	add(lblPath, gbc);
 	gbc.gridx = 1;
-	j.add(txtPath, gbc);
+	add(txtPath, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	j.add(lblGhostGame, gbc);
+	add(lblGhostGame, gbc);
 	gbc.gridx++;
-	j.add(cbGhostGame, gbc);
+	add(cbGhostGame, gbc);
 
 	gbc.gridy ++;
 	gbc.gridx = 0;
 	gbc.gridwidth = 2;
-	j.add(btnEdit, gbc);
+	add(btnEdit, gbc);
 
 	if(g.isGhost(gameId)) cbGhostGame.setSelected(true);
 	else cbGhostGame.setSelected(false);
 
-	j.addWindowListener(this);
 	btnEdit.addActionListener(this);
 
-	j.setVisible(true);
+	setVisible(true);
     }
 
     @Override
@@ -102,35 +100,7 @@ public class EditGame extends JFrame implements ActionListener, WindowListener {
 	    } else {
 		JOptionPane.showMessageDialog(null,  "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
+	    MainUI.UpdateGameList();
 	}
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-	MainWindow.j.setVisible(true);
-    }
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
     }
 }

@@ -57,7 +57,7 @@ public class ModelGames {
 	return "ERROR";
     }
 
-    public double getMinsPlayed(int gameId) {
+    public int getMinsPlayed(int gameId) {
 	String query = "SELECT mins_played FROM games WHERE id = " + gameId;
 	//String s = "getMinsPlayed(int " + gameId + ")";
 	//Log.Loguear(s);
@@ -73,7 +73,6 @@ public class ModelGames {
 	} catch (Exception ex) {
 	    ex.getMessage();
 	}
-	query = "minutosplayed=" + minutesplayed;
 	return minutesplayed;
 
     }
@@ -182,7 +181,7 @@ public class ModelGames {
 	    }
 	}
     }
-
+    
     public int addGame(String name, String MinsPlayed, String path, int ghost) {
 	try {
 	    String query = "INSERT INTO games (name, mins_played, path, ghost) VALUES (?,?,?,?)";

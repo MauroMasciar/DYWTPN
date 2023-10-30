@@ -9,14 +9,13 @@ import javax.swing.JTable;
 
 public class PlayerActivities extends JInternalFrame {
     private static final long serialVersionUID = 4484286064012240569L;
-    private final int HOUR_GAME = 60;
     private JTable tbPlayerActivities = new JTable();
 
     public PlayerActivities() {
-	setSize(500, 500);
+	setBounds(30, 30, 500, 500);
 	setTitle("Actividades");
 	setClosable(true);
-	setResizable(false);
+	setResizable(true);
 	
 	JScrollPane scrTable = new JScrollPane(tbPlayerActivities);
 	
@@ -25,9 +24,8 @@ public class PlayerActivities extends JInternalFrame {
 	tbPlayerActivities.setModel(model.getActivities());
 	
 	setLayout(new FlowLayout());
-	add(tbPlayerActivities);
-	this.pack();
+	add(scrTable);
+		
 	setVisible(true);
-	
     }
 }

@@ -2,10 +2,13 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
+
+import debug.Log;
 
 public class ModelPlayer {
     private String database = "DYWTPN";
@@ -20,16 +23,15 @@ public class ModelPlayer {
     
     public DefaultTableModel getActivities() {
 	DefaultTableModel m = new DefaultTableModel();
-	m.addColumn("Nombre");
-	m.addColumn("Descripcion");
+	m.addColumn("Actividad");
 	
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-	    rs = stmt.executeQuery("SELECT * FROM player_activities");
+	    rs = stmt.executeQuery("SELECT description FROM player_activities");
 	    while(rs.next()) {
-		Object[] f = new Object[3];
-		for(int i = 0; i < 3; i++) {
+		Object[] f = new Object[2];
+		for(int i = 0; i < 1; i++) {
 		    f[i] = rs.getObject(i+1);
 		}
 		m.addRow(f);
@@ -37,17 +39,40 @@ public class ModelPlayer {
 	    conex.close();
 	    stmt.close();
 	    rs.close();
-	} catch (SQLException e) {
-	    e.printStackTrace();
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
 	}
-	
-	
 	return m;
     }
     
-    
-	
-	
-	
+    public void saveAchievement(String achievement, String gamename) {
+	String query = "INSERT INTO player_activities (gamename, description) VALUES (?,?)";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    PreparedStatement p = conex.prepareStatement(query);	    
+	    p.setString(1, gamename);
+	    p.setString(2, achievement);
+	    p.executeUpdate();
+	    conex.close();
+	    p.close();
+	} catch (SQLException ex) {
+	    Log.Loguear("SQLException en void saveAchievement(String achievement, String gamename)");
+	    ex.getMessage();
+	}
+    }
 
+    public String getLastAchievement() {
+	String s = "Ninguna";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery("SELECT description AS descr FROM player_activities ORDER BY description ASC LIMIT 1");
+	    if(rs.next()) {
+		s = rs.getString(1);
+	    }
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	}
+	return s;
+    }
 }

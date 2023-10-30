@@ -18,6 +18,7 @@ public class ModelConfig {
     private Connection conex = null;
     private static Statement stmt;
     private static ResultSet rs;
+    
     public void truncateData() {
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
@@ -69,7 +70,7 @@ public class ModelConfig {
 	return name;
     }
 
-    public int GetHoursTotalPlayed() {
+    public int getMinutesTotalPlayed() {
 	String query = "SELECT SUM(mins_played) AS minutes FROM games";
 	int minutes = 0;
 

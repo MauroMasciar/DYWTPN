@@ -1,5 +1,6 @@
 /bin/
 /.settings/
 /release/
+/release/DYWTPN_lib
 .project
 github.bat
