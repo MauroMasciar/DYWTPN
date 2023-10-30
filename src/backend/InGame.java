@@ -10,7 +10,8 @@ public class InGame {
     private int gameIdLaunched = 0;
     private int gameTimePlayed = 0;
     private int gameTimePlayedTotal = 0;
-    private String gameName = "Nada";
+    private int hour, minute, second;
+    private String gameName = "Nada", sMinute, sSecond;
     private final int HOUR_GAME = 60;
 
     public InGame(int IdLaunched, String gameName, int gameTimePlayedTotal) {
@@ -18,6 +19,9 @@ public class InGame {
 	    this.gameIdLaunched = IdLaunched;
 	    this.gameName = gameName;
 	    this.gameTimePlayedTotal = gameTimePlayedTotal;
+	    hour = 0;
+	    minute = 0;
+	    second = 0;
 	    LaunchGame(IdLaunched);
 	}
     }
@@ -29,14 +33,39 @@ public class InGame {
 		    try {
 			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + ". Total: " + gameTimePlayedTotal;
 			MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
-			MainUI.txtTimePlaying.setText(" Tiempo: " + gameTimePlayed + " minutos");
 			CheckAchievement();
 			Log.Loguear(s);
 			Thread.sleep(60000);
-			//Thread.sleep(500);
 			gameTimePlayedTotal ++;
 			gameTimePlayed ++;
 			saveGameTime();
+		    } catch (InterruptedException ex) {
+			Log.Loguear(ex.getMessage());
+		    }
+		}
+	    }
+	}).start();
+
+	new Thread(new Runnable() {
+	    public void run() {
+		MainUI.txtTimePlaying.setText(" Tiempo: ¡Recien lanzado!");
+		while (gameIdLaunched != 0) {
+		    try {
+			Thread.sleep(1000);
+			second ++;
+			if(second == 60) {
+			    second = 0;
+			    minute ++;
+			}
+			if(minute == 60) {
+			    minute = 0;
+			    hour ++;
+			}
+			if(second < 10) sSecond = "0" + second;
+			else sSecond = String.valueOf(second);
+			if(minute < 10) sMinute = "0" + minute;
+			else sMinute = String.valueOf(minute);
+			MainUI.txtTimePlaying.setText(" Tiempo jugando: " + hour + ":" + sMinute + ":" + sSecond);
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
 		    }
@@ -74,10 +103,19 @@ public class InGame {
 	    ModelGames g = new ModelGames();
 	    g.closeGame(gameIdLaunched, gameTimePlayed);
 	    gameIdLaunched = 0;
-	    MainUI.txtGamePlaying.setText(" Ultimo juego ejecutado: " + gameName + ".");
-	    MainUI.txtTimePlaying.setText(" Jugaste durante: " + gameTimePlayed + " minutos.");
+	    MainUI.txtGamePlaying.setText(" Ultimo juego ejecutado: " + gameName);
 	    MainUI.LoadData();
 	    gameName = "Nada";
+	    new Thread(new Runnable() {
+		public void run() {
+		    try {
+			Thread.sleep(1000);
+			MainUI.txtTimePlaying.setText(" Jugaste durante: " + hour + ":" + sMinute + ":" + sSecond);
+		    } catch (InterruptedException ex) {
+			Log.Loguear(ex.getMessage());
+		    }
+		}
+	    }).start();
 	}
     }
 
