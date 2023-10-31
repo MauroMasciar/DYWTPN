@@ -23,7 +23,7 @@ public class InGame {
 	    minute = 0;
 	    second = 0;
 	    
-	    LaunchGame(IdLaunched);
+	    LaunchGame(IdLaunched); //
 	    @SuppressWarnings("unused")
 	    ModelGames mg = new ModelGames(IdLaunched);
 	}
