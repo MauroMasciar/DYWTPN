@@ -50,7 +50,6 @@ public class ModelConfig {
     public String getNameUser() {
 	String query = "SELECT name FROM config";
 	String name = "";
-
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
@@ -73,7 +72,6 @@ public class ModelConfig {
     public int getMinutesTotalPlayed() {
 	String query = "SELECT SUM(mins_played) AS minutes FROM games";
 	int minutes = 0;
-
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();

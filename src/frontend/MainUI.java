@@ -41,6 +41,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static JTextField txtGamePlaying = new JTextField(20);
     private static JTextArea txtStatistics = new JTextArea();
     private static JTextArea txtLastAchie = new JTextArea();
+    public static JTextArea txtGames = new JTextArea();
 
     public int gameIdSelected = 0;
     public int gameIdLaunched = 0;
@@ -85,6 +86,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.fill = GridBagConstraints.HORIZONTAL;
 	pnlTop.add(txtStatistics, gbc);
 	gbc.gridy = 1;
+	pnlTop.add(txtGames, gbc);
+	gbc.gridy = 2;
 	pnlTop.add(txtLastAchie, gbc);
 
 	// Interfaz inferior - controles
@@ -152,6 +155,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtMinsPlayed.setEditable(false);
 	txtStatistics.setText(" Nombre: Usuario | Total de juegos: 0 | Horas jugadas en total: 0");
 	txtStatistics.setEditable(false);
+	//txtGames.setText(" Juego: | Horas jugadas: | Veces jugado: ");
+	txtGames.setEditable(false);
 	txtGamePlaying.setEditable(false);
 	txtTimePlaying.setEditable(false);
 	txtLastAchie.setText(" Ultima hazaña: -");
@@ -221,6 +226,10 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
 	} else if(e.getSource() == btnLaunchGame) {
+	    if(txtGameName.getText().isEmpty()) {
+		JOptionPane.showMessageDialog(null, "Selecciona que juego quieres lanzar primero", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		return;
+	    }
 	    if(gameIdLaunched == 0) {
 		ModelGames g = new ModelGames();
 		String path = g.getPathFromGame(gameIdSelected);
@@ -275,6 +284,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    if(gameIdSelected != 0) {
 		double mins_played = g.getMinsPlayed(gameIdSelected);
 		txtMinsPlayed.setText(txtMinsPlayedDecimal.format(mins_played/60));
+		
+		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + g.getTimes(gameIdSelected));
 	    }
 	}
     }

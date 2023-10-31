@@ -22,7 +22,10 @@ public class InGame {
 	    hour = 0;
 	    minute = 0;
 	    second = 0;
+	    
 	    LaunchGame(IdLaunched);
+	    @SuppressWarnings("unused")
+	    ModelGames mg = new ModelGames(IdLaunched);
 	}
     }
 
@@ -49,7 +52,7 @@ public class InGame {
 
 	new Thread(new Runnable() {
 	    public void run() {
-		MainUI.txtTimePlaying.setText(" Tiempo: ¡Recien lanzado!");
+		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
 		while (gameIdLaunched != 0) {
 		    try {
 			Thread.sleep(1000);
@@ -107,6 +110,7 @@ public class InGame {
 	    g.closeGame(gameIdLaunched, gameTimePlayed, sGameName, sGameTimePlayed);
 	    gameIdLaunched = 0;
 	    MainUI.txtGamePlaying.setText(sGameName);
+	    MainUI.txtGames.setText("");
 	    MainUI.LoadData();
 	    gameName = "Nada";
 	    new Thread(new Runnable() {

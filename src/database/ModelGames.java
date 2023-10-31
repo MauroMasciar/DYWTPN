@@ -40,6 +40,26 @@ public class ModelGames {
 	    ex.getMessage();
 	}
     }
+    
+    public ModelGames(int gameId) {
+	String query = "SELECT times FROM games WHERE id = " + gameId;
+	int times;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    rs.next();
+	    times = rs.getInt("times");
+	    times++;
+	    query = "UPDATE games SET times = " + times + " WHERE id = " + gameId;
+	    stmt.execute(query);
+	    stmt.close();
+	    rs.close();
+	    conex.close();
+	} catch (Exception ex) {
+	    Log.Loguear("SQLException en ModelGames.ModelGames(int gameId)");
+	}
+    }
 
     public String getPathFromGame(int gameId) {
 	String query = "SELECT path FROM games WHERE id = " + gameId;
@@ -66,15 +86,33 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if (rs.next()) {
-		minutesplayed = rs.getInt("mins_played");
-	    } else
-		minutesplayed = 0;
+	    if (rs.next()) minutesplayed = rs.getInt("mins_played");
+	    else minutesplayed = 0;
+	    conex.close();
+	    stmt.close();
+	    rs.close();
 	} catch (Exception ex) {
 	    ex.getMessage();
 	}
 	return minutesplayed;
-
+    }
+    
+    public int getTimes(int gameId) {
+	String query = "SELECT times FROM games WHERE id = " + gameId;
+	int times = 0;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) times = rs.getInt("times");
+	    else times = 0;
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    ex.getMessage();
+	}
+	return times;
     }
 
     public ArrayList<String> getGamesNameList() {
@@ -149,7 +187,7 @@ public class ModelGames {
 		stmt.close();
 		conex.close();
 	    } catch (SQLException ex) {
-		Log.Loguear("SQLException en Games.closeGame(int gameIdLaunched, int gameTimePlayed)");
+		Log.Loguear("SQLException en ModelGames.closeGame(int gameIdLaunched, int gameTimePlayed)");
 	    }
 	}
     }
@@ -199,7 +237,7 @@ public class ModelGames {
 	    p.close();
 	    return resultado;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int addGame(String name, String MinsPlayed, String path, int ghost)");
+	    Log.Loguear("SQLException en int Model.addGame(String name, String MinsPlayed, String path, int ghost)");
 	    ex.getMessage();
 	}
 	return 0;
@@ -221,7 +259,7 @@ public class ModelGames {
 	    conex.close();
 	    return res;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int editGame(int gameId, String name, String MinsPlayed, String path, String ghost)");
+	    Log.Loguear("SQLException en int Model.editGame(int gameId, String name, String MinsPlayed, String path, String ghost)");
 	    ex.printStackTrace();
 	}
 	return 1;
