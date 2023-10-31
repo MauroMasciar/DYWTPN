@@ -30,7 +30,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 
     public EditGame(int gameId) {
 	setBounds(50, 50, 450, 160);
-	String title = "Editar juego - "; //TODO: Poner nombre del juego
+	String title = "Editar juego"; //TODO: Poner nombre del juego
 	setTitle(title);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setClosable(true);

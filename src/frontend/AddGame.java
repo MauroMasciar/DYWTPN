@@ -25,7 +25,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private JCheckBox cbGhost = new JCheckBox();
     private JButton btnAdd = new JButton("Añadir");
     public AddGame() {
-	setTitle("DYWTPN - Añadir nuevo juego");
+	setTitle("Añadir nuevo juego");
 	setBounds(200, 200, 400, 150);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setClosable(true);
@@ -72,27 +72,28 @@ public class AddGame extends JInternalFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnAdd) {
-	    if(!txtGameName.getText().isEmpty()) {
-		try {
-		    ModelGames g = new ModelGames();
-		    int c;
-		    if(cbGhost.isSelected()) c = 1;
-		    else c = 0;
-		    String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
-		    int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c);
-		    if(a == 1) {
-			JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
-			txtGameName.setText("");
-			txtHoursPlayed.setText("");
-			txtPath.setText("");
-		    } else {
-			JOptionPane.showMessageDialog(null, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
-		    }
-		} catch (NumberFormatException ex) {
-		    JOptionPane.showMessageDialog(null, "El tiempo jugado debe ser un numero entero o decimal.", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
-		}
-	    } else {
+	    if(txtGameName.getText().isEmpty()) {
 		JOptionPane.showMessageDialog(null, "Debes al menos especificar el nombre del juego", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+		return;
+	    }
+	    try {
+		ModelGames g = new ModelGames();
+		int c;
+		if(cbGhost.isSelected()) c = 1;
+		else c = 0;
+		String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
+		int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c);
+		if(a == 1) {
+		    JOptionPane.showMessageDialog(null, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
+		    txtGameName.setText("");
+		    txtHoursPlayed.setText("");
+		    txtPath.setText("");
+		    MainUI.UpdateGameList();
+		} else {
+		    JOptionPane.showMessageDialog(null, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+		}
+	    } catch (NumberFormatException ex) {
+		JOptionPane.showMessageDialog(null, "El tiempo jugado debe ser un numero entero o decimal.", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
     }

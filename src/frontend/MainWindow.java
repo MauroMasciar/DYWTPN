@@ -2,6 +2,8 @@ package frontend;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -9,7 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class MainWindow extends JFrame implements ActionListener {
+public class MainWindow extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = -82854956961477559L;
     public static JFrame j = new JFrame();
     private JMenuBar menubar = new JMenuBar();
@@ -24,7 +26,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
     public MainWindow() {
 	try {
-	    setIconImage(new ImageIcon(getClass().getResource(
+	    j.setIconImage(new ImageIcon(getClass().getResource(
 		    "/gfx/icon.png")).getImage());
 	} catch (Exception ex) {
 	    JOptionPane.showMessageDialog(null,
@@ -57,6 +59,7 @@ public class MainWindow extends JFrame implements ActionListener {
 	j.setJMenuBar(menubar);
 
 	j.setVisible(true);
+	j.addWindowListener(this);
 
 	/*new Thread(new Runnable() {
 	    public void run() {
@@ -86,5 +89,50 @@ public class MainWindow extends JFrame implements ActionListener {
 	    MainUI.LoadData();
 	    MainUI.UpdateGameList();
 	}
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+	try {
+	    Main.p.destroy();
+	} catch (Exception ex) {
+	    System.exit(0);
+	}
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+	// TODO Auto-generated method stub
+	
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+	// TODO Auto-generated method stub
+	
     }
 }

@@ -58,16 +58,27 @@ public class ModelConfig {
 	    if (rs.next()) {
 		name = rs.getString("name");
 	    } else {
-		name = "User";
+		name = "ERROR";
 	    }
 	    stmt.close();
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    ex.printStackTrace();
 	}
 
 	return name;
+    }
+    
+    public void saveUserName(String newName) {
+	String query = "UPDATE config SET name = '" + newName + "';";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    stmt.execute(query);
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
     }
 
     public int getMinutesTotalPlayed() {

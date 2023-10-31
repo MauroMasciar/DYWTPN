@@ -2,6 +2,7 @@ package frontend;
 
 import database.ModelConfig;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
@@ -12,19 +13,23 @@ import javax.swing.JOptionPane;
 
 public class Config extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6985809216237042311L;
-    private JLabel lblName = new JLabel("Nombre");
+    private JLabel lblName = new JLabel("Nuevo nombre");
     private JTextField txtName = new JTextField(20);
-    private JButton btnTruncate = new JButton("Borrar datos");
+    private JButton btnSave = new JButton("Guardar datos");
+    private JButton btnTruncate = new JButton("Resetear datos");
     public Config() {
-	setTitle("DYWTPN");
+	setTitle("Configuracion");
 	setSize(800, 400);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	setLayout(new FlowLayout());
 	setClosable(true);
 
 	add(lblName);
 	add(txtName);
+	add(btnSave);
 	add(btnTruncate);
 	
+	btnSave.addActionListener(this);
 	btnTruncate.addActionListener(this);
 
 	setVisible(true);
@@ -38,6 +43,14 @@ public class Config extends JInternalFrame implements ActionListener {
 		ModelConfig mc = new ModelConfig();
 		mc.truncateData();
 	    }
+	} else if(e.getSource() == btnSave) {
+	    ModelConfig mc = new ModelConfig();
+	    if(txtName.getText().isEmpty()) {
+		JOptionPane.showMessageDialog(this, "Debe introducir un nombre de usuario", "Error", JOptionPane.ERROR_MESSAGE);
+		return;
+	    }
+	    mc.saveUserName(txtName.getText());
+	    JOptionPane.showMessageDialog(btnSave, "Su nombre de usuario ha sido cambiado", "Nombre cambiado", JOptionPane.INFORMATION_MESSAGE);
 	}
     }
 }
