@@ -1,5 +1,0 @@
-Falta:
-- Lista de últimos juegos jugados pudiendo agrupar por nombre, rango de fecha y horas jugadas
-- En estadisticas que te muestre cuanto tiempo jugaste este dia, esta semana y este mes
-- Cuando tengas un juego seleccionado que te muestre cuanto jugaste este dia, esta semana y este mes
-- Crear/Restaurar datos
