@@ -23,7 +23,7 @@ public class InGame {
 	    minute = 0;
 	    second = 0;
 	    
-	    LaunchGame(IdLaunched); //
+	    LaunchGame(IdLaunched);
 	    @SuppressWarnings("unused")
 	    ModelGames mg = new ModelGames(IdLaunched);
 	}
@@ -35,9 +35,9 @@ public class InGame {
 		while (gameIdLaunched != 0) {
 		    try {
 			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + ". Total: " + gameTimePlayedTotal;
+			Log.Loguear(s);
 			MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
 			CheckAchievement();
-			Log.Loguear(s);
 			Thread.sleep(60000);
 			//Thread.sleep(1000);
 			gameTimePlayedTotal ++;
@@ -107,7 +107,7 @@ public class InGame {
 	    String sGameTimePlayed = " Jugaste durante: " + hour + ":" + sMinute + ":" + sSecond;
 	    String sGameName = " Ultimo juego ejecutado: " + gameName;
 	    ModelGames g = new ModelGames();
-	    g.closeGame(gameIdLaunched, gameTimePlayed, sGameName, sGameTimePlayed);
+	    g.closeGame(gameIdLaunched, gameTimePlayed, gameName, sGameTimePlayed);
 	    gameIdLaunched = 0;
 	    MainUI.txtGamePlaying.setText(sGameName);
 	    MainUI.txtGames.setText("");

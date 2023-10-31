@@ -174,14 +174,15 @@ public class ModelGames {
 	return false;
     }
 
-    public void closeGame(int gameIdLaunched, int gameTimePlayed, String sGameName, String sGameTimePlayed)  {
+    public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed)  {
 	if(gameTimePlayed >= 1) {
-	    String query = "INSERT INTO games_sessions_history (game_id, mins) VALUES (" + gameIdLaunched + "," +  gameTimePlayed + ")";
+	    String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + "," +  gameTimePlayed + ",'" + gameName + "')";
 	    //Log.Loguear(query);
 	    try {
 		conex = DriverManager.getConnection(url, username, password);
 		stmt = conex.createStatement();
 		stmt.execute(query);
+		String sGameName = " Ultimo juego ejecutado: " + gameName;		
 		query = "UPDATE config SET last_game = '" + sGameName + "', last_session_time = '" + sGameTimePlayed + "'";
 		stmt.execute(query);
 		stmt.close();
@@ -243,9 +244,9 @@ public class ModelGames {
 	return 0;
     }
 
-    public int editGame(int gameId, String name, String MinsPlayed, String path, String ghost) {
+    public int editGame(int gameId, String name, String MinsPlayed, String path, String ghost, String times) {
 	try {
-	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ? WHERE id = ?";
+	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ? WHERE id = ?";
 	    double hoursPlayed = Double.parseDouble(MinsPlayed) * 60;
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -253,7 +254,8 @@ public class ModelGames {
 	    p.setString(2, String.valueOf(hoursPlayed));
 	    p.setString(3, path);
 	    p.setString(4, ghost);
-	    p.setInt(5, gameId);
+	    p.setString(5, times);
+	    p.setInt(6, gameId);
 	    int res = p.executeUpdate();
 	    p.close();
 	    conex.close();

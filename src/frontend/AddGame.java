@@ -17,16 +17,18 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6759981496451639858L;
     private JLabel lblGameName = new JLabel("Juego:");
     private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
+    private JLabel lblTimes = new JLabel("Veces jugado:");
     private JLabel lblPath = new JLabel("Ubicacion:");
     private JLabel lblGhost = new JLabel("Fantasma:");
     private JTextField txtGameName = new JTextField(20);
     private JTextField txtHoursPlayed = new JTextField(20);
+    private JTextField txtTimes = new JTextField(20);
     private JTextField txtPath = new JTextField(20);
     private JCheckBox cbGhost = new JCheckBox();
     private JButton btnAdd = new JButton("Añadir");
     public AddGame() {
 	setTitle("Añadir nuevo juego");
-	setBounds(200, 200, 400, 150);
+	setBounds(200, 200, 400, 170);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setClosable(true);
 	setLayout(new GridBagLayout());
@@ -51,6 +53,11 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	gbc.gridx = 1;
 	add(txtHoursPlayed, gbc);
 	gbc.gridx = 0;
+	gbc.gridy ++;
+	add(lblTimes, gbc);
+	gbc.gridx ++;
+	add(txtTimes, gbc);
+	gbc.gridx = 0;
 	gbc.gridy++;
 	add(lblPath, gbc);
 	gbc.gridx = 1;
@@ -64,6 +71,9 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	gbc.gridy++;
 	gbc.gridwidth = 2;
 	add(btnAdd, gbc);
+	
+	txtHoursPlayed.setText("0");
+	txtTimes.setText("0");
 
 	btnAdd.addActionListener(this);
 

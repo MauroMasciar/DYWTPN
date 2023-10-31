@@ -155,7 +155,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtMinsPlayed.setEditable(false);
 	txtStatistics.setText(" Nombre: Usuario | Total de juegos: 0 | Horas jugadas en total: 0");
 	txtStatistics.setEditable(false);
-	//txtGames.setText(" Juego: | Horas jugadas: | Veces jugado: ");
 	txtGames.setEditable(false);
 	txtGamePlaying.setEditable(false);
 	txtTimePlaying.setEditable(false);
@@ -217,17 +216,22 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    UpdateGameList();
 	}
 	String s = "Juegos cargados: " + (listGames.size() - 1);
+	if(listGames.size() == -1) UpdateGameList();
 	Log.Loguear(s);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnEditGame) {
+	    if(gameIdSelected == 0) {
+		JOptionPane.showMessageDialog(null, "Primero selecciona que juego quieres editar", "Error al editar juego", JOptionPane.ERROR_MESSAGE);
+		return;
+	    }
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
 	} else if(e.getSource() == btnLaunchGame) {
 	    if(txtGameName.getText().isEmpty()) {
-		JOptionPane.showMessageDialog(null, "Selecciona que juego quieres lanzar primero", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    if(gameIdLaunched == 0) {

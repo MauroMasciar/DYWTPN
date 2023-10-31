@@ -14,25 +14,31 @@ public class Main {
 	    System.out.println("No se ha podido configurar el look and feel: " + e.getMessage());
 	    e.printStackTrace();
 	}
-	//new MainWindow();
 
-	ProcessBuilder pb;
-	pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\core\\mysql\\bin\\mysqld_z.exe");
-	try {
-	    p = pb.start();
-	} catch (IOException e) {
-	    System.exit(0);
-	}
+	boolean test = false;
 
-	new Thread(new Runnable() {
-	    public void run() {
-		try {
-		    Thread.sleep(1000);
-		    new MainWindow();
-		} catch (InterruptedException ex) {
-		    System.exit(0);
-		}
+	if(!test) {
+	    ProcessBuilder pb;
+	    pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\core\\mysql\\bin\\mysqld_z.exe");
+	    try {
+		p = pb.start();
+	    } catch (IOException e) {
+		System.exit(0);
 	    }
-	}).start();
+
+	    new Thread(new Runnable() {
+		public void run() {
+		    try {
+			Thread.sleep(1000);
+			new MainWindow();
+		    } catch (InterruptedException ex) {
+			System.exit(0);
+		    }
+		}
+	    }).start();
+
+	} else {
+	    new MainWindow();
+	}
     }
 }

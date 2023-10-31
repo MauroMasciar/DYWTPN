@@ -30,7 +30,7 @@ public class ModelPlayer {
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery("SELECT description FROM player_activities");
 	    while(rs.next()) {
-		Object[] f = new Object[2];
+		Object[] f = new Object[1];
 		for(int i = 0; i < 1; i++) {
 		    f[i] = rs.getObject(i+1);
 		}
@@ -42,6 +42,34 @@ public class ModelPlayer {
 	} catch (SQLException ex) {
 	    ex.printStackTrace();
 	}
+	return m;
+    }
+    
+    public DefaultTableModel getHistory() {
+	DefaultTableModel m = new DefaultTableModel();
+	m.addColumn("Fecha");
+	m.addColumn("Nombre");
+	m.addColumn("Tiempo jugado");
+	
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    
+	    rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
+	    while(rs.next()) {
+		Object[] f = new Object[3];
+		for(int i = 0; i < 3; i++) {
+		    f[i] = rs.getObject(i+1);
+		}
+		m.addRow(f);
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	}
+	
 	return m;
     }
     

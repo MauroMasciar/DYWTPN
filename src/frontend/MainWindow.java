@@ -15,14 +15,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private static final long serialVersionUID = -82854956961477559L;
     public static JFrame j = new JFrame();
     private JMenuBar menubar = new JMenuBar();
-    private JMenu mnuConfig = new JMenu("Configuración");
-    private JMenuItem mnuiConfigAdd = new JMenuItem("Añadir nuevo juego");
-    private JMenuItem mnuiConfigRefresh = new JMenuItem("Actualizar datos");
-    private JMenuItem mnuiConfigConfig = new JMenuItem("Configuración");
+    private JMenu mnuGames = new JMenu("Juegos");
+    private JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego");
+    private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos");
     private JMenu mnuPlayer = new JMenu("Jugador");
     private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad");
+    private JMenuItem mnuiPlayerHistory = new JMenuItem("Historial");
     private JMenu mnuHelp = new JMenu("Ayuda");
-    private JMenuItem mnuHelpAbout = new JMenuItem("Acerca de");
+    private JMenuItem mnuiHelpConfig = new JMenuItem("Configuración");
+    private JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de");
 
     public MainWindow() {
 	try {
@@ -40,19 +41,22 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	//j.setExtendedState(MAXIMIZED_BOTH);
 
-	menubar.add(mnuConfig);
+	menubar.add(mnuGames);
 	menubar.add(mnuPlayer);
 	menubar.add(mnuHelp);
-	mnuConfig.add(mnuiConfigAdd);
-	mnuConfig.add(mnuiConfigRefresh);
-	mnuConfig.add(mnuiConfigConfig);
+	mnuGames.add(mnuiGamesAdd);
+	mnuGames.add(mnuiGamesRefresh);
+	mnuPlayer.add(mnuiPlayerHistory);
 	mnuPlayer.add(mnuiPlayerActivities);
-	mnuHelp.add(mnuHelpAbout);
+	mnuHelp.add(mnuiHelpConfig);
+	mnuHelp.add(mnuiHelpAbout);
 
-	mnuiConfigRefresh.addActionListener(this);
-	mnuiConfigAdd.addActionListener(this);
-	mnuiConfigConfig.addActionListener(this);
+	mnuiGamesRefresh.addActionListener(this);
+	mnuiGamesAdd.addActionListener(this);
+	mnuiHelpConfig.addActionListener(this);
 	mnuiPlayerActivities.addActionListener(this);
+	mnuiPlayerHistory.addActionListener(this);
+	mnuiHelpAbout.addActionListener(this);
 
 	j.add(new MainUI());
 
@@ -76,18 +80,24 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     }
 
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == mnuiConfigAdd) {
+	if(e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
 	    j.repaint();
-	} else if(e.getSource() == mnuiConfigConfig) {
+	} else if(e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());
 	    j.repaint();
 	} else if(e.getSource() == mnuiPlayerActivities) {
 	    j.add(new PlayerActivities());
 	    j.repaint();
-	} else if(e.getSource() == mnuiConfigRefresh) {
+	} else if(e.getSource() == mnuiPlayerHistory) {
+	    j.add(new PlayerHistory());
+	    j.repaint();
+	} else if(e.getSource() == mnuiGamesRefresh) {
 	    MainUI.LoadData();
 	    MainUI.UpdateGameList();
+	} else if(e.getSource() == mnuiHelpAbout) {
+	    j.add(new About());
+	    j.repaint();
 	}
     }
 

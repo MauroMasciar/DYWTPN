@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 31, 2023 at 05:04 PM
+-- Generation Time: Oct 31, 2023 at 09:04 PM
 -- Server version: 5.5.43
 -- PHP Version: 5.4.41
 
@@ -60,6 +60,7 @@ CREATE TABLE `games` (
 CREATE TABLE `games_sessions_history` (
   `id` int(11) NOT NULL,
   `game_id` int(11) NOT NULL,
+  `game_name` varchar(100) NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `mins` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
