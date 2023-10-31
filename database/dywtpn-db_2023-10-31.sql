@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 30, 2023 at 02:49 AM
+-- Generation Time: Oct 31, 2023 at 05:04 PM
 -- Server version: 5.5.43
 -- PHP Version: 5.4.41
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `dywtpn`
 --
+CREATE DATABASE IF NOT EXISTS `dywtpn` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `dywtpn`;
 
 -- --------------------------------------------------------
 
@@ -29,7 +31,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `config` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT 'Usuario',
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_game` varchar(100) NOT NULL DEFAULT ' Ultimo juego ejecutado: Ninguno',
+  `last_session_time` varchar(50) NOT NULL DEFAULT '0:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -43,6 +47,7 @@ CREATE TABLE `games` (
   `name` varchar(50) NOT NULL,
   `ghost` tinyint(1) NOT NULL DEFAULT '0',
   `mins_played` int(11) NOT NULL DEFAULT '0',
+  `times` int(11) NOT NULL DEFAULT '0',
   `path` varchar(300) NOT NULL DEFAULT 'Ninguno'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
