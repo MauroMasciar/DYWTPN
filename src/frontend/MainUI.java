@@ -152,9 +152,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtMinsPlayed.setEditable(false);
 	txtStatistics.setText(" Nombre: Usuario | Total de juegos: 0 | Horas jugadas en total: 0");
 	txtStatistics.setEditable(false);
-	txtGamePlaying.setText(" No estas jugando a nada");
 	txtGamePlaying.setEditable(false);
-	txtTimePlaying.setText(" Tiempo jugado: X");
 	txtTimePlaying.setEditable(false);
 	txtLastAchie.setText(" Ultima hazaña: -");
 	txtLastAchie.setEditable(false);
@@ -162,11 +160,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtPathGame.setEnabled(false);
 	txtGhostGame.setEnabled(false);
 
-	btnLaunchGame.setEnabled(false);
 	btnEditGame.setEnabled(false);
 
 	UpdateGameList();
 	LoadData();
+	LoadLastSession();
 
 	setVisible(true);
 
@@ -191,8 +189,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
     }
 
+    public void LoadLastSession() {
+	ModelConfig mc = new ModelConfig();
+	txtGamePlaying.setText(mc.getLastGame());
+	txtTimePlaying.setText(mc.getLastSessionTime());
+    }
+
     public static void UpdateGameList() {
-	btnLaunchGame.setEnabled(false);
 	jlistGames.removeAll();
 	modelList.clear();
 	txtGameName.setText("");
@@ -221,41 +224,38 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    if(gameIdLaunched == 0) {
 		ModelGames g = new ModelGames();
 		String path = g.getPathFromGame(gameIdSelected);
-		if(path == "null") {
-		    btnLaunchGame.setEnabled(false);
+		ProcessBuilder pb;
+		if(g.isGhost(gameIdSelected)) {
+		    pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\GhostGame.exe");
 		} else {
-		    ProcessBuilder pb;
-		    if(g.isGhost(gameIdSelected)) {
-			pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\GhostGame.exe");
-		    } else {
-			pb = new ProcessBuilder(path);
-		    }
-		    Process p;
-		    try {
-			p = pb.start();
-			if (p.isAlive()) {
-			    ModelGames mg = new ModelGames();
-			    InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getMinsPlayed(gameIdSelected));
-			    gameIdLaunched = gameIdSelected;
+		    pb = new ProcessBuilder(path);
+		}
+		Process p;
+		try {
+		    p = pb.start();
+		    if (p.isAlive()) {
+			ModelGames mg = new ModelGames();
+			InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getMinsPlayed(gameIdSelected));
+			gameIdLaunched = gameIdSelected;
 
-			    new Thread(new Runnable() {
-				public void run() {
-				    int statusProcess;
-				    try {
-					statusProcess = p.waitFor();
-					Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
-					Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
-					ig.closeGame();
-					UpdateGameList();
-				    } catch (InterruptedException e) {
-					JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-				    }
+			new Thread(new Runnable() {
+			    public void run() {
+				int statusProcess;
+				try {
+				    statusProcess = p.waitFor();
+				    Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
+				    Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
+				    gameIdLaunched = 0;
+				    ig.closeGame();
+				    UpdateGameList();
+				} catch (InterruptedException e) {
+				    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 				}
-			    }).start();
-			}
-		    } catch (IOException ex) {
-			JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+			    }
+			}).start();
 		    }
+		} catch (IOException ex) {
+		    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 		}
 	    } else {
 		JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
@@ -266,7 +266,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     @Override
     public void valueChanged(ListSelectionEvent e) {
 	if(e.getSource() == jlistGames) {
-	    btnLaunchGame.setEnabled(true);
 	    btnEditGame.setEnabled(true);
 	    String s = jlistGames.getSelectedValue();
 	    txtGameName.setText(s);

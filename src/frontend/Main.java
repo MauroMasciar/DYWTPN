@@ -14,6 +14,7 @@ public class Main {
 	    System.out.println("No se ha podido configurar el look and feel: " + e.getMessage());
 	    e.printStackTrace();
 	}
+	//new MainWindow();
 
 	ProcessBuilder pb;
 	pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\core\\mysql\\bin\\mysqld_z.exe");

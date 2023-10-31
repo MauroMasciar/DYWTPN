@@ -36,6 +36,7 @@ public class InGame {
 			CheckAchievement();
 			Log.Loguear(s);
 			Thread.sleep(60000);
+			//Thread.sleep(1000);
 			gameTimePlayedTotal ++;
 			gameTimePlayed ++;
 			saveGameTime();
@@ -100,17 +101,19 @@ public class InGame {
 
     public void closeGame() {
 	if(gameIdLaunched != 0) {
+	    String sGameTimePlayed = " Jugaste durante: " + hour + ":" + sMinute + ":" + sSecond;
+	    String sGameName = " Ultimo juego ejecutado: " + gameName;
 	    ModelGames g = new ModelGames();
-	    g.closeGame(gameIdLaunched, gameTimePlayed);
+	    g.closeGame(gameIdLaunched, gameTimePlayed, sGameName, sGameTimePlayed);
 	    gameIdLaunched = 0;
-	    MainUI.txtGamePlaying.setText(" Ultimo juego ejecutado: " + gameName);
+	    MainUI.txtGamePlaying.setText(sGameName);
 	    MainUI.LoadData();
 	    gameName = "Nada";
 	    new Thread(new Runnable() {
 		public void run() {
 		    try {
-			Thread.sleep(1000);
-			MainUI.txtTimePlaying.setText(" Jugaste durante: " + hour + ":" + sMinute + ":" + sSecond);
+			Thread.sleep(500);
+			MainUI.txtTimePlaying.setText(sGameTimePlayed);
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
 		    }

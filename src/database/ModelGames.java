@@ -136,13 +136,15 @@ public class ModelGames {
 	return false;
     }
 
-    public void closeGame(int gameIdLaunched, int gameTimePlayed)  {
+    public void closeGame(int gameIdLaunched, int gameTimePlayed, String sGameName, String sGameTimePlayed)  {
 	if(gameTimePlayed >= 1) {
 	    String query = "INSERT INTO games_sessions_history (game_id, mins) VALUES (" + gameIdLaunched + "," +  gameTimePlayed + ")";
 	    //Log.Loguear(query);
 	    try {
 		conex = DriverManager.getConnection(url, username, password);
 		stmt = conex.createStatement();
+		stmt.execute(query);
+		query = "UPDATE config SET last_game = '" + sGameName + "', last_session_time = '" + sGameTimePlayed + "'";
 		stmt.execute(query);
 		stmt.close();
 		conex.close();

@@ -36,7 +36,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	j.setLayout(null);
 	j.setTitle("DYWTPN");
-	j.setSize(1200, 800);
+	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	//j.setExtendedState(MAXIMIZED_BOTH);
 
@@ -93,8 +93,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     @Override
     public void windowOpened(WindowEvent e) {
-	// TODO Auto-generated method stub
-	
     }
 
     @Override
@@ -108,31 +106,21 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     @Override
     public void windowClosed(WindowEvent e) {
-	// TODO Auto-generated method stub
-	
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-	// TODO Auto-generated method stub
-	
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-	// TODO Auto-generated method stub
-	
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
-	// TODO Auto-generated method stub
-	
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-	// TODO Auto-generated method stub
-	
     }
 }
