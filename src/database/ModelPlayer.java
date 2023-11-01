@@ -73,13 +73,14 @@ public class ModelPlayer {
 	return m;
     }
     
-    public void saveAchievement(String achievement, String gamename) {
-	String query = "INSERT INTO player_activities (gamename, description) VALUES (?,?)";
+    public void saveAchievement(String achievement, String gamename, int gameid) {
+	String query = "INSERT INTO player_activities (game_name, description, game_id) VALUES (?,?,?)";
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);	    
 	    p.setString(1, gamename);
 	    p.setString(2, achievement);
+	    p.setInt(3, gameid);
 	    p.executeUpdate();
 	    conex.close();
 	    p.close();

@@ -1,15 +1,15 @@
 package frontend;
 
-import database.ModelPlayer;
-
 import java.awt.FlowLayout;
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import database.ModelPlayer;
+
 public class PlayerHistory extends JInternalFrame {
     private static final long serialVersionUID = 4484286064012240569L;
-    private JTable tbPlayerHistory = new JTable();
+    public static JTable tbPlayerHistory = new JTable();
 
     public PlayerHistory() {
 	setBounds(30, 30, 500, 500);

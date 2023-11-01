@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 31, 2023 at 09:04 PM
+-- Generation Time: Nov 01, 2023 at 12:18 AM
 -- Server version: 5.5.43
 -- PHP Version: 5.4.41
 
@@ -48,6 +48,7 @@ CREATE TABLE `games` (
   `ghost` tinyint(1) NOT NULL DEFAULT '0',
   `mins_played` int(11) NOT NULL DEFAULT '0',
   `times` int(11) NOT NULL DEFAULT '0',
+  `completed` tinyint(1) NOT NULL DEFAULT '0',
   `path` varchar(300) NOT NULL DEFAULT 'Ninguno'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -73,7 +74,8 @@ CREATE TABLE `games_sessions_history` (
 
 CREATE TABLE `player_activities` (
   `id` int(11) NOT NULL,
-  `gamename` varchar(50) NOT NULL,
+  `game_name` varchar(50) NOT NULL,
+  `game_id` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

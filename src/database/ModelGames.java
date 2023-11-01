@@ -244,10 +244,10 @@ public class ModelGames {
 	return 0;
     }
 
-    public int editGame(int gameId, String name, String MinsPlayed, String path, String ghost, String times) {
+    public int editGame(int gameId, String name, String minsPlayed, String path, String ghost, String times, String completed) {
 	try {
-	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ? WHERE id = ?";
-	    double hoursPlayed = Double.parseDouble(MinsPlayed) * 60;
+	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ?, completed = ? WHERE id = ?";
+	    double hoursPlayed = Double.parseDouble(minsPlayed) * 60;
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
@@ -255,9 +255,21 @@ public class ModelGames {
 	    p.setString(3, path);
 	    p.setString(4, ghost);
 	    p.setString(5, times);
-	    p.setInt(6, gameId);
+	    p.setString(6, completed);
+	    p.setInt(7, gameId);
 	    int res = p.executeUpdate();
+	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";
+	    p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    p.setInt(2, gameId);
+	    p.executeUpdate();
+	    query = "UPDATE player_activities SET game_name = ? WHERE game_id = ?";
+	    p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    p.setInt(2, gameId);
+	    p.executeUpdate();
 	    p.close();
+	    stmt.close();
 	    conex.close();
 	    return res;
 	} catch (SQLException ex) {

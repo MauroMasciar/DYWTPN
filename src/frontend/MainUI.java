@@ -177,6 +177,12 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		while (true) {
 		    try {
 			if(gameIdLaunched != 0) LoadData();
+			ModelPlayer model = new ModelPlayer();
+			PlayerHistory.tbPlayerHistory.removeAll();
+			PlayerHistory.tbPlayerHistory.setModel(model.getHistory());
+			PlayerActivities.tbPlayerActivities.removeAll();
+			PlayerActivities.tbPlayerActivities.setModel(model.getActivities());
+			
 			Thread.sleep(600000);
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());

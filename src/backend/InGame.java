@@ -97,7 +97,7 @@ public class InGame {
 
 	if(achiev != "") {
 	    ModelPlayer mp = new ModelPlayer();
-	    mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched));
+	    mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
 	    MainUI.LoadData();
 	}
     }

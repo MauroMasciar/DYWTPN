@@ -22,18 +22,20 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JLabel lblTimes = new JLabel("Veces jugado");
     private JLabel lblPath = new JLabel("Ubicacion:");
     private JLabel lblGhostGame = new JLabel("Juego fantasma");
+    private JLabel lblCompletedGame = new JLabel("Juego terminado");
     private JTextField txtGameName = new JTextField(20);
     private JTextField txtTimes = new JTextField(20);
     private JTextField txtminsPlayed = new JTextField(20);
     private JTextField txtPath = new JTextField(20);
     private JCheckBox cbGhostGame = new JCheckBox();
+    private JCheckBox cbCompletedGame = new JCheckBox();
     private JButton btnEdit = new JButton("Editar");
     private int gameId;
 
     public EditGame(int gameId) {
 	ModelGames g = new ModelGames();
 	txtGameName.setText(g.getNameFromId(gameId));
-	setBounds(50, 50, 450, 160);
+	setBounds(50, 50, 450, 180);
 	String title = "Editar juego - " + txtGameName.getText();
 	setTitle(title);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -80,6 +82,11 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	add(cbGhostGame, gbc);
 	gbc.gridy ++;
 	gbc.gridx = 0;
+	add(lblCompletedGame, gbc);
+	gbc.gridx ++;
+	add(cbCompletedGame, gbc);	
+	gbc.gridy ++;
+	gbc.gridx = 0;
 	gbc.gridwidth = 2;
 	add(btnEdit, gbc);
 
@@ -95,9 +102,12 @@ public class EditGame extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnEdit) {
 	    ModelGames g = new ModelGames();
-	    String ghostGame, minsPlayed;
+	    String ghostGame, minsPlayed, completed;
 	    if(cbGhostGame.isSelected()) ghostGame = "1";
 	    else ghostGame = "0";
+	    
+	    if(cbCompletedGame.isSelected()) completed = "1";
+	    else completed = "0";
 
 	    minsPlayed = txtminsPlayed.getText().replaceAll(",", ".");
 	    if(txtTimes.getText().isEmpty()) txtTimes.setText("0");
@@ -106,7 +116,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 		return;
 	    }
 
-	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText()) == 1) {
+	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed) == 1) {
 		JOptionPane.showMessageDialog(null, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 	    } else {
 		JOptionPane.showMessageDialog(null,  "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);

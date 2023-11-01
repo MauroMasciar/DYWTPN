@@ -9,7 +9,7 @@ import javax.swing.JTable;
 
 public class PlayerActivities extends JInternalFrame {
     private static final long serialVersionUID = 4484286064012240569L;
-    private JTable tbPlayerActivities = new JTable();
+    public static JTable tbPlayerActivities = new JTable();
 
     public PlayerActivities() {
 	setBounds(30, 30, 500, 500);
