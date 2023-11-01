@@ -30,7 +30,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.setIconImage(new ImageIcon(getClass().getResource(
 		    "/gfx/icon.png")).getImage());
 	} catch (Exception ex) {
-	    JOptionPane.showMessageDialog(null,
+	    JOptionPane.showMessageDialog(this,
 		    "No se ha podido cargar algunos recursos.",
 		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}

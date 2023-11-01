@@ -173,6 +173,22 @@ public class ModelGames {
 	}
 	return false;
     }
+    
+    public boolean isCompleted(int gameId) {
+	String query = "SELECT completed FROM games WHERE id = " + gameId;
+	int completed = 0;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) completed = rs.getInt("completed");
+	    if(completed == 1) return true;
+	    else return false;
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return false;
+    }
 
     public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed)  {
 	if(gameTimePlayed >= 1) {
@@ -223,9 +239,9 @@ public class ModelGames {
 	}
     }
     
-    public int addGame(String name, String MinsPlayed, String path, int ghost) {
+    public int addGame(String name, String MinsPlayed, String path, int ghost, int completed) {
 	try {
-	    String query = "INSERT INTO games (name, mins_played, path, ghost) VALUES (?,?,?,?)";
+	    String query = "INSERT INTO games (name, mins_played, path, ghost, completed) VALUES (?,?,?,?,?)";
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    double hoursPlayed = Double.parseDouble(MinsPlayed) * 60;
@@ -233,12 +249,13 @@ public class ModelGames {
 	    p.setString(2, String.valueOf(hoursPlayed));
 	    p.setString(3, path);
 	    p.setInt(4, ghost);
+	    p.setInt(5, completed);
 	    int resultado = p.executeUpdate();
 	    conex.close();
 	    p.close();
 	    return resultado;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int Model.addGame(String name, String MinsPlayed, String path, int ghost)");
+	    Log.Loguear("SQLException en int ModelGames.addGame(String name, String MinsPlayed, String path, int ghost)");
 	    ex.getMessage();
 	}
 	return 0;
@@ -273,9 +290,37 @@ public class ModelGames {
 	    conex.close();
 	    return res;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int Model.editGame(int gameId, String name, String MinsPlayed, String path, String ghost)");
+	    Log.Loguear("SQLException en int ModelGames.editGame(int gameId, String name, String MinsPlayed, String path, String ghost)");
 	    ex.printStackTrace();
 	}
-	return 1;
+	return 0;
+    }
+    
+    public int deleteGame(int gameId) {
+	int res = 0;
+	try {
+	    String query = "DELETE FROM games WHERE id = ?";
+	    conex = DriverManager.getConnection(url, username, password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setInt(1, gameId);
+	    res = p.executeUpdate();
+	    
+	    query = "DELETE FROM games_sessions_history WHERE game_id = ?";
+	    p = conex.prepareStatement(query);
+	    p.setInt(1, gameId);
+	    p.executeUpdate();
+	    
+	    query = "DELETE FROM player_activities WHERE game_id = ?";
+	    p = conex.prepareStatement(query);
+	    p.setInt(1, gameId);
+	    p.executeUpdate();
+	    
+	    p.close();
+	    conex.close();
+	} catch (Exception ex) {
+	    Log.Loguear("SQLException en int ModelGames.deleteGame(int gameId)");
+	    ex.printStackTrace();
+	}
+	return res;
     }
 }

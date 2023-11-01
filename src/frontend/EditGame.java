@@ -29,7 +29,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JTextField txtPath = new JTextField(20);
     private JCheckBox cbGhostGame = new JCheckBox();
     private JCheckBox cbCompletedGame = new JCheckBox();
-    private JButton btnEdit = new JButton("Editar");
+    private JButton btnEdit = new JButton("Guardar cambios");
+    private JButton btnDel = new JButton("Borrar juego");
     private int gameId;
 
     public EditGame(int gameId) {
@@ -87,13 +88,19 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	add(cbCompletedGame, gbc);	
 	gbc.gridy ++;
 	gbc.gridx = 0;
-	gbc.gridwidth = 2;
+	gbc.gridwidth = 1;
+	add(btnDel, gbc);
+	gbc.gridx++;
 	add(btnEdit, gbc);
 
 	if(g.isGhost(gameId)) cbGhostGame.setSelected(true);
 	else cbGhostGame.setSelected(false);
 
+	if(g.isCompleted(gameId)) cbCompletedGame.setSelected(true);
+	else cbCompletedGame.setSelected(false);
+
 	btnEdit.addActionListener(this);
+	btnDel.addActionListener(this);
 
 	setVisible(true);
     }
@@ -105,21 +112,34 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	    String ghostGame, minsPlayed, completed;
 	    if(cbGhostGame.isSelected()) ghostGame = "1";
 	    else ghostGame = "0";
-	    
+
 	    if(cbCompletedGame.isSelected()) completed = "1";
 	    else completed = "0";
 
 	    minsPlayed = txtminsPlayed.getText().replaceAll(",", ".");
 	    if(txtTimes.getText().isEmpty()) txtTimes.setText("0");
 	    if(txtGameName.getText().isEmpty()) {
-		JOptionPane.showMessageDialog(null,  "El juego debe tener un nombre", "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this,  "El juego debe tener un nombre", "Error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
-
 	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed) == 1) {
-		JOptionPane.showMessageDialog(null, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
+		this.dispose();
 	    } else {
-		JOptionPane.showMessageDialog(null,  "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this,  "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
+	    MainUI.UpdateGameList();
+	} else if(e.getSource() == btnDel) {
+	    int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea borrar este juego?", "Borrar juego", JOptionPane.YES_NO_OPTION);
+	    if(res == 0) {
+		ModelGames g = new ModelGames();
+		int confirm = g.deleteGame(gameId);
+		if(confirm != 0) {
+		    JOptionPane.showMessageDialog(this,  "El juego ha sido borrado", "Juego borrado", JOptionPane.ERROR_MESSAGE);
+		    this.dispose();
+		} else {
+		    JOptionPane.showMessageDialog(this,  "Ha habido un error al borrar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	    }
 	    MainUI.UpdateGameList();
 	}

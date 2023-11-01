@@ -50,7 +50,7 @@ public class Config extends JInternalFrame implements ActionListener {
 		return;
 	    }
 	    mc.saveUserName(txtName.getText());
-	    JOptionPane.showMessageDialog(btnSave, "Su nombre de usuario ha sido cambiado", "Nombre cambiado", JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(this, "Su nombre de usuario ha sido cambiado", "Nombre cambiado", JOptionPane.INFORMATION_MESSAGE);
 	}
     }
 }

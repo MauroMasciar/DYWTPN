@@ -158,7 +158,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtGames.setEditable(false);
 	txtGamePlaying.setEditable(false);
 	txtTimePlaying.setEditable(false);
-	txtLastAchie.setText(" Ultima hazaña: -");
+	txtLastAchie.setText(" Ultima hazaña: Ninguna");
 	txtLastAchie.setEditable(false);
 
 	txtPathGame.setEnabled(false);
@@ -230,14 +230,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnEditGame) {
 	    if(gameIdSelected == 0) {
-		JOptionPane.showMessageDialog(null, "Primero selecciona que juego quieres editar", "Error al editar juego", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres editar", "Error al editar juego", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
 	} else if(e.getSource() == btnLaunchGame) {
 	    if(txtGameName.getText().isEmpty()) {
-		JOptionPane.showMessageDialog(null, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    if(gameIdLaunched == 0) {
@@ -274,10 +274,10 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 			}).start();
 		    }
 		} catch (IOException ex) {
-		    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 		}
 	    } else {
-		JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	    }
 	}
     }

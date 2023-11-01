@@ -104,8 +104,8 @@ public class InGame {
 
     public void closeGame() {
 	if(gameIdLaunched != 0) {
+	    String sGameName = " Ultimo juego: " + gameName;
 	    String sGameTimePlayed = " Jugaste durante: " + hour + ":" + sMinute + ":" + sSecond;
-	    String sGameName = " Ultimo juego ejecutado: " + gameName;
 	    ModelGames g = new ModelGames();
 	    g.closeGame(gameIdLaunched, gameTimePlayed, gameName, sGameTimePlayed);
 	    gameIdLaunched = 0;

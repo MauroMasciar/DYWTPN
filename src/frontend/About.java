@@ -30,11 +30,11 @@ public class About extends JInternalFrame {
 	gbc.ipady = 0;
 	gbc.fill = GridBagConstraints.BOTH;
 	gbc.gridx = 0;
-	gbc.gridy = 0;
-	
+	gbc.gridy = 0;	
 	pnlInfo.add(lblFirstLine, gbc);
 	gbc.gridy ++;
 	pnlInfo.add(lblSecondLine, gbc);
+	
 	gbc.gridheight = 1;
 	gbc.gridwidth = 1;
 	gbc.weightx = 1.0;
@@ -45,15 +45,6 @@ public class About extends JInternalFrame {
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	add(pnlInfo, gbc);
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	setVisible(true);
     }
