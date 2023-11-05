@@ -40,7 +40,7 @@ public class ModelGames {
 	    ex.getMessage();
 	}
     }
-    
+
     public ModelGames(int gameId) {
 	String query = "SELECT times FROM games WHERE id = " + gameId;
 	int times;
@@ -63,18 +63,22 @@ public class ModelGames {
 
     public String getPathFromGame(int gameId) {
 	String query = "SELECT path FROM games WHERE id = " + gameId;
+	String path = "";
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next()) return rs.getString("path");
-	    else return "ERROR";
+	    if(rs.next()) path = rs.getString("path");
+	    else path = "ERROR";
+	    stmt.close();
+	    rs.close();
+	    conex.close();
 	} catch (SQLException ex) {
 	    ex.printStackTrace();
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
-	return "ERROR";
+	return path;
     }
 
     public int getMinsPlayed(int gameId) {
@@ -96,7 +100,7 @@ public class ModelGames {
 	}
 	return minutesplayed;
     }
-    
+
     public int getTimes(int gameId) {
 	String query = "SELECT times FROM games WHERE id = " + gameId;
 	int times = 0;
@@ -133,6 +137,9 @@ public class ModelGames {
 		} else {
 		    id = 0;
 		}
+		conex.close();
+		stmt.close();
+		rs.close();
 	    } catch (Exception ex) {
 		ex.getMessage();
 	    }
@@ -143,32 +150,41 @@ public class ModelGames {
 
     public String getNameFromId(int gameId) {
 	String query = "SELECT name FROM games WHERE id = " + gameId;
+	String name;
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next()) return rs.getString("name");
-	    else return "ERROR";
+	    if(rs.next()) name = rs.getString("name");
+	    else name = "ERROR";
+	    conex.close();
+	    stmt.close();
+	    rs.close();
 	} catch (SQLException ex) {
 	    ex.printStackTrace();
+	    name = "ERROR";
 	} catch (Exception ex) {
 	    ex.printStackTrace();
+	    name = "ERROR";
 	}
-	return "ERROR";
+	return name;
     }
-    
+
     public String getDateLastSession(int gameId) {
 	String dateLastSession = "Nunca";
-	
+
 	String query = "SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha FROM `games_sessions_history` WHERE game_id = " + gameId + " order by datetime desc limit 1";
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) dateLastSession = rs.getString("Fecha");
+	    conex.close();
+	    stmt.close();
+	    rs.close();
 	} catch (SQLException ex) {
 	    ex.printStackTrace();
-	    return "ERROR";
+	    dateLastSession = "ERROR";
 	}
 	return dateLastSession;
     }
@@ -182,14 +198,16 @@ public class ModelGames {
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) ghost = rs.getInt("ghost");
-	    if(ghost == 1) return true;
-	    else return false;
+	    conex.close();
+	    stmt.close();
+	    rs.close();	    
 	} catch (SQLException ex) {
 	    ex.getMessage();
 	}
-	return false;
+	if(ghost == 1) return true;
+	else return false;
     }
-    
+
     public boolean isCompleted(int gameId) {
 	String query = "SELECT completed FROM games WHERE id = " + gameId;
 	int completed = 0;
@@ -198,12 +216,14 @@ public class ModelGames {
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) completed = rs.getInt("completed");
-	    if(completed == 1) return true;
-	    else return false;
+	    conex.close();
+	    stmt.close();
+	    rs.close();	 
 	} catch (SQLException ex) {
 	    ex.getMessage();
 	}
-	return false;
+	if(completed == 1) return true;
+	else return false;
     }
 
     public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed)  {
@@ -214,7 +234,7 @@ public class ModelGames {
 		conex = DriverManager.getConnection(url, username, password);
 		stmt = conex.createStatement();
 		stmt.execute(query);
-		String sGameName = " Ultimo juego ejecutado: " + gameName;		
+		String sGameName = " Ultimo juego: " + gameName;		
 		query = "UPDATE config SET last_game = '" + sGameName + "', last_session_time = '" + sGameTimePlayed + "'";
 		stmt.execute(query);
 		stmt.close();
@@ -254,7 +274,45 @@ public class ModelGames {
 	    }
 	}
     }
-    
+
+    public void setMinsPlayed(int gameId, int minsPlayed) {
+	try {
+	    String query = "UPDATE games SET mins_played = ? WHERE id = ?";
+	    conex = DriverManager.getConnection(url, username, password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setInt(1, minsPlayed);
+	    p.setInt(2, gameId);
+	    p.executeUpdate();
+
+	    p.close();
+	    conex.close();
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+	}
+    }
+
+    public int addSessionGame(int gameId, String name, String minsPlayed, String date) {
+	int resultado = 0;
+	try {
+	    String query = "INSERT INTO games_sessions_history (game_id, game_name, mins, datetime) VALUES (?,?,?,?)";
+	    conex = DriverManager.getConnection(url, username, password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setInt(1, gameId);
+	    p.setString(2, name);
+	    p.setString(3, String.valueOf(minsPlayed));
+	    p.setString(4, date);
+	    resultado = p.executeUpdate();
+	    int mins = getMinsPlayed(gameId);
+	    mins += Integer.parseInt(minsPlayed);
+	    setMinsPlayed(gameId, mins);
+	    p.close();
+	    conex.close();
+	} catch (SQLException ex) {
+	    return 0;
+	}
+	return resultado;	
+    }
+
     public int addGame(String name, String MinsPlayed, String path, int ghost, int completed) {
 	try {
 	    String query = "INSERT INTO games (name, mins_played, path, ghost, completed) VALUES (?,?,?,?,?)";
@@ -311,7 +369,7 @@ public class ModelGames {
 	}
 	return 0;
     }
-    
+
     public int deleteGame(int gameId) {
 	int res = 0;
 	try {
@@ -320,17 +378,17 @@ public class ModelGames {
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setInt(1, gameId);
 	    res = p.executeUpdate();
-	    
+
 	    query = "DELETE FROM games_sessions_history WHERE game_id = ?";
 	    p = conex.prepareStatement(query);
 	    p.setInt(1, gameId);
 	    p.executeUpdate();
-	    
+
 	    query = "DELETE FROM player_activities WHERE game_id = ?";
 	    p = conex.prepareStatement(query);
 	    p.setInt(1, gameId);
 	    p.executeUpdate();
-	    
+
 	    p.close();
 	    conex.close();
 	} catch (Exception ex) {

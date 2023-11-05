@@ -30,7 +30,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private JButton btnAdd = new JButton("Añadir");
     public AddGame() {
 	setTitle("Añadir nuevo juego");
-	setBounds(200, 200, 400, 170);
+	setBounds(100, 100, 400, 170);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setClosable(true);
 	setLayout(new GridBagLayout());

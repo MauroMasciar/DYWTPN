@@ -48,7 +48,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     public MainUI() {	
 	setTitle("DYWTPN");
-	//setBounds(600, 300, 800, 280);
 	setBounds(300, 300, 800, 280);
 	setClosable(false);
 	setResizable(true);
@@ -194,7 +193,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    Thread.sleep(1000);
+		    Thread.sleep(1500);
 		    UpdateGameList();
 		    LoadData();
 		    LoadLastSession();
