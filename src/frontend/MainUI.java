@@ -182,11 +182,24 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 			PlayerHistory.tbPlayerHistory.setModel(model.getHistory());
 			PlayerActivities.tbPlayerActivities.removeAll();
 			PlayerActivities.tbPlayerActivities.setModel(model.getActivities());
-			
+
 			Thread.sleep(600000);
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
 		    }
+		}
+	    }
+	}).start();
+
+	new Thread(new Runnable() {
+	    public void run() {
+		try {
+		    Thread.sleep(1000);
+		    UpdateGameList();
+		    LoadData();
+		    LoadLastSession();
+		} catch (InterruptedException ex) {
+		    ex.printStackTrace();
 		}
 	    }
 	}).start();
@@ -294,8 +307,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    if(gameIdSelected != 0) {
 		double mins_played = g.getMinsPlayed(gameIdSelected);
 		txtMinsPlayed.setText(txtMinsPlayedDecimal.format(mins_played/60));
-		
-		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + g.getTimes(gameIdSelected));
+
+		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + g.getTimes(gameIdSelected) + " | Ultima sesion: " + g.getDateLastSession(gameIdSelected));
 	    }
 	}
     }

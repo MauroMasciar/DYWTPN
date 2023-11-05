@@ -156,6 +156,22 @@ public class ModelGames {
 	}
 	return "ERROR";
     }
+    
+    public String getDateLastSession(int gameId) {
+	String dateLastSession = "Nunca";
+	
+	String query = "SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha FROM `games_sessions_history` WHERE game_id = " + gameId + " order by datetime desc limit 1";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) dateLastSession = rs.getString("Fecha");
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	    return "ERROR";
+	}
+	return dateLastSession;
+    }
 
     public boolean isGhost(int gameId) {
 	String query = "SELECT ghost FROM games WHERE id = " + gameId;
