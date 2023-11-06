@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class ModelGames {
     private String database = "DYWTPN";
@@ -59,6 +60,46 @@ public class ModelGames {
 	} catch (Exception ex) {
 	    Log.Loguear("SQLException en ModelGames.ModelGames(int gameId)");
 	}
+    }
+
+    public DefaultTableModel getFilteredGameList(String name, String completed) {
+	DefaultTableModel m = new DefaultTableModel();
+	m.addColumn("Juego");
+	m.addColumn("Fantasma");
+	m.addColumn("Minutos jugados");
+	m.addColumn("Veces ejecutado");
+	m.addColumn("Completado");
+	m.addColumn("Path");
+	int comp;
+	if(completed == "Todos") comp = 2;
+	else if(completed == "Completados") comp = 1;
+	else comp = 0;
+	
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+
+	    if(name == "Todos" && comp == 2) {
+		rs = stmt.executeQuery("SELECT name, ghost, mins_played, times, completed, path FROM games ORDER BY name");
+	    } else if(name == "Todos" && comp != 2) {
+		rs = stmt.executeQuery("SELECT name, ghost, mins_played, times, completed, path FROM games WHERE completed = " + comp + "  ORDER BY name");
+	    } else if(name != "Todos") {
+		rs = stmt.executeQuery("SELECT name, ghost, mins_played, times, completed, path FROM games WHERE name = '" + name + "' ORDER BY name");
+	    }
+	    while(rs.next()) {
+		Object[] f = new Object[6];
+		for(int i = 0; i < 6; i++) {
+		    f[i] = rs.getObject(i+1);
+		}
+		m.addRow(f);
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	}
+	return m;
     }
 
     public String getPathFromGame(int gameId) {
