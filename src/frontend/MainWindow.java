@@ -107,6 +107,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	} else if(e.getSource() == mnuiGamesRefresh) {
 	    MainUI.LoadData();
 	    MainUI.UpdateGameList();
+	    MainUI.LoadLastSession();
 	} else if(e.getSource() == mnuiHelpAbout) {
 	    j.add(new About());
 	    j.repaint();

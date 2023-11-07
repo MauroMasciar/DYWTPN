@@ -180,7 +180,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 			PlayerHistory.tbPlayerHistory.removeAll();
 			PlayerHistory.tbPlayerHistory.setModel(model.getHistory("Todos"));
 			PlayerActivities.tbPlayerActivities.removeAll();
-			PlayerActivities.tbPlayerActivities.setModel(model.getActivities());
+			PlayerActivities.tbPlayerActivities.setModel(model.getActivities("Todos"));
 
 			Thread.sleep(600000);
 		    } catch (InterruptedException ex) {
@@ -209,9 +209,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelPlayer mp = new ModelPlayer();
 	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Horas jugadas en total: " + mc.getMinutesTotalPlayed()/60);
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
+
+	PlayerHistory.tbPlayerHistory.removeAll();
+	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
+	PlayerActivities.tbPlayerActivities.removeAll();
+	PlayerActivities.tbPlayerActivities.setModel(mp.getActivities("Todos"));
     }
 
-    public void LoadLastSession() {
+    public static void LoadLastSession() {
 	ModelConfig mc = new ModelConfig();
 	txtGamePlaying.setText(mc.getLastGame());
 	txtTimePlaying.setText(mc.getLastSessionTime());

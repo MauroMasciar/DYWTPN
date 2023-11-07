@@ -1,6 +1,5 @@
 package frontend;
 
-import java.awt.FlowLayout;
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -28,8 +27,6 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
 	setLayout(new GridBagLayout());
 
 	GridBagConstraints gbc = new GridBagConstraints();
-	gbc.gridx = 0;
-	gbc.gridy = 0;
 	gbc.gridheight = 1;
 	gbc.gridwidth = 1;
 	gbc.weightx = 1.0;
@@ -37,6 +34,8 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
 	gbc.ipadx = 1;
 	gbc.ipady = 1;
 	gbc.fill = GridBagConstraints.BOTH;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
 	add(cbGames, gbc);	
 	gbc.gridy ++;
 	add(scrTable, gbc);
@@ -56,9 +55,7 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
 	cbGames.addItem("Todos");
 
 	try {
-	    for (int i = 1; i < listGames.size(); i++) {
-		cbGames.addItem(listGames.get(i));
-	    }
+	    for (int i = 1; i < listGames.size(); i++) cbGames.addItem(listGames.get(i));
 	} catch (ArrayIndexOutOfBoundsException ex) {
 	    ex.printStackTrace();
 	}

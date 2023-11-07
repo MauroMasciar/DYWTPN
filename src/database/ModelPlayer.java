@@ -21,14 +21,19 @@ public class ModelPlayer {
     private static Statement stmt;
     private static ResultSet rs;
     
-    public DefaultTableModel getActivities() {
+    public DefaultTableModel getActivities(String gameName) {
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Actividad");
 	
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-	    rs = stmt.executeQuery("SELECT description FROM player_activities");
+	    if(gameName == "Todos") {
+		rs = stmt.executeQuery("SELECT description FROM player_activities");
+	    } else {
+		rs = stmt.executeQuery("SELECT description FROM player_activities WHERE game_name = '" + gameName + "'");
+	    }
+	    
 	    while(rs.next()) {
 		Object[] f = new Object[1];
 		for(int i = 0; i < 1; i++) {
@@ -73,7 +78,6 @@ public class ModelPlayer {
 	} catch (SQLException ex) {
 	    ex.printStackTrace();
 	}
-	
 	return m;
     }
     
