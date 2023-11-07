@@ -17,7 +17,7 @@ public class GameList extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -4569846762834010208L;
     private JComboBox<String> cbGames = new JComboBox<String>();
     private JComboBox<String> cbCompleted = new JComboBox<String>();
-    private JTable tblGames = new JTable();
+    public static JTable tblGames = new JTable();
     private JScrollPane scrTable = new JScrollPane(tblGames);
     private JButton btnShow = new JButton("Mostrar");
     public GameList() {

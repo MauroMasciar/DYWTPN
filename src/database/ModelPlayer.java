@@ -20,20 +20,17 @@ public class ModelPlayer {
     private Connection conex = null;
     private static Statement stmt;
     private static ResultSet rs;
-    
+
     public DefaultTableModel getActivities(String gameName) {
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Actividad");
-	
+
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-	    if(gameName == "Todos") {
-		rs = stmt.executeQuery("SELECT description FROM player_activities");
-	    } else {
-		rs = stmt.executeQuery("SELECT description FROM player_activities WHERE game_name = '" + gameName + "'");
-	    }
-	    
+	    if(gameName == "Todos") rs = stmt.executeQuery("SELECT description FROM player_activities ORDER BY id DESC");
+	    else rs = stmt.executeQuery("SELECT description FROM player_activities WHERE game_name = '" + gameName + "' ORDER BY id DESC");
+
 	    while(rs.next()) {
 		Object[] f = new Object[1];
 		for(int i = 0; i < 1; i++) {
@@ -45,26 +42,24 @@ public class ModelPlayer {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear("SQLException en DefaultTableModel getActivities(String gameName)");
 	    ex.printStackTrace();
 	}
 	return m;
     }
-    
+
     public DefaultTableModel getHistory(String gameName) {
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Fecha");
 	m.addColumn("Nombre");
 	m.addColumn("Tiempo jugado");
-	
+
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-	    if(gameName == "Todos") {
-		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
-	    } else {
-		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '" + gameName + "' ORDER BY id DESC");
-	    }
-	    
+	    if(gameName == "Todos") rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
+	    else rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '" + gameName + "' ORDER BY id DESC");
+
 	    while(rs.next()) {
 		Object[] f = new Object[3];
 		for(int i = 0; i < 3; i++) {
@@ -76,11 +71,12 @@ public class ModelPlayer {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear("SQLException en DefaultTableModel getHistory(String gameName)");
 	    ex.printStackTrace();
 	}
 	return m;
     }
-    
+
     public void saveAchievement(String achievement, String gamename, int gameid) {
 	String query = "INSERT INTO player_activities (game_name, description, game_id) VALUES (?,?,?)";
 	try {
@@ -94,7 +90,7 @@ public class ModelPlayer {
 	    p.close();
 	} catch (SQLException ex) {
 	    Log.Loguear("SQLException en void saveAchievement(String achievement, String gamename)");
-	    ex.getMessage();
+	    ex.printStackTrace();
 	}
     }
 

@@ -49,6 +49,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuGames.add(mnuiGamesAdd);
 	mnuGames.add(mnuiGamesAddSession);
 	mnuGames.add(mnuiGamesList);
+	mnuGames.addSeparator();
 	mnuGames.add(mnuiGamesRefresh);
 	mnuPlayer.add(mnuiPlayerHistory);
 	mnuPlayer.add(mnuiPlayerActivities);
@@ -67,22 +68,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.add(new MainUI());
 
 	j.setJMenuBar(menubar);
-
-	j.setVisible(true);
 	j.addWindowListener(this);
 
-	/*new Thread(new Runnable() {
-	    public void run() {
-		while (true) {
-		    try {
-			Thread.sleep(1000);
-			j.repaint();
-		    } catch (InterruptedException ex) {
-			ex.printStackTrace();
-		    }
-		}
-	    }
-	}).start();*/
+	j.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {

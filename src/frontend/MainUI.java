@@ -1,5 +1,6 @@
 package frontend;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -152,22 +153,24 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	txtGameName.setEditable(false);
 	txtMinsPlayed.setEditable(false);
-	txtStatistics.setText(" Nombre: Usuario | Total de juegos: 0 | Horas jugadas en total: 0");
+	txtStatistics.setForeground(Color.RED);
+	txtTimePlaying.setForeground(Color.RED);
+	txtGamePlaying.setForeground(Color.RED);
+	txtLastAchie.setForeground(Color.RED);	
+	txtStatistics.setText(" CARGANDO ...");
 	txtStatistics.setEditable(false);
 	txtGames.setEditable(false);
 	txtGamePlaying.setEditable(false);
+	txtGamePlaying.setText(" CARGANDO ...");
 	txtTimePlaying.setEditable(false);
-	txtLastAchie.setText(" Ultima hazaña: Ninguna");
+	txtTimePlaying.setText(" CARGANDO ...");
+	txtLastAchie.setText(" CARGANDO ...");
 	txtLastAchie.setEditable(false);
 
 	txtPathGame.setEnabled(false);
 	txtGhostGame.setEnabled(false);
 
 	btnEditGame.setEnabled(false);
-
-	UpdateGameList();
-	LoadData();
-	LoadLastSession();
 
 	setVisible(true);
 
@@ -176,12 +179,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		while (true) {
 		    try {
 			if(gameIdLaunched != 0) LoadData();
-			ModelPlayer model = new ModelPlayer();
-			PlayerHistory.tbPlayerHistory.removeAll();
-			PlayerHistory.tbPlayerHistory.setModel(model.getHistory("Todos"));
-			PlayerActivities.tbPlayerActivities.removeAll();
-			PlayerActivities.tbPlayerActivities.setModel(model.getActivities("Todos"));
-
 			Thread.sleep(600000);
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
@@ -193,10 +190,16 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    Thread.sleep(1500);
+		    Thread.sleep(300);
 		    UpdateGameList();
+		    Thread.sleep(300);
 		    LoadData();
+		    txtStatistics.setForeground(Color.BLACK);
+		    txtLastAchie.setForeground(Color.BLACK);
+		    Thread.sleep(300);
 		    LoadLastSession();
+		    txtTimePlaying.setForeground(Color.BLACK);
+		    txtGamePlaying.setForeground(Color.BLACK);
 		} catch (InterruptedException ex) {
 		    ex.printStackTrace();
 		}
@@ -207,6 +210,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static void LoadData() {
 	ModelConfig mc = new ModelConfig();
 	ModelPlayer mp = new ModelPlayer();
+	ModelGames mg = new ModelGames();
 	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Horas jugadas en total: " + mc.getMinutesTotalPlayed()/60);
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 
@@ -214,6 +218,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
 	PlayerActivities.tbPlayerActivities.removeAll();
 	PlayerActivities.tbPlayerActivities.setModel(mp.getActivities("Todos"));
+	GameList.tblGames.removeAll();
+	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos"));
     }
 
     public static void LoadLastSession() {
