@@ -45,7 +45,7 @@ public class ModelPlayer {
 	return m;
     }
     
-    public DefaultTableModel getHistory() {
+    public DefaultTableModel getHistory(String gameName) {
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Fecha");
 	m.addColumn("Nombre");
@@ -54,8 +54,12 @@ public class ModelPlayer {
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
+	    if(gameName == "Todos") {
+		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
+	    } else {
+		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '" + gameName + "' ORDER BY id DESC");
+	    }
 	    
-	    rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
 	    while(rs.next()) {
 		Object[] f = new Object[3];
 		for(int i = 0; i < 3; i++) {

@@ -50,7 +50,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	setTitle("DYWTPN");
 	setBounds(300, 300, 800, 280);
 	setClosable(false);
-	setResizable(true);
+	setResizable(false);
 	setIconifiable(false);
 	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
@@ -178,7 +178,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 			if(gameIdLaunched != 0) LoadData();
 			ModelPlayer model = new ModelPlayer();
 			PlayerHistory.tbPlayerHistory.removeAll();
-			PlayerHistory.tbPlayerHistory.setModel(model.getHistory());
+			PlayerHistory.tbPlayerHistory.setModel(model.getHistory("Todos"));
 			PlayerActivities.tbPlayerActivities.removeAll();
 			PlayerActivities.tbPlayerActivities.setModel(model.getActivities());
 
