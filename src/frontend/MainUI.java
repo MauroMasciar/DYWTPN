@@ -44,6 +44,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static JTextArea txtLastDays = new JTextArea();
     private static JTextArea txtLastAchie = new JTextArea();
     public static JTextArea txtGames = new JTextArea();
+    public static JTextArea txtGamesTime = new JTextArea();
+    public JTextArea txtSeparator = new JTextArea();
+    
 
     public int gameIdSelected = 0;
     public int gameIdLaunched = 0;
@@ -89,9 +92,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridy ++;
 	pnlTop.add(txtLastDays, gbc);
 	gbc.gridy ++;
+	pnlTop.add(txtLastAchie, gbc);
+	gbc.gridy ++;
+	pnlTop.add(txtSeparator, gbc);
+	gbc.gridy ++;
 	pnlTop.add(txtGames, gbc);
 	gbc.gridy ++;
-	pnlTop.add(txtLastAchie, gbc);
+	pnlTop.add(txtGamesTime, gbc);
 
 	// Interfaz inferior - controles
 	JPanel pnlBottom = new JPanel();
@@ -166,12 +173,15 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastDays.setText(" CARGANDO ...");
 	txtLastDays.setEditable(false);
 	txtGames.setEditable(false);
+	txtGamesTime.setEditable(false);
 	txtGamePlaying.setEditable(false);
 	txtGamePlaying.setText(" CARGANDO ...");
 	txtTimePlaying.setEditable(false);
 	txtTimePlaying.setText(" CARGANDO ...");
 	txtLastAchie.setText(" CARGANDO ...");
 	txtLastAchie.setEditable(false);
+	txtSeparator.setEditable(false);
+	txtSeparator.setText("______________________________________________________________________________________________________");
 
 	txtPathGame.setEnabled(false);
 	txtGhostGame.setEnabled(false);
@@ -220,17 +230,16 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelConfig mc = new ModelConfig();
 	ModelPlayer mp = new ModelPlayer();
 	ModelGames mg = new ModelGames();
-	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Horas jugadas en total: " + mg.getMinutesTotalPlayed()/60);
+	double totalHours = mg.getMinutesTotalPlayed();
+	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Total de horas: " + decimalFormat.format(totalHours/60));
 
-
-	double uno = mg.getLastDays(1);
-	double siete = mg.getLastDays(7);
-	double catorce = mg.getLastDays(14);
-	double treinta = mg.getLastDays(30);	
+	double uno = mg.getLastDays(0,1);
+	double siete = mg.getLastDays(0,7);
+	double catorce = mg.getLastDays(0,14);
+	double treinta = mg.getLastDays(0,30);	
 	
 	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno/60) + " | semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | mes: " +  decimalFormat.format(treinta/60));
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
-
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
 	PlayerActivities.tbPlayerActivities.removeAll();
@@ -328,13 +337,20 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    btnEditGame.setEnabled(true);
 	    String s = jlistGames.getSelectedValue();
 	    txtGameName.setText(s);
-	    ModelGames g = new ModelGames();
+	    ModelGames mg = new ModelGames();
 
-	    gameIdSelected = g.getIdFromGameName(txtGameName.getText());
+	    gameIdSelected = mg.getIdFromGameName(txtGameName.getText());
 	    if(gameIdSelected != 0) {
-		double mins_played = g.getMinsPlayed(gameIdSelected);
+		double mins_played = mg.getMinsPlayed(gameIdSelected);
 		txtMinsPlayed.setText(decimalFormat.format(mins_played/60));
-		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + g.getTimes(gameIdSelected) + " | Ultima sesion: " + g.getDateLastSession(gameIdSelected));
+		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + mg.getTimes(gameIdSelected) + " | Ultima sesion: " + mg.getDateLastSession(gameIdSelected));
+		 
+		double uno = mg.getLastDays(gameIdSelected,1);
+		double siete = mg.getLastDays(gameIdSelected,7);
+		double catorce = mg.getLastDays(gameIdSelected,14);
+		double treinta = mg.getLastDays(gameIdSelected,30);	
+		
+		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " + decimalFormat.format(treinta/60));
 	    }
 	}
     }
