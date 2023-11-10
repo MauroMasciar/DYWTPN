@@ -66,7 +66,7 @@ public class ModelGames {
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Juego");
 	m.addColumn("Fantasma");
-	m.addColumn("Minutos jugados");
+	m.addColumn("Tiempo");
 	m.addColumn("Veces ejecutado");
 	m.addColumn("Completado");
 	m.addColumn("Path");
@@ -80,11 +80,11 @@ public class ModelGames {
 	    stmt = conex.createStatement();
 
 	    if(name == "Todos" && comp == 2) {
-		rs = stmt.executeQuery("SELECT name, ghost, mins_played, times, completed, path FROM games ORDER BY name");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, completed, path FROM games ORDER BY name");
 	    } else if(name == "Todos" && comp != 2) {
-		rs = stmt.executeQuery("SELECT name, ghost, mins_played, times, completed, path FROM games WHERE completed = " + comp + "  ORDER BY name");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, completed, path FROM games WHERE completed = " + comp + "  ORDER BY name");
 	    } else if(name != "Todos") {
-		rs = stmt.executeQuery("SELECT name, ghost, mins_played, times, completed, path FROM games WHERE name = '" + name + "' ORDER BY name");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, completed, path FROM games WHERE name = '" + name + "' ORDER BY name");
 	    }
 	    while(rs.next()) {
 		Object[] f = new Object[6];
@@ -141,6 +141,27 @@ public class ModelGames {
 	}
 	return minutesplayed;
     }
+    
+    public int getMinutesTotalPlayed() {
+	String query = "SELECT SUM(mins_played) AS minutes FROM games";
+	int minutes = 0;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		minutes = rs.getInt("minutes");
+	    } else {
+		minutes = 0;
+	    }
+	    stmt.close();
+	    conex.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    ex.getMessage();
+	}
+	return minutes;
+    }
 
     public int getTimes(int gameId) {
 	String query = "SELECT times FROM games WHERE id = " + gameId;
@@ -158,6 +179,27 @@ public class ModelGames {
 	    ex.getMessage();
 	}
 	return times;
+    }
+    
+    public int getLastDays(int days) {
+	int mins = 0;
+	String query;
+	if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-1) AND now()";
+	else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-7) AND now()";
+	else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now()";
+	else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now()";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) mins = rs.getInt("minutes");
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    ex.getMessage();
+	}	
+	return mins;
     }
 
     public ArrayList<String> getGamesNameList() {

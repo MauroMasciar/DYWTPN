@@ -20,7 +20,7 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
     public static JTable tbPlayerActivities = new JTable();
 
     public PlayerActivities() {
-	setBounds(30, 30, 500, 500);
+	setBounds(90, 90, 500, 500);
 	setTitle("Actividad");
 	setClosable(true);
 	setResizable(true);

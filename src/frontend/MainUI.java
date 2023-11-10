@@ -35,12 +35,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static JTextField txtMinsPlayed = new JTextField(20);
     private JTextField txtGhostGame = new JTextField(20);
     private JTextField txtPathGame = new JTextField(20);
-    private DecimalFormat txtMinsPlayedDecimal = new DecimalFormat("#.##");
+    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private static JButton btnLaunchGame = new JButton("Lanzar");
     private JButton btnEditGame = new JButton("Editar");
     public static JTextField txtTimePlaying = new JTextField(20);
     public static JTextField txtGamePlaying = new JTextField(20);
     private static JTextArea txtStatistics = new JTextArea();
+    private static JTextArea txtLastDays = new JTextArea();
     private static JTextArea txtLastAchie = new JTextArea();
     public static JTextArea txtGames = new JTextArea();
 
@@ -85,9 +86,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.HORIZONTAL;
 	pnlTop.add(txtStatistics, gbc);
-	gbc.gridy = 1;
+	gbc.gridy ++;
+	pnlTop.add(txtLastDays, gbc);
+	gbc.gridy ++;
 	pnlTop.add(txtGames, gbc);
-	gbc.gridy = 2;
+	gbc.gridy ++;
 	pnlTop.add(txtLastAchie, gbc);
 
 	// Interfaz inferior - controles
@@ -156,9 +159,12 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtStatistics.setForeground(Color.RED);
 	txtTimePlaying.setForeground(Color.RED);
 	txtGamePlaying.setForeground(Color.RED);
-	txtLastAchie.setForeground(Color.RED);	
+	txtLastAchie.setForeground(Color.RED);
+	txtLastDays.setForeground(Color.RED);
 	txtStatistics.setText(" CARGANDO ...");
 	txtStatistics.setEditable(false);
+	txtLastDays.setText(" CARGANDO ...");
+	txtLastDays.setEditable(false);
 	txtGames.setEditable(false);
 	txtGamePlaying.setEditable(false);
 	txtGamePlaying.setText(" CARGANDO ...");
@@ -190,28 +196,39 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    Thread.sleep(300);
+		    Thread.sleep(1000);
 		    UpdateGameList();
 		    Thread.sleep(300);
 		    LoadData();
 		    txtStatistics.setForeground(Color.BLACK);
 		    txtLastAchie.setForeground(Color.BLACK);
+		    txtLastDays.setForeground(Color.BLACK);
 		    Thread.sleep(300);
 		    LoadLastSession();
 		    txtTimePlaying.setForeground(Color.BLACK);
 		    txtGamePlaying.setForeground(Color.BLACK);
+		    Thread.sleep(1000);
+		    UpdateGameList();
 		} catch (InterruptedException ex) {
 		    ex.printStackTrace();
 		}
 	    }
 	}).start();
     }
-
+    
     public static void LoadData() {
 	ModelConfig mc = new ModelConfig();
 	ModelPlayer mp = new ModelPlayer();
 	ModelGames mg = new ModelGames();
-	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Horas jugadas en total: " + mc.getMinutesTotalPlayed()/60);
+	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Horas jugadas en total: " + mg.getMinutesTotalPlayed()/60);
+
+
+	double uno = mg.getLastDays(1);
+	double siete = mg.getLastDays(7);
+	double catorce = mg.getLastDays(14);
+	double treinta = mg.getLastDays(30);	
+	
+	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno/60) + " | semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | mes: " +  decimalFormat.format(treinta/60));
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 
 	PlayerHistory.tbPlayerHistory.removeAll();
@@ -316,8 +333,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    gameIdSelected = g.getIdFromGameName(txtGameName.getText());
 	    if(gameIdSelected != 0) {
 		double mins_played = g.getMinsPlayed(gameIdSelected);
-		txtMinsPlayed.setText(txtMinsPlayedDecimal.format(mins_played/60));
-
+		txtMinsPlayed.setText(decimalFormat.format(mins_played/60));
 		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + g.getTimes(gameIdSelected) + " | Ultima sesion: " + g.getDateLastSession(gameIdSelected));
 	    }
 	}

@@ -68,28 +68,7 @@ public class ModelConfig {
 
 	return name;
     }
-    
-    public int getMinutesTotalPlayed() {
-	String query = "SELECT SUM(mins_played) AS minutes FROM games";
-	int minutes = 0;
-	try {
-	    conex = DriverManager.getConnection(url, username, password);
-	    stmt = conex.createStatement();
-	    rs = stmt.executeQuery(query);
-	    if (rs.next()) {
-		minutes = rs.getInt("minutes");
-	    } else {
-		minutes = 0;
-	    }
-	    stmt.close();
-	    conex.close();
-	    rs.close();
-	} catch (Exception ex) {
-	    ex.getMessage();
-	}
-	return minutes;
-    }
-    
+       
     public String getLastGame() {
 	String query = "SELECT last_game FROM config";
 	String last_game = "";
