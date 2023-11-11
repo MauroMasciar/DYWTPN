@@ -53,16 +53,17 @@ public class ModelPlayer {
 	m.addColumn("Fecha");
 	m.addColumn("Nombre");
 	m.addColumn("Tiempo jugado");
-
+	m.addColumn("Minutos");
+	
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-	    if(gameName == "Todos") rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2) FROM `games_sessions_history` ORDER BY id DESC");
-	    else rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2) FROM `games_sessions_history` WHERE game_name = '" + gameName + "' ORDER BY id DESC");
+	    if(gameName == "Todos") rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` ORDER BY id DESC");
+	    else rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` WHERE game_name = '" + gameName + "' ORDER BY id DESC");
 
 	    while(rs.next()) {
-		Object[] f = new Object[3];
-		for(int i = 0; i < 3; i++) {
+		Object[] f = new Object[4];
+		for(int i = 0; i < 4; i++) {
 		    f[i] = rs.getObject(i+1);
 		}
 		m.addRow(f);

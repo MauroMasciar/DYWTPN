@@ -278,6 +278,37 @@ public class ModelGames {
 	}
 	return dateLastSession;
     }
+    
+    public ArrayList<String> getCategoryList() {
+	ArrayList<String> category = new ArrayList<String>();
+	String query = "SELECT * FROM category";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    while(rs.next()) {
+		category.add(rs.getString("name"));
+	    }
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	}
+	return category;
+    }
+    
+    public int getCategoryIdFromNameC(String name) {
+	int categoryId = 0;
+	String query = "SELECT * FROM category WHERE name = '" + name + "'";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) categoryId = rs.getInt("id");
+	    
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	}	
+	return categoryId;
+    }
 
     public boolean isGhost(int gameId) {
 	String query = "SELECT ghost FROM games WHERE id = " + gameId;
@@ -403,9 +434,9 @@ public class ModelGames {
 	return resultado;	
     }
 
-    public int addGame(String name, String MinsPlayed, String path, int ghost, int completed) {
+    public int addGame(String name, String MinsPlayed, String path, int ghost, int completed, int category, int score) {
 	try {
-	    String query = "INSERT INTO games (name, mins_played, path, ghost, completed) VALUES (?,?,?,?,?)";
+	    String query = "INSERT INTO games (name, mins_played, path, ghost, completed, category, score) VALUES (?,?,?,?,?,?,?)";
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    double hoursPlayed = Double.parseDouble(MinsPlayed) * 60;
@@ -414,6 +445,8 @@ public class ModelGames {
 	    p.setString(3, path);
 	    p.setInt(4, ghost);
 	    p.setInt(5, completed);
+	    p.setInt(6, category);
+	    p.setInt(7, score);
 	    int resultado = p.executeUpdate();
 	    conex.close();
 	    p.close();

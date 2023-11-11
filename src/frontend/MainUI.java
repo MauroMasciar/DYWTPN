@@ -238,7 +238,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	double catorce = mg.getLastDays(0,14);
 	double treinta = mg.getLastDays(0,30);	
 	
-	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno/60) + " | semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | mes: " +  decimalFormat.format(treinta/60));
+	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " +  decimalFormat.format(treinta/60));
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));

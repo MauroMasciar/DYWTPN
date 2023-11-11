@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 01, 2023 at 12:18 AM
+-- Generation Time: Nov 11, 2023 at 09:48 PM
 -- Server version: 5.5.43
 -- PHP Version: 5.4.41
 
@@ -21,6 +21,17 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `dywtpn` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `dywtpn`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -45,6 +56,8 @@ CREATE TABLE `config` (
 CREATE TABLE `games` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `category` int(11) NOT NULL DEFAULT '0',
+  `score` tinyint(4) NOT NULL DEFAULT '0',
   `ghost` tinyint(1) NOT NULL DEFAULT '0',
   `mins_played` int(11) NOT NULL DEFAULT '0',
   `times` int(11) NOT NULL DEFAULT '0',
@@ -85,6 +98,12 @@ CREATE TABLE `player_activities` (
 --
 
 --
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `config`
 --
 ALTER TABLE `config`
@@ -115,6 +134,11 @@ ALTER TABLE `player_activities`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `config`
 --
