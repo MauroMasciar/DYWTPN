@@ -23,20 +23,32 @@ public class ModelConfig {
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-
-	    String query = "TRUNCATE games";
+	    
+	    String query = "TRUNCATE category";
+	    Log.Loguear(query);
+	    stmt.execute(query);
+	    
+	    query = "TRUNCATE config";
 	    Log.Loguear(query);
 	    stmt.execute(query);
 
-	    query = "TRUNCATE config";
+	    query = "TRUNCATE games";
 	    Log.Loguear(query);
 	    stmt.execute(query);
 
 	    query = "TRUNCATE games_sessions_history";
 	    Log.Loguear(query);
 	    stmt.execute(query);
+	    
+	    query = "TRUNCATE player_activities";
+	    Log.Loguear(query);
+	    stmt.execute(query);
 
 	    query = "INSERT INTO config (name) VALUES ('Usuario')";
+	    Log.Loguear(query);
+	    stmt.execute(query);
+	    
+	    query = "INSERT INTO category (name) VALUES ('Ninguna')";
 	    Log.Loguear(query);
 	    stmt.execute(query);
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 11, 2023 at 09:48 PM
+-- Generation Time: Nov 12, 2023 at 06:10 PM
 -- Server version: 5.5.43
 -- PHP Version: 5.4.41
 
@@ -56,7 +56,7 @@ CREATE TABLE `config` (
 CREATE TABLE `games` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `category` int(11) NOT NULL DEFAULT '0',
+  `category` varchar(50) NOT NULL DEFAULT '0',
   `score` tinyint(4) NOT NULL DEFAULT '0',
   `ghost` tinyint(1) NOT NULL DEFAULT '0',
   `mins_played` int(11) NOT NULL DEFAULT '0',
@@ -101,7 +101,8 @@ CREATE TABLE `player_activities` (
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- Indexes for table `config`

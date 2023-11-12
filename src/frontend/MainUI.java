@@ -33,7 +33,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static DefaultListModel<String> modelList = new DefaultListModel<String>();
     private static JTextField txtGameName = new JTextField(20);
     private static JTextField txtMinsPlayed = new JTextField(20);
-    private JTextField txtGhostGame = new JTextField(20);
+    private static JTextField txtCategory = new JTextField(20);
     private JTextField txtPathGame = new JTextField(20);
     private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private static JButton btnLaunchGame = new JButton("Lanzar");
@@ -116,7 +116,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	pnlBottom.add(txtMinsPlayed, gbc);
 	gbc.gridx = 0;
 	gbc.gridy ++;
-	pnlBottom.add(txtGhostGame, gbc);
+	pnlBottom.add(txtCategory, gbc);
 	gbc.gridx ++;
 	pnlBottom.add(txtPathGame, gbc);
 	gbc.gridx = 0;
@@ -182,9 +182,10 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setEditable(false);
 	txtSeparator.setEditable(false);
 	txtSeparator.setText("______________________________________________________________________________________________________");
+	txtCategory.setForeground(Color.BLACK);
 
 	txtPathGame.setEnabled(false);
-	txtGhostGame.setEnabled(false);
+	txtCategory.setEditable(false);
 
 	btnEditGame.setEnabled(false);
 
@@ -245,7 +246,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	PlayerActivities.tbPlayerActivities.removeAll();
 	PlayerActivities.tbPlayerActivities.setModel(mp.getActivities("Todos"));
 	GameList.tblGames.removeAll();
-	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos"));
+	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos", "Todos"));
 	txtGames.setText("");
 	txtGamesTime.setText("");
     }
@@ -261,6 +262,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	modelList.clear();
 	txtGameName.setText("");
 	txtMinsPlayed.setText("");
+	txtCategory.setText("");
 
 	ModelGames g = new ModelGames();
 	ArrayList<String> listGames = new ArrayList<String>();
@@ -354,6 +356,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		double treinta = mg.getLastDays(gameIdSelected,30);
 		
 		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " + decimalFormat.format(treinta/60));
+		txtCategory.setText(mg.getGameCategory(gameIdSelected));
 	    }
 	}
     }

@@ -20,6 +20,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion");
     private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos");
     private JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos");
+    private JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias");
     private JMenu mnuPlayer = new JMenu("Jugador");
     private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad");
     private JMenuItem mnuiPlayerHistory = new JMenuItem("Historial");
@@ -49,6 +50,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuGames.add(mnuiGamesAdd);
 	mnuGames.add(mnuiGamesAddSession);
 	mnuGames.add(mnuiGamesList);
+	mnuGames.add(mnuiGamesCategory);
 	mnuGames.addSeparator();
 	mnuGames.add(mnuiGamesRefresh);
 	mnuPlayer.add(mnuiPlayerHistory);
@@ -59,6 +61,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiGamesRefresh.addActionListener(this);
 	mnuiGamesAdd.addActionListener(this);
 	mnuiGamesAddSession.addActionListener(this);
+	mnuiGamesCategory.addActionListener(this);
 	mnuiGamesList.addActionListener(this);
 	mnuiHelpConfig.addActionListener(this);
 	mnuiPlayerActivities.addActionListener(this);
@@ -82,6 +85,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.repaint();
 	} else if(e.getSource() == mnuiGamesList) {
 	    j.add(new GameList());
+	    j.repaint();
+	} else if(e.getSource() == mnuiGamesCategory) {
+	    j.add(new Category());
 	    j.repaint();
 	} else if(e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());

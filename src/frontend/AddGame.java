@@ -127,13 +127,14 @@ public class AddGame extends JInternalFrame implements ActionListener {
 		if(cbCompleted.isSelected()) comp = 1;
 		else comp = 0;
 		String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
-		int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c, comp, g.getCategoryIdFromNameC(cbCategory.getSelectedItem().toString()), score);
+		int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c, comp, cbCategory.getSelectedItem().toString(), score);
 		if(a == 1) {
 		    JOptionPane.showMessageDialog(this, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
 		    txtGameName.setText("");
 		    txtHoursPlayed.setText("");
 		    txtPath.setText("");
 		    MainUI.UpdateGameList();
+		    this.dispose();
 		} else {
 		    JOptionPane.showMessageDialog(this, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
 		}

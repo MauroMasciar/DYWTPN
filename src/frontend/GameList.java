@@ -4,7 +4,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
@@ -17,9 +16,9 @@ public class GameList extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -4569846762834010208L;
     private JComboBox<String> cbGames = new JComboBox<String>();
     private JComboBox<String> cbCompleted = new JComboBox<String>();
+    private JComboBox<String> cbCategory = new JComboBox<String>();
     public static JTable tblGames = new JTable();
     private JScrollPane scrTable = new JScrollPane(tblGames);
-    private JButton btnShow = new JButton("Mostrar");
     public GameList() {
 	setTitle("Lista de juegos");
 	setBounds(50, 50, 800, 500);
@@ -41,7 +40,7 @@ public class GameList extends JInternalFrame implements ActionListener {
 	gbc.gridx ++;
 	add(cbCompleted, gbc);
 	gbc.gridx ++;
-	add(btnShow, gbc);
+	add(cbCategory, gbc);
 	gbc.gridx = 0;
 	gbc.gridy ++;
 	gbc.gridwidth = 3;
@@ -67,7 +66,7 @@ public class GameList extends JInternalFrame implements ActionListener {
 	
 	cbGames.addActionListener(this);
 	cbCompleted.addActionListener(this);
-	btnShow.addActionListener(this);
+	cbCategory.addActionListener(this);
 	
 	setVisible(true);
     }
@@ -75,12 +74,12 @@ public class GameList extends JInternalFrame implements ActionListener {
     public void refreshTable() {
 	ModelGames mg = new ModelGames();
 	if(cbCompleted.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") cbCompleted.setSelectedItem("Todos");
-	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString()));
+	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), "Todos"));
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnShow || e.getSource() == cbGames || e.getSource() == cbCompleted) {
+	if(e.getSource() == cbCategory || e.getSource() == cbGames || e.getSource() == cbCompleted) {
 	    refreshTable();
 	}
     }
