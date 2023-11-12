@@ -70,6 +70,7 @@ public class ModelGames {
 	m.addColumn("Veces ejecutado");
 	m.addColumn("Categoria");
 	m.addColumn("Completado");
+	m.addColumn("Puntuacion");
 	m.addColumn("Path");
 	int comp;
 	if(completed == "Todos") comp = 2;
@@ -81,15 +82,15 @@ public class ModelGames {
 	    stmt = conex.createStatement();
 
 	    if(name == "Todos" && comp == 2) {
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, path FROM games ORDER BY name");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games ORDER BY name");
 	    } else if(name == "Todos" && comp != 2) {
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, path FROM games WHERE completed = " + comp + "  ORDER BY name");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE completed = " + comp + "  ORDER BY name");
 	    } else if(name != "Todos") {
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, path FROM games WHERE name = '" + name + "' ORDER BY name");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE name = '" + name + "' ORDER BY name");
 	    }
 	    while(rs.next()) {
-		Object[] f = new Object[7];
-		for(int i = 0; i < 7; i++) {
+		Object[] f = new Object[8];
+		for(int i = 0; i < 8; i++) {
 		    f[i] = rs.getObject(i+1);
 		}
 		m.addRow(f);
