@@ -20,11 +20,13 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JLabel lblGameName = new JLabel("Juego:");
     private JLabel lblminsPlayed = new JLabel("Horas jugadas:");
     private JLabel lblTimes = new JLabel("Veces jugado");
+    private JLabel lblScore = new JLabel("Puntuacion");
     private JLabel lblPath = new JLabel("Ubicacion:");
     private JLabel lblGhostGame = new JLabel("Juego fantasma");
     private JLabel lblCompletedGame = new JLabel("Juego terminado");
     private JTextField txtGameName = new JTextField(20);
     private JTextField txtTimes = new JTextField(20);
+    private JTextField txtScore = new JTextField(20);
     private JTextField txtminsPlayed = new JTextField(20);
     private JTextField txtPath = new JTextField(20);
     private JCheckBox cbGhostGame = new JCheckBox();
@@ -48,6 +50,11 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	txtminsPlayed.setText(txtminsPlayedDecimal.format(mins_played/60));
 	txtPath.setText(g.getPathFromGame(gameId));
 	txtTimes.setText(String.valueOf(g.getTimes(gameId)));
+	txtScore.setText(String.valueOf(g.getScore(gameId)));
+	if(g.isGhost(gameId)) cbGhostGame.setSelected(true);
+	else cbGhostGame.setSelected(false);
+	if(g.isCompleted(gameId)) cbCompletedGame.setSelected(true);
+	else cbCompletedGame.setSelected(false);
 
 	gbc.gridheight = 1;
 	gbc.gridwidth = 1;
@@ -73,6 +80,11 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	add(txtTimes, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
+	add(lblScore, gbc);
+	gbc.gridx ++;
+	add(txtScore, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
 	add(lblPath, gbc);
 	gbc.gridx = 1;
 	add(txtPath, gbc);
@@ -93,12 +105,6 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridx++;
 	add(btnEdit, gbc);
 
-	if(g.isGhost(gameId)) cbGhostGame.setSelected(true);
-	else cbGhostGame.setSelected(false);
-
-	if(g.isCompleted(gameId)) cbCompletedGame.setSelected(true);
-	else cbCompletedGame.setSelected(false);
-
 	btnEdit.addActionListener(this);
 	btnDel.addActionListener(this);
 
@@ -115,14 +121,23 @@ public class EditGame extends JInternalFrame implements ActionListener {
 
 	    if(cbCompletedGame.isSelected()) completed = "1";
 	    else completed = "0";
+	    int score;
+	    try {
+		score = Integer.parseInt(txtScore.getText());
+		if(score > 10) score = 10;
+		if(score < 0) score = 0;
+	    } catch (NumberFormatException ex) {
+		score = 0;
+	    }
+	    
 
 	    minsPlayed = txtminsPlayed.getText().replaceAll(",", ".");
-	    if(txtTimes.getText().isEmpty()) txtTimes.setText("0");
-	    if(txtGameName.getText().isEmpty()) {
+	    if(txtTimes.getText().isEmpty() || txtTimes.getText().isBlank()) txtTimes.setText("0");
+	    if(txtGameName.getText().isEmpty() || txtGameName.getText().isBlank()) {
 		JOptionPane.showMessageDialog(this,  "El juego debe tener un nombre", "Error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
-	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed) == 1) {
+	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score) == 1) {
 		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 		this.dispose();
 	    } else {

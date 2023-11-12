@@ -309,6 +309,20 @@ public class ModelGames {
 	}	
 	return categoryId;
     }
+    
+    public int getScore(int gameId) {
+	int score = 0;
+	String query = "SELECT score FROM games WHERE id = " + gameId;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) score = rs.getInt("score");
+	} catch (SQLException ex) {
+	    ex.printStackTrace();
+	}
+	return score;
+    }
 
     public boolean isGhost(int gameId) {
 	String query = "SELECT ghost FROM games WHERE id = " + gameId;
@@ -458,9 +472,9 @@ public class ModelGames {
 	return 0;
     }
 
-    public int editGame(int gameId, String name, String minsPlayed, String path, String ghost, String times, String completed) {
+    public int editGame(int gameId, String name, String minsPlayed, String path, String ghost, String times, String completed, int score) {
 	try {
-	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ?, completed = ? WHERE id = ?";
+	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ?, completed = ?, score = ? WHERE id = ?";
 	    double hoursPlayed = Double.parseDouble(minsPlayed) * 60;
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -470,7 +484,8 @@ public class ModelGames {
 	    p.setString(4, ghost);
 	    p.setString(5, times);
 	    p.setString(6, completed);
-	    p.setInt(7, gameId);
+	    p.setInt(7, score);
+	    p.setInt(8, gameId);
 	    int res = p.executeUpdate();
 	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";
 	    p = conex.prepareStatement(query);

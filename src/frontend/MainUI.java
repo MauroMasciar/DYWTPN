@@ -246,6 +246,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	PlayerActivities.tbPlayerActivities.setModel(mp.getActivities("Todos"));
 	GameList.tblGames.removeAll();
 	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos"));
+	txtGames.setText("");
+	txtGamesTime.setText("");
     }
 
     public static void LoadLastSession() {
@@ -273,6 +275,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	String s = "Juegos cargados: " + (listGames.size() - 1);
 	if(listGames.size() == -1) UpdateGameList();
 	Log.Loguear(s);
+	System.out.println("listsize: " + listGames.size());
     }
 
     @Override
@@ -348,7 +351,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		double uno = mg.getLastDays(gameIdSelected,1);
 		double siete = mg.getLastDays(gameIdSelected,7);
 		double catorce = mg.getLastDays(gameIdSelected,14);
-		double treinta = mg.getLastDays(gameIdSelected,30);	
+		double treinta = mg.getLastDays(gameIdSelected,30);
 		
 		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " + decimalFormat.format(treinta/60));
 	    }
