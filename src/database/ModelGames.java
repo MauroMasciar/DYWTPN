@@ -387,7 +387,25 @@ public class ModelGames {
 	if(completed == 1) return true;
 	else return false;
     }
-
+    
+    public boolean IsHidden(int gameId) {
+	String query = "SELECT hidden FROM games WHERE id = " + gameId;
+	int hidden = 0;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) hidden = rs.getInt("hidden");
+	    conex.close();
+	    stmt.close();
+	    rs.close();	 
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	if(hidden == 1) return true;
+	else return false;
+    }
+    
     public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed)  {
 	if(gameTimePlayed >= 1) {
 	    String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + "," +  gameTimePlayed + ",'" + gameName + "')";
@@ -553,9 +571,9 @@ public class ModelGames {
 	return category;
     }
     
-    public int editGame(int gameId, String name, String minsPlayed, String path, String ghost, String times, String completed, int score, String category) {
+    public int editGame(int gameId, String name, String minsPlayed, String path, String ghost, String times, String completed, int score, String category, int hidden) {
 	try {
-	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ?, completed = ?, score = ?, category = ? WHERE id = ?";
+	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ?, completed = ?, score = ?, category = ?, hidden = ? WHERE id = ?";
 	    double hoursPlayed = Double.parseDouble(minsPlayed) * 60;
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -567,7 +585,8 @@ public class ModelGames {
 	    p.setString(6, completed);
 	    p.setInt(7, score);
 	    p.setString(8, category);
-	    p.setInt(9, gameId);
+	    p.setInt(9, hidden);
+	    p.setInt(10, gameId);
 	    int res = p.executeUpdate();
 	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";
 	    p = conex.prepareStatement(query);

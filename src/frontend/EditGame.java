@@ -25,6 +25,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JLabel lblScore = new JLabel("Puntuacion");
     private JLabel lblPath = new JLabel("Ubicacion:");
     private JLabel lblCategory = new JLabel("Categoria:");
+    private JLabel lblHidden = new JLabel("Juego oculto:");
     private JLabel lblGhostGame = new JLabel("Juego fantasma");
     private JLabel lblCompletedGame = new JLabel("Juego terminado");
     private JTextField txtGameName = new JTextField(20);
@@ -33,6 +34,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JTextField txtminsPlayed = new JTextField(20);
     private JTextField txtPath = new JTextField(20);
     private JComboBox<String> cbCategory = new JComboBox<String>();
+    private JCheckBox cbHiddenGame = new JCheckBox();
     private JCheckBox cbGhostGame = new JCheckBox();
     private JCheckBox cbCompletedGame = new JCheckBox();
     private JButton btnEdit = new JButton("Guardar cambios");
@@ -40,9 +42,9 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private int gameId;
 
     public EditGame(int gameId) {
-	ModelGames g = new ModelGames();
-	txtGameName.setText(g.getNameFromId(gameId));
-	setBounds(50, 50, 450, 240);
+	ModelGames mg = new ModelGames();
+	txtGameName.setText(mg.getNameFromId(gameId));
+	setBounds(50, 50, 450, 270);
 	String title = "Editar juego - " + txtGameName.getText();
 	setTitle(title);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -50,16 +52,17 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
 	this.gameId = gameId;
-	double mins_played = g.getMinsPlayed(gameId);
+	double mins_played = mg.getMinsPlayed(gameId);
 	txtminsPlayed.setText(txtminsPlayedDecimal.format(mins_played/60));
-	txtPath.setText(g.getPathFromGame(gameId));
-	txtTimes.setText(String.valueOf(g.getTimes(gameId)));
-	txtScore.setText(String.valueOf(g.getScore(gameId)));
-	if(g.isGhost(gameId)) cbGhostGame.setSelected(true);
-	else cbGhostGame.setSelected(false);
-	if(g.isCompleted(gameId)) cbCompletedGame.setSelected(true);
-	else cbCompletedGame.setSelected(false);
-	ArrayList<String> category = g.getCategoryList();
+	txtPath.setText(mg.getPathFromGame(gameId));
+	txtTimes.setText(String.valueOf(mg.getTimes(gameId)));
+	txtScore.setText(String.valueOf(mg.getScore(gameId)));
+	
+	cbGhostGame.setSelected(mg.isGhost(gameId));
+	cbCompletedGame.setSelected(mg.isCompleted(gameId));
+	cbHiddenGame.setSelected(mg.IsHidden(gameId));
+	
+	ArrayList<String> category = mg.getCategoryList();
 	for(int i = 0; i<category.size(); i++) cbCategory.addItem(category.get(i));
 	
 	gbc.gridheight = 1;
@@ -100,6 +103,11 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridx ++;
 	add(cbCategory, gbc);
 	gbc.gridx = 0;
+	gbc.gridy ++;
+	add(lblHidden, gbc);
+	gbc.gridx ++;
+	add(cbHiddenGame, gbc);
+	gbc.gridx = 0;
 	gbc.gridy++;
 	add(lblGhostGame, gbc);
 	gbc.gridx++;
@@ -138,12 +146,16 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	if(e.getSource() == btnEdit) {
 	    ModelGames g = new ModelGames();
 	    String ghostGame, minsPlayed, completed;
+	    int score, hidden;
 	    if(cbGhostGame.isSelected()) ghostGame = "1";
 	    else ghostGame = "0";
 
 	    if(cbCompletedGame.isSelected()) completed = "1";
 	    else completed = "0";
-	    int score;
+	    
+	    if(cbHiddenGame.isSelected()) hidden = 1;
+	    else hidden = 0;
+
 	    try {
 		score = Integer.parseInt(txtScore.getText());
 		if(score > 10) score = 10;
@@ -158,7 +170,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 		JOptionPane.showMessageDialog(this,  "El juego debe tener un nombre", "Error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
-	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score, cbCategory.getSelectedItem().toString()) == 1) {
+	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score, cbCategory.getSelectedItem().toString(), hidden) == 1) {
 		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 		this.dispose();
 	    } else {
