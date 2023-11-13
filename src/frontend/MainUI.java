@@ -53,7 +53,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     public MainUI() {	
 	setTitle("DYWTPN");
-	setBounds(300, 300, 800, 280);
+	setBounds(300, 330, 800, 280);
 	setClosable(false);
 	setResizable(false);
 	setIconifiable(false);
@@ -355,7 +355,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		double treinta = mg.getLastDays(gameIdSelected,30);
 		
 		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " + decimalFormat.format(treinta/60));
-		txtCategory.setText(mg.getGameCategory(gameIdSelected));
+		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 	    }
 	}
     }

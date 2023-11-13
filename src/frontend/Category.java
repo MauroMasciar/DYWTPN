@@ -79,7 +79,7 @@ public class Category extends JInternalFrame implements ActionListener {
 	    }
 	} else if(e.getSource() == btnEdit) {
 	    String cat = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre de la categoria", cbCategory.getSelectedItem().toString());
-	    if(cat.length() == 0) return;
+	    if(cat == null) return;
 	    if(cat != "") {
 		ModelGames mg = new ModelGames();
 		int rp = mg.editCategory(cbCategory.getSelectedItem().toString(), cat);

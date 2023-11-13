@@ -48,7 +48,7 @@ public class ModelConfig {
 	    Log.Loguear(query);
 	    stmt.execute(query);
 	    
-	    query = "INSERT INTO category (name) VALUES ('Ninguna')";
+	    query = "INSERT INTO category (name_category) VALUES ('Ninguna')";
 	    Log.Loguear(query);
 	    stmt.execute(query);
 
@@ -77,7 +77,6 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
-
 	return name;
     }
        
@@ -149,15 +148,12 @@ public class ModelConfig {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    stmt.execute(query);
-	    System.out.println(query);
 	    stmt.close();
 	    conex.close();
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
     }
-    
-    
     
     public void saveUserName(String newName) {
 	String query = "UPDATE config SET name = '" + newName + "';";

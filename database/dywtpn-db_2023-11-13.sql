@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 13, 2023 at 06:01 PM
+-- Generation Time: Nov 13, 2023 at 10:01 PM
 -- Server version: 5.5.43
 -- PHP Version: 5.4.41
 
@@ -30,7 +30,7 @@ USE `dywtpn`;
 
 CREATE TABLE `category` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
+  `name_category` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -57,7 +57,7 @@ CREATE TABLE `config` (
 CREATE TABLE `games` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `category` varchar(50) NOT NULL DEFAULT '0',
+  `category` int(255) NOT NULL DEFAULT '1',
   `score` tinyint(4) NOT NULL DEFAULT '0',
   `ghost` tinyint(1) NOT NULL DEFAULT '0',
   `mins_played` int(11) NOT NULL DEFAULT '0',

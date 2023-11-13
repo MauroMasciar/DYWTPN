@@ -24,25 +24,7 @@ public class ModelGames {
     private static ResultSet rs;
     private ArrayList<String> gameName = new ArrayList<String>();
 
-    public ModelGames() {
-	/*try {
-	    conex = DriverManager.getConnection(url, username, password);
-	    gameName.add("null");
-	    String query = "SELECT name FROM games";
-	    stmt = conex.createStatement();
-	    rs = stmt.executeQuery(query);
-	    while (rs.next()) {
-		gameName.add(rs.getString("name"));
-	    }
-	    conex.close();
-	    stmt.close();
-	    rs.close();
-	} catch (Exception ex) {
-	    ex.getMessage();
-	}*/
-    }
-
-    public ModelGames(int gameId) {
+    public void newSession(int gameId) {
 	String query = "SELECT times FROM games WHERE id = " + gameId;
 	int times;
 	try {
@@ -62,7 +44,7 @@ public class ModelGames {
 	}
     }
 
-    public DefaultTableModel getFilteredGameList(String name, String completed, String category) {
+    public DefaultTableModel getFilteredGameList(String name, String completed, String category) { // TODO: No filtra por categorias con la nueva version de la bd
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Juego");
 	m.addColumn("Fantasma");
@@ -75,27 +57,26 @@ public class ModelGames {
 	int comp = 0;
 	if(completed == "Todos") comp = 2;
 	else if(completed == "Completados") comp = 1;
+	String query = "";
 
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-
+	    
 	    if(name == "Todos" && comp == 2 && category == "Todos") {
-		System.out.println("1");
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games ORDER BY name");
+		query = "SELECT name, ghost, ROUND((mins_played / 60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category ORDER BY name";
 	    } else if(name == "Todos" && comp != 2 && category == "Todos") {
-		System.out.println("2");
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE completed = " + comp + "  ORDER BY name");
+		query = "SELECT name, ghost, ROUND((mins_played / 60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = " + comp + " ORDER BY name";
 	    } else if(name != "Todos") {
-		System.out.println("3");
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE name = '" + name + "' ORDER BY name");
+		query = "SELECT name, ghost, ROUND((mins_played / 60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '" + name + "'";
 	    } else if(category != "Todos" && comp == 2) {
-		System.out.println("4");
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE category = '" + category + "' ORDER BY name");
+		query = "SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE category = " + category + " ORDER BY name";
 	    } else if(category != "Todos" && comp != 2) {
-		System.out.println("5");
-		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE category = '" + category + "' AND completed = " + comp + " ORDER BY name");
+		query = "SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE category = " + category + " AND completed = " + comp + " ORDER BY name";
 	    }
+	    
+	    System.out.println(query);
+	    rs = stmt.executeQuery(query);
 	    
 	    while(rs.next()) {
 		Object[] f = new Object[8];
@@ -225,8 +206,8 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(url, username, password);
 	    gameName.add("null");
 	    String query;
-	    if(hidden) query = "SELECT name FROM games";
-	    else query = "SELECT name FROM games WHERE hidden = 0";
+	    if(hidden) query = "SELECT name FROM games ORDER BY name";
+	    else query = "SELECT name FROM games WHERE hidden = 0 ORDER BY name";
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    while (rs.next()) {
@@ -309,13 +290,13 @@ public class ModelGames {
     
     public ArrayList<String> getCategoryList() {
 	ArrayList<String> category = new ArrayList<String>();
-	String query = "SELECT * FROM category";
+	String query = "SELECT * FROM category ORDER BY id";
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    while(rs.next()) {
-		category.add(rs.getString("name"));
+		category.add(rs.getString("name_category"));
 	    }
 	    conex.close();
 	    stmt.close();
@@ -502,7 +483,7 @@ public class ModelGames {
 	return resultado;	
     }
 
-    public int addGame(String name, String MinsPlayed, String path, int ghost, int completed, String category, int score) {
+    public int addGame(String name, String MinsPlayed, String path, int ghost, int completed, int category, int score) {
 	try {
 	    String query = "INSERT INTO games (name, mins_played, path, ghost, completed, category, score) VALUES (?,?,?,?,?,?,?)";
 	    conex = DriverManager.getConnection(url, username, password);
@@ -513,7 +494,7 @@ public class ModelGames {
 	    p.setString(3, path);
 	    p.setInt(4, ghost);
 	    p.setInt(5, completed);
-	    p.setString(6, category);
+	    p.setInt(6, category);
 	    p.setInt(7, score);
 	    int resultado = p.executeUpdate();
 	    conex.close();
@@ -545,16 +526,13 @@ public class ModelGames {
     public int editCategory(String oldName, String newName) {
 	int resultado = 0;
 	try {
-	    String query = "UPDATE category SET name = ? WHERE name = ?";
+	    String query = "UPDATE category SET name_category = ? WHERE name_category = ?";
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, newName);
 	    p.setString(2, oldName);
 	    resultado = p.executeUpdate();
-	    query = "UPDATE games SET category = ? WHERE category = ?";
-	    p.setString(1, newName);
-	    p.setString(2, oldName);
-	    p.executeUpdate();
+	    
 	    conex.close();
 	    p.close();
 	} catch (SQLException ex) {
@@ -563,14 +541,14 @@ public class ModelGames {
 	return resultado;
     }
     
-    public String getGameCategory(int gameId) {
+    public int getGameCategoryId(int gameId) {
 	String query = "SELECT category FROM games WHERE id = " + gameId;
-	String category = "";	
+	int category = 0;	
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next()) category = rs.getString("category");
+	    if(rs.next()) category = rs.getInt("category");
 	    conex.close();
 	    stmt.close();
 	    rs.close();	 
@@ -580,7 +558,41 @@ public class ModelGames {
 	return category;
     }
     
-    public int editGame(int gameId, String name, String minsPlayed, String path, String ghost, String times, String completed, int score, String category, int hidden) {
+    public String getGameCategoryName(int gameId) {
+	String query = "SELECT category.name_category FROM `games` inner join category on category.id = games.category where games.id = " + gameId;
+	String category = "Ninguna";
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) category = rs.getString("name_category");
+	    conex.close();
+	    stmt.close();
+	    rs.close();	 
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return category;
+    }
+    
+    public int getCategoryIdFromName(String name) {
+	String query = "SELECT id FROM category WHERE name_category = '" + name + "'";
+	int id = 0;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) id = rs.getInt("id");
+	    conex.close();
+	    stmt.close();
+	    rs.close();	 
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return id;
+    }
+    
+    public int editGame(int gameId, String name, String minsPlayed, String path, String ghost, String times, String completed, int score, int category, int hidden) {
 	try {
 	    String query = "UPDATE games SET name = ?, mins_played = ?, path = ?, ghost = ?, times = ?, completed = ?, score = ?, category = ?, hidden = ? WHERE id = ?";
 	    double hoursPlayed = Double.parseDouble(minsPlayed) * 60;
@@ -593,7 +605,7 @@ public class ModelGames {
 	    p.setString(5, times);
 	    p.setString(6, completed);
 	    p.setInt(7, score);
-	    p.setString(8, category);
+	    p.setInt(8, category);
 	    p.setInt(9, hidden);
 	    p.setInt(10, gameId);
 	    int res = p.executeUpdate();

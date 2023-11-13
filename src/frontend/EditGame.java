@@ -44,7 +44,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     public EditGame(int gameId) {
 	ModelGames mg = new ModelGames();
 	txtGameName.setText(mg.getNameFromId(gameId));
-	setBounds(50, 50, 450, 270);
+	setBounds(50, 40, 450, 270);
 	String title = "Editar juego - " + txtGameName.getText();
 	setTitle(title);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -138,7 +138,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	cbCategory.removeAllItems();
 	for(int i = 0; i<category.size(); i++) cbCategory.addItem(category.get(i));
 	
-	cbCategory.setSelectedItem(mg.getGameCategory(gameId));
+	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId));
     }
 
     @Override
@@ -170,7 +170,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
 		JOptionPane.showMessageDialog(this,  "El juego debe tener un nombre", "Error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
-	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score, cbCategory.getSelectedItem().toString(), hidden) == 1) {
+	    
+	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score, g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), hidden) == 1) {
 		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 		this.dispose();
 	    } else {

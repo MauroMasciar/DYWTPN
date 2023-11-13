@@ -24,8 +24,6 @@ public class InGame {
 	    second = 0;
 	    
 	    LaunchGame(IdLaunched);
-	    @SuppressWarnings("unused")
-	    ModelGames mg = new ModelGames(IdLaunched);
 	}
     }
 
@@ -106,8 +104,9 @@ public class InGame {
 	if(gameIdLaunched != 0) {
 	    String sGameName = " Ultimo juego: " + gameName;
 	    String sGameTimePlayed = " Jugaste durante: " + hour + ":" + sMinute + ":" + sSecond;
-	    ModelGames g = new ModelGames();
-	    g.closeGame(gameIdLaunched, gameTimePlayed, gameName, sGameTimePlayed);
+	    ModelGames mg = new ModelGames();
+	    mg.closeGame(gameIdLaunched, gameTimePlayed, gameName, sGameTimePlayed);
+	    mg.newSession(gameIdLaunched);
 	    gameIdLaunched = 0;
 	    MainUI.txtGamePlaying.setText(sGameName);
 	    MainUI.txtGames.setText("");
