@@ -25,7 +25,7 @@ public class ModelGames {
     private ArrayList<String> gameName = new ArrayList<String>();
 
     public ModelGames() {
-	try {
+	/*try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    gameName.add("null");
 	    String query = "SELECT name FROM games";
@@ -39,7 +39,7 @@ public class ModelGames {
 	    rs.close();
 	} catch (Exception ex) {
 	    ex.getMessage();
-	}
+	}*/
     }
 
     public ModelGames(int gameId) {
@@ -211,7 +211,24 @@ public class ModelGames {
 	return mins;
     }
 
-    public ArrayList<String> getGamesNameList() {
+    public ArrayList<String> getGamesNameList(boolean hidden) {
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    gameName.add("null");
+	    String query;
+	    if(hidden) query = "SELECT name FROM games";
+	    else query = "SELECT name FROM games WHERE hidden = 0";
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    while (rs.next()) {
+		gameName.add(rs.getString("name"));
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    ex.getMessage();
+	}	
 	return gameName;
     }
 

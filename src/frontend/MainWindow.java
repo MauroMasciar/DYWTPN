@@ -9,7 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
+
+import database.ModelConfig;
 
 public class MainWindow extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = -82854956961477559L;
@@ -20,6 +23,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion");
     private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos");
     private JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos");
+    private JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
     private JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias");
     private JMenu mnuPlayer = new JMenu("Jugador");
     private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad");
@@ -37,6 +41,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    "No se ha podido cargar algunos recursos.",
 		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
+	
+	ModelConfig mc = new ModelConfig();
+	mnuiGamesHidden.setSelected(mc.getIsHidden());
 
 	j.setLayout(null);
 	j.setTitle("DYWTPN");
@@ -50,6 +57,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuGames.add(mnuiGamesAdd);
 	mnuGames.add(mnuiGamesAddSession);
 	mnuGames.add(mnuiGamesList);
+	mnuGames.add(mnuiGamesHidden);
 	mnuGames.add(mnuiGamesCategory);
 	mnuGames.addSeparator();
 	mnuGames.add(mnuiGamesRefresh);
@@ -63,6 +71,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiGamesAddSession.addActionListener(this);
 	mnuiGamesCategory.addActionListener(this);
 	mnuiGamesList.addActionListener(this);
+	mnuiGamesHidden.addActionListener(this);
 	mnuiHelpConfig.addActionListener(this);
 	mnuiPlayerActivities.addActionListener(this);
 	mnuiPlayerHistory.addActionListener(this);
@@ -72,7 +81,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	j.setJMenuBar(menubar);
 	j.addWindowListener(this);
-
+	
 	j.setVisible(true);
     }
 
@@ -86,6 +95,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	} else if(e.getSource() == mnuiGamesList) {
 	    j.add(new GameList());
 	    j.repaint();
+	} else if(e.getSource() == mnuiGamesHidden) {
+	    ModelConfig mc = new ModelConfig();
+	    if(mnuiGamesHidden.isSelected()) {
+		mc.setIsHidden(1);
+	    } else {
+		mc.setIsHidden(0);
+	    }
+	    MainUI.LoadData();
+	    MainUI.UpdateGameList();
 	} else if(e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
 	    j.repaint();

@@ -61,7 +61,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	btnAdd.addActionListener(this);
 	
 	ArrayList<String> gameList = new ArrayList<String>();
-	gameList = mg.getGamesNameList();
+	gameList = mg.getGamesNameList(false);
 	for(int i=1; i<gameList.size(); i++) {
 	    cbGame.addItem(gameList.get(i));
 	}

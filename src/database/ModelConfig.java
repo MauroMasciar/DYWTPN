@@ -123,12 +123,50 @@ public class ModelConfig {
 	return last_session_time;
     }
     
+    public boolean getIsHidden() {
+	String query = "SELECT show_hidden FROM config";
+	int sH = 0;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		sH = rs.getInt("show_hidden");
+	    }
+	    stmt.close();
+	    conex.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+	if(sH == 1) return true;
+	else return false;
+    }
+    
+    public void setIsHidden(int args) {
+	String query = "UPDATE config SET show_hidden = " + args;
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    stmt = conex.createStatement();
+	    stmt.execute(query);
+	    System.out.println(query);
+	    stmt.close();
+	    conex.close();
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+    }
+    
+    
+    
     public void saveUserName(String newName) {
 	String query = "UPDATE config SET name = '" + newName + "';";
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 	    stmt.execute(query);
+	    stmt.close();
+	    conex.close();
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}

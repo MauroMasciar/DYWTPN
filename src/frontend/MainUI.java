@@ -47,9 +47,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static JTextArea txtGamesTime = new JTextArea();
     public JTextArea txtSeparator = new JTextArea();
     
-
     public int gameIdSelected = 0;
     public int gameIdLaunched = 0;
+    private static boolean showHidden = false;
 
     public MainUI() {	
 	setTitle("DYWTPN");
@@ -208,8 +208,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    public void run() {
 		try {
 		    Thread.sleep(1000);
-		    UpdateGameList();
-		    Thread.sleep(300);
 		    LoadData();
 		    txtStatistics.setForeground(Color.BLACK);
 		    txtLastAchie.setForeground(Color.BLACK);
@@ -233,6 +231,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelGames mg = new ModelGames();
 	double totalHours = mg.getMinutesTotalPlayed();
 	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Total de horas: " + decimalFormat.format(totalHours/60));
+	showHidden = mc.getIsHidden();
 
 	double uno = mg.getLastDays(0,1);
 	double siete = mg.getLastDays(0,7);
@@ -266,7 +265,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	ModelGames g = new ModelGames();
 	ArrayList<String> listGames = new ArrayList<String>();
-	listGames = g.getGamesNameList();
+	listGames = g.getGamesNameList(showHidden);
 	try {
 	    for (int i = 1; i < listGames.size(); i++) {
 		modelList.addElement(listGames.get(i));

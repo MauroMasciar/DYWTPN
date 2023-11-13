@@ -52,7 +52,7 @@ public class GameList extends JInternalFrame implements ActionListener {
 	
 	ArrayList<String> listGames = new ArrayList<String>();
 	ModelGames mg = new ModelGames();
-	listGames = mg.getGamesNameList();
+	listGames = mg.getGamesNameList(true);
 	try {
 	    cbGames.addItem("Todos");
 	    for (int i = 1; i < listGames.size(); i++) {
