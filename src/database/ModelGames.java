@@ -72,22 +72,31 @@ public class ModelGames {
 	m.addColumn("Completado");
 	m.addColumn("Puntuacion");
 	m.addColumn("Path");
-	int comp;
+	int comp = 0;
 	if(completed == "Todos") comp = 2;
 	else if(completed == "Completados") comp = 1;
-	else comp = 0;
 
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
 
-	    if(name == "Todos" && comp == 2) {
+	    if(name == "Todos" && comp == 2 && category == "Todos") {
+		System.out.println("1");
 		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games ORDER BY name");
-	    } else if(name == "Todos" && comp != 2) {
+	    } else if(name == "Todos" && comp != 2 && category == "Todos") {
+		System.out.println("2");
 		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE completed = " + comp + "  ORDER BY name");
 	    } else if(name != "Todos") {
+		System.out.println("3");
 		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE name = '" + name + "' ORDER BY name");
+	    } else if(category != "Todos" && comp == 2) {
+		System.out.println("4");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE category = '" + category + "' ORDER BY name");
+	    } else if(category != "Todos" && comp != 2) {
+		System.out.println("5");
+		rs = stmt.executeQuery("SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE category = '" + category + "' AND completed = " + comp + " ORDER BY name");
 	    }
+	    
 	    while(rs.next()) {
 		Object[] f = new Object[8];
 		for(int i = 0; i < 8; i++) {

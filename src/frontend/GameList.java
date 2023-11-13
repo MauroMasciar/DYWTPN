@@ -50,17 +50,28 @@ public class GameList extends JInternalFrame implements ActionListener {
 	cbCompleted.addItem("Completados");
 	cbCompleted.addItem("No completados");
 	
-	ArrayList<String> listGames = new ArrayList<String>();
+	ArrayList<String> list = new ArrayList<String>();
 	ModelGames mg = new ModelGames();
-	listGames = mg.getGamesNameList(true);
+	list = mg.getGamesNameList(true);
 	try {
 	    cbGames.addItem("Todos");
-	    for (int i = 1; i < listGames.size(); i++) {
-		cbGames.addItem(listGames.get(i));
+	    for (int i = 1; i < list.size(); i++) {
+		cbGames.addItem(list.get(i));
 	    }
 	} catch (ArrayIndexOutOfBoundsException ex) {
 	    ex.printStackTrace();
 	}
+	
+	list.clear();
+	list = mg.getCategoryList();
+	try {
+	    cbCategory.addItem("Todos");
+	    for (int i = 1; i < list.size(); i++) {
+		cbCategory.addItem(list.get(i));
+	    }
+	} catch (ArrayIndexOutOfBoundsException ex) {
+	    ex.printStackTrace();
+	}	
 	
 	refreshTable();
 	
@@ -74,7 +85,7 @@ public class GameList extends JInternalFrame implements ActionListener {
     public void refreshTable() {
 	ModelGames mg = new ModelGames();
 	if(cbCompleted.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") cbCompleted.setSelectedItem("Todos");
-	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), "Todos"));
+	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString()));
     }
     
     @Override
