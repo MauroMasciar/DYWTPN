@@ -19,7 +19,7 @@ public class Main {
 
 	if(!test) {
 	    ProcessBuilder pb;
-	    pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\core\\mysql\\bin\\mysqld_z.exe");
+	    pb = new ProcessBuilder("core\\mysql\\bin\\mysqld_z.exe");
 	    try {
 		p = pb.start();
 	    } catch (IOException e) {

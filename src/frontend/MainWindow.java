@@ -25,6 +25,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos");
     private JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
     private JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias");
+    private JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones");
     private JMenu mnuPlayer = new JMenu("Jugador");
     private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad");
     private JMenuItem mnuiPlayerHistory = new JMenuItem("Historial");
@@ -46,7 +47,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiGamesHidden.setSelected(mc.getIsHidden());
 
 	j.setLayout(null);
-	j.setTitle("DYWTPN");
+	j.setTitle("DYWTPN v1.1.18");
 	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	//j.setExtendedState(MAXIMIZED_BOTH);
@@ -59,6 +60,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuGames.add(mnuiGamesList);
 	mnuGames.add(mnuiGamesHidden);
 	mnuGames.add(mnuiGamesCategory);
+	mnuGames.add(mnuiGamesCollections);
 	mnuGames.addSeparator();
 	mnuGames.add(mnuiGamesRefresh);
 	mnuPlayer.add(mnuiPlayerHistory);
@@ -69,6 +71,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiGamesRefresh.addActionListener(this);
 	mnuiGamesAdd.addActionListener(this);
 	mnuiGamesAddSession.addActionListener(this);
+	mnuiGamesCollections.addActionListener(this);
 	mnuiGamesCategory.addActionListener(this);
 	mnuiGamesList.addActionListener(this);
 	mnuiGamesHidden.addActionListener(this);
@@ -106,6 +109,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    MainUI.UpdateGameList();
 	} else if(e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
+	    j.repaint();
+	} else if(e.getSource() == mnuiGamesCollections) {
+	    j.add(new Collections());
 	    j.repaint();
 	} else if(e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());

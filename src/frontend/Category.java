@@ -52,7 +52,6 @@ public class Category extends JInternalFrame implements ActionListener {
 	updateData();
 
 	setVisible(true);
-
     }
     
     public void updateData() {
@@ -65,16 +64,16 @@ public class Category extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnAdd) {
-	    String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre de la categoria", "Ingrese datos");
+	    String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre de la categoria");
 	    if(cat.length() == 0) return;
 	    if(cat != "") {
 		ModelGames mg = new ModelGames();
 		int rp = mg.addCategory(cat);
 		if(rp == 1) {
-		    JOptionPane.showMessageDialog(this, "La categoria ha sido insertada");
+		    JOptionPane.showMessageDialog(this, "La categoria ha sido guardada");
 		    updateData();
 		} else {
-		    JOptionPane.showMessageDialog(this, "Ha habido un error al insertar los datos", "Error", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(this, "Ha habido un error al guardar los datos", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	    }
 	} else if(e.getSource() == btnEdit) {

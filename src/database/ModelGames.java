@@ -74,8 +74,6 @@ public class ModelGames {
 	    } else if(category != "Todos" && comp != 2) {
 		query = "SELECT name, ghost, ROUND((mins_played / 60),2), times, category, completed, score, path FROM games WHERE category = " + category + " AND completed = " + comp + " ORDER BY name";
 	    }
-	    
-	    System.out.println(query);
 	    rs = stmt.executeQuery(query);
 	    
 	    while(rs.next()) {
@@ -116,8 +114,6 @@ public class ModelGames {
 
     public int getMinsPlayed(int gameId) {
 	String query = "SELECT mins_played FROM games WHERE id = " + gameId;
-	//String s = "getMinsPlayed(int " + gameId + ")";
-	//Log.Loguear(s);
 	int minutesplayed = 0;
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
@@ -225,7 +221,6 @@ public class ModelGames {
     public int getIdFromGameName(String name) {
 	if(name != "") {
 	    String query = "SELECT id FROM games WHERE name = '" + name + "'";
-	    //Log.Loguear(query);
 	    int id = 0;
 	    try {
 		conex = DriverManager.getConnection(url, username, password);
@@ -307,23 +302,6 @@ public class ModelGames {
 	return category;
     }
     
-    /*public int getCategoryIdFromNameC(String name) {
-	int categoryId = 0;
-	String query = "SELECT * FROM category WHERE name = '" + name + "'";
-	try {
-	    conex = DriverManager.getConnection(url, username, password);
-	    stmt = conex.createStatement();
-	    rs = stmt.executeQuery(query);
-	    if(rs.next()) categoryId = rs.getInt("id");
-	    conex.close();
-	    stmt.close();
-	    rs.close();
-	} catch (SQLException ex) {
-	    ex.printStackTrace();
-	}	
-	return categoryId;
-    }*/
-    
     public int getScore(int gameId) {
 	int score = 0;
 	String query = "SELECT score FROM games WHERE id = " + gameId;
@@ -344,7 +322,6 @@ public class ModelGames {
     public boolean isGhost(int gameId) {
 	String query = "SELECT ghost FROM games WHERE id = " + gameId;
 	int ghost = 1;
-	//Log.Loguear(query);
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
@@ -399,7 +376,6 @@ public class ModelGames {
     public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed)  {
 	if(gameTimePlayed >= 1) {
 	    String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + "," +  gameTimePlayed + ",'" + gameName + "')";
-	    //Log.Loguear(query);
 	    try {
 		conex = DriverManager.getConnection(url, username, password);
 		stmt = conex.createStatement();
@@ -418,7 +394,6 @@ public class ModelGames {
     public void saveGameTime(int gameId) {
 	if(gameId != 0) {
 	    String query = "SELECT mins_played FROM games WHERE id = '" + gameId + "'";
-	    //Log.Loguear(query);
 	    try {
 		conex = DriverManager.getConnection(url, username, password);
 		stmt = conex.createStatement();
@@ -510,7 +485,7 @@ public class ModelGames {
     public int addCategory(String name) {
 	int resultado = 0;
 	try {
-	    String query = "INSERT INTO category (name) VALUES (?)";
+	    String query = "INSERT INTO category (name_category) VALUES (?)";
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);

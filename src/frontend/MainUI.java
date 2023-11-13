@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import database.ModelGames;
 import database.ModelPlayer;
 import debug.Log;
 
-public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener {
+public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener {
     private static final long serialVersionUID = 1L;
     private static JList<String> jlistGames = new JList<String>();
     private JScrollPane scrListGame = new JScrollPane(jlistGames);
@@ -46,7 +48,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static JTextArea txtGames = new JTextArea();
     public static JTextArea txtGamesTime = new JTextArea();
     public JTextArea txtSeparator = new JTextArea();
-    
+
     public int gameIdSelected = 0;
     public int gameIdLaunched = 0;
     private static boolean showHidden = false;
@@ -154,12 +156,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.fill = GridBagConstraints.BOTH;
 	add(pnlBottom, gbc);
 
-	jlistGames.setModel(modelList);
 	jlistGames.addListSelectionListener(this);
+	jlistGames.addMouseListener(this);
 
 	btnLaunchGame.addActionListener(this);
 	btnEditGame.addActionListener(this);
-
 
 	txtGameName.setEditable(false);
 	txtMinsPlayed.setEditable(false);
@@ -182,7 +183,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setEditable(false);
 	txtSeparator.setEditable(false);
 	txtSeparator.setText("______________________________________________________________________________________________________");
-	txtCategory.setForeground(Color.BLACK);
+	txtCategory.setForeground(Color.BLACK);	
 
 	txtPathGame.setEnabled(false);
 	txtCategory.setEditable(false);
@@ -224,7 +225,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    }
 	}).start();
     }
-    
+
     public static void LoadData() {
 	ModelConfig mc = new ModelConfig();
 	ModelPlayer mp = new ModelPlayer();
@@ -237,7 +238,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	double siete = mg.getLastDays(0,7);
 	double catorce = mg.getLastDays(0,14);
 	double treinta = mg.getLastDays(0,30);	
-	
+
 	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " +  decimalFormat.format(treinta/60));
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
@@ -266,17 +267,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelGames g = new ModelGames();
 	ArrayList<String> listGames = new ArrayList<String>();
 	listGames = g.getGamesNameList(showHidden);
-	try {
-	    for (int i = 1; i < listGames.size(); i++) {
-		modelList.addElement(listGames.get(i));
-	    }
-	} catch (ArrayIndexOutOfBoundsException ex) {
-	    UpdateGameList();
+	for (int i = 1; i < listGames.size(); i++) modelList.addElement(listGames.get(i));
+	/*for(int i = 0; i < modelList.getSize(); i++) {
+	    Log.Loguear(modelList.get(i));
 	}
-	String s = "Juegos cargados: " + (listGames.size() - 1);
-	if(listGames.size() == -1) UpdateGameList();
-	Log.Loguear(s);
-	System.out.println("listsize: " + listGames.size());
+	for(int i = 0; i < listGames.size(); i++) {
+	    Log.Loguear(listGames.get(i));
+	}*/
+	jlistGames.setModel(modelList);
     }
 
     @Override
@@ -289,49 +287,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
 	} else if(e.getSource() == btnLaunchGame) {
-	    if(txtGameName.getText().isEmpty()) {
-		JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-		return;
-	    }
-	    if(gameIdLaunched == 0) {
-		ModelGames g = new ModelGames();
-		String path = g.getPathFromGame(gameIdSelected);
-		ProcessBuilder pb;
-		if(g.isGhost(gameIdSelected)) {
-		    pb = new ProcessBuilder("C:\\MiGestorDeJuegos\\GhostGame.exe");
-		} else {
-		    pb = new ProcessBuilder(path);
-		}
-		Process p;
-		try {
-		    p = pb.start();
-		    if (p.isAlive()) {
-			ModelGames mg = new ModelGames();
-			InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getMinsPlayed(gameIdSelected));
-			gameIdLaunched = gameIdSelected;
-
-			new Thread(new Runnable() {
-			    public void run() {
-				int statusProcess;
-				try {
-				    statusProcess = p.waitFor();
-				    Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
-				    Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
-				    gameIdLaunched = 0;
-				    ig.closeGame();
-				    UpdateGameList();
-				} catch (InterruptedException e) {
-				    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-				}
-			    }
-			}).start();
-		    }
-		} catch (IOException ex) {
-		    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-		}
-	    } else {
-		JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-	    }
+	    LaunchGame();
 	}
     }
 
@@ -348,15 +304,86 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		double mins_played = mg.getMinsPlayed(gameIdSelected);
 		txtMinsPlayed.setText(decimalFormat.format(mins_played/60));
 		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + mg.getTimes(gameIdSelected) + " | Ultima sesion: " + mg.getDateLastSession(gameIdSelected));
-		 
+
 		double uno = mg.getLastDays(gameIdSelected,1);
 		double siete = mg.getLastDays(gameIdSelected,7);
 		double catorce = mg.getLastDays(gameIdSelected,14);
 		double treinta = mg.getLastDays(gameIdSelected,30);
-		
+
 		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " + decimalFormat.format(treinta/60));
 		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 	    }
 	}
+    }
+
+    public void LaunchGame() {
+	if(txtGameName.getText().isEmpty()) {
+	    JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+	    return;
+	}
+	if(gameIdLaunched == 0) {
+	    ModelGames g = new ModelGames();
+	    String path = g.getPathFromGame(gameIdSelected);
+	    ProcessBuilder pb;
+	    if(g.isGhost(gameIdSelected)) {
+		pb = new ProcessBuilder("GhostGame.exe");
+	    } else {
+		pb = new ProcessBuilder(path);
+	    }
+	    Process p;
+	    try {
+		p = pb.start();
+		if (p.isAlive()) {
+		    ModelGames mg = new ModelGames();
+		    InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getMinsPlayed(gameIdSelected));
+		    gameIdLaunched = gameIdSelected;
+
+		    new Thread(new Runnable() {
+			public void run() {
+			    int statusProcess;
+			    try {
+				statusProcess = p.waitFor();
+				Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
+				Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
+				gameIdLaunched = 0;
+				ig.closeGame();
+				UpdateGameList();
+			    } catch (InterruptedException e) {
+				JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+			    }
+			}
+		    }).start();
+		}
+	    } catch (IOException ex) {
+		JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+	    }
+	} else {
+	    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+	}
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+	if(e.getSource() == jlistGames) {
+	    if(e.getClickCount() == 2) {
+		LaunchGame();
+	    }
+	}
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }
