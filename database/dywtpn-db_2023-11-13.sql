@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 12, 2023 at 06:10 PM
+-- Generation Time: Nov 13, 2023 at 06:01 PM
 -- Server version: 5.5.43
 -- PHP Version: 5.4.41
 
@@ -44,7 +44,8 @@ CREATE TABLE `config` (
   `name` varchar(50) NOT NULL DEFAULT 'Usuario',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_game` varchar(100) NOT NULL DEFAULT ' Ultimo juego ejecutado: Ninguno',
-  `last_session_time` varchar(50) NOT NULL DEFAULT '0:00:00'
+  `last_session_time` varchar(50) NOT NULL DEFAULT '0:00:00',
+  `show_hidden` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -62,6 +63,7 @@ CREATE TABLE `games` (
   `mins_played` int(11) NOT NULL DEFAULT '0',
   `times` int(11) NOT NULL DEFAULT '0',
   `completed` tinyint(1) NOT NULL DEFAULT '0',
+  `hidden` tinyint(1) NOT NULL DEFAULT '0',
   `path` varchar(300) NOT NULL DEFAULT 'Ninguno'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
