@@ -25,31 +25,30 @@ public class ModelConfig {
 	    stmt = conex.createStatement();
 	    
 	    String query = "TRUNCATE category";
-	    Log.Loguear(query);
 	    stmt.execute(query);
 	    
 	    query = "TRUNCATE config";
-	    Log.Loguear(query);
 	    stmt.execute(query);
 
 	    query = "TRUNCATE games";
-	    Log.Loguear(query);
 	    stmt.execute(query);
 
 	    query = "TRUNCATE games_sessions_history";
-	    Log.Loguear(query);
+	    stmt.execute(query);
+	    
+	    query = "TRUNCATE library";
 	    stmt.execute(query);
 	    
 	    query = "TRUNCATE player_activities";
-	    Log.Loguear(query);
 	    stmt.execute(query);
 
 	    query = "INSERT INTO config (name) VALUES ('Usuario')";
-	    Log.Loguear(query);
 	    stmt.execute(query);
 	    
 	    query = "INSERT INTO category (name_category) VALUES ('Ninguna')";
-	    Log.Loguear(query);
+	    stmt.execute(query);
+	    
+	    query = "INSERT INTO `dywtpn`.`library` (`id`, `name`) VALUES (NULL, 'Ninguna');";
 	    stmt.execute(query);
 
 	    stmt.close();

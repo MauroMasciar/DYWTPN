@@ -42,12 +42,23 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    "No se ha podido cargar algunos recursos.",
 		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
-	
-	ModelConfig mc = new ModelConfig();
-	mnuiGamesHidden.setSelected(mc.getIsHidden());
+
+
+
+	new Thread(new Runnable() {
+	    public void run() {
+		try {
+		    Thread.sleep(1000);
+		    ModelConfig mc = new ModelConfig();
+		    mnuiGamesHidden.setSelected(mc.getIsHidden());
+		} catch (InterruptedException ex) {
+		    ex.printStackTrace();
+		}
+	    }
+	}).start();
 
 	j.setLayout(null);
-	j.setTitle("DYWTPN v1.1.18");
+	j.setTitle("DYWTPN v1.1.20");
 	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	//j.setExtendedState(MAXIMIZED_BOTH);
@@ -84,7 +95,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	j.setJMenuBar(menubar);
 	j.addWindowListener(this);
-	
+
 	j.setVisible(true);
     }
 

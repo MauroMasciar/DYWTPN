@@ -217,6 +217,26 @@ public class ModelGames {
 	}	
 	return gameName;
     }
+    
+    public ArrayList<String> getGamesNameList(String name) {
+	try {
+	    conex = DriverManager.getConnection(url, username, password);
+	    gameName.add("null");
+	    String query;
+	    query = "SELECT name FROM `games` WHERE name LIKE '%" + name + "%'";
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    while (rs.next()) {
+		gameName.add(rs.getString("name"));
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    ex.getMessage();
+	}	
+	return gameName;
+    }
 
     public int getIdFromGameName(String name) {
 	if(name != "") {

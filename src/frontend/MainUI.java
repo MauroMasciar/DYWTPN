@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -28,11 +30,12 @@ import database.ModelGames;
 import database.ModelPlayer;
 import debug.Log;
 
-public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener {
+public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1L;
     private static JList<String> jlistGames = new JList<String>();
     private JScrollPane scrListGame = new JScrollPane(jlistGames);
     private static DefaultListModel<String> modelList = new DefaultListModel<String>();
+    private JTextField txtSearch = new JTextField(20);
     private static JTextField txtGameName = new JTextField(20);
     private static JTextField txtMinsPlayed = new JTextField(20);
     private static JTextField txtCategory = new JTextField(20);
@@ -57,7 +60,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	setTitle("DYWTPN");
 	setBounds(300, 330, 800, 280);
 	setClosable(false);
-	setResizable(false);
+	setResizable(true);
 	setIconifiable(false);
 	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
@@ -72,12 +75,15 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridheight = 1;
 	gbc.weightx = 1.0;
 	gbc.weighty = 3.0;
+	gbc.fill = GridBagConstraints.NONE;
+	pnlLeft.add(txtSearch, gbc);
+	gbc.gridy ++;
 	gbc.fill = GridBagConstraints.BOTH;
 	pnlLeft.add(scrListGame, gbc);
-	gbc.gridy = 1;
+	gbc.gridy ++;
 	gbc.weighty = 1.0;
 	pnlLeft.add(txtGamePlaying, gbc);
-	gbc.gridy = 2;	
+	gbc.gridy ++;	
 	pnlLeft.add(txtTimePlaying, gbc);
 
 	// Interfaz superior
@@ -132,7 +138,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	gbc.gridwidth = 1;
-	gbc.gridheight = 4;
+	gbc.gridheight = 5;
 	gbc.weightx = 1.0;
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.BOTH;
@@ -162,6 +168,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	btnLaunchGame.addActionListener(this);
 	btnEditGame.addActionListener(this);
 
+	txtSearch.addKeyListener(this);
+
 	txtGameName.setEditable(false);
 	txtMinsPlayed.setEditable(false);
 	txtStatistics.setForeground(Color.RED);
@@ -190,8 +198,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	btnEditGame.setEnabled(false);
 
-	setVisible(true);
-
 	new Thread(new Runnable() {
 	    public void run() {
 		while (true) {
@@ -208,17 +214,18 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    Thread.sleep(1000);
+		    Thread.sleep(500);
+		    LoadLastSession();
+		    txtTimePlaying.setForeground(Color.BLACK);
+		    txtGamePlaying.setForeground(Color.BLACK);
+		    Thread.sleep(500);
 		    LoadData();
 		    txtStatistics.setForeground(Color.BLACK);
 		    txtLastAchie.setForeground(Color.BLACK);
 		    txtLastDays.setForeground(Color.BLACK);
-		    Thread.sleep(300);
-		    LoadLastSession();
-		    txtTimePlaying.setForeground(Color.BLACK);
-		    txtGamePlaying.setForeground(Color.BLACK);
-		    Thread.sleep(1000);
+		    Thread.sleep(500);
 		    UpdateGameList();
+		    setVisible(true);
 		} catch (InterruptedException ex) {
 		    ex.printStackTrace();
 		}
@@ -268,12 +275,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ArrayList<String> listGames = new ArrayList<String>();
 	listGames = g.getGamesNameList(showHidden);
 	for (int i = 1; i < listGames.size(); i++) modelList.addElement(listGames.get(i));
-	/*for(int i = 0; i < modelList.getSize(); i++) {
-	    Log.Loguear(modelList.get(i));
-	}
-	for(int i = 0; i < listGames.size(); i++) {
-	    Log.Loguear(listGames.get(i));
-	}*/
 	jlistGames.setModel(modelList);
     }
 
@@ -385,5 +386,33 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+	if(txtSearch.getText().isEmpty()) {
+	    UpdateGameList();
+	} else {
+	    jlistGames.removeAll();
+	    modelList.clear();
+	    txtGameName.setText("");
+	    txtMinsPlayed.setText("");
+	    txtCategory.setText("");
+
+	    ModelGames g = new ModelGames();
+	    ArrayList<String> listGames = new ArrayList<String>();
+	    listGames = g.getGamesNameList(txtSearch.getText());
+	    for (int i = 1; i < listGames.size(); i++) modelList.addElement(listGames.get(i));
+	    jlistGames.setModel(modelList);
+	}
     }
 }

@@ -1,3 +1,7 @@
 -- 1.1.18
 CREATE TABLE `dywtpn`.`collections` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 INSERT INTO `dywtpn`.`collections` (`id`, `name`) VALUES (NULL, 'Ninguna');
+-- 1.1.19
+CREATE TABLE `dywtpn`.`library` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+INSERT INTO `dywtpn`.`library` (`id`, `name`) VALUES (NULL, 'Ninguna');
+ALTER TABLE `games` ADD `library` INT NOT NULL DEFAULT '1' AFTER `category`;
