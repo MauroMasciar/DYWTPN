@@ -42,6 +42,7 @@ public class ModelGames {
 	} catch (Exception ex) {
 	    Log.Loguear("SQLException en ModelGames.ModelGames(int gameId)");
 	}
+	Log.Loguear(query);
     }
 
     public DefaultTableModel getFilteredGameList(String name, String completed, String category) { // TODO: No filtra por categorias con la nueva version de la bd
@@ -74,6 +75,7 @@ public class ModelGames {
 	    } else if(category != "Todos" && comp != 2) {
 		query = "SELECT name, ghost, ROUND((time_played / 60),2), times, category, completed, score, path FROM games WHERE category = " + category + " AND completed = " + comp + " ORDER BY name";
 	    }
+	    Log.Loguear(query);
 	    rs = stmt.executeQuery(query);
 
 	    while(rs.next()) {
@@ -203,6 +205,7 @@ public class ModelGames {
 	    else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now() AND game_id = " + gameId;
 	    else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now() AND game_id = " + gameId;
 	}
+	Log.Loguear(query);
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
@@ -442,6 +445,7 @@ public class ModelGames {
 			int timePlayed = rs.getInt(1);
 			int totalTimePlayed = timePlayed + 1;
 			query = "UPDATE games SET time_played = " + totalTimePlayed + " WHERE id = " + gameId;
+			Log.Loguear(query);
 			stmt.execute(query);
 			stmt.close();
 			rs.close();
@@ -478,6 +482,7 @@ public class ModelGames {
 	int resultado = 0;
 	try {
 	    String query = "INSERT INTO games_sessions_history (game_id, game_name, mins, datetime) VALUES (?,?,?,?)";
+	    Log.Loguear(query);
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setInt(1, gameId);
@@ -493,12 +498,13 @@ public class ModelGames {
 	} catch (SQLException ex) {
 	    return 0;
 	}
-	return resultado;	
+	return resultado;
     }
 
     public int addGame(String name, int timePlayed, String path, int ghost, int completed, int category, int score) {
 	try {
 	    String query = "INSERT INTO games (name, time_played, path, ghost, completed, category, score) VALUES (?,?,?,?,?,?,?)";
+	    Log.Loguear(query);
 	    conex = DriverManager.getConnection(url, username, password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);

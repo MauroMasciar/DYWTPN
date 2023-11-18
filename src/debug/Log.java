@@ -26,6 +26,7 @@ public class Log {
 	    pw.println(s);
 	    System.out.println(s);
 	    fw.close();
+	    LogGUI.addText(s);
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}

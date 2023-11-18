@@ -32,6 +32,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private JMenu mnuHelp = new JMenu("Ayuda");
     private JMenuItem mnuiHelpConfig = new JMenuItem("Configuración");
     private JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de");
+    private JMenuItem mnuiHelpDebug = new JMenuItem("Debug");
 
     public MainWindow() {
 	try {
@@ -56,7 +57,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	}).start();
 
 	j.setLayout(null);
-	j.setTitle("DYWTPN v1.2.1");
+	j.setTitle("DYWTPN v1.2.2");
 	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	//j.setExtendedState(MAXIMIZED_BOTH);
@@ -75,6 +76,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuPlayer.add(mnuiPlayerHistory);
 	mnuPlayer.add(mnuiPlayerActivities);
 	mnuHelp.add(mnuiHelpConfig);
+	mnuHelp.add(mnuiHelpDebug);
+	mnuHelp.addSeparator();
 	mnuHelp.add(mnuiHelpAbout);
 
 	mnuiGamesRefresh.addActionListener(this);
@@ -88,6 +91,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiPlayerActivities.addActionListener(this);
 	mnuiPlayerHistory.addActionListener(this);
 	mnuiHelpAbout.addActionListener(this);
+	mnuiHelpDebug.addActionListener(this);
 
 	j.add(new MainUI());
 
@@ -135,6 +139,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    MainUI.LoadData();
 	} else if(e.getSource() == mnuiHelpAbout) {
 	    j.add(new About());
+	    j.repaint();
+	} else if(e.getSource() == mnuiHelpDebug) {
+	    j.add(new debug.LogGUI());
 	    j.repaint();
 	}
     }

@@ -19,7 +19,7 @@ public class About extends JInternalFrame {
 	setClosable(true);
 	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
-	lblFirstLine.setText("Software desarrollado por Mauro Masciadro - MASCIAR - Version 1.2.1");
+	lblFirstLine.setText("Software desarrollado por Mauro Masciadro - MASCIAR - Version 1.2.2");
 	lblSecondLine.setText("Codigo fuente disponible en github.com/MauroMasciar/DYWTPN");
 	
 	gbc.gridheight = 1;

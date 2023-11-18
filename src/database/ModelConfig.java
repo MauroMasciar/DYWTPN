@@ -53,6 +53,7 @@ public class ModelConfig {
 
 	    stmt.close();
 	    conex.close();
+	    Log.Loguear("Datos borrados");
 	} catch (SQLException ex) {
 	    Log.Loguear(ex.getMessage());
 	}
@@ -152,6 +153,7 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
+	Log.Loguear(query);
     }
     
     public void saveUserName(String newName) {
@@ -165,5 +167,6 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
+	Log.Loguear(query);
     }
 }
