@@ -223,7 +223,7 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(url, username, password);
 	    gameName.add("null");
 	    String query;
-	    query = "SELECT name FROM `games` WHERE name LIKE '%" + name + "%'";
+	    query = "SELECT name FROM `games` WHERE name LIKE '%" + name + "%' ORDER BY name";
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    while (rs.next()) {

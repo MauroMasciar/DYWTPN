@@ -25,12 +25,12 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private JLabel lblPath = new JLabel("Ubicacion:");
     private JLabel lblCompleted = new JLabel("Completado:");
     private JLabel lblGhost = new JLabel("Fantasma:");
-    private JTextField txtGameName = new JTextField(20);
-    private JTextField txtHoursPlayed = new JTextField(20);
-    private JTextField txtTimes = new JTextField(20);
-    private JTextField txtScore = new JTextField(20);
+    private JTextField txtGameName = new JTextField();
+    private JTextField txtHoursPlayed = new JTextField();
+    private JTextField txtTimes = new JTextField();
+    private JTextField txtScore = new JTextField();
     private JComboBox<String> cbCategory = new JComboBox<String>();
-    private JTextField txtPath = new JTextField(20);
+    private JTextField txtPath = new JTextField();
     private JCheckBox cbGhost = new JCheckBox();
     private JCheckBox cbCompleted = new JCheckBox();
     private JButton btnAdd = new JButton("Añadir");

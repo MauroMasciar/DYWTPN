@@ -28,11 +28,11 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JLabel lblHidden = new JLabel("Juego oculto:");
     private JLabel lblGhostGame = new JLabel("Juego fantasma");
     private JLabel lblCompletedGame = new JLabel("Juego terminado");
-    private JTextField txtGameName = new JTextField(20);
-    private JTextField txtTimes = new JTextField(20);
-    private JTextField txtScore = new JTextField(20);
-    private JTextField txtminsPlayed = new JTextField(20);
-    private JTextField txtPath = new JTextField(20);
+    private JTextField txtGameName = new JTextField();
+    private JTextField txtTimes = new JTextField();
+    private JTextField txtScore = new JTextField();
+    private JTextField txtminsPlayed = new JTextField();
+    private JTextField txtPath = new JTextField();
     private JComboBox<String> cbCategory = new JComboBox<String>();
     private JCheckBox cbHiddenGame = new JCheckBox();
     private JCheckBox cbGhostGame = new JCheckBox();

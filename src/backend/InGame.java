@@ -23,6 +23,7 @@ public class InGame {
 	    minute = 0;
 	    second = 0;
 	    
+	    MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
 	    LaunchGame(IdLaunched);
 	}
     }
@@ -34,7 +35,6 @@ public class InGame {
 		    try {
 			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + ". Total: " + gameTimePlayedTotal;
 			Log.Loguear(s);
-			MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
 			CheckAchievement();
 			Thread.sleep(60000);
 			//Thread.sleep(1000);

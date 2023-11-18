@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 public class Config extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6985809216237042311L;
     private JLabel lblName = new JLabel("Nuevo nombre");
-    private JTextField txtName = new JTextField(20);
+    private JTextField txtName = new JTextField(10);
     private JButton btnSave = new JButton("Guardar datos");
     private JButton btnTruncate = new JButton("Resetear datos");
     public Config() {

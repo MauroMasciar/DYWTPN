@@ -2,6 +2,7 @@ package frontend;
 
 import java.io.IOException;
 
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -22,7 +23,8 @@ public class Main {
 	    pb = new ProcessBuilder("core\\mysql\\bin\\mysqld_z.exe");
 	    try {
 		p = pb.start();
-	    } catch (IOException e) {
+	    } catch (IOException ex) {
+		JOptionPane.showMessageDialog(null, "No se ha podido cargar los datos. Vuelve a intentarlo. Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
 	    }
 

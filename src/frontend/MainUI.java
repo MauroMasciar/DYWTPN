@@ -75,16 +75,17 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridheight = 1;
 	gbc.weightx = 1.0;
 	gbc.weighty = 3.0;
-	gbc.fill = GridBagConstraints.NONE;
-	pnlLeft.add(txtSearch, gbc);
-	gbc.gridy ++;
+	//gbc.gridy ++;
 	gbc.fill = GridBagConstraints.BOTH;
 	pnlLeft.add(scrListGame, gbc);
+	gbc.gridy ++;
+	//gbc.fill = GridBagConstraints.NONE;
+	pnlLeft.add(txtSearch, gbc);
 	gbc.gridy ++;
 	gbc.weighty = 1.0;
 	pnlLeft.add(txtGamePlaying, gbc);
 	gbc.gridy ++;	
-	pnlLeft.add(txtTimePlaying, gbc);
+	pnlLeft.add(txtTimePlaying, gbc);	
 
 	// Interfaz superior
 	JPanel pnlTop = new JPanel();
@@ -349,14 +350,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				gameIdLaunched = 0;
 				ig.closeGame();
 				UpdateGameList();
-			    } catch (InterruptedException e) {
-				JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+			    } catch (InterruptedException ex) {
+				JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 			    }
 			}
 		    }).start();
 		}
 	    } catch (IOException ex) {
-		JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n(1)", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	    }
 	} else {
 	    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
@@ -365,10 +366,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     @Override
     public void mouseClicked(MouseEvent e) {
-	if(e.getSource() == jlistGames) {
-	    if(e.getClickCount() == 2) {
-		LaunchGame();
-	    }
+	if(e.getSource() == jlistGames && e.getClickCount() == 2) {
+	    LaunchGame();
 	}
     }
 
