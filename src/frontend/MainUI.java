@@ -216,22 +216,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    public void run() {
 		try {
 		    Thread.sleep(500);
-		    LoadLastSession();
-		    txtTimePlaying.setForeground(Color.BLACK);
-		    txtGamePlaying.setForeground(Color.BLACK);
-		    Thread.sleep(500);
 		    LoadData();
-		    txtStatistics.setForeground(Color.BLACK);
-		    txtLastAchie.setForeground(Color.BLACK);
-		    txtLastDays.setForeground(Color.BLACK);
-		    Thread.sleep(500);
-		    UpdateGameList();
-		    setVisible(true);
 		} catch (InterruptedException ex) {
 		    ex.printStackTrace();
 		}
 	    }
 	}).start();
+	setVisible(true);
     }
 
     public static void LoadData() {
@@ -239,8 +230,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelPlayer mp = new ModelPlayer();
 	ModelGames mg = new ModelGames();
 	double totalHours = mg.getMinutesTotalPlayed();
-	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Total de horas: " + decimalFormat.format(totalHours/60));
+
 	showHidden = mc.getIsHidden();
+	UpdateGameList();
+
+	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Total de horas: " + decimalFormat.format(totalHours/60));
 
 	double uno = mg.getLastDays(0,1);
 	double siete = mg.getLastDays(0,7);
@@ -257,12 +251,24 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos", "Todos"));
 	txtGames.setText("");
 	txtGamesTime.setText("");
-    }
 
-    public static void LoadLastSession() {
-	ModelConfig mc = new ModelConfig();
+	// LoadLastSession
 	txtGamePlaying.setText(mc.getLastGame());
 	txtTimePlaying.setText(mc.getLastSessionTime());
+
+	if(mc.getNameUser().equals("PRUEBAS")) {
+	    txtStatistics.setForeground(Color.RED);
+	    txtTimePlaying.setForeground(Color.RED);
+	    txtGamePlaying.setForeground(Color.RED);
+	    txtLastAchie.setForeground(Color.RED);
+	    txtLastDays.setForeground(Color.RED);
+	} else {
+	    txtTimePlaying.setForeground(Color.BLACK);
+	    txtGamePlaying.setForeground(Color.BLACK);
+	    txtStatistics.setForeground(Color.BLACK);
+	    txtLastAchie.setForeground(Color.BLACK);
+	    txtLastDays.setForeground(Color.BLACK);
+	}
     }
 
     public static void UpdateGameList() {
@@ -337,7 +343,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		p = pb.start();
 		if (p.isAlive()) {
 		    ModelGames mg = new ModelGames();
-		    InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getMinsPlayed(gameIdSelected));
+		    InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getSecondsPlayed(gameIdSelected));
 		    gameIdLaunched = gameIdSelected;
 
 		    new Thread(new Runnable() {

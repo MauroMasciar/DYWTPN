@@ -5,3 +5,5 @@ INSERT INTO `dywtpn`.`collections` (`id`, `name`) VALUES (NULL, 'Ninguna');
 CREATE TABLE `dywtpn`.`library` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 INSERT INTO `dywtpn`.`library` (`id`, `name`) VALUES (NULL, 'Ninguna');
 ALTER TABLE `games` ADD `library` INT NOT NULL DEFAULT '1' AFTER `category`;
+1.1.21
+ALTER TABLE `games` CHANGE `mins_played` `time_played` INT(255) NOT NULL DEFAULT '0';

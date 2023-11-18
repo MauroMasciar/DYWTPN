@@ -31,7 +31,7 @@ public class Main {
 	    new Thread(new Runnable() {
 		public void run() {
 		    try {
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			new MainWindow();
 		    } catch (InterruptedException ex) {
 			System.exit(0);

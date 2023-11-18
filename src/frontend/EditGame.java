@@ -4,7 +4,6 @@ import database.ModelGames;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,9 +17,8 @@ import javax.swing.JButton;
 
 public class EditGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 2260581778638759215L;
-    private DecimalFormat txtminsPlayedDecimal = new DecimalFormat("#.##");
     private JLabel lblGameName = new JLabel("Juego:");
-    private JLabel lblminsPlayed = new JLabel("Horas jugadas:");
+    private JLabel lblSecondsPlayed = new JLabel("Tiempo jugado (En segundos):");
     private JLabel lblTimes = new JLabel("Veces jugado");
     private JLabel lblScore = new JLabel("Puntuacion");
     private JLabel lblPath = new JLabel("Ubicacion:");
@@ -31,7 +29,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JTextField txtGameName = new JTextField();
     private JTextField txtTimes = new JTextField();
     private JTextField txtScore = new JTextField();
-    private JTextField txtminsPlayed = new JTextField();
+    private JTextField txtSecondsPlayed = new JTextField();
     private JTextField txtPath = new JTextField();
     private JComboBox<String> cbCategory = new JComboBox<String>();
     private JCheckBox cbHiddenGame = new JCheckBox();
@@ -52,8 +50,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
 	this.gameId = gameId;
-	double mins_played = mg.getMinsPlayed(gameId);
-	txtminsPlayed.setText(txtminsPlayedDecimal.format(mins_played/60));
+	txtSecondsPlayed.setText(String.valueOf(mg.getSecondsPlayed(gameId)));
 	txtPath.setText(mg.getPathFromGame(gameId));
 	txtTimes.setText(String.valueOf(mg.getTimes(gameId)));
 	txtScore.setText(String.valueOf(mg.getScore(gameId)));
@@ -79,9 +76,9 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	add(txtGameName, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	add(lblminsPlayed, gbc);
+	add(lblSecondsPlayed, gbc);
 	gbc.gridx = 1;
-	add(txtminsPlayed, gbc);
+	add(txtSecondsPlayed, gbc);
 	gbc.gridx = 0;
 	gbc.gridy ++;
 	add(lblTimes, gbc);
@@ -145,8 +142,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnEdit) {
 	    ModelGames g = new ModelGames();
-	    String ghostGame, minsPlayed, completed;
-	    int score, hidden;
+	    String ghostGame, completed;
+	    int score, hidden, secondsPlayed = 0;
 	    if(cbGhostGame.isSelected()) ghostGame = "1";
 	    else ghostGame = "0";
 
@@ -163,15 +160,17 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	    } catch (NumberFormatException ex) {
 		score = 0;
 	    }
+	    if(!txtSecondsPlayed.getText().isEmpty() && !txtSecondsPlayed.getText().isBlank()) {
+		secondsPlayed = Integer.parseInt(txtSecondsPlayed.getText());
+	    }
 	    
-	    minsPlayed = txtminsPlayed.getText().replaceAll(",", ".");
 	    if(txtTimes.getText().isEmpty() || txtTimes.getText().isBlank()) txtTimes.setText("0");
 	    if(txtGameName.getText().isEmpty() || txtGameName.getText().isBlank()) {
 		JOptionPane.showMessageDialog(this,  "El juego debe tener un nombre", "Error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    
-	    if(g.editGame(gameId, txtGameName.getText(), minsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score, g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), hidden) == 1) {
+	    if(g.editGame(gameId, txtGameName.getText(), secondsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score, g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), hidden) == 1) {
 		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 		this.dispose();
 	    } else {

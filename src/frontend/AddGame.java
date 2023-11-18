@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 public class AddGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6759981496451639858L;
     private JLabel lblGameName = new JLabel("Juego:");
-    private JLabel lblHoursPlayed = new JLabel("Horas jugadas:");
+    private JLabel lblSecondsPlayed = new JLabel("Tiempo jugado (En segundos)");
     private JLabel lblScore = new JLabel("Puntuacion");
     private JLabel lblCategory = new JLabel("Categoria");
     private JLabel lblTimes = new JLabel("Veces jugado:");
@@ -26,7 +26,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private JLabel lblCompleted = new JLabel("Completado:");
     private JLabel lblGhost = new JLabel("Fantasma:");
     private JTextField txtGameName = new JTextField();
-    private JTextField txtHoursPlayed = new JTextField();
+    private JTextField txtSecondsPlayed = new JTextField();
     private JTextField txtTimes = new JTextField();
     private JTextField txtScore = new JTextField();
     private JComboBox<String> cbCategory = new JComboBox<String>();
@@ -57,9 +57,9 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	add(txtGameName, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	add(lblHoursPlayed, gbc);
+	add(lblSecondsPlayed, gbc);
 	gbc.gridx = 1;
-	add(txtHoursPlayed, gbc);
+	add(txtSecondsPlayed, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	add(lblScore, gbc);
@@ -95,7 +95,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	gbc.gridwidth = 2;
 	add(btnAdd, gbc);
 	
-	txtHoursPlayed.setText("0");
+	txtSecondsPlayed.setText("0");
 	txtTimes.setText("0");
 	cbCompleted.setSelected(false);
 	ModelGames mg = new ModelGames();
@@ -116,9 +116,12 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	    if(txtScore.getText().isEmpty() || txtScore.getText().isBlank()) {
 		txtScore.setText("0");
 	    }
+	    if(txtSecondsPlayed.getText().isEmpty() || txtSecondsPlayed.getText().isBlank()) {
+		txtSecondsPlayed.setText("0");
+	    }
 	    try {
 		ModelGames g = new ModelGames();
-		int c, comp, score;
+		int c, comp, score, secondsPlayed = 0;
 		score = Integer.parseInt(txtScore.getText());
 		if(score > 10) score = 10;
 		else if(score < 0) score = 0;
@@ -126,12 +129,17 @@ public class AddGame extends JInternalFrame implements ActionListener {
 		else c = 0;
 		if(cbCompleted.isSelected()) comp = 1;
 		else comp = 0;
-		String hoursPlayed = txtHoursPlayed.getText().replaceAll(",", ".");
-		int a = g.addGame(txtGameName.getText(), hoursPlayed, txtPath.getText(), c, comp, g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), score);
+		try {
+		    secondsPlayed = Integer.parseInt(txtSecondsPlayed.getText());
+		} catch (NumberFormatException ex) {
+		    secondsPlayed = 0;
+		}
+		
+		int a = g.addGame(txtGameName.getText(), secondsPlayed, txtPath.getText(), c, comp, g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), score);
 		if(a == 1) {
 		    JOptionPane.showMessageDialog(this, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
 		    txtGameName.setText("");
-		    txtHoursPlayed.setText("");
+		    txtSecondsPlayed.setText("");
 		    txtPath.setText("");
 		    MainUI.UpdateGameList();
 		    this.dispose();
