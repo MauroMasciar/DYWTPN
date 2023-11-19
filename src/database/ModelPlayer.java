@@ -100,7 +100,7 @@ public class ModelPlayer {
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
-	    rs = stmt.executeQuery("SELECT description AS descr FROM player_activities ORDER BY description ASC LIMIT 1");
+	    rs = stmt.executeQuery("SELECT description FROM player_activities ORDER BY id desc LIMIT 1");
 	    if(rs.next()) {
 		s = rs.getString(1);
 	    }

@@ -153,7 +153,6 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
-	Log.Loguear(query);
     }
     
     public void saveUserName(String newName) {
@@ -167,6 +166,5 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
-	Log.Loguear(query);
     }
 }

@@ -141,7 +141,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 		    txtGameName.setText("");
 		    txtSecondsPlayed.setText("");
 		    txtPath.setText("");
-		    MainUI.UpdateGameList();
+		    MainUI.LoadData();
 		    this.dispose();
 		} else {
 		    JOptionPane.showMessageDialog(this, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);

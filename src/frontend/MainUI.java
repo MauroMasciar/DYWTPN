@@ -1,6 +1,7 @@
 package frontend;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -193,6 +194,12 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtSeparator.setEditable(false);
 	txtSeparator.setText("______________________________________________________________________________________________________");
 	txtCategory.setForeground(Color.BLACK);
+	
+	txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
+	txtGamePlaying.setFont(new Font("Serief", Font.BOLD, 12));
+	txtTimePlaying.setFont(new Font("Serief", Font.BOLD, 12));
+	txtLastAchie.setFont(new Font("Serief", Font.BOLD, 12));
+	txtLastDays.setFont(new Font("Serief", Font.BOLD, 12));
 
 	txtPathGame.setEnabled(false);
 	txtCategory.setEditable(false);

@@ -27,12 +27,12 @@ public class LogGUI extends JInternalFrame {
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	add(scr, gbc);
-	
+
 	txtaDebug.setEditable(false);
-	
+
 	setVisible(true);
     }
-    
+
     public static void addText(String t) {
 	txtaDebug.append(t);
 	txtaDebug.append("\n");

@@ -42,7 +42,6 @@ public class ModelGames {
 	} catch (Exception ex) {
 	    Log.Loguear("SQLException en ModelGames.ModelGames(int gameId)");
 	}
-	Log.Loguear(query);
     }
 
     public DefaultTableModel getFilteredGameList(String name, String completed, String category) { // TODO: No filtra por categorias con la nueva version de la bd
@@ -65,17 +64,16 @@ public class ModelGames {
 	    stmt = conex.createStatement();
 
 	    if(name == "Todos" && comp == 2 && category == "Todos") {
-		query = "SELECT name, ghost, ROUND((time_played / 60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category ORDER BY name";
 	    } else if(name == "Todos" && comp != 2 && category == "Todos") {
-		query = "SELECT name, ghost, ROUND((time_played / 60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = " + comp + " ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = " + comp + " ORDER BY name";
 	    } else if(name != "Todos") {
-		query = "SELECT name, ghost, ROUND((time_played / 60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '" + name + "'";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), times, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '" + name + "'";
 	    } else if(category != "Todos" && comp == 2) {
-		query = "SELECT name, ghost, ROUND((time_played / 60),2), times, category, completed, score, path FROM games WHERE category = " + category + " ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), times, category, completed, score, path FROM games WHERE category = " + category + " ORDER BY name";
 	    } else if(category != "Todos" && comp != 2) {
-		query = "SELECT name, ghost, ROUND((time_played / 60),2), times, category, completed, score, path FROM games WHERE category = " + category + " AND completed = " + comp + " ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), times, category, completed, score, path FROM games WHERE category = " + category + " AND completed = " + comp + " ORDER BY name";
 	    }
-	    Log.Loguear(query);
 	    rs = stmt.executeQuery(query);
 
 	    while(rs.next()) {
@@ -205,7 +203,6 @@ public class ModelGames {
 	    else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now() AND game_id = " + gameId;
 	    else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now() AND game_id = " + gameId;
 	}
-	Log.Loguear(query);
 	try {
 	    conex = DriverManager.getConnection(url, username, password);
 	    stmt = conex.createStatement();
@@ -445,7 +442,6 @@ public class ModelGames {
 			int timePlayed = rs.getInt(1);
 			int totalTimePlayed = timePlayed + 1;
 			query = "UPDATE games SET time_played = " + totalTimePlayed + " WHERE id = " + gameId;
-			Log.Loguear(query);
 			stmt.execute(query);
 			stmt.close();
 			rs.close();
@@ -462,21 +458,23 @@ public class ModelGames {
 	}
     }
 
-    public void setTimePlayed(int gameId, int timePlayed) {
-	try {
-	    String query = "UPDATE games SET time_played = ? WHERE id = ?";
-	    conex = DriverManager.getConnection(url, username, password);
-	    PreparedStatement p = conex.prepareStatement(query);
-	    p.setInt(1, timePlayed);
-	    p.setInt(2, gameId);
-	    p.executeUpdate();
+    public int setTimePlayed(int gameId, int timePlayed) {
+   	int r = 0;
+   	try {
+   	    String query = "UPDATE games SET time_played = ? WHERE id = ?";
+   	    conex = DriverManager.getConnection(url, username, password);
+   	    PreparedStatement p = conex.prepareStatement(query);
+   	    p.setInt(1, timePlayed);
+   	    p.setInt(2, gameId);
+   	    r = p.executeUpdate();
 
-	    p.close();
-	    conex.close();
-	} catch (SQLException ex) {
-	    JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
-	}
-    }
+   	    p.close();
+   	    conex.close();
+   	} catch (SQLException ex) {
+   	    JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+   	}
+   	return r;
+       }
 
     public int addSessionGame(int gameId, String name, String minsPlayed, String date) {
 	int resultado = 0;
@@ -492,7 +490,10 @@ public class ModelGames {
 	    resultado = p.executeUpdate();
 	    int secs = getSecondsPlayed(gameId);
 	    secs += Integer.parseInt(minsPlayed) * 60;
-	    setTimePlayed(gameId, secs);
+	    int r = setTimePlayed(gameId, secs);
+	    if(r == 0) {
+		JOptionPane.showMessageDialog(null, "No se ha podido sumar el tiempo jugado", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+	    }
 	    p.close();
 	    conex.close();
 	} catch (SQLException ex) {
@@ -519,7 +520,7 @@ public class ModelGames {
 	    p.close();
 	    return resultado;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int ModelGames.addGame(String name, String MinsPlayed, String path, int ghost)");
+	    Log.Loguear("SQLException en int ModelGames.addGame(String name, String MinsPlayed, String path, int ghost)" + ex.getMessage());
 	    ex.getMessage();
 	}
 	return 0;
