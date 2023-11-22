@@ -8,6 +8,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 public class Main {
     public static Process p;
+    public static final String versionApp = "1.2.4";
+
     public static void main(String[] args) {
 	try {
 	    UIManager.setLookAndFeel(new FlatLightLaf()); // https://www.formdev.com/flatlaf/
@@ -24,10 +26,9 @@ public class Main {
 	    try {
 		p = pb.start();
 	    } catch (IOException ex) {
-		JOptionPane.showMessageDialog(null, "No se ha podido cargar los datos. Vuelve a intentarlo. Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null,"No se ha podido cargar los datos. Vuelve a intentarlo. Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
 	    }
-
 	    new Thread(new Runnable() {
 		public void run() {
 		    try {
@@ -38,7 +39,6 @@ public class Main {
 		    }
 		}
 	    }).start();
-
 	} else {
 	    new MainWindow();
 	}

@@ -17,11 +17,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JPopupMenu;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -52,12 +54,15 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static JTextArea txtGames = new JTextArea();
     public static JTextArea txtGamesTime = new JTextArea();
     public JTextArea txtSeparator = new JTextArea();
-
+    private JPopupMenu popUpMenu = new JPopupMenu();
+    private JMenuItem mnuiLaunch = new JMenuItem("Lanzar");
+    private JMenuItem mnuiEdit = new JMenuItem("Editar");
+    
     public int gameIdSelected = 0;
     public static int gameIdLaunched = 0;
     private static boolean showHidden = false;
 
-    public MainUI() {	
+    public MainUI() {
 	setTitle("DYWTPN");
 	setBounds(300, 330, 800, 280);
 	setClosable(false);
@@ -65,6 +70,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	setIconifiable(false);
 	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
+	
+	popUpMenu.add(mnuiLaunch);
+	popUpMenu.add(mnuiEdit);
+	mnuiLaunch.addActionListener(this);
+	mnuiEdit.addActionListener(this);
 
 	// Interfaz izquierda
 	JPanel pnlLeft = new JPanel();
@@ -76,17 +86,17 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridheight = 1;
 	gbc.weightx = 1.0;
 	gbc.weighty = 3.0;
-	//gbc.gridy ++;
+	// gbc.gridy ++;
 	gbc.fill = GridBagConstraints.BOTH;
 	pnlLeft.add(scrListGame, gbc);
-	gbc.gridy ++;
-	//gbc.fill = GridBagConstraints.NONE;
+	gbc.gridy++;
+	// gbc.fill = GridBagConstraints.NONE;
 	pnlLeft.add(txtSearch, gbc);
-	gbc.gridy ++;
+	gbc.gridy++;
 	gbc.weighty = 1.0;
 	pnlLeft.add(txtGamePlaying, gbc);
-	gbc.gridy ++;	
-	pnlLeft.add(txtTimePlaying, gbc);	
+	gbc.gridy++;
+	pnlLeft.add(txtTimePlaying, gbc);
 
 	// Interfaz superior
 	JPanel pnlTop = new JPanel();
@@ -99,15 +109,15 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.HORIZONTAL;
 	pnlTop.add(txtStatistics, gbc);
-	gbc.gridy ++;
+	gbc.gridy++;
 	pnlTop.add(txtLastDays, gbc);
-	gbc.gridy ++;
+	gbc.gridy++;
 	pnlTop.add(txtLastAchie, gbc);
-	gbc.gridy ++;
+	gbc.gridy++;
 	pnlTop.add(txtSeparator, gbc);
-	gbc.gridy ++;
+	gbc.gridy++;
 	pnlTop.add(txtGames, gbc);
-	gbc.gridy ++;
+	gbc.gridy++;
 	pnlTop.add(txtGamesTime, gbc);
 
 	// Interfaz inferior - controles
@@ -122,17 +132,17 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.BOTH;
 	pnlBottom.add(txtGameName, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	pnlBottom.add(txtMinsPlayed, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	pnlBottom.add(txtCategory, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	pnlBottom.add(txtPathGame, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	pnlBottom.add(btnEditGame, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	gbc.gridx = 1;
 	pnlBottom.add(btnLaunchGame, gbc);
 
@@ -148,7 +158,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	gbc.gridx = 1;
 	gbc.gridy = 0;
-	gbc.gridwidth = 3; //ancho
+	gbc.gridwidth = 3; // ancho
 	gbc.gridheight = 1;
 	gbc.weightx = 3.0;
 	gbc.weighty = 1.0;
@@ -157,7 +167,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	gbc.gridx = 1;
 	gbc.gridy = 1;
-	gbc.gridwidth = 2; //ancho
+	gbc.gridwidth = 2; // ancho
 	gbc.gridheight = 3;
 	gbc.weightx = 1.0;
 	gbc.weighty = 1.0;
@@ -166,6 +176,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	jlistGames.addListSelectionListener(this);
 	jlistGames.addMouseListener(this);
+	jlistGames.setComponentPopupMenu(popUpMenu);
 
 	btnLaunchGame.addActionListener(this);
 	btnEditGame.addActionListener(this);
@@ -192,9 +203,10 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setText(" CARGANDO ...");
 	txtLastAchie.setEditable(false);
 	txtSeparator.setEditable(false);
-	txtSeparator.setText("______________________________________________________________________________________________________");
+	txtSeparator.setText(
+		"______________________________________________________________________________________________________");
 	txtCategory.setForeground(Color.BLACK);
-	
+
 	txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
 	txtGamePlaying.setFont(new Font("Serief", Font.BOLD, 12));
 	txtTimePlaying.setFont(new Font("Serief", Font.BOLD, 12));
@@ -239,16 +251,20 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	double totalHours = mg.getMinutesTotalPlayed();
 
 	showHidden = mc.getIsHidden();
-	if(gameIdLaunched == 0) UpdateGameList();
+	if (gameIdLaunched == 0)
+	    UpdateGameList();
 
-	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size() + " | Total de horas: " + decimalFormat.format(totalHours/60));
+	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size()
+	+ " | Total de horas: " + decimalFormat.format(totalHours / 60));
 
-	double uno = mg.getLastDays(0,1);
-	double siete = mg.getLastDays(0,7);
-	double catorce = mg.getLastDays(0,14);
-	double treinta = mg.getLastDays(0,30);	
+	double uno = mg.getLastDays(0, 1);
+	double siete = mg.getLastDays(0, 7);
+	double catorce = mg.getLastDays(0, 14);
+	double treinta = mg.getLastDays(0, 30);
 
-	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " +  decimalFormat.format(treinta/60));
+	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno / 60) + " | Semana: "
+		+ decimalFormat.format(siete / 60) + " | 2 semanas: " + decimalFormat.format(catorce / 60) + " | Mes: "
+		+ decimalFormat.format(treinta / 60));
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
@@ -262,7 +278,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    // LoadLastSession
 	    txtGamePlaying.setText(mc.getLastGame());
 	    txtTimePlaying.setText(mc.getLastSessionTime());
-	    if(mc.getNameUser().equals("PRUEBAS")) {
+	    if (mc.getNameUser().equals("PRUEBAS")) {
 		txtStatistics.setForeground(Color.RED);
 		txtTimePlaying.setForeground(Color.RED);
 		txtGamePlaying.setForeground(Color.RED);
@@ -295,14 +311,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnEditGame) {
+	if(e.getSource() == btnEditGame || e.getSource() == mnuiEdit) {
 	    if(gameIdSelected == 0) {
 		JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres editar", "Error al editar juego", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
-	} else if(e.getSource() == btnLaunchGame) {
+	} else if(e.getSource() == btnLaunchGame || e.getSource() == mnuiLaunch) {
 	    LaunchGame();
 	}
     }
@@ -318,15 +334,18 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    gameIdSelected = mg.getIdFromGameName(txtGameName.getText());
 	    if(gameIdSelected != 0) {
 		double mins_played = mg.getMinsPlayed(gameIdSelected);
-		txtMinsPlayed.setText(decimalFormat.format(mins_played/60));
-		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText() + " | Veces jugado: " + mg.getTimes(gameIdSelected) + " | Ultima sesion: " + mg.getDateLastSession(gameIdSelected));
+		txtMinsPlayed.setText(decimalFormat.format(mins_played / 60));
+		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText()
+		+ " | Veces jugado: " + mg.getTimes(gameIdSelected) + " | Ultima sesion: "
+		+ mg.getDateLastSession(gameIdSelected));
 
-		double uno = mg.getLastDays(gameIdSelected,1);
-		double siete = mg.getLastDays(gameIdSelected,7);
-		double catorce = mg.getLastDays(gameIdSelected,14);
-		double treinta = mg.getLastDays(gameIdSelected,30);
+		double uno = mg.getLastDays(gameIdSelected, 1);
+		double siete = mg.getLastDays(gameIdSelected, 7);
+		double catorce = mg.getLastDays(gameIdSelected, 14);
+		double treinta = mg.getLastDays(gameIdSelected, 30);
 
-		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno/60) + " | Semana: " + decimalFormat.format(siete/60) + " | 2 semanas: " + decimalFormat.format(catorce/60) + " | Mes: " + decimalFormat.format(treinta/60));
+		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno / 60) + " | Semana: " + decimalFormat.format(siete / 60) + " | 2 semanas: " + decimalFormat.format(catorce / 60)
+			+ " | Mes: " + decimalFormat.format(treinta / 60));
 		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 	    }
 	}
@@ -341,7 +360,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    ModelGames g = new ModelGames();
 	    String path = g.getPathFromGame(gameIdSelected);
 	    ProcessBuilder pb;
-	    if(g.isGhost(gameIdSelected)) {
+	    if (g.isGhost(gameIdSelected)) {
 		pb = new ProcessBuilder("GhostGame.exe");
 	    } else {
 		pb = new ProcessBuilder(path);
@@ -424,7 +443,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    ModelGames g = new ModelGames();
 	    ArrayList<String> listGames = new ArrayList<String>();
 	    listGames = g.getGamesNameList(txtSearch.getText());
-	    for (int i = 1; i < listGames.size(); i++) modelList.addElement(listGames.get(i));
+	    for (int i = 1; i < listGames.size(); i++)
+		modelList.addElement(listGames.get(i));
 	    jlistGames.setModel(modelList);
 	}
     }
