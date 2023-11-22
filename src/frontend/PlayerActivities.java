@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 
+import database.ModelConfig;
 import database.ModelGames;
 import database.ModelPlayer;
 
@@ -20,7 +21,8 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
     public static JTable tbPlayerActivities = new JTable();
 
     public PlayerActivities() {
-	setBounds(90, 90, 500, 500);
+	ModelConfig mc = new ModelConfig();
+	setBounds(mc.getBounds_x("Activity"), mc.getBounds_y("Activity"), 500, 500);
 	setTitle("Actividad");
 	setClosable(true);
 	setResizable(true);
@@ -55,7 +57,7 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
 	cbGames.addItem("Todos");
 
 	try {
-	    for (int i = 1; i < listGames.size(); i++)
+	    for(int i = 1; i < listGames.size(); i++)
 		cbGames.addItem(listGames.get(i));
 	} catch (ArrayIndexOutOfBoundsException ex) {
 	    ex.printStackTrace();

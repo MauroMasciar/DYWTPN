@@ -8,7 +8,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 public class Main {
     public static Process p;
-    public static final String versionApp = "1.2.4";
+    public static final String versionApp = "1.2.5";
 
     public static void main(String[] args) {
 	try {

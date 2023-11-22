@@ -10,6 +10,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 
+import database.ModelConfig;
 import database.ModelGames;
 import database.ModelPlayer;
 
@@ -20,7 +21,8 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
     public static JTable tbPlayerHistory = new JTable();
 
     public PlayerHistory() {
-	setBounds(30, 30, 500, 500);
+	ModelConfig mc = new ModelConfig();
+	setBounds(mc.getBounds_x("History"), mc.getBounds_y("History"), 500, 500);
 	setTitle("Historial");
 	setClosable(true);
 	setResizable(true);

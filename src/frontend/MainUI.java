@@ -64,7 +64,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     public MainUI() {
 	setTitle("DYWTPN");
-	setBounds(300, 330, 800, 280);
+	ModelConfig mc = new ModelConfig();
+	setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 800, 280);
 	setClosable(false);
 	setResizable(true);
 	setIconifiable(false);
@@ -241,6 +242,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		}
 	    }
 	}).start();
+	
 	setVisible(true);
     }
 
@@ -254,7 +256,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	if (gameIdLaunched == 0)
 	    UpdateGameList();
 
-	txtStatistics.setText(" Nombre: " + mc.getNameUser() + " | Total de juegos: " + modelList.size()
+	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Total de juegos: " + modelList.size()
 	+ " | Total de horas: " + decimalFormat.format(totalHours / 60));
 
 	double uno = mg.getLastDays(0, 1);
@@ -278,7 +280,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    // LoadLastSession
 	    txtGamePlaying.setText(mc.getLastGame());
 	    txtTimePlaying.setText(mc.getLastSessionTime());
-	    if (mc.getNameUser().equals("PRUEBAS")) {
+	    if (mc.getUsername().equals("PRUEBAS")) {
 		txtStatistics.setForeground(Color.RED);
 		txtTimePlaying.setForeground(Color.RED);
 		txtGamePlaying.setForeground(Color.RED);

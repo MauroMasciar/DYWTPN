@@ -50,8 +50,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	// j.setExtendedState(MAXIMIZED_BOTH);
-	
-	
 
 	menubar.add(mnuGames);
 	menubar.add(mnuPlayer);
@@ -117,7 +115,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	} else if (e.getSource() == mnuiGamesCollections) {
 	    j.add(new Collections());
 	    j.repaint();
-	} else if (e.getSource() == mnuiHelpConfig) {
+	} else if(e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());
 	    j.repaint();
 	} else if (e.getSource() == mnuiPlayerActivities) {

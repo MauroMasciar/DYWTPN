@@ -1,7 +1,5 @@
 package frontend;
 
-import database.ModelConfig;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,13 +9,28 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import backend.Validations;
+import database.ModelConfig;
+
 public class Config extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6985809216237042311L;
     private JLabel lblName = new JLabel("Nuevo nombre");
     private JTextField txtName = new JTextField(10);
     private JButton btnSave = new JButton("Guardar datos");
     private JButton btnTruncate = new JButton("Resetear datos");
-    
+    private JLabel lblMainUIx = new JLabel("Main X");
+    private JTextField txtMainUIx = new JTextField(10);
+    private JLabel lblMainUIy = new JLabel("Main Y");
+    private JTextField txtMainUIy = new JTextField(10);
+    private JLabel lblActivityx = new JLabel("Actividad X");
+    private JTextField txtActivityx = new JTextField(10);
+    private JLabel lblActivityy = new JLabel("Actividad Y");
+    private JTextField txtActivityy = new JTextField(10);
+    private JLabel lblHistoryx = new JLabel("Historial X");
+    private JTextField txtHistoryx = new JTextField(10);
+    private JLabel lblHistoryy = new JLabel("Historial Y");
+    private JTextField txtHistoryy = new JTextField(10);
+
     public Config() {
 	setTitle("Configuracion");
 	setSize(800, 400);
@@ -27,11 +40,34 @@ public class Config extends JInternalFrame implements ActionListener {
 
 	add(lblName);
 	add(txtName);
+	add(lblMainUIx);
+	add(txtMainUIx);
+	add(lblMainUIy);
+	add(txtMainUIy);
+	add(lblActivityx);
+	add(txtActivityx);
+	add(lblActivityy);
+	add(txtActivityy);
+	add(lblHistoryx);
+	add(txtHistoryx);
+	add(lblHistoryy);
+	add(txtHistoryy);
 	add(btnSave);
 	add(btnTruncate);
 
 	btnSave.addActionListener(this);
 	btnTruncate.addActionListener(this);
+
+	ModelConfig mc = new ModelConfig();
+
+	txtName.setText(mc.getUsername());
+	txtMainUIx.setText(String.valueOf(mc.getBounds_x("MainUI")));
+	txtMainUIy.setText(String.valueOf(mc.getBounds_y("MainUI")));
+
+	txtActivityx.setText(String.valueOf(mc.getBounds_y("Activity")));
+	txtActivityy.setText(String.valueOf(mc.getBounds_y("Activity")));
+	txtHistoryx.setText(String.valueOf(mc.getBounds_y("History")));
+	txtHistoryy.setText(String.valueOf(mc.getBounds_y("History")));
 
 	setVisible(true);
     }
@@ -39,10 +75,7 @@ public class Config extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == btnTruncate) {
-	    int res = JOptionPane.showConfirmDialog(this,
-		    "¿Seguro que desea borrar todos los datos? Esto borrara todo tu historial de sesiones, datos "
-			    + "de usuario, juegos, etc",
-			    "Borrado de datos", JOptionPane.YES_NO_OPTION);
+	    int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea borrar todos los datos? Esto borrara todo tu historial de sesiones, datos de usuario, juegos, etc", "Borrado de datos", JOptionPane.YES_NO_OPTION);
 	    if (res == 0) {
 		ModelConfig mc = new ModelConfig();
 		int dataTruncated = mc.truncateData();
@@ -56,12 +89,21 @@ public class Config extends JInternalFrame implements ActionListener {
 	    }
 	} else if (e.getSource() == btnSave) {
 	    ModelConfig mc = new ModelConfig();
-	    if (txtName.getText().isEmpty()) {
-		JOptionPane.showMessageDialog(this, "Debe introducir un nombre de usuario", "Error", JOptionPane.ERROR_MESSAGE);
+	    if(Validations.isEmpty(txtName) || Validations.isEmpty(txtMainUIx) || Validations.isEmpty(txtMainUIy) || Validations.isEmpty(txtActivityx) || Validations.isEmpty(txtActivityy)
+		    || Validations.isEmpty(txtHistoryx) || Validations.isEmpty(txtHistoryy)) {
+		JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
+	    
 	    mc.saveUserName(txtName.getText());
-	    JOptionPane.showMessageDialog(this, "Su nombre de usuario ha sido cambiado", "Nombre cambiado", JOptionPane.INFORMATION_MESSAGE);
+	    try {
+		mc.setSavedBounds("MainUI", Double.parseDouble(txtMainUIx.getText()), Double.parseDouble(txtMainUIy.getText()));
+		mc.setSavedBounds("Activity", Double.parseDouble(txtActivityx.getText()), Double.parseDouble(txtActivityy.getText()));
+		mc.setSavedBounds("History", Double.parseDouble(txtHistoryx.getText()), Double.parseDouble(txtHistoryy.getText()));
+		JOptionPane.showMessageDialog(this, "Los datos han sido guardados", "Datos guardados", JOptionPane.INFORMATION_MESSAGE);
+	    } catch(NumberFormatException ex) {
+		JOptionPane.showMessageDialog(this, "Algunos campos tienen datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
     }
 }

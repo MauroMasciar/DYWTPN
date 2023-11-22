@@ -5,5 +5,9 @@ INSERT INTO `dywtpn`.`collections` (`id`, `name`) VALUES (NULL, 'Ninguna');
 CREATE TABLE `dywtpn`.`library` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 INSERT INTO `dywtpn`.`library` (`id`, `name`) VALUES (NULL, 'Ninguna');
 ALTER TABLE `games` ADD `library` INT NOT NULL DEFAULT '1' AFTER `category`;
-1.1.21
+-- 1.1.21
 ALTER TABLE `games` CHANGE `mins_played` `time_played` INT(255) NOT NULL DEFAULT '0';
+-- 1.2.5
+ALTER TABLE `config` ADD `MainUI_x` INT(10) NOT NULL DEFAULT '300' AFTER `show_hidden`, ADD `MainUI_y` INT(10) NOT NULL DEFAULT '330' AFTER `MainUI_x`;
+ALTER TABLE `config` ADD `Activity_x` INT(10) NOT NULL DEFAULT '100' AFTER `MainUI_y`, ADD `Activity_y` INT(10) NOT NULL DEFAULT '100' AFTER `Activity_x`;
+ALTER TABLE `config` ADD `History_x` INT(10) NOT NULL DEFAULT '30' AFTER `Activity_y`, ADD `History_y` INT(10) NOT NULL DEFAULT '30' AFTER `History_x`;

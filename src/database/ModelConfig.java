@@ -4,6 +4,7 @@ import debug.Log;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,7 +56,7 @@ public class ModelConfig {
 	return 0;
     }
 
-    public String getNameUser() {
+    public String getUsername() {
 	String query = "SELECT name FROM config";
 	String name = "";
 	try {
@@ -161,6 +162,69 @@ public class ModelConfig {
 	    stmt.execute(query);
 	    stmt.close();
 	    conex.close();
+	} catch (Exception ex) {
+	    ex.printStackTrace();
+	}
+    }
+
+    public int getBounds_x(String window) {
+	int x = 30;
+	String query = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    if(window.equals("MainUI")) query = "SELECT MainUI_x FROM config";
+	    else if(window.equals("Activity")) query = "SELECT Activity_x FROM config";
+	    else if(window.equals("History")) query = "SELECT History_x FROM config";
+	    
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) x = rs.getInt(1);
+	    stmt.close();
+	    conex.close();
+	    rs.close();
+	} catch(Exception ex) {
+	    ex.printStackTrace();
+	}
+	return x;
+    }
+    
+    public int getBounds_y(String window) {
+	int y = 30;
+	String query = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    if(window.equals("MainUI")) query = "SELECT MainUI_y FROM config";
+	    else if(window.equals("Activity")) query = "SELECT Activity_y FROM config";
+	    else if(window.equals("History")) query = "SELECT History_y FROM config";
+	    
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) y = rs.getInt(1);
+	    stmt.close();
+	    conex.close();
+	    rs.close();
+	} catch(Exception ex) {
+	    ex.printStackTrace();
+	}
+	return y;
+    }
+
+    public void setSavedBounds(String window, double d, double e) {
+	String query = "";
+	int x = (int)d;
+	int y = (int)e;
+	if(window.equals("MainUI")) query = "UPDATE config SET MainUI_x = ?, MainUI_y = ?";	
+	if(window.equals("Activity")) query = "UPDATE config SET Activity_x = ?, Activity_y = ?";
+	if(window.equals("History")) query = "UPDATE config SET History_x = ?, History_y = ?";
+	
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setInt(1, x);
+	    p.setInt(2, y);
+	    p.executeUpdate();
+	    conex.close();
+	    p.close();
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
