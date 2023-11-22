@@ -49,7 +49,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	String title = "DYWTPN v" + Main.versionApp;
 	j.setTitle(title);
 	j.setBounds(30, 30, 1200, 800);
-	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	j.setDefaultCloseOperation(EXIT_ON_CLOSE);//
 	// j.setExtendedState(MAXIMIZED_BOTH);
 	
 	

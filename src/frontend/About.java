@@ -6,7 +6,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-public class About extends JInternalFrame {
+public class About extends JInternalFrame {//
     private static final long serialVersionUID = 7342188362929540330L;
     private JPanel pnlInfo = new JPanel();
     private JLabel lblFirstLine = new JLabel();
