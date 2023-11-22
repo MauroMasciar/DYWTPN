@@ -11,7 +11,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 
 import database.ModelConfig;
 

@@ -49,7 +49,7 @@ public class ModelConfig {
 	    conex.close();
 	    Log.Loguear("Datos borrados");
 	    return 1;
-	} catch (SQLException ex) {//
+	} catch (SQLException ex) {
 	    Log.Loguear(ex.getMessage());
 	}
 	return 0;
