@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
 public class Log {
     public static FileWriter fw = null;
     public static PrintWriter pw = null;
@@ -13,7 +12,8 @@ public class Log {
     public static LocalTime t = LocalTime.now();
 
     public Log(String string) {
-	if(string != null) Loguear(string);
+	if (string != null)
+	    Loguear(string);
     }
 
     public static void Loguear(String string) {

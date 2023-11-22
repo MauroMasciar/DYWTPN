@@ -24,37 +24,42 @@ public class InGame {
 	    second = 0;
 
 	    MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
-	    LaunchGame(IdLaunched);
+	    launchGame(IdLaunched);
 	}
     }
 
-    public void LaunchGame(int IdLaunched) {
+    public void launchGame(int IdLaunched) {
 	new Thread(new Runnable() {
 	    public void run() {
 		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
 		while (gameIdLaunched != 0) {
 		    try {
-			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + ". Total: " + gameTimePlayedTotal;
+			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed
+				+ ". Total: " + gameTimePlayedTotal;
 			Log.Loguear(s);
-			CheckAchievement();
+			checkAchievement();
 			Thread.sleep(1000);
-			second ++;
-			if(second == 60) {
+			second++;
+			if (second == 60) {
 			    second = 0;
-			    minute ++;
+			    minute++;
 			}
-			if(minute == 60) {
+			if (minute == 60) {
 			    minute = 0;
-			    hour ++;
+			    hour++;
 			}
-			if(second < 10) sSecond = "0" + second;
-			else sSecond = String.valueOf(second);
-			if(minute < 10) sMinute = "0" + minute;
-			else sMinute = String.valueOf(minute);
+			if (second < 10)
+			    sSecond = "0" + second;
+			else
+			    sSecond = String.valueOf(second);
+			if (minute < 10)
+			    sMinute = "0" + minute;
+			else
+			    sMinute = String.valueOf(minute);
 			MainUI.txtTimePlaying.setText(" Tiempo jugando: " + hour + ":" + sMinute + ":" + sSecond);
 
-			gameTimePlayedTotal ++;
-			gameTimePlayed ++;
+			gameTimePlayedTotal++;
+			gameTimePlayed++;
 			saveGameTime();
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
@@ -64,22 +69,22 @@ public class InGame {
 	}).start();
     }
 
-    public void CheckAchievement() {
+    public void checkAchievement() {
 	ModelGames mg = new ModelGames();
 	String achiev = "";
 	if(gameTimePlayedTotal == 60) achiev = "Has jugado a " + mg.getNameFromId(gameIdLaunched) + " por primera vez";
-	else if(gameTimePlayedTotal == HOUR_GAME) achiev = "Has alcanzado tu primera hora de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*5) achiev = "Has alcanzado 5 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*10) achiev = "Has alcanzado 10 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*25) achiev = "Has alcanzado 25 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*50) achiev = "Has alcanzado 50 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*100) achiev = "Has alcanzado 100 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*250) achiev = "Has alcanzado 250 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*500) achiev = "Has alcanzado 500 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*1000) achiev = "Has alcanzado 1000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*2000) achiev = "Has alcanzado 2000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*5000) achiev = "Has alcanzado 5000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
-	else if(gameTimePlayedTotal == HOUR_GAME*10000) achiev = "Has alcanzado 10000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME) achiev = "Has alcanzado tu primera hora de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 5) achiev = "Has alcanzado 5 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 10) achiev = "Has alcanzado 10 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 25) achiev = "Has alcanzado 25 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 50) achiev = "Has alcanzado 50 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 100) achiev = "Has alcanzado 100 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 250) achiev = "Has alcanzado 250 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 500) achiev = "Has alcanzado 500 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 1000) achiev = "Has alcanzado 1000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 2000) achiev = "Has alcanzado 2000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 5000) achiev = "Has alcanzado 5000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+	else if (gameTimePlayedTotal == HOUR_GAME * 10000) achiev = "Has alcanzado 10000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
 
 	if(achiev != "") {
 	    ModelPlayer mp = new ModelPlayer();
@@ -96,7 +101,7 @@ public class InGame {
 	    mg.newSession(gameIdLaunched);
 	    gameIdLaunched = 0;
 	    gameName = "Nada";
-	    
+
 	    new Thread(new Runnable() {
 		public void run() {
 		    try {

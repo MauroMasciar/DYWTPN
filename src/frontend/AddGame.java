@@ -34,6 +34,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private JCheckBox cbGhost = new JCheckBox();
     private JCheckBox cbCompleted = new JCheckBox();
     private JButton btnAdd = new JButton("Añadir");
+
     public AddGame() {
 	setTitle("Añadir nuevo juego");
 	setBounds(100, 100, 400, 230);
@@ -64,16 +65,16 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	gbc.gridy++;
 	add(lblScore, gbc);
 	gbc.gridx = 1;
-	add(txtScore, gbc);	
+	add(txtScore, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	add(lblCategory, gbc);
 	gbc.gridx = 1;
-	add(cbCategory, gbc);	
+	add(cbCategory, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	add(lblTimes, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(txtTimes, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
@@ -86,68 +87,81 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	gbc.gridx = 1;
 	add(cbGhost, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	add(lblCompleted, gbc);
-	gbc.gridx ++;
-	add(cbCompleted, gbc);	
+	gbc.gridx++;
+	add(cbCompleted, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	gbc.gridwidth = 2;
 	add(btnAdd, gbc);
-	
+
 	txtSecondsPlayed.setText("0");
 	txtTimes.setText("0");
 	cbCompleted.setSelected(false);
 	ModelGames mg = new ModelGames();
 	ArrayList<String> category = mg.getCategoryList();
-	for(int i = 0; i<category.size(); i++) cbCategory.addItem(category.get(i));
-	
+	for (int i = 0; i < category.size(); i++)
+	    cbCategory.addItem(category.get(i));
+
 	btnAdd.addActionListener(this);
 
 	setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnAdd) {
-	    if(txtGameName.getText().isEmpty() || txtGameName.getText().isBlank()) {
-		JOptionPane.showMessageDialog(this, "Debes al menos especificar el nombre del juego", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+	if (e.getSource() == btnAdd) {
+	    if (txtGameName.getText().isEmpty() || txtGameName.getText().isBlank()) {
+		JOptionPane.showMessageDialog(this, "Debes al menos especificar el nombre del juego",
+			"Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
-	    if(txtScore.getText().isEmpty() || txtScore.getText().isBlank()) {
+	    if (txtScore.getText().isEmpty() || txtScore.getText().isBlank()) {
 		txtScore.setText("0");
 	    }
-	    if(txtSecondsPlayed.getText().isEmpty() || txtSecondsPlayed.getText().isBlank()) {
+	    if (txtSecondsPlayed.getText().isEmpty() || txtSecondsPlayed.getText().isBlank()) {
 		txtSecondsPlayed.setText("0");
 	    }
 	    try {
 		ModelGames g = new ModelGames();
 		int c, comp, score, secondsPlayed = 0;
 		score = Integer.parseInt(txtScore.getText());
-		if(score > 10) score = 10;
-		else if(score < 0) score = 0;
-		if(cbGhost.isSelected()) c = 1;
-		else c = 0;
-		if(cbCompleted.isSelected()) comp = 1;
-		else comp = 0;
+		if (score > 10)
+		    score = 10;
+		else if (score < 0)
+		    score = 0;
+		if (cbGhost.isSelected())
+		    c = 1;
+		else
+		    c = 0;
+		if (cbCompleted.isSelected())
+		    comp = 1;
+		else
+		    comp = 0;
 		try {
 		    secondsPlayed = Integer.parseInt(txtSecondsPlayed.getText());
 		} catch (NumberFormatException ex) {
 		    secondsPlayed = 0;
 		}
-		
-		int a = g.addGame(txtGameName.getText(), secondsPlayed, txtPath.getText(), c, comp, g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), score);
-		if(a == 1) {
-		    JOptionPane.showMessageDialog(this, "Se ha añadido el juego correctamente", "Juego añadido", JOptionPane.INFORMATION_MESSAGE);
+
+		int a = g.addGame(txtGameName.getText(), secondsPlayed, txtPath.getText(), c, comp,
+			g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), score);
+		if (a == 1) {
+		    JOptionPane.showMessageDialog(this, "Se ha añadido el juego correctamente", "Juego añadido",
+			    JOptionPane.INFORMATION_MESSAGE);
 		    txtGameName.setText("");
 		    txtSecondsPlayed.setText("");
 		    txtPath.setText("");
 		    MainUI.LoadData();
 		    this.dispose();
 		} else {
-		    JOptionPane.showMessageDialog(this, "No se ha podido añadir el juego. Revisa que los datos sean correctos", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(this,
+			    "No se ha podido añadir el juego. Revisa que los datos sean correctos",
+			    "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
 		}
 	    } catch (NumberFormatException ex) {
-		JOptionPane.showMessageDialog(this, "Inserte los datos correctamente", "Ha ocurrido un error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Inserte los datos correctamente", "Ha ocurrido un error",
+			JOptionPane.ERROR_MESSAGE);
 	    }
 	}
     }

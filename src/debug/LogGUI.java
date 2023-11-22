@@ -10,6 +10,7 @@ public class LogGUI extends JInternalFrame {
     private static final long serialVersionUID = -670193207184414527L;
     public static JTextArea txtaDebug = new JTextArea();
     private JScrollPane scr = new JScrollPane(txtaDebug);
+
     public LogGUI() {
 	setBounds(30, 30, 500, 500);
 	setTitle("DEBUG");

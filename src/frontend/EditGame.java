@@ -37,7 +37,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private JCheckBox cbCompletedGame = new JCheckBox();
     private JButton btnEdit = new JButton("Guardar cambios");
     private JButton btnDel = new JButton("Borrar juego");
-    private int gameId;
+	private int gameId;
 
     public EditGame(int gameId) {
 	ModelGames mg = new ModelGames();
@@ -54,14 +54,15 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	txtPath.setText(mg.getPathFromGame(gameId));
 	txtTimes.setText(String.valueOf(mg.getTimes(gameId)));
 	txtScore.setText(String.valueOf(mg.getScore(gameId)));
-	
+
 	cbGhostGame.setSelected(mg.isGhost(gameId));
 	cbCompletedGame.setSelected(mg.isCompleted(gameId));
 	cbHiddenGame.setSelected(mg.IsHidden(gameId));
-	
+
 	ArrayList<String> category = mg.getCategoryList();
-	for(int i = 0; i<category.size(); i++) cbCategory.addItem(category.get(i));
-	
+	for (int i = 0; i < category.size(); i++)
+	    cbCategory.addItem(category.get(i));
+
 	gbc.gridheight = 1;
 	gbc.gridwidth = 1;
 	gbc.weightx = 1.0;
@@ -80,14 +81,14 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridx = 1;
 	add(txtSecondsPlayed, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	add(lblTimes, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(txtTimes, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	add(lblScore, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(txtScore, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
@@ -95,26 +96,26 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridx = 1;
 	add(txtPath, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	add(lblCategory, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(cbCategory, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	add(lblHidden, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(cbHiddenGame, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	add(lblGhostGame, gbc);
 	gbc.gridx++;
 	add(cbGhostGame, gbc);
-	gbc.gridy ++;
+	gbc.gridy++;
 	gbc.gridx = 0;
 	add(lblCompletedGame, gbc);
-	gbc.gridx ++;
-	add(cbCompletedGame, gbc);	
-	gbc.gridy ++;
+	gbc.gridx++;
+	add(cbCompletedGame, gbc);
+	gbc.gridy++;
 	gbc.gridx = 0;
 	gbc.gridwidth = 1;
 	add(btnDel, gbc);
@@ -123,70 +124,88 @@ public class EditGame extends JInternalFrame implements ActionListener {
 
 	btnEdit.addActionListener(this);
 	btnDel.addActionListener(this);
-	
+
 	updateData();
 
 	setVisible(true);
     }
-    
+
     public void updateData() {
 	ModelGames mg = new ModelGames();
 	ArrayList<String> category = mg.getCategoryList();
 	cbCategory.removeAllItems();
-	for(int i = 0; i<category.size(); i++) cbCategory.addItem(category.get(i));
-	
+	for (int i = 0; i < category.size(); i++)
+	    cbCategory.addItem(category.get(i));
+
 	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnEdit) {
+	if (e.getSource() == btnEdit) {
 	    ModelGames g = new ModelGames();
 	    String ghostGame, completed;
 	    int score, hidden, secondsPlayed = 0;
-	    if(cbGhostGame.isSelected()) ghostGame = "1";
-	    else ghostGame = "0";
+	    if (cbGhostGame.isSelected())
+		ghostGame = "1";
+	    else
+		ghostGame = "0";
 
-	    if(cbCompletedGame.isSelected()) completed = "1";
-	    else completed = "0";
-	    
-	    if(cbHiddenGame.isSelected()) hidden = 1;
-	    else hidden = 0;
+	    if (cbCompletedGame.isSelected())
+		completed = "1";
+	    else
+		completed = "0";
+
+	    if (cbHiddenGame.isSelected())
+		hidden = 1;
+	    else
+		hidden = 0;
 
 	    try {
 		score = Integer.parseInt(txtScore.getText());
-		if(score > 10) score = 10;
-		if(score < 0) score = 0;
+		if (score > 10)
+		    score = 10;
+		if (score < 0)
+		    score = 0;
 	    } catch (NumberFormatException ex) {
 		score = 0;
 	    }
-	    if(!txtSecondsPlayed.getText().isEmpty() && !txtSecondsPlayed.getText().isBlank()) {
+	    if (!txtSecondsPlayed.getText().isEmpty() && !txtSecondsPlayed.getText().isBlank()) {
 		secondsPlayed = Integer.parseInt(txtSecondsPlayed.getText());
 	    }
-	    
-	    if(txtTimes.getText().isEmpty() || txtTimes.getText().isBlank()) txtTimes.setText("0");
-	    if(txtGameName.getText().isEmpty() || txtGameName.getText().isBlank()) {
-		JOptionPane.showMessageDialog(this,  "El juego debe tener un nombre", "Error", JOptionPane.ERROR_MESSAGE);
+
+	    if (txtTimes.getText().isEmpty() || txtTimes.getText().isBlank())
+		txtTimes.setText("0");
+	    if (txtGameName.getText().isEmpty() || txtGameName.getText().isBlank()) {
+		JOptionPane.showMessageDialog(this, "El juego debe tener un nombre", "Error",
+			JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
-	    
-	    if(g.editGame(gameId, txtGameName.getText(), secondsPlayed, txtPath.getText(), ghostGame, txtTimes.getText(), completed, score, g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), hidden) == 1) {
-		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
+
+	    if (g.editGame(gameId, txtGameName.getText(), secondsPlayed, txtPath.getText(), ghostGame,
+		    txtTimes.getText(), completed, score,
+		    g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), hidden) == 1) {
+		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado",
+			JOptionPane.INFORMATION_MESSAGE);
 		this.dispose();
 	    } else {
-		JOptionPane.showMessageDialog(this,  "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error",
+			JOptionPane.ERROR_MESSAGE);
 	    }
 	    MainUI.UpdateGameList();
-	} else if(e.getSource() == btnDel) {
-	    int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea borrar este juego?", "Borrar juego", JOptionPane.YES_NO_OPTION);
-	    if(res == 0) {
+	} else if (e.getSource() == btnDel) {
+	    int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea borrar este juego?", "Borrar juego",
+		    JOptionPane.YES_NO_OPTION);
+	    if (res == 0) {
 		ModelGames g = new ModelGames();
 		int confirm = g.deleteGame(gameId);
-		if(confirm != 0) {
-		    JOptionPane.showMessageDialog(this,  "El juego ha sido borrado", "Juego borrado", JOptionPane.ERROR_MESSAGE);
+		if (confirm != 0) {
+		    JOptionPane.showMessageDialog(this, "El juego ha sido borrado", "Juego borrado",
+			    JOptionPane.ERROR_MESSAGE);
 		    this.dispose();
 		} else {
-		    JOptionPane.showMessageDialog(this,  "Ha habido un error al borrar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(this, "Ha habido un error al borrar el juego", "Error",
+			    JOptionPane.ERROR_MESSAGE);
 		}
 	    }
 	    MainUI.UpdateGameList();

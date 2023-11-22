@@ -17,6 +17,7 @@ public class Config extends JInternalFrame implements ActionListener {
     private JTextField txtName = new JTextField(10);
     private JButton btnSave = new JButton("Guardar datos");
     private JButton btnTruncate = new JButton("Resetear datos");
+    
     public Config() {
 	setTitle("Configuracion");
 	setSize(800, 400);
@@ -28,24 +29,34 @@ public class Config extends JInternalFrame implements ActionListener {
 	add(txtName);
 	add(btnSave);
 	add(btnTruncate);
-	
+
 	btnSave.addActionListener(this);
 	btnTruncate.addActionListener(this);
 
 	setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnTruncate) {
-	    int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea borrar todos los datos? Esto borrara todo tu historial de sesiones, datos "
-		    + "de usuario, juegos, etc","Borrado de datos",JOptionPane.YES_NO_OPTION);
-	    if(res == 0) {
+	if (e.getSource() == btnTruncate) {
+	    int res = JOptionPane.showConfirmDialog(this,
+		    "¿Seguro que desea borrar todos los datos? Esto borrara todo tu historial de sesiones, datos "
+			    + "de usuario, juegos, etc",
+			    "Borrado de datos", JOptionPane.YES_NO_OPTION);
+	    if (res == 0) {
 		ModelConfig mc = new ModelConfig();
-		mc.truncateData();
+		int dataTruncated = mc.truncateData();
+		if(dataTruncated == 1) {
+		    JOptionPane.showMessageDialog(this, "Los datos han sido reseteados", "Datos cerrados", JOptionPane.INFORMATION_MESSAGE);
+		    MainUI.LoadData();
+		    MainUI.UpdateGameList();
+		} else {
+		    JOptionPane.showMessageDialog(this, "No se han podido borrar los datos. Prueba a reiniciar la aplicacion y volver a intentarlo", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	    }
-	} else if(e.getSource() == btnSave) {
+	} else if (e.getSource() == btnSave) {
 	    ModelConfig mc = new ModelConfig();
-	    if(txtName.getText().isEmpty()) {
+	    if (txtName.getText().isEmpty()) {
 		JOptionPane.showMessageDialog(this, "Debe introducir un nombre de usuario", "Error", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }

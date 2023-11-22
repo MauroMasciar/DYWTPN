@@ -19,14 +19,15 @@ public class GameList extends JInternalFrame implements ActionListener {
     private JComboBox<String> cbCategory = new JComboBox<String>();
     public static JTable tblGames = new JTable();
     private JScrollPane scrTable = new JScrollPane(tblGames);
+
     public GameList() {
 	setTitle("Lista de juegos");
 	setBounds(50, 50, 800, 500);
 	setClosable(true);
 	setResizable(true);
 	setLayout(new GridBagLayout());
-	
-	GridBagConstraints gbc = new GridBagConstraints();	
+
+	GridBagConstraints gbc = new GridBagConstraints();
 	gbc.gridheight = 1;
 	gbc.gridwidth = 1;
 	gbc.weightx = 1.0;
@@ -37,19 +38,19 @@ public class GameList extends JInternalFrame implements ActionListener {
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	add(cbGames, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(cbCompleted, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(cbCategory, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	gbc.gridwidth = 3;
 	add(scrTable, gbc);
-	
+
 	cbCompleted.addItem("Todos");
 	cbCompleted.addItem("Completados");
 	cbCompleted.addItem("No completados");
-	
+
 	ArrayList<String> list = new ArrayList<String>();
 	ModelGames mg = new ModelGames();
 	list = mg.getGamesNameList(true);
@@ -61,7 +62,7 @@ public class GameList extends JInternalFrame implements ActionListener {
 	} catch (ArrayIndexOutOfBoundsException ex) {
 	    ex.printStackTrace();
 	}
-	
+
 	list.clear();
 	list = mg.getCategoryList();
 	try {
@@ -71,23 +72,25 @@ public class GameList extends JInternalFrame implements ActionListener {
 	    }
 	} catch (ArrayIndexOutOfBoundsException ex) {
 	    ex.printStackTrace();
-	}	
-	
+	}
+
 	refreshTable();
-	
+
 	cbGames.addActionListener(this);
 	cbCompleted.addActionListener(this);
 	cbCategory.addActionListener(this);
-	
+
 	setVisible(true);
     }
-    
+
     public void refreshTable() {
 	ModelGames mg = new ModelGames();
-	if(cbCompleted.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") cbCompleted.setSelectedItem("Todos");
-	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString()));
+	if(cbCompleted.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos")
+	    cbCompleted.setSelectedItem("Todos");
+	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(),
+		cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString()));
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == cbCategory || e.getSource() == cbGames || e.getSource() == cbCompleted) {

@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 
 public class Collections extends JInternalFrame {
     private static final long serialVersionUID = -66520709315604880L;
+
     public Collections() {
 	setTitle("Colecciones");
 	setBounds(100, 100, 400, 230);
@@ -21,7 +22,7 @@ public class Collections extends JInternalFrame {
 	gbc.ipadx = 40;
 	gbc.ipady = 40;
 	gbc.fill = GridBagConstraints.BOTH;
-	
+
 	setVisible(true);
     }
 }

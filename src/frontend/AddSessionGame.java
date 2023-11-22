@@ -23,8 +23,9 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
     private JTextField txtTime = new JTextField();
     private JTextField txtDate = new JTextField();
     private JButton btnAdd = new JButton("Añadir");
-    
+
     ModelGames mg = new ModelGames();
+
     public AddSessionGame() {
 	setTitle("Añadir nueva sesion");
 	setBounds(100, 100, 400, 160);
@@ -32,7 +33,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	setResizable(true);
 	setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
-	
+
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	gbc.gridwidth = 1;
@@ -41,51 +42,56 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	gbc.weighty = 1.0;
 	gbc.fill = GridBagConstraints.BOTH;
 	add(lblCbGame, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(cbGame, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	add(lblTime, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(txtTime, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	add(lblDate, gbc);
-	gbc.gridx ++;
+	gbc.gridx++;
 	add(txtDate, gbc);
 	gbc.gridx = 0;
-	gbc.gridy ++;
+	gbc.gridy++;
 	gbc.gridwidth = 2;
 	add(btnAdd, gbc);
-	
+
 	btnAdd.addActionListener(this);
-	
+
 	ArrayList<String> gameList = new ArrayList<String>();
 	gameList = mg.getGamesNameList(false);
-	for(int i=1; i<gameList.size(); i++) {
+	for (int i = 1; i < gameList.size(); i++) {
 	    cbGame.addItem(gameList.get(i));
 	}
-		
+
 	setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnAdd) {
-	    if(txtTime.getText().isEmpty()) {
-		JOptionPane.showMessageDialog(this, "Debes especificar cuanto tiempo jugaste", "Faltan datos", JOptionPane.ERROR_MESSAGE);
+	if (e.getSource() == btnAdd) {
+	    if (txtTime.getText().isEmpty()) {
+		JOptionPane.showMessageDialog(this, "Debes especificar cuanto tiempo jugaste", "Faltan datos",
+			JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    String hoursPlayed = txtTime.getText().replaceAll(",", ".");
 	    int gameId = mg.getIdFromGameName(cbGame.getSelectedItem().toString());
-	    if(mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), hoursPlayed, txtDate.getText()) == 1) {
+	    if (mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), hoursPlayed, txtDate.getText()) == 1) {
 		txtTime.setText("");
 		txtDate.setText("");
 		this.dispose();
-		JOptionPane.showMessageDialog(this, "La sesion de juego se ha agregado satisfactoriamente", "Sesion añadida", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "La sesion de juego se ha agregado satisfactoriamente",
+			"Sesion añadida", JOptionPane.INFORMATION_MESSAGE);
 	    } else {
-		JOptionPane.showMessageDialog(this, "La sesion de juego no se ha podido agregar. Verifica que todos los datos sean correctos", "Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this,
+			"La sesion de juego no se ha podido agregar. Verifica que todos los datos sean correctos",
+			"Error", JOptionPane.ERROR_MESSAGE);
 	    }
-	    
+
 	}
     }
 }

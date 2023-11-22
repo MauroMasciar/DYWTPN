@@ -9,24 +9,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ModelConfig {
-    private String database = "DYWTPN";
-    private String hostname = "localhost";
-    private String port = "3306";
-    private String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?useSSL=false";
-    private String username = "root";
-    private String password = "123456";
     private Connection conex = null;
     private static Statement stmt;
     private static ResultSet rs;
-    
-    public void truncateData() {
+
+    public int truncateData() {
 	try {
-	    conex = DriverManager.getConnection(url, username, password);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
-	    
+
 	    String query = "TRUNCATE category";
 	    stmt.execute(query);
-	    
+
 	    query = "TRUNCATE config";
 	    stmt.execute(query);
 
@@ -35,35 +29,37 @@ public class ModelConfig {
 
 	    query = "TRUNCATE games_sessions_history";
 	    stmt.execute(query);
-	    
+
 	    query = "TRUNCATE library";
 	    stmt.execute(query);
-	    
+
 	    query = "TRUNCATE player_activities";
 	    stmt.execute(query);
 
 	    query = "INSERT INTO config (name) VALUES ('Usuario')";
 	    stmt.execute(query);
-	    
+
 	    query = "INSERT INTO category (name_category) VALUES ('Ninguna')";
 	    stmt.execute(query);
-	    
+
 	    query = "INSERT INTO `dywtpn`.`library` (`id`, `name`) VALUES (NULL, 'Ninguna');";
 	    stmt.execute(query);
 
 	    stmt.close();
 	    conex.close();
 	    Log.Loguear("Datos borrados");
+	    return 1;
 	} catch (SQLException ex) {
 	    Log.Loguear(ex.getMessage());
 	}
+	return 0;
     }
 
     public String getNameUser() {
 	String query = "SELECT name FROM config";
 	String name = "";
 	try {
-	    conex = DriverManager.getConnection(url, username, password);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if (rs.next()) {
@@ -79,12 +75,12 @@ public class ModelConfig {
 	}
 	return name;
     }
-       
+
     public String getLastGame() {
 	String query = "SELECT last_game FROM config";
 	String last_game = "";
 	try {
-	    conex = DriverManager.getConnection(url, username, password);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if (rs.next()) {
@@ -100,12 +96,12 @@ public class ModelConfig {
 	}
 	return last_game;
     }
-    
+
     public String getLastSessionTime() {
 	String query = "SELECT last_session_time FROM config";
 	String last_session_time = "";
 	try {
-	    conex = DriverManager.getConnection(url, username, password);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if (rs.next()) {
@@ -121,12 +117,12 @@ public class ModelConfig {
 	}
 	return last_session_time;
     }
-    
+
     public boolean getIsHidden() {
 	String query = "SELECT show_hidden FROM config";
 	int sH = 0;
 	try {
-	    conex = DriverManager.getConnection(url, username, password);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if (rs.next()) {
@@ -138,14 +134,16 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
-	if(sH == 1) return true;
-	else return false;
+	if (sH == 1)
+	    return true;
+	else
+	    return false;
     }
-    
+
     public void setIsHidden(int args) {
 	String query = "UPDATE config SET show_hidden = " + args;
 	try {
-	    conex = DriverManager.getConnection(url, username, password);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    stmt.execute(query);
 	    stmt.close();
@@ -154,11 +152,11 @@ public class ModelConfig {
 	    ex.printStackTrace();
 	}
     }
-    
+
     public void saveUserName(String newName) {
 	String query = "UPDATE config SET name = '" + newName + "';";
 	try {
-	    conex = DriverManager.getConnection(url, username, password);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    stmt.execute(query);
 	    stmt.close();

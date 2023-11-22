@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import database.ModelConfig;
 
@@ -43,12 +44,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		    "No se ha podido cargar algunos recursos.",
 		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
-	
+
 	j.setLayout(null);
-	j.setTitle("DYWTPN v1.2.3");
+	String title = "DYWTPN v" + Main.versionApp;
+	j.setTitle(title);
 	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	//j.setExtendedState(MAXIMIZED_BOTH);
+	// j.setExtendedState(MAXIMIZED_BOTH);
+	
+	
 
 	menubar.add(mnuGames);
 	menubar.add(mnuPlayer);
@@ -90,45 +94,45 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     }
 
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == mnuiGamesAdd) {
+	if (e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesAddSession) {
+	} else if (e.getSource() == mnuiGamesAddSession) {
 	    j.add(new AddSessionGame());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesList) {
+	} else if (e.getSource() == mnuiGamesList) {
 	    j.add(new GameList());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesHidden) {
+	} else if (e.getSource() == mnuiGamesHidden) {
 	    ModelConfig mc = new ModelConfig();
-	    if(mnuiGamesHidden.isSelected()) {
+	    if (mnuiGamesHidden.isSelected()) {
 		mc.setIsHidden(1);
 	    } else {
 		mc.setIsHidden(0);
 	    }
 	    MainUI.LoadData();
 	    MainUI.UpdateGameList();
-	} else if(e.getSource() == mnuiGamesCategory) {
+	} else if (e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesCollections) {
+	} else if (e.getSource() == mnuiGamesCollections) {
 	    j.add(new Collections());
 	    j.repaint();
-	} else if(e.getSource() == mnuiHelpConfig) {
+	} else if (e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());
 	    j.repaint();
-	} else if(e.getSource() == mnuiPlayerActivities) {
+	} else if (e.getSource() == mnuiPlayerActivities) {
 	    j.add(new PlayerActivities());
 	    j.repaint();
-	} else if(e.getSource() == mnuiPlayerHistory) {
+	} else if (e.getSource() == mnuiPlayerHistory) {
 	    j.add(new PlayerHistory());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesRefresh) {
+	} else if (e.getSource() == mnuiGamesRefresh) {
 	    MainUI.LoadData();
-	} else if(e.getSource() == mnuiHelpAbout) {
+	} else if (e.getSource() == mnuiHelpAbout) {
 	    j.add(new About());
 	    j.repaint();
-	} else if(e.getSource() == mnuiHelpDebug) {
+	} else if (e.getSource() == mnuiHelpDebug) {
 	    j.add(new debug.LogGUI());
 	    j.repaint();
 	}

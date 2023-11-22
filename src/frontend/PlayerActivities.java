@@ -36,8 +36,8 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
 	gbc.fill = GridBagConstraints.BOTH;
 	gbc.gridx = 0;
 	gbc.gridy = 0;
-	add(cbGames, gbc);	
-	gbc.gridy ++;
+	add(cbGames, gbc);
+	gbc.gridy++;
 	add(scrTable, gbc);
 
 	loadActivity();
@@ -55,7 +55,8 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
 	cbGames.addItem("Todos");
 
 	try {
-	    for (int i = 1; i < listGames.size(); i++) cbGames.addItem(listGames.get(i));
+	    for (int i = 1; i < listGames.size(); i++)
+		cbGames.addItem(listGames.get(i));
 	} catch (ArrayIndexOutOfBoundsException ex) {
 	    ex.printStackTrace();
 	}
@@ -63,7 +64,7 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == cbGames) {
+	if (e.getSource() == cbGames) {
 	    ModelPlayer model = new ModelPlayer();
 	    tbPlayerActivities.setModel(model.getActivities(cbGames.getSelectedItem().toString()));
 	}
