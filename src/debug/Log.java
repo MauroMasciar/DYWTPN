@@ -22,7 +22,8 @@ public class Log {
 		try {
 			fw = new FileWriter("debug.log", true);
 			pw = new PrintWriter(fw);
-			String s = c + " " + t + ": " + string;
+			String s = "[" + LocalDate.now().getDayOfMonth() + "/" + LocalDate.now().getMonthValue() + "/" + LocalDate.now().getYear() + " " + LocalTime.now().getHour() + ":" 
+					+ LocalTime.now().getMinute() + ":" + LocalTime.now().getSecond() + "] " + string;
 			pw.println(s);
 			System.out.println(s);
 			fw.close();
