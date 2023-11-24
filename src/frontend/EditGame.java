@@ -1,214 +1,271 @@
 package frontend;
 
-import database.ModelGames;
-
+import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
+
+import database.ModelGames;
 
 public class EditGame extends JInternalFrame implements ActionListener {
-	private static final long serialVersionUID = 2260581778638759215L;
-	private JLabel lblGameName = new JLabel("Juego:");
-	private JLabel lblSecondsPlayed = new JLabel("Tiempo jugado (En segundos):");
-	private JLabel lblTimes = new JLabel("Veces jugado");
-	private JLabel lblScore = new JLabel("Puntuacion");
-	private JLabel lblPath = new JLabel("Ubicacion:");
-	private JLabel lblCategory = new JLabel("Categoria:");
-	private JLabel lblHidden = new JLabel("Juego oculto:");
-	private JLabel lblGhostGame = new JLabel("Juego fantasma");
-	private JLabel lblCompletedGame = new JLabel("Juego terminado");
-	private JTextField txtGameName = new JTextField();
-	private JTextField txtTimes = new JTextField();
-	private JTextField txtScore = new JTextField();
-	private JTextField txtSecondsPlayed = new JTextField();
-	private JTextField txtPath = new JTextField();
-	private JComboBox<String> cbCategory = new JComboBox<String>();
-	private JCheckBox cbHiddenGame = new JCheckBox();
-	private JCheckBox cbGhostGame = new JCheckBox();
-	private JCheckBox cbCompletedGame = new JCheckBox();
-	private JButton btnEdit = new JButton("Guardar cambios");
-	private JButton btnDel = new JButton("Borrar juego");
-	private int gameId;
+    private static final long serialVersionUID = 4203707721315187637L;
+    private final JPanel pnlDetails = new JPanel();
+    private final JLabel lblTitle = new JLabel("Titulo:");
+    private final JLabel lblReleaseDate = new JLabel("Fecha de lanzamiento:");
+    private final JLabel lblRating = new JLabel(" Rating:");
+    private final JLabel lblGenre = new JLabel("Genero:");
+    private final JLabel lblPlatform = new JLabel(" Plataforma:");
+    private final JLabel lblDeveloper = new JLabel("Desarrollador:");
+    private final JLabel lblPublisher = new JLabel(" Publicador:");
+    private final JLabel lblSeries = new JLabel("Serie:");
+    private final JLabel lblRegion = new JLabel(" Region:");
+    private final JLabel lblPlayMode = new JLabel("Modo de juego:");
+    private final JLabel lblVersion = new JLabel(" Version:");
+    private final JLabel lblStatus = new JLabel("Estado:");
+    private final JLabel lblSource = new JLabel("Fuente:");
+    private final JLabel lblLastPlayed = new JLabel("Ultima sesion:");
+    private final JLabel lblAdded = new JLabel(" Añadido:");
+    private final JLabel lblAddedDate = new JLabel("04/10/2023");
+    private final JLabel lblGameTime = new JLabel(" Tiempo jugado:");
+    private final JLabel lblPlayCount = new JLabel(" Veces jugado:");
+    private final JComboBox<String> cbTitle = new JComboBox<String>();
+    private final JTextField txtReleaseDate = new JTextField(20);
+    private final JTextField txtRating = new JTextField(20);
+    private final JTextField txtGenre = new JTextField(10);
+    private final JTextField txtPlatform = new JTextField(10);
+    private final JTextField txtDeveloper = new JTextField(10);
+    private final JTextField txtPublisher = new JTextField(10);
+    private final JTextField txtSeries = new JTextField(10);
+    private final JTextField txtRegion = new JTextField(10);
+    private final JTextField txtPlayMode = new JTextField(10);
+    private final JTextField txtVersion = new JTextField(10);
+    private final JTextField txtStatus = new JTextField(10);
+    private final JTextField txtSource = new JTextField(10);
+    private final JTextField txtLastPlayed = new JTextField(10);
+    private final JTextField txtGameTime = new JTextField(10);
+    private final JTextField txtPlayCount = new JTextField(10);
+    private final JCheckBox chFavorite = new JCheckBox("Favorito");
+    private final JCheckBox chCompleted = new JCheckBox("Completado");
+    private final JCheckBox chBroken = new JCheckBox("Roto");
+    private final JCheckBox chGhost = new JCheckBox("Fantasma");
+    private final JCheckBox chPortable = new JCheckBox("Portable");
+    private final JCheckBox chHide = new JCheckBox("Oculto");
 
-	public EditGame(int gameId) {
-		ModelGames mg = new ModelGames();
-		txtGameName.setText(mg.getNameFromId(gameId));
-		setBounds(50, 40, 450, 270);
-		String title = "Editar juego - " + txtGameName.getText();
-		setTitle(title);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setClosable(true);
-		setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		this.gameId = gameId;
-		txtSecondsPlayed.setText(String.valueOf(mg.getSecondsPlayed(gameId)));
-		txtPath.setText(mg.getPathFromGame(gameId));
-		txtTimes.setText(String.valueOf(mg.getTimes(gameId)));
-		txtScore.setText(String.valueOf(mg.getScore(gameId)));
+    public EditGame(int gameId) {
+	setTitle("Editar juegos");
+	setSize(800, 400);
+	setClosable(true);
+	setResizable(true);
+	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+	setLayout(new FlowLayout());
 
-		cbGhostGame.setSelected(mg.isGhost(gameId));
-		cbCompletedGame.setSelected(mg.isCompleted(gameId));
-		cbHiddenGame.setSelected(mg.IsHidden(gameId));
+	pnlDetails.setLayout(new GridBagLayout());
+	pnlDetails.setBorder(BorderFactory.createTitledBorder("Detalles"));
 
-		ArrayList<String> category = mg.getCategoryList();
-		for (int i = 0; i < category.size(); i++)
-			cbCategory.addItem(category.get(i));
+	GridBagConstraints gbc = new GridBagConstraints();
+	gbc.gridheight = 1;
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.ipadx = 8;
+	gbc.ipady = 1;
+	gbc.fill = GridBagConstraints.BOTH;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	pnlDetails.add(lblTitle, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 7;
+	pnlDetails.add(cbTitle, gbc);
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblReleaseDate, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtReleaseDate, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblRating, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtRating, gbc);
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblGenre, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtGenre, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblPlatform, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtPlatform, gbc);
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblDeveloper, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtDeveloper, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblPublisher, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtPublisher, gbc);
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblSeries, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtSeries, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblRegion, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtRegion, gbc);
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblPlayMode, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtPlayMode, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblVersion, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtVersion, gbc);
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblStatus, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtStatus, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblAdded, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblAddedDate, gbc);
+	gbc.gridx++;
+	pnlDetails.add(chFavorite, gbc);
+	gbc.gridx++;
+	pnlDetails.add(chPortable, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblSource, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtSource, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblGameTime, gbc);
+	gbc.gridx++;
+	pnlDetails.add(txtGameTime, gbc);
+	gbc.gridx++;	
+	pnlDetails.add(chCompleted, gbc);
+	gbc.gridx++;
+	pnlDetails.add(chHide, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnlDetails.add(lblLastPlayed, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	pnlDetails.add(txtLastPlayed, gbc);
+	gbc.gridx += 3;
+	gbc.gridwidth = 1;
+	pnlDetails.add(lblPlayCount, gbc);
+	gbc.gridx++;
+	pnlDetails.add(txtPlayCount, gbc);
+	gbc.gridx++;
+	pnlDetails.add(chBroken, gbc);
+	gbc.gridx++;
+	pnlDetails.add(chGhost, gbc);
 
-		gbc.gridheight = 1;
-		gbc.gridwidth = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
-		gbc.ipadx = 1;
-		gbc.ipady = 1;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(lblGameName, gbc);
-		gbc.gridx++;
-		add(txtGameName, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		add(lblSecondsPlayed, gbc);
-		gbc.gridx = 1;
-		add(txtSecondsPlayed, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		add(lblTimes, gbc);
-		gbc.gridx++;
-		add(txtTimes, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		add(lblScore, gbc);
-		gbc.gridx++;
-		add(txtScore, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		add(lblPath, gbc);
-		gbc.gridx = 1;
-		add(txtPath, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		add(lblCategory, gbc);
-		gbc.gridx++;
-		add(cbCategory, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		add(lblHidden, gbc);
-		gbc.gridx++;
-		add(cbHiddenGame, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
-		add(lblGhostGame, gbc);
-		gbc.gridx++;
-		add(cbGhostGame, gbc);
-		gbc.gridy++;
-		gbc.gridx = 0;
-		add(lblCompletedGame, gbc);
-		gbc.gridx++;
-		add(cbCompletedGame, gbc);
-		gbc.gridy++;
-		gbc.gridx = 0;
-		gbc.gridwidth = 1;
-		add(btnDel, gbc);
-		gbc.gridx++;
-		add(btnEdit, gbc);
+	add(pnlDetails);
 
-		btnEdit.addActionListener(this);
-		btnDel.addActionListener(this);
-
-		updateData();
-
-		setVisible(true);
+	cbTitle.addActionListener(this);
+	LoadGameList();
+	
+	if (gameId != 0) {
+	    ModelGames mg = new ModelGames();
+	    cbTitle.setSelectedItem(mg.getNameFromId(gameId));
 	}
 
-	public void updateData() {
-		ModelGames mg = new ModelGames();
-		ArrayList<String> category = mg.getCategoryList();
-		cbCategory.removeAllItems();
-		for (int i = 0; i < category.size(); i++)
-			cbCategory.addItem(category.get(i));
+	setVisible(true);
+    }
 
-		cbCategory.setSelectedItem(mg.getGameCategoryName(gameId));
+    public void LoadGameList() {
+	cbTitle.removeAllItems();
+	ArrayList<String> listGames = new ArrayList<String>();
+	listGames.clear();
+	ModelGames mg = new ModelGames();
+	listGames = mg.getGamesNameList(true);
+	for (int i = 1; i < listGames.size(); i++) {
+	    cbTitle.addItem(listGames.get(i));
 	}
+    }
+    
+    public void LoadData(String gameName) {
+	ModelGames mg = new ModelGames();
+	int gameId = mg.getIdFromGameName(gameName);
+	int secondsPlayed = mg.getSecondsPlayed(gameId);
+	int playCount = mg.getPlayCount(gameId);
+	
+	txtReleaseDate.setText(mg.getReleaseDate(gameId));
+	txtRating.setText(mg.getRating(gameId));
+	txtGenre.setText(mg.getGenre(gameId));
+	txtPlatform.setText(mg.getPlatform(gameId));
+	txtDeveloper.setText(mg.getDeveloper(gameId));
+	txtPublisher.setText(mg.getPublisher(gameId));
+	txtSeries.setText(mg.getSeries(gameId));
+	txtRegion.setText(mg.getRegion(gameId));
+	txtPlayMode.setText(mg.getPlayMode(gameId));
+	txtVersion.setText(mg.getVersion(gameId));
+	txtStatus.setText(mg.getStatus(gameId));
+	txtSource.setText(mg.getSource(gameId));
+	txtLastPlayed.setText(mg.getLastPlayed(gameId));
+	txtGameTime.setText(String.valueOf(secondsPlayed));
+	txtPlayCount.setText(String.valueOf(playCount));	
+	chFavorite.setSelected(mg.isFavorite(gameId));
+	chCompleted.setSelected(mg.isCompleted(gameId));
+	chBroken.setSelected(mg.isBroken(gameId));
+	chGhost.setSelected(mg.isGhost(gameId));
+	chPortable.setSelected(mg.isPortable(gameId));
+	chHide.setSelected(mg.isHidden(gameId));
+	lblAddedDate.setText(mg.getAddedDate(gameId));
+    }
+    
+    public void SaveData() {
+	
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnEdit) {
-			ModelGames g = new ModelGames();
-			String ghostGame, completed;
-			int score, hidden, secondsPlayed = 0;
-			if (cbGhostGame.isSelected())
-				ghostGame = "1";
-			else
-				ghostGame = "0";
-
-			if (cbCompletedGame.isSelected())
-				completed = "1";
-			else
-				completed = "0";
-
-			if (cbHiddenGame.isSelected())
-				hidden = 1;
-			else
-				hidden = 0;
-
-			try {
-				score = Integer.parseInt(txtScore.getText());
-				if (score > 10)
-					score = 10;
-				if (score < 0)
-					score = 0;
-			} catch (NumberFormatException ex) {
-				score = 0;
-			}
-			if (!txtSecondsPlayed.getText().isEmpty() && !txtSecondsPlayed.getText().isBlank()) {
-				secondsPlayed = Integer.parseInt(txtSecondsPlayed.getText());
-			}
-
-			if (txtTimes.getText().isEmpty() || txtTimes.getText().isBlank())
-				txtTimes.setText("0");
-			if (txtGameName.getText().isEmpty() || txtGameName.getText().isBlank()) {
-				JOptionPane.showMessageDialog(this, "El juego debe tener un nombre", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-
-			if (g.editGame(gameId, txtGameName.getText(), secondsPlayed, txtPath.getText(), ghostGame,
-					txtTimes.getText(), completed, score,
-					g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), hidden) == 1) {
-				JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado",
-						JOptionPane.INFORMATION_MESSAGE);
-				this.dispose();
-			} else {
-				JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
-			MainUI.UpdateGameList();
-		} else if (e.getSource() == btnDel) {
-			int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea borrar este juego?", "Borrar juego",
-					JOptionPane.YES_NO_OPTION);
-			if (res == 0) {
-				ModelGames g = new ModelGames();
-				int confirm = g.deleteGame(gameId);
-				if (confirm != 0) {
-					JOptionPane.showMessageDialog(this, "El juego ha sido borrado", "Juego borrado",
-							JOptionPane.ERROR_MESSAGE);
-					this.dispose();
-				} else {
-					JOptionPane.showMessageDialog(this, "Ha habido un error al borrar el juego", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-			MainUI.UpdateGameList();
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+	if (e.getSource() == cbTitle) {
+	    LoadData(cbTitle.getSelectedItem().toString());
+	}	
+    }
 }
