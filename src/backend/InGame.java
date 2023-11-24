@@ -22,7 +22,10 @@ public class InGame {
 	    hour = 0;
 	    minute = 0;
 	    second = 0;
-
+	    
+	    ModelGames mg = new ModelGames();
+	    mg.setLastPlayed(IdLaunched);
+	    
 	    MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
 	    launchGame(IdLaunched);
 	}

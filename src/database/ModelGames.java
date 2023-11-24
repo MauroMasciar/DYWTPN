@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import backend.Utils;
+
 public class ModelGames {
     private Connection conex = null;
     private static Statement stmt;
@@ -381,8 +383,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		score = rs.getInt("score");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -519,6 +522,22 @@ public class ModelGames {
 	}
 	return r;
     }
+    
+    public void setLastPlayed(int gameId) {
+	try {
+	    String query = "UPDATE games SET last_played = ? WHERE id = ?";
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setString(1, Utils.getDateTime());
+	    p.setInt(2, gameId);
+	    p.executeUpdate();
+
+	    p.close();
+	    conex.close();
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+	}
+    }
 
     public int addSessionGame(int gameId, String name, String minsPlayed, String date) {
 	int resultado = 0;
@@ -647,8 +666,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		id = rs.getInt("id");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -657,80 +677,359 @@ public class ModelGames {
 	}
 	return id;
     }
-    
+
     public String getReleaseDate(int gameId) {
-	return null;
+	String query = "SELECT release_date FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		res = rs.getString("release_date");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getRating(int gameId) {
-	return null;
+	String query = "SELECT rating FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("rating");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getGenre(int gameId) {
-	return null;
+	String query = "SELECT genre FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("genre");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getPlatform(int gameId) {
-
-	return null;
+	String query = "SELECT platform FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("platform");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getDeveloper(int gameId) {
-	return null;
+	String query = "SELECT developer FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("developer");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getPublisher(int gameId) {
-	return null;
+	String query = "SELECT publisher FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("publisher");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getSeries(int gameId) {
-	return null;
+	String query = "SELECT series FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("series");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getRegion(int gameId) {
-	return null;
+	String query = "SELECT region FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("region");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getPlayMode(int gameId) {
-	return null;
+	String query = "SELECT play_mode FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("play_mode");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getVersion(int gameId) {
-	return null;
+	String query = "SELECT version FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("version");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getStatus(int gameId) {
-	return null;
+	String query = "SELECT status FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("status");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getSource(int gameId) {
-	return null;
+	String query = "SELECT source FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("source");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getLastPlayed(int gameId) {
-	return null;
+	String query = "SELECT last_played FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("last_played");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public boolean isFavorite(int gameId) {
-	return false;
+	String query = "SELECT favorite FROM games WHERE id = " + gameId;
+	boolean res = false;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getBoolean("favorite");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public boolean isBroken(int gameId) {
-	return false;
+	String query = "SELECT broken FROM games WHERE id = " + gameId;
+	boolean res = false;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getBoolean("broken");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public boolean isPortable(int gameId) {
-	return false;
+	String query = "SELECT portable FROM games WHERE id = " + gameId;
+	boolean res = false;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getBoolean("portable");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public String getAddedDate(int gameId) {
-	return null;
+	String query = "SELECT added FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("added");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
+    }
+    
+    public String getModified(int gameId) {
+	String query = "SELECT modified FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if (rs.next()) {
+		res = rs.getString("modified");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
     }
 
     public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, String play_count,
-	    String completed, int score, int category, int hidden) {
+	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
+	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
+	    String series, String region, String playMode, String version, String status, String source,
+	    String lastPlayed) {
 	try {
-	    String query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ? WHERE id = ?";
+	    String query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
+		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
+		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ? WHERE id = ?";    
+
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
@@ -742,7 +1041,25 @@ public class ModelGames {
 	    p.setInt(7, score);
 	    p.setInt(8, category);
 	    p.setInt(9, hidden);
-	    p.setInt(10, gameId);
+	    p.setInt(10, favorite);
+	    p.setInt(11, broken);
+	    p.setInt(12, portable);
+	    p.setString(13, releasedate);
+	    p.setString(14, rating);
+	    p.setString(15, genre);
+	    p.setString(16, platform);
+	    p.setString(17, developer);
+	    p.setString(18, publisher);
+	    p.setString(19, series);
+	    p.setString(20, region);
+	    p.setString(21, playMode);
+	    p.setString(22, version);
+	    p.setString(23, status);
+	    p.setString(24, source);
+	    p.setString(25, lastPlayed);
+	    p.setString(26, Utils.getDateTime());
+	    p.setInt(27, gameId);
+
 	    int res = p.executeUpdate();
 	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";
 	    p = conex.prepareStatement(query);

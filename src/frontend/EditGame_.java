@@ -183,16 +183,14 @@ public class EditGame_ extends JInternalFrame implements ActionListener {
 		return;
 	    }
 
-	    if (g.editGame(gameId, txtGameName.getText(), secondsPlayed, txtPath.getText(), ghostGame,
+	    /*if (g.editGame(gameId, txtGameName.getText(), secondsPlayed, txtPath.getText(), ghostGame,
 		    txtTimes.getText(), completed, score,
 		    g.getCategoryIdFromName(cbCategory.getSelectedItem().toString()), hidden) == 1) {
-		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado",
-			JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 		this.dispose();
 	    } else {
-		JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error",
-			JOptionPane.ERROR_MESSAGE);
-	    }
+		JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+	    }*/
 	    MainUI.UpdateGameList();
 	} else if (e.getSource() == btnDel) {
 	    int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea borrar este juego?", "Borrar juego",
