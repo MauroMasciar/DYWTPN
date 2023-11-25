@@ -31,6 +31,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private JMenuItem mnuiPlayerHistory = new JMenuItem("Historial");
     private JMenu mnuHelp = new JMenu("Ayuda");
     private JMenuItem mnuiHelpConfig = new JMenuItem("Configuración");
+    private JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar");
     private JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de");
     private JMenuItem mnuiHelpDebug = new JMenuItem("Debug");
 
@@ -66,6 +67,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuPlayer.add(mnuiPlayerActivities);
 	mnuHelp.add(mnuiHelpConfig);
 	mnuHelp.add(mnuiHelpDebug);
+	mnuHelp.add(mnuiHelpUpdate);
 	mnuHelp.addSeparator();
 	mnuHelp.add(mnuiHelpAbout);
 
@@ -80,6 +82,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiPlayerActivities.addActionListener(this);
 	mnuiPlayerHistory.addActionListener(this);
 	mnuiHelpAbout.addActionListener(this);
+	mnuiHelpUpdate.addActionListener(this);
 	mnuiHelpDebug.addActionListener(this);
 
 	j.add(new MainUI());
@@ -126,6 +129,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.repaint();
 	} else if(e.getSource() == mnuiGamesRefresh) {
 	    MainUI.LoadData();
+	} else if(e.getSource() == mnuiHelpUpdate) {
+	    j.add(new UpdateGUI());
+	    j.repaint();
 	} else if (e.getSource() == mnuiHelpAbout) {
 	    j.add(new About());
 	    j.repaint();

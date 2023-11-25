@@ -271,12 +271,24 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	}
 	
 	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
-	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");	
+	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
+	if(Validations.isEmpty(txtGenre)) txtGenre.setText("-");
+	if(Validations.isEmpty(txtDeveloper)) txtDeveloper.setText("-");
+	if(Validations.isEmpty(txtSeries)) txtSeries.setText("-");
+	if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("-");
+	if(Validations.isEmpty(txtStatus)) txtStatus.setText("-");
+	if(Validations.isEmpty(txtSource)) txtSource.setText("-");
+	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
+	if(Validations.isEmpty(txtRating)) txtRating.setText("-");
+	if(Validations.isEmpty(txtPlatform)) txtPlatform.setText("-");
+	if(Validations.isEmpty(txtPublisher)) txtPublisher.setText("-");
+	if(Validations.isEmpty(txtRegion)) txtRegion.setText("-");
+	if(Validations.isEmpty(txtVersion)) txtVersion.setText("-");	
 
 	setVisible(true);
     }
 
-    public void LoadCategory() {
+    private void LoadCategory() {
 	cbCategory.removeAllItems();
 	ArrayList<String> listCategory = new ArrayList<String>();
 	listCategory.clear();
@@ -287,7 +299,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	}
     }
 
-    public void LoadGameList() {
+    private void LoadGameList() {
 	cbTitle.removeAllItems();
 	ArrayList<String> listGames = new ArrayList<String>();
 	listGames.clear();
@@ -298,7 +310,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	}
     }
 
-    public void LoadData(String gameName) {
+    private void LoadData(String gameName) {
 	ModelGames mg = new ModelGames();
 	gameId = mg.getIdFromGameName(gameName);
 	int secondsPlayed = mg.getSecondsPlayed(gameId);
