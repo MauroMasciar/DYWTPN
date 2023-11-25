@@ -254,11 +254,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	double totalHours = mg.getMinutesTotalPlayed();
 
 	showHidden = mc.getIsHidden();
-	if (gameIdLaunched == 0)
-	    UpdateGameList();
+	if (gameIdLaunched == 0) UpdateGameList();
 
-	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Total de juegos: " + modelList.size()
-	+ " | Total de horas: " + decimalFormat.format(totalHours / 60));
+	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Total de juegos: " + modelList.size() + " | Total de horas: " + decimalFormat.format(totalHours / 60));
 
 	double uno = mg.getLastDays(0, 1);
 	double siete = mg.getLastDays(0, 7);
@@ -268,6 +266,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno / 60) + " | Semana: "
 		+ decimalFormat.format(siete / 60) + " | 2 semanas: " + decimalFormat.format(catorce / 60) + " | Mes: "
 		+ decimalFormat.format(treinta / 60));
+	
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));

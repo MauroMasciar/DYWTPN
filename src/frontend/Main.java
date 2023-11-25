@@ -8,7 +8,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.26";
+    public static final String VERSIONAPP = "1.2.28";
 
     public static void main(String[] args) {
 	try {
@@ -18,7 +18,7 @@ public class Main {
 	    ex.printStackTrace();
 	}
 
-	boolean test = false;
+	boolean test = true;
 
 	if(!test) {
 	    ProcessBuilder pb;

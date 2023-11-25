@@ -23,8 +23,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
     private JTextField txtTime = new JTextField();
     private JTextField txtDate = new JTextField();
     private JButton btnAdd = new JButton("Añadir");
-
-    ModelGames mg = new ModelGames();
+    private ModelGames mg = new ModelGames();
 
     public AddSessionGame() {
 	setTitle("Añadir nueva sesion");
@@ -74,8 +73,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == btnAdd) {
 	    if (txtTime.getText().isEmpty()) {
-		JOptionPane.showMessageDialog(this, "Debes especificar cuanto tiempo jugaste", "Faltan datos",
-			JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Debes especificar cuanto tiempo jugaste", "Faltan datos", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    String hoursPlayed = txtTime.getText().replaceAll(",", ".");
@@ -83,15 +81,14 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	    if (mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), hoursPlayed, txtDate.getText()) == 1) {
 		txtTime.setText("");
 		txtDate.setText("");
+		ModelGames mg = new ModelGames();
+		mg.setLastPlayed(gameId);
+		mg.newSession(gameId);
 		this.dispose();
-		JOptionPane.showMessageDialog(this, "La sesion de juego se ha agregado satisfactoriamente",
-			"Sesion añadida", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "La sesion de juego se ha agregado satisfactoriamente", "Sesion añadida", JOptionPane.INFORMATION_MESSAGE);
 	    } else {
-		JOptionPane.showMessageDialog(this,
-			"La sesion de juego no se ha podido agregar. Verifica que todos los datos sean correctos",
-			"Error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, "La sesion de juego no se ha podido agregar. Verifica que todos los datos sean correctos", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
-
 	}
     }
 }

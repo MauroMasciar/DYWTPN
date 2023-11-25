@@ -5,11 +5,12 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JToolTip;
 import javax.swing.JComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -60,10 +61,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private final JTextField txtLastPlayed = new JTextField(10);
     private final JTextField txtAdded = new JTextField(10);
     private final JTextField txtModified = new JTextField(10);
-    private final JTextField txtGameTime = new JTextField(10);
     private final JTextField txtPlayCount = new JTextField(10);
     private final JTextField txtPath = new JTextField(10);
-    private final JTextField txtScore = new JTextField(10); //TODO: Pasar a un selector de numeros de 1 a 10
     private final JCheckBox chFavorite = new JCheckBox("Favorito");
     private final JCheckBox chCompleted = new JCheckBox("Completado");
     private final JCheckBox chBroken = new JCheckBox("Roto");
@@ -71,6 +70,10 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
     private final JComboBox<String> cbCategory = new JComboBox<String>();
+    private final SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel();
+    private final JSpinner spinScore = new JSpinner();
+    private final JSpinner spinGameTime = new JSpinner();
+
     private final JButton btnSave = new JButton("Guardar");
     private int gameId;
 
@@ -226,10 +229,9 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(txtPath, gbc);
 	gbc.gridwidth = 1;
 	gbc.gridx += 3;
-	
 	pnlDetails.add(lblGameTime, gbc);
 	gbc.gridx++;
-	pnlDetails.add(txtGameTime, gbc);
+	pnlDetails.add(spinGameTime, gbc);
 	gbc.gridy++;
 	gbc.gridx = 0;
 	pnlDetails.add(lblCategory, gbc);
@@ -240,8 +242,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridwidth = 1;
 	pnlDetails.add(lblScore, gbc);
 	gbc.gridx++;
-	pnlDetails.add(txtScore, gbc);	
-	
+	pnlDetails.add(spinScore, gbc);	
+
 	add(pnlDetails);
 	add(btnSave);
 
@@ -251,13 +253,20 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	txtModified.setEditable(false);
 	LoadCategory();
 	LoadGameList();
-	
+
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
 
-	if (gameId != 0) {
+	spinnerNumberModel.setMinimum(0);
+	spinnerNumberModel.setMaximum(10);
+	spinScore.setModel(spinnerNumberModel);
+	
+	if(gameId != 0) {
 	    ModelGames mg = new ModelGames();
 	    cbTitle.setSelectedItem(mg.getNameFromId(gameId));
 	}
+	
+	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
+	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");	
 
 	setVisible(true);
     }
@@ -268,7 +277,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	listCategory.clear();
 	ModelGames mg = new ModelGames();
 	listCategory = mg.getCategoryList();
-	for (int i = 1; i < listCategory.size(); i++) {
+	for(int i = 1; i < listCategory.size(); i++) {
 	    cbCategory.addItem(listCategory.get(i));
 	}
     }
@@ -279,7 +288,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	listGames.clear();
 	ModelGames mg = new ModelGames();
 	listGames = mg.getGamesNameList(true);
-	for (int i = 1; i < listGames.size(); i++) {
+	for(int i = 1; i < listGames.size(); i++) {
 	    cbTitle.addItem(listGames.get(i));
 	}
     }
@@ -304,9 +313,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	txtStatus.setText(mg.getStatus(gameId));
 	txtSource.setText(mg.getSource(gameId));
 	txtLastPlayed.setText(mg.getLastPlayed(gameId));
-	txtGameTime.setText(String.valueOf(secondsPlayed));
+	spinGameTime.setValue(secondsPlayed);
 	txtPlayCount.setText(String.valueOf(playCount));
-	txtPlayCount.setText(String.valueOf(score));	
 	txtPath.setText(mg.getPathFromGame(gameId));	
 	chFavorite.setSelected(mg.isFavorite(gameId));
 	chCompleted.setSelected(mg.isCompleted(gameId));
@@ -315,34 +323,31 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	chPortable.setSelected(mg.isPortable(gameId));
 	chHide.setSelected(mg.isHidden(gameId));
 	txtAdded.setText(mg.getAddedDate(gameId));
-	txtScore.setText(String.valueOf(score));
+	spinScore.setValue(score);
 	txtModified.setText(mg.getModified(gameId));
 	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId)); 
     }
 
     public void SaveData(int gameId) {
-	if (Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
+	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
 		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
 		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) || Validations.isEmpty(txtSource) ||
-		Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtGameTime) || Validations.isEmpty(txtPlayCount)) {
+		Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtPlayCount)) {
 	    JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
-	if (Validations.isEmpty(txtPath)) txtPath.setText("N/A");
+	if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
 
 	String completed = "0", ghost = "0";
-	int hide = 0;
-	int favorite = 0;
-	int broken = 0;
-	int portable = 0;
+	int hide = 0, favorite = 0, broken = 0, portable = 0;
 	ModelGames mg = new ModelGames();
 
-	if (chFavorite.isSelected()) favorite = 1;
-	if (chCompleted.isSelected()) completed = "1";
-	if (chBroken.isSelected()) broken = 1;
-	if (chGhost.isSelected()) ghost = "1";
-	if (chPortable.isSelected()) portable = 1;
-	if (chHide.isSelected()) hide = 1;
+	if(chFavorite.isSelected()) favorite = 1;
+	if(chCompleted.isSelected()) completed = "1";
+	if(chBroken.isSelected()) broken = 1;
+	if(chGhost.isSelected()) ghost = "1";
+	if(chPortable.isSelected()) portable = 1;
+	if(chHide.isSelected()) hide = 1;
 
 	String releasedate = txtReleaseDate.getText();
 	String rating = txtRating.getText();
@@ -357,19 +362,22 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	String status = txtStatus.getText();
 	String source = txtSource.getText();
 	String lastPlayed = txtLastPlayed.getText();
-	int gameTime = Integer.parseInt(txtGameTime.getText());
 	String playCount = txtPlayCount.getText();
 	String path = txtPath.getText();
-	int score = Integer.parseInt(txtScore.getText());
+	int score = (Integer) spinScore.getValue();
+	int gameTime = (Integer) spinGameTime.getValue();
 	int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
 	int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
 		playMode, version, status, source, lastPlayed);
-	if (res == 1) JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-	else JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
-
-	MainUI.UpdateGameList();
+	if(res == 1) {
+	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
+	    MainUI.UpdateGameList();
+	    dispose();
+	} else {
+	    JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+	}
     }
 
     @Override

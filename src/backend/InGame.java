@@ -22,10 +22,10 @@ public class InGame {
 	    hour = 0;
 	    minute = 0;
 	    second = 0;
-	    
+
 	    ModelGames mg = new ModelGames();
 	    mg.setLastPlayed(IdLaunched);
-	    
+
 	    MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
 	    launchGame(IdLaunched);
 	}
@@ -37,28 +37,34 @@ public class InGame {
 		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
 		while (gameIdLaunched != 0) {
 		    try {
-			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed
-				+ ". Total: " + gameTimePlayedTotal;
+			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + ". Total: " + gameTimePlayedTotal;
 			Log.Loguear(s);
 			checkAchievement();
 			Thread.sleep(1000);
 			second++;
+
 			if(second == 60) {
 			    second = 0;
 			    minute++;
 			}
+
 			if(minute == 60) {
 			    minute = 0;
 			    hour++;
 			}
-			if(second < 10)
+
+			if(second < 10) {
 			    sSecond = "0" + second;
-			else
+			} else {
 			    sSecond = String.valueOf(second);
-			if (minute < 10)
+			}
+
+			if(minute < 10) {
 			    sMinute = "0" + minute;
-			else
+			} else {
 			    sMinute = String.valueOf(minute);
+			}
+
 			MainUI.txtTimePlaying.setText(" Tiempo jugando: " + hour + ":" + sMinute + ":" + sSecond);
 
 			gameTimePlayedTotal++;
