@@ -564,6 +564,58 @@ public class ModelGames {
 	}
 	return resultado;
     }
+    
+    public int addGame(String name, int gameTime, String path, String ghost, int playCount, String completed,
+	    int score, int category, int hide, int favorite, int broken, int portable, String releasedate,
+	    String rating, String genre, String platform, String developer, String publisher, String series,
+	    String region, String playMode, String version, String status, String source, String lastPlayed,
+	    String added, String modified) {
+	try {
+	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, broken, portable, release_date, "
+	    	+ "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, "
+	    	+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	    Log.Loguear(query);
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    p.setInt(2, gameTime);
+	    p.setString(3, path);
+	    p.setString(4, ghost);
+	    p.setInt(5, playCount);
+	    p.setString(6, completed);
+	    p.setInt(7, score);
+	    p.setInt(8, category);
+	    p.setInt(9, hide);
+	    p.setInt(10, favorite);
+	    p.setInt(11, broken);
+	    p.setInt(12, portable);
+	    p.setString(13, releasedate);
+	    p.setString(14, rating);
+	    p.setString(15, genre);
+	    p.setString(16, platform);
+	    p.setString(17, developer);
+	    p.setString(18, publisher);
+	    p.setString(19, series);
+	    p.setString(20, region);
+	    p.setString(21, playMode);
+	    p.setString(22, version);
+	    p.setString(23, status);
+	    p.setString(24, source);
+	    p.setString(25, lastPlayed);
+	    p.setString(26, added);
+	    p.setString(27, modified);
+
+	    int resultado = p.executeUpdate();
+	    conex.close();
+	    p.close();
+	    return resultado;
+	} catch (SQLException ex) {
+	    Log.Loguear("SQLException en int ModelGames.addGame" + ex.getMessage());
+	    ex.getMessage();
+	}
+
+	return 0;
+    }
 
     public int addGame(String name, int timePlayed, String path, int ghost, int completed, int category, int score) {
 	try {
@@ -1020,7 +1072,7 @@ public class ModelGames {
 	return res;
     }
 
-    public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, String play_count,
+    public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
 	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
 	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
 	    String series, String region, String playMode, String version, String status, String source,
@@ -1036,7 +1088,7 @@ public class ModelGames {
 	    p.setInt(2, secondsPlayed);
 	    p.setString(3, path);
 	    p.setString(4, ghost);
-	    p.setString(5, play_count);
+	    p.setInt(5, playCount);
 	    p.setString(6, completed);
 	    p.setInt(7, score);
 	    p.setInt(8, category);

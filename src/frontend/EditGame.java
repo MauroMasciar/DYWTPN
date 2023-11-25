@@ -61,7 +61,6 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private final JTextField txtLastPlayed = new JTextField(10);
     private final JTextField txtAdded = new JTextField(10);
     private final JTextField txtModified = new JTextField(10);
-    private final JTextField txtPlayCount = new JTextField(10);
     private final JTextField txtPath = new JTextField(10);
     private final JCheckBox chFavorite = new JCheckBox("Favorito");
     private final JCheckBox chCompleted = new JCheckBox("Completado");
@@ -70,10 +69,12 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
     private final JComboBox<String> cbCategory = new JComboBox<String>();
-    private final SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel();
+    private final SpinnerNumberModel spinnerNumberModelScore = new SpinnerNumberModel();
+    private final SpinnerNumberModel spinnerNumberModelGameTime = new SpinnerNumberModel();
+    private final SpinnerNumberModel spinnerNumberModelPlayCount = new SpinnerNumberModel();
     private final JSpinner spinScore = new JSpinner();
     private final JSpinner spinGameTime = new JSpinner();
-
+    private final JSpinner spinPlayCount = new JSpinner();
     private final JButton btnSave = new JButton("Guardar");
     private int gameId;
 
@@ -216,7 +217,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridwidth = 1;
 	pnlDetails.add(lblPlayCount, gbc);
 	gbc.gridx++;
-	pnlDetails.add(txtPlayCount, gbc);
+	pnlDetails.add(spinPlayCount, gbc);
 	gbc.gridx++;
 	pnlDetails.add(chBroken, gbc);
 	gbc.gridx++;
@@ -256,9 +257,13 @@ public class EditGame extends JInternalFrame implements ActionListener {
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
 
-	spinnerNumberModel.setMinimum(0);
-	spinnerNumberModel.setMaximum(10);
-	spinScore.setModel(spinnerNumberModel);
+	spinnerNumberModelScore.setMinimum(0);
+	spinnerNumberModelScore.setMaximum(10);
+	spinnerNumberModelGameTime.setMinimum(0);
+	spinnerNumberModelPlayCount.setMinimum(0);
+	spinScore.setModel(spinnerNumberModelScore);
+	spinGameTime.setModel(spinnerNumberModelGameTime);
+	spinPlayCount.setModel(spinnerNumberModelPlayCount);
 	
 	if(gameId != 0) {
 	    ModelGames mg = new ModelGames();
@@ -313,8 +318,6 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	txtStatus.setText(mg.getStatus(gameId));
 	txtSource.setText(mg.getSource(gameId));
 	txtLastPlayed.setText(mg.getLastPlayed(gameId));
-	spinGameTime.setValue(secondsPlayed);
-	txtPlayCount.setText(String.valueOf(playCount));
 	txtPath.setText(mg.getPathFromGame(gameId));	
 	chFavorite.setSelected(mg.isFavorite(gameId));
 	chCompleted.setSelected(mg.isCompleted(gameId));
@@ -324,15 +327,17 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	chHide.setSelected(mg.isHidden(gameId));
 	txtAdded.setText(mg.getAddedDate(gameId));
 	spinScore.setValue(score);
+	spinGameTime.setValue(secondsPlayed);
+	spinPlayCount.setValue(playCount);
 	txtModified.setText(mg.getModified(gameId));
 	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId)); 
     }
 
-    public void SaveData(int gameId) {
+    private void SaveData(int gameId) {
 	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
 		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
 		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) || Validations.isEmpty(txtSource) ||
-		Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtPlayCount)) {
+		Validations.isEmpty(txtLastPlayed)) {
 	    JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
@@ -362,10 +367,10 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	String status = txtStatus.getText();
 	String source = txtSource.getText();
 	String lastPlayed = txtLastPlayed.getText();
-	String playCount = txtPlayCount.getText();
 	String path = txtPath.getText();
 	int score = (Integer) spinScore.getValue();
 	int gameTime = (Integer) spinGameTime.getValue();
+	int playCount = (Integer) spinPlayCount.getValue();
 	int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
 	int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
