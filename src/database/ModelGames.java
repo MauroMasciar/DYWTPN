@@ -539,7 +539,7 @@ public class ModelGames {
 	}
     }
 
-    public int addSessionGame(int gameId, String name, String minsPlayed, String date) {
+    public int addSessionGame(int gameId, String name, int minsPlayed, String date) {
 	int resultado = 0;
 	try {
 	    String query = "INSERT INTO games_sessions_history (game_id, game_name, mins, datetime) VALUES (?,?,?,?)";
@@ -552,7 +552,7 @@ public class ModelGames {
 	    p.setString(4, date);
 	    resultado = p.executeUpdate();
 	    int secs = getSecondsPlayed(gameId);
-	    secs += Integer.parseInt(minsPlayed) * 60;
+	    secs += minsPlayed * 60;
 	    int r = setTimePlayed(gameId, secs);
 	    if(r == 0) {
 		JOptionPane.showMessageDialog(null, "No se ha podido sumar el tiempo jugado", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -79,6 +80,12 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private final JButton btnSave = new JButton("Guardar");
 
     public AddGame() {
+	try {
+	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/new_game.png"));
+	    this.setFrameIcon(icon);
+	} catch (Exception ex) {
+	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
 	setTitle("Añadir nuevo juego");
 	setSize(800, 400);
 	setClosable(true);

@@ -87,12 +87,10 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridheight = 1;
 	gbc.weightx = 1.0;
 	gbc.weighty = 3.0;
-	// gbc.gridy ++;
 	gbc.fill = GridBagConstraints.BOTH;
 
 	pnlLeft.add(scrListGame, gbc);
 	gbc.gridy++;
-	// gbc.fill = GridBagConstraints.NONE;
 	pnlLeft.add(txtSearch, gbc);
 	gbc.gridy++;
 	gbc.weighty = 1.0;

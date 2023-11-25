@@ -9,28 +9,44 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+
+import backend.Utils;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 
 import database.ModelGames;
 
 public class AddSessionGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -7862927860955738026L;
-    private JLabel lblCbGame = new JLabel("Seleccione el juego");
-    private JLabel lblTime = new JLabel("Tiempo jugado (En minutos)");
-    private JLabel lblDate = new JLabel("Fecha: (YYYY-MM-DD HH:MM:SS)");
-    private JComboBox<String> cbGame = new JComboBox<String>();
-    private JTextField txtTime = new JTextField();
-    private JTextField txtDate = new JTextField();
-    private JButton btnAdd = new JButton("Añadir");
-    private ModelGames mg = new ModelGames();
+    private final JLabel lblCbGame = new JLabel("Seleccione el juego");
+    private final JLabel lblTime = new JLabel("Tiempo jugado (En minutos)");
+    private final JLabel lblDate = new JLabel("Fecha: (YYYY-MM-DD HH:MM:SS)");
+    private final JComboBox<String> cbGame = new JComboBox<String>();
+    private final JSpinner spinTime = new JSpinner();
+    private final SpinnerNumberModel spnModelTime = new SpinnerNumberModel();
+    private final JTextField txtDate = new JTextField(30);
+    private final JButton btnAdd = new JButton("Añadir");
+    private final ModelGames mg = new ModelGames();
 
     public AddSessionGame() {
+	try {
+	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/new_session.png"));
+	    this.setFrameIcon(icon);
+	} catch (Exception ex) {
+	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
 	setTitle("Añadir nueva sesion");
-	setBounds(100, 100, 400, 160);
+	setBounds(100, 100, 390, 150);
 	setClosable(true);
 	setResizable(true);
 	setLayout(new GridBagLayout());
+	JPanel panel = new JPanel();
+	panel.setLayout(new GridBagLayout());
 	GridBagConstraints gbc = new GridBagConstraints();
 
 	gbc.gridx = 0;
@@ -39,24 +55,34 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	gbc.gridheight = 1;
 	gbc.weightx = 1.0;
 	gbc.weighty = 1.0;
-	gbc.fill = GridBagConstraints.BOTH;
-	add(lblCbGame, gbc);
+	gbc.fill = GridBagConstraints.HORIZONTAL;
+	panel.add(lblCbGame, gbc);
 	gbc.gridx++;
-	add(cbGame, gbc);
+	panel.add(cbGame, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	add(lblTime, gbc);
+	panel.add(lblTime, gbc);
 	gbc.gridx++;
-	add(txtTime, gbc);
+	panel.add(spinTime, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	add(lblDate, gbc);
+	panel.add(lblDate, gbc);
 	gbc.gridx++;
-	add(txtDate, gbc);
+	panel.add(txtDate, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	gbc.gridwidth = 2;
-	add(btnAdd, gbc);
+	panel.add(btnAdd, gbc);
+	
+	gbc.fill = GridBagConstraints.NONE;
+	gbc.gridwidth = 1;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	add(panel, gbc);
+	
+	spnModelTime.setMinimum(0);
+	spinTime.setModel(spnModelTime);
+	txtDate.setText(Utils.getDateTime());
 
 	btnAdd.addActionListener(this);
 
@@ -72,14 +98,13 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == btnAdd) {
-	    if (txtTime.getText().isEmpty()) {
+	    if((Integer) spinTime.getValue() == 0) {
 		JOptionPane.showMessageDialog(this, "Debes especificar cuanto tiempo jugaste", "Faltan datos", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
-	    String hoursPlayed = txtTime.getText().replaceAll(",", ".");
+	    int minsPlayed = (Integer) spinTime.getValue();
 	    int gameId = mg.getIdFromGameName(cbGame.getSelectedItem().toString());
-	    if (mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), hoursPlayed, txtDate.getText()) == 1) {
-		txtTime.setText("");
+	    if(mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), minsPlayed, txtDate.getText()) == 1) {
 		txtDate.setText("");
 		ModelGames mg = new ModelGames();
 		mg.setLastPlayed(gameId);

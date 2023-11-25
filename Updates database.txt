@@ -32,3 +32,5 @@ ALTER TABLE `games` CHANGE `genre` `genre` VARCHAR(50) CHARACTER SET utf8 COLLAT
 ALTER TABLE `games` CHANGE `modified` `modified` DATETIME NULL DEFAULT '1900-01-01 00:00:00';
 -- 1.2.28
 ALTER TABLE `games` CHANGE `added` `added` DATE NULL DEFAULT '1900-01-20';
+-- 1.2.30
+ALTER TABLE `games` ADD `notes` TEXT NOT NULL AFTER `image`;

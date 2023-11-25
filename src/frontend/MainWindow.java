@@ -19,30 +19,27 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     public static JFrame j = new JFrame();
     private JMenuBar menubar = new JMenuBar();
     private JMenu mnuGames = new JMenu("Juegos");
-    private JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego");
-    private JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion");
-    private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos");
-    private JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos");
+    private JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("bin/gfx/new_game.png"));
+    private JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion", new ImageIcon("bin/gfx/new_session.png"));
+    private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("bin/gfx/refresh.png"));
+    private JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("bin/gfx/games_list.png"));
     private JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
-    private JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias");
-    private JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones");
+    private JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("bin/gfx/category.png"));
+    private JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("bin/gfx/collections.png"));
     private JMenu mnuPlayer = new JMenu("Jugador");
-    private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad");
-    private JMenuItem mnuiPlayerHistory = new JMenuItem("Historial");
+    private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("bin/gfx/history.png"));
+    private JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("bin/gfx/activity.png"));
     private JMenu mnuHelp = new JMenu("Ayuda");
-    private JMenuItem mnuiHelpConfig = new JMenuItem("Configuración");
-    private JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar");
-    private JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de");
-    private JMenuItem mnuiHelpDebug = new JMenuItem("Debug");
+    private JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("bin/gfx/config.png"));
+    private JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("bin/gfx/update.png"));
+    private JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de", new ImageIcon("bin/gfx/about.png"));
+    private JMenuItem mnuiHelpDebug = new JMenuItem("Debug", new ImageIcon("bin/gfx/debug.png"));
 
     public MainWindow() {
 	try {
-	    j.setIconImage(new ImageIcon(getClass().getResource(
-		    "/gfx/icon.png")).getImage());
+	    j.setIconImage(new ImageIcon(getClass().getResource("/gfx/icon.png")).getImage());
 	} catch (Exception ex) {
-	    JOptionPane.showMessageDialog(this,
-		    "No se ha podido cargar algunos recursos.",
-		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 
 	j.setLayout(null);

@@ -4,6 +4,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,6 +22,12 @@ public class Category extends JInternalFrame implements ActionListener {
     private final JButton btnAdd = new JButton("Añadir");
 
     public Category() {
+	try {
+	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/category.png"));
+	    this.setFrameIcon(icon);
+	} catch (Exception ex) {
+	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
 	setTitle("Categorias");
 	setBounds(100, 100, 400, 230);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);

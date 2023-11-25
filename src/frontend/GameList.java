@@ -1,6 +1,8 @@
 package frontend;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -21,6 +23,12 @@ public class GameList extends JInternalFrame implements ActionListener {
     private JScrollPane scrTable = new JScrollPane(tblGames);
 
     public GameList() {
+	try {
+	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/games_list.png"));
+	    this.setFrameIcon(icon);
+	} catch (Exception ex) {
+	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
 	setTitle("Lista de juegos");
 	setBounds(50, 50, 800, 500);
 	setClosable(true);
