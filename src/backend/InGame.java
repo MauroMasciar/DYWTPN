@@ -31,11 +31,11 @@ public class InGame {
 	}
     }
 
-    public void launchGame(int IdLaunched) {
+    private void launchGame(int IdLaunched) {
 	new Thread(new Runnable() {
 	    public void run() {
 		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
-		while (gameIdLaunched != 0) {
+		while(gameIdLaunched != 0) {
 		    try {
 			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + ". Total: " + gameTimePlayedTotal;
 			Log.Loguear(s);
@@ -78,7 +78,7 @@ public class InGame {
 	}).start();
     }
 
-    public void checkAchievement() {
+    private void checkAchievement() {
 	ModelGames mg = new ModelGames();
 	String achiev = "";
 	if(gameTimePlayedTotal == 60) achiev = "Has jugado a " + mg.getNameFromId(gameIdLaunched) + " por primera vez";
@@ -124,7 +124,7 @@ public class InGame {
 	}
     }
 
-    public void saveGameTime() {
+    private void saveGameTime() {
 	if(gameIdLaunched != 0) {
 	    ModelGames g = new ModelGames();
 	    g.saveGameTime(gameIdLaunched);

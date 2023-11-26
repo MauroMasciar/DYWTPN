@@ -22,11 +22,11 @@ public class ModelPlayer {
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
-	    if (gameName == "Todos")
+	    if(gameName == "Todos") {
 		rs = stmt.executeQuery("SELECT description FROM player_activities ORDER BY id DESC");
-	    else
-		rs = stmt.executeQuery("SELECT description FROM player_activities WHERE game_name = '" + gameName
-			+ "' ORDER BY id DESC");
+	    } else {
+		rs = stmt.executeQuery("SELECT description FROM player_activities WHERE game_name = '" + gameName + "' ORDER BY id DESC");
+	    }
 
 	    while (rs.next()) {
 		Object[] f = new Object[1];
@@ -55,13 +55,12 @@ public class ModelPlayer {
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
-	    if (gameName == "Todos")
-		rs = stmt.executeQuery(
-			"SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` ORDER BY id DESC");
-	    else
-		rs = stmt.executeQuery(
-			"SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` WHERE game_name = '"
-				+ gameName + "' ORDER BY id DESC");
+	    if (gameName == "Todos") {
+		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` ORDER BY id DESC");
+	    } else {
+		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` WHERE game_name = '"
+					+ gameName + "' ORDER BY id DESC");
+	    }
 
 	    while (rs.next()) {
 		Object[] f = new Object[4];
@@ -103,7 +102,7 @@ public class ModelPlayer {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery("SELECT description FROM player_activities ORDER BY id desc LIMIT 1");
-	    if (rs.next()) {
+	    if(rs.next()) {
 		s = rs.getString(1);
 	    }
 	} catch (SQLException ex) {

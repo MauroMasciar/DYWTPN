@@ -89,7 +89,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	setTitle("Añadir nuevo juego");
 	setSize(800, 400);
 	setClosable(true);
-	setResizable(true);
+	setResizable(false);
 	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 	setLayout(new FlowLayout());
 
@@ -268,16 +268,16 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	spinScore.setModel(spinnerNumberModelScore);
 	spinGameTime.setModel(spinnerNumberModelGameTime);
 	spinPlayCount.setModel(spinnerNumberModelPlayCount);
-	txtAdded.setText(Utils.getDate());
-	txtModified.setText(Utils.getDateTime());
+	txtAdded.setText(Utils.getFormattedDate());
+	txtModified.setText(Utils.getFormattedDateTime());
 
 	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
 	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
 
 	setVisible(true);
     }
-    
-    public void LoadCategory() {
+
+    private void LoadCategory() {
 	cbCategory.removeAllItems();
 	ArrayList<String> listCategory = new ArrayList<String>();
 	listCategory.clear();
@@ -287,7 +287,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	    cbCategory.addItem(listCategory.get(i));
 	}
     }
-    
+
     private void SaveData() {
 	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
 		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
@@ -324,8 +324,8 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	String lastPlayed = txtLastPlayed.getText();
 	String path = txtPath.getText();
 	String name = txtGameName.getText();
-	String added = Utils.getDate();
-	String modified = Utils.getDateTime();
+	String added = Utils.getFormattedDate();
+	String modified = Utils.getFormattedDateTime();
 	int score = (Integer) spinScore.getValue();
 	int gameTime = (Integer) spinGameTime.getValue();
 	int playCount = (Integer) spinPlayCount.getValue();

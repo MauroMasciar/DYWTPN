@@ -10,22 +10,20 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-
-import backend.Utils;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
+import backend.Utils;
 import database.ModelGames;
 
 public class AddSessionGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -7862927860955738026L;
-    private final JLabel lblCbGame = new JLabel("Seleccione el juego");
-    private final JLabel lblTime = new JLabel("Tiempo jugado (En minutos)");
-    private final JLabel lblDate = new JLabel("Fecha: (YYYY-MM-DD HH:MM:SS)");
+    private final JLabel lblCbGame = new JLabel("Seleccione el juego:");
+    private final JLabel lblTime = new JLabel("Tiempo jugado (En minutos):");
+    private final JLabel lblDate = new JLabel("Fecha: (YYYY-MM-DD HH:MM:SS):");
     private final JComboBox<String> cbGame = new JComboBox<String>();
     private final JSpinner spinTime = new JSpinner();
     private final SpinnerNumberModel spnModelTime = new SpinnerNumberModel();
@@ -82,7 +80,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	
 	spnModelTime.setMinimum(0);
 	spinTime.setModel(spnModelTime);
-	txtDate.setText(Utils.getDateTime());
+	txtDate.setText(Utils.getFormattedDateTime());
 
 	btnAdd.addActionListener(this);
 
@@ -97,7 +95,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if (e.getSource() == btnAdd) {
+	if(e.getSource() == btnAdd) {
 	    if((Integer) spinTime.getValue() == 0) {
 		JOptionPane.showMessageDialog(this, "Debes especificar cuanto tiempo jugaste", "Faltan datos", JOptionPane.ERROR_MESSAGE);
 		return;
@@ -105,7 +103,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	    int minsPlayed = (Integer) spinTime.getValue();
 	    int gameId = mg.getIdFromGameName(cbGame.getSelectedItem().toString());
 	    if(mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), minsPlayed, txtDate.getText()) == 1) {
-		txtDate.setText("");
+		//txtDate.setText("");
 		ModelGames mg = new ModelGames();
 		mg.setLastPlayed(gameId);
 		mg.newSession(gameId);

@@ -126,19 +126,15 @@ public class ModelConfig {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next()) {
-		sH = rs.getInt("show_hidden");
-	    }
+	    if(rs.next()) sH = rs.getInt("show_hidden");
 	    stmt.close();
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
-	if(sH == 1)
-	    return true;
-	else
-	    return false;
+	if(sH == 1) return true;
+	else return false;
     }
 
     public void setIsHidden(int args) {

@@ -51,10 +51,10 @@ public class ModelGames {
 	m.addColumn("Puntuacion");
 	m.addColumn("Path");
 	int comp = 0;
-	if(completed == "Todos")
-	    comp = 2;
-	else if (completed == "Completados")
-	    comp = 1;
+
+	if(completed == "Todos") comp = 2;
+	else if (completed == "Completados") comp = 1;
+
 	String query = "";
 
 	try {
@@ -141,15 +141,15 @@ public class ModelGames {
 
     public int getSecondsPlayed(int gameId) {
 	String query = "SELECT time_played FROM games WHERE id = " + gameId;
-	int secondsPlayed = 0;
+	int time_played = 0;
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
-		secondsPlayed = rs.getInt("time_played");
+		time_played = rs.getInt("time_played");
 	    } else {
-		secondsPlayed = 0;
+		time_played = 0;
 	    }
 	    conex.close();
 	    stmt.close();
@@ -157,7 +157,7 @@ public class ModelGames {
 	} catch (Exception ex) {
 	    ex.getMessage();
 	}
-	return secondsPlayed;
+	return time_played;
     }
 
     public int getMinutesTotalPlayed() {
@@ -233,8 +233,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		mins = rs.getInt("minutes");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -319,10 +320,11 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		name = rs.getString("name");
-	    else
+	    } else {
 		name = "ERROR";
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -345,8 +347,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		dateLastSession = rs.getString("Fecha");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -402,8 +405,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		ghost = rs.getInt("ghost");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -423,8 +427,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		completed = rs.getInt("completed");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -444,8 +449,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		hidden = rs.getInt("hidden");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -522,13 +528,13 @@ public class ModelGames {
 	}
 	return r;
     }
-    
+
     public void setLastPlayed(int gameId) {
 	try {
 	    String query = "UPDATE games SET last_played = ? WHERE id = ?";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
-	    p.setString(1, Utils.getDateTime());
+	    p.setString(1, Utils.getFormattedDateTime());
 	    p.setInt(2, gameId);
 	    p.executeUpdate();
 
@@ -564,7 +570,7 @@ public class ModelGames {
 	}
 	return resultado;
     }
-    
+
     public int addGame(String name, int gameTime, String path, String ghost, int playCount, String completed,
 	    int score, int category, int hide, int favorite, int broken, int portable, String releasedate,
 	    String rating, String genre, String platform, String developer, String publisher, String series,
@@ -572,8 +578,8 @@ public class ModelGames {
 	    String added, String modified) {
 	try {
 	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, broken, portable, release_date, "
-	    	+ "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, "
-	    	+ "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, "
+		    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    Log.Loguear(query);
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -681,8 +687,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		category = rs.getInt("category");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -700,8 +707,9 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if(rs.next())
+	    if(rs.next()) {
 		category = rs.getString("name_category");
+	    }
 	    conex.close();
 	    stmt.close();
 	    rs.close();
@@ -1041,7 +1049,7 @@ public class ModelGames {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
-	    if (rs.next()) {
+	    if(rs.next()) {
 		res = rs.getString("added");
 	    }
 	    conex.close();
@@ -1053,6 +1061,25 @@ public class ModelGames {
 	return res;
     }
     
+    public String getCompletedDate(int gameId) {
+	String query = "SELECT completed_date FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		res = rs.getString("completed_date");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    ex.getMessage();
+	}
+	return res;
+    }
+
     public String getModified(int gameId) {
 	String query = "SELECT modified FROM games WHERE id = " + gameId;
 	String res = "";
@@ -1076,12 +1103,13 @@ public class ModelGames {
 	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
 	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
 	    String series, String region, String playMode, String version, String status, String source,
-	    String lastPlayed) {
+	    String lastPlayed, String completed_date) {
 	try {
 	    String query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
 		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
-		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ? WHERE id = ?";    
-
+		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ? WHERE id = ?";    
+	    
+	    if(completed.equals("0")) completed_date = "0000:00:00";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
@@ -1109,8 +1137,9 @@ public class ModelGames {
 	    p.setString(23, status);
 	    p.setString(24, source);
 	    p.setString(25, lastPlayed);
-	    p.setString(26, Utils.getDateTime());
-	    p.setInt(27, gameId);
+	    p.setString(26, Utils.getFormattedDateTime());
+	    p.setString(27, completed_date);
+	    p.setInt(28, gameId);
 
 	    int res = p.executeUpdate();
 	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";

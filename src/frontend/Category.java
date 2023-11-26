@@ -16,7 +16,7 @@ import database.ModelGames;
 
 public class Category extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -1072944751022628676L;
-    private JLabel lblCategory = new JLabel("Categoria:");
+    private final JLabel lblCategory = new JLabel("Categoria:");
     private final JComboBox<String> cbCategory = new JComboBox<String>();
     private final JButton btnEdit = new JButton("Editar");
     private final JButton btnAdd = new JButton("Añadir");
@@ -61,7 +61,7 @@ public class Category extends JInternalFrame implements ActionListener {
 	setVisible(true);
     }
 
-    public void updateData() {
+    private void updateData() {
 	ModelGames mg = new ModelGames();
 	ArrayList<String> category = mg.getCategoryList();
 	cbCategory.removeAllItems();

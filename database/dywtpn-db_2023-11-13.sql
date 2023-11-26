@@ -44,7 +44,7 @@ CREATE TABLE `config` (
   `name` varchar(50) NOT NULL DEFAULT 'Usuario',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_game` varchar(100) NOT NULL DEFAULT ' Ultimo juego ejecutado: Ninguno',
-  `last_session_time` varchar(50) NOT NULL DEFAULT '0:00:00',
+  `last_session_time` varchar(50) NOT NULL DEFAULT ' 0:00:00',
   `show_hidden` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

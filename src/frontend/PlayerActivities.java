@@ -57,7 +57,7 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
 	setVisible(true);
     }
 
-    public void loadActivity() {
+    private void loadActivity() {
 	ArrayList<String> listGames = new ArrayList<String>();
 	ModelGames mg = new ModelGames();
 	listGames = mg.getGamesNameList(true);

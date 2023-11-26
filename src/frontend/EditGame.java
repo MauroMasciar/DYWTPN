@@ -41,6 +41,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private final JLabel lblAdded = new JLabel(" Añadido:");
     private final JLabel lblModified = new JLabel(" Modificado:");
     private final JLabel lblGameTime = new JLabel(" Tiempo jugado:");
+    private final JLabel lblCompletedDate = new JLabel(" Fecha de completado:");
     private final JLabel lblPlayCount = new JLabel(" Veces jugado:");
     private final JLabel lblPath = new JLabel("Directorio:");
     private final JLabel lblScore = new JLabel(" Puntaje:");
@@ -62,6 +63,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private final JTextField txtAdded = new JTextField(10);
     private final JTextField txtModified = new JTextField(10);
     private final JTextField txtPath = new JTextField(10);
+    private final JTextField txtCompletedDate = new JTextField(10);
     private final JCheckBox chFavorite = new JCheckBox("Favorito");
     private final JCheckBox chCompleted = new JCheckBox("Completado");
     private final JCheckBox chBroken = new JCheckBox("Roto");
@@ -80,7 +82,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 
     public EditGame(int gameId) {
 	setTitle("Editar juegos");
-	setSize(800, 400);
+	setSize(820, 380);
 	setClosable(true);
 	setResizable(true);
 	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -215,9 +217,9 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(txtLastPlayed, gbc);
 	gbc.gridx += 3;
 	gbc.gridwidth = 1;
-	pnlDetails.add(lblPlayCount, gbc);
+	pnlDetails.add(lblCompletedDate, gbc);
 	gbc.gridx++;
-	pnlDetails.add(spinPlayCount, gbc);
+	pnlDetails.add(txtCompletedDate, gbc);
 	gbc.gridx++;
 	pnlDetails.add(chBroken, gbc);
 	gbc.gridx++;
@@ -233,6 +235,10 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(lblGameTime, gbc);
 	gbc.gridx++;
 	pnlDetails.add(spinGameTime, gbc);
+	gbc.gridx++;
+	pnlDetails.add(lblScore, gbc);
+	gbc.gridx++;
+	pnlDetails.add(spinScore, gbc);
 	gbc.gridy++;
 	gbc.gridx = 0;
 	pnlDetails.add(lblCategory, gbc);
@@ -241,15 +247,16 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(cbCategory, gbc);
 	gbc.gridx += 3;
 	gbc.gridwidth = 1;
-	pnlDetails.add(lblScore, gbc);
+	pnlDetails.add(lblPlayCount, gbc);
 	gbc.gridx++;
-	pnlDetails.add(spinScore, gbc);	
+	pnlDetails.add(spinPlayCount, gbc);
 
 	add(pnlDetails);
 	add(btnSave);
 
 	cbTitle.addActionListener(this);
 	btnSave.addActionListener(this);
+	chCompleted.addActionListener(this);
 	txtAdded.setEditable(false);
 	txtModified.setEditable(false);
 	LoadCategory();
@@ -264,12 +271,12 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	spinScore.setModel(spinnerNumberModelScore);
 	spinGameTime.setModel(spinnerNumberModelGameTime);
 	spinPlayCount.setModel(spinnerNumberModelPlayCount);
-	
+
 	if(gameId != 0) {
 	    ModelGames mg = new ModelGames();
 	    cbTitle.setSelectedItem(mg.getNameFromId(gameId));
 	}
-	
+
 	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
 	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
 	if(Validations.isEmpty(txtGenre)) txtGenre.setText("-");
@@ -283,7 +290,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	if(Validations.isEmpty(txtPlatform)) txtPlatform.setText("-");
 	if(Validations.isEmpty(txtPublisher)) txtPublisher.setText("-");
 	if(Validations.isEmpty(txtRegion)) txtRegion.setText("-");
-	if(Validations.isEmpty(txtVersion)) txtVersion.setText("-");	
+	if(Validations.isEmpty(txtVersion)) txtVersion.setText("-");
+	if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("0000-00-00");
 
 	setVisible(true);
     }
@@ -342,14 +350,20 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	spinGameTime.setValue(secondsPlayed);
 	spinPlayCount.setValue(playCount);
 	txtModified.setText(mg.getModified(gameId));
-	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId)); 
+	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId));
+	txtCompletedDate.setText(mg.getCompletedDate(gameId));
+	if(chCompleted.isSelected()) {
+	    txtCompletedDate.setEditable(true);
+	} else {
+	    txtCompletedDate.setEditable(false);
+	}
     }
 
     private void SaveData(int gameId) {
 	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
 		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
 		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) || Validations.isEmpty(txtSource) ||
-		Validations.isEmpty(txtLastPlayed)) {
+		Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtCompletedDate)) {
 	    JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
@@ -380,6 +394,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	String source = txtSource.getText();
 	String lastPlayed = txtLastPlayed.getText();
 	String path = txtPath.getText();
+	String completedDate = txtCompletedDate.getText();
 	int score = (Integer) spinScore.getValue();
 	int gameTime = (Integer) spinGameTime.getValue();
 	int playCount = (Integer) spinPlayCount.getValue();
@@ -387,7 +402,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 
 	int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
-		playMode, version, status, source, lastPlayed);
+		playMode, version, status, source, lastPlayed, completedDate);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 	    MainUI.UpdateGameList();
@@ -404,6 +419,12 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	} else if(e.getSource() == btnSave) {
 	    ModelGames mg = new ModelGames();
 	    SaveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));
+	} else if(e.getSource() == chCompleted) {
+	    if(chCompleted.isSelected()) {
+		txtCompletedDate.setEditable(true);
+	    } else {
+		txtCompletedDate.setEditable(false);
+	    }
 	}
     }
 }

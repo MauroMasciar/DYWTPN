@@ -351,7 +351,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	}
     }
 
-    public void LaunchGame() {
+    private void LaunchGame() {
 	if(txtGameName.getText().isEmpty()) {
 	    JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	    return;

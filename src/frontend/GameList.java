@@ -91,12 +91,12 @@ public class GameList extends JInternalFrame implements ActionListener {
 	setVisible(true);
     }
 
-    public void refreshTable() {
+    private void refreshTable() {
 	ModelGames mg = new ModelGames();
-	if(cbCompleted.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos")
+	if(cbCompleted.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") {
 	    cbCompleted.setSelectedItem("Todos");
-	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(),
-		cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString()));
+	}
+	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString()));
     }
 
     @Override
