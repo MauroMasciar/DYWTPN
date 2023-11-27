@@ -1,10 +1,9 @@
 package frontend;
 
 import java.io.IOException;
-
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 
 public class Main {
     public static Process p;
@@ -12,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
 	try {
-	    UIManager.setLookAndFeel(new FlatLightLaf()); // https://www.formdev.com/flatlaf/
+	    UIManager.setLookAndFeel(new FlatIntelliJLaf()); // https://www.formdev.com/flatlaf/
 	} catch (Exception ex) {
 	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
 	    ex.printStackTrace();

@@ -36,27 +36,28 @@ import debug.Log;
 public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1L;
     private static JList<String> jlistGames = new JList<String>();
-    private JScrollPane scrListGame = new JScrollPane(jlistGames);
+    private final JScrollPane scrListGame = new JScrollPane(jlistGames);
     private static DefaultListModel<String> modelList = new DefaultListModel<String>();
-    private JTextField txtSearch = new JTextField(20);
-    private static JTextField txtGameName = new JTextField(20);
-    private static JTextField txtMinsPlayed = new JTextField(20);
-    private static JTextField txtCategory = new JTextField(20);
-    private JTextField txtPathGame = new JTextField(20);
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    private static JButton btnLaunchGame = new JButton("Lanzar");
-    private JButton btnEditGame = new JButton("Editar");
-    public static JTextField txtTimePlaying = new JTextField(20);
-    public static JTextField txtGamePlaying = new JTextField(20);
-    private static JTextArea txtStatistics = new JTextArea();
-    private static JTextArea txtLastDays = new JTextArea();
-    private static JTextArea txtLastAchie = new JTextArea();
-    public static JTextArea txtGames = new JTextArea();
-    public static JTextArea txtGamesTime = new JTextArea();
-    public JTextArea txtSeparator = new JTextArea();
-    private JPopupMenu popUpMenu = new JPopupMenu();
-    private JMenuItem mnuiLaunch = new JMenuItem("Lanzar");
-    private JMenuItem mnuiEdit = new JMenuItem("Editar");
+    private final JTextField txtSearch = new JTextField(20);
+    private static final JTextField txtGameName = new JTextField(20);
+    private static final JTextField txtMinsPlayed = new JTextField(20);
+    private static final JTextField txtCategory = new JTextField(20);
+    private final JTextField txtPathGame = new JTextField(20);
+    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private static final JButton btnLaunchGame = new JButton("Lanzar");
+    private final JButton btnEditGame = new JButton("Editar");
+    public static final JTextField txtTimePlaying = new JTextField(20);
+    public static final JTextField txtGamePlaying = new JTextField(20);
+    private static final JTextArea txtStatistics = new JTextArea();
+    private static final JTextArea txtTotalInfo = new JTextArea();
+    private static final JTextArea txtLastDays = new JTextArea();
+    private static final JTextArea txtLastAchie = new JTextArea();
+    public static final JTextArea txtGames = new JTextArea();
+    public static final JTextArea txtGamesTime = new JTextArea();
+    private final JTextArea txtSeparator = new JTextArea();
+    private final JPopupMenu popUpMenu = new JPopupMenu();
+    private final JMenuItem mnuiLaunch = new JMenuItem("Lanzar");
+    private final JMenuItem mnuiEdit = new JMenuItem("Editar");
 
     public int gameIdSelected = 0;
     public static int gameIdLaunched = 0;
@@ -111,6 +112,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	pnlTop.add(txtStatistics, gbc);
 	gbc.gridy++;
 	pnlTop.add(txtLastDays, gbc);
+	gbc.gridy++;
+	pnlTop.add(txtTotalInfo, gbc);
 	gbc.gridy++;
 	pnlTop.add(txtLastAchie, gbc);
 	gbc.gridy++;
@@ -190,10 +193,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtGamePlaying.setForeground(Color.RED);
 	txtLastAchie.setForeground(Color.RED);
 	txtLastDays.setForeground(Color.RED);
+	txtTotalInfo.setForeground(Color.RED);
 	txtStatistics.setText(" CARGANDO ...");
 	txtStatistics.setEditable(false);
 	txtLastDays.setText(" CARGANDO ...");
 	txtLastDays.setEditable(false);
+	txtTotalInfo.setText(" CARGANDO ...");
+	txtTotalInfo.setEditable(false);
 	txtGames.setEditable(false);
 	txtGamesTime.setEditable(false);
 	txtGamePlaying.setEditable(false);
@@ -212,6 +218,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtTimePlaying.setFont(new Font("Serief", Font.BOLD, 12));
 	txtLastAchie.setFont(new Font("Serief", Font.BOLD, 12));
 	txtLastDays.setFont(new Font("Serief", Font.BOLD, 12));
+	txtTotalInfo.setFont(new Font("Serief", Font.BOLD, 12));
 
 	txtPathGame.setEnabled(false);
 	txtCategory.setEditable(false);
@@ -265,6 +272,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		+ decimalFormat.format(siete / 60) + " | 2 semanas: " + decimalFormat.format(catorce / 60) + " | Mes: "
 		+ decimalFormat.format(treinta / 60));
 	
+	txtTotalInfo.setText(" Juegos iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Juegos completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones totales: " + mg.getTotalSessions());
+	
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
@@ -278,18 +287,20 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    // LoadLastSession
 	    txtGamePlaying.setText(mc.getLastGame());
 	    txtTimePlaying.setText(mc.getLastSessionTime());
-	    if (mc.getUsername().equals("PRUEBAS")) {
+	    if(mc.getUsername().equals("PRUEBAS")) {
 		txtStatistics.setForeground(Color.RED);
 		txtTimePlaying.setForeground(Color.RED);
 		txtGamePlaying.setForeground(Color.RED);
 		txtLastAchie.setForeground(Color.RED);
 		txtLastDays.setForeground(Color.RED);
+		txtTotalInfo.setForeground(Color.RED);
 	    } else {
 		txtTimePlaying.setForeground(Color.BLACK);
 		txtGamePlaying.setForeground(Color.BLACK);
 		txtStatistics.setForeground(Color.BLACK);
 		txtLastAchie.setForeground(Color.BLACK);
 		txtLastDays.setForeground(Color.BLACK);
+		txtTotalInfo.setForeground(Color.RED);
 	    }
 	}
     }
@@ -382,7 +393,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
 				gameIdLaunched = 0;
 				ig.closeGame();
-				UpdateGameList();
+				LoadData();
 			    } catch (InterruptedException ex) {
 				JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 			    }

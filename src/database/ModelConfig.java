@@ -237,6 +237,7 @@ public class ModelConfig {
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	}
+	Log.Loguear(String.valueOf(r));
 	return r;	
     }
 }

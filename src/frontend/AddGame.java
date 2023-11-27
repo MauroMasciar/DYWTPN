@@ -296,7 +296,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	    JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
-	if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
+	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
 
 	String completed = "0", ghost = "0";
 	int hide = 0, favorite = 0, broken = 0, portable = 0;

@@ -1,6 +1,7 @@
 package database;
 
 import debug.Log;
+import frontend.MainUI;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -207,27 +208,15 @@ public class ModelGames {
 	int mins = 0;
 	String query;
 	if (gameId == 0) {
-	    if(days == 1)
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-1) AND now()";
-	    else if(days == 7)
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-7) AND now()";
-	    else if(days == 14)
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now()";
-	    else
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now()";
+	    if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-1) AND now()";
+	    else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-7) AND now()";
+	    else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now()";
+	    else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now()";
 	} else {
-	    if(days == 1)
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-1) AND now() AND game_id = "
-			+ gameId;
-	    else if(days == 7)
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-7) AND now() AND game_id = "
-			+ gameId;
-	    else if(days == 14)
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now() AND game_id = "
-			+ gameId;
-	    else
-		query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now() AND game_id = "
-			+ gameId;
+	    if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-1) AND now() AND game_id = " + gameId;
+	    else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-7) AND now() AND game_id = " + gameId;
+	    else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now() AND game_id = " + gameId;
+	    else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now() AND game_id = " + gameId;
 	}
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -436,10 +425,8 @@ public class ModelGames {
 	} catch (SQLException ex) {
 	    ex.getMessage();
 	}
-	if (completed == 1)
-	    return true;
-	else
-	    return false;
+	if(completed == 1) return true;
+	else return false;
     }
 
     public boolean isHidden(int gameId) {
@@ -1094,7 +1081,55 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    ex.printStackTrace();
+	}
+	return res;
+    }
+    
+    public int getNumberCompletedGames() {
+	String query = "SELECT name FROM games WHERE completed = 1";
+	int res = 0;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    while(rs.next()) {
+		res++;
+	    }
+	} catch(SQLException ex) {
+	    ex.printStackTrace();
+	}
+	return res;
+    }
+    
+    public int getTotalSessions() {
+	String query = "SELECT SUM(play_count) AS total_sessions FROM games";
+	int res = 0;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		res = rs.getInt("total_sessions");
+	    }
+	} catch(SQLException ex) {
+	    ex.printStackTrace();
+	}
+	return res;
+    }
+    
+    public int getCountGamesPlayed() {
+	String query = "SELECT count(time_played) AS games_played FROM games WHERE time_played > 60";
+	int res = 0;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		res = rs.getInt("games_played");
+	    }
+	} catch(SQLException ex) {
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1105,9 +1140,19 @@ public class ModelGames {
 	    String series, String region, String playMode, String version, String status, String source,
 	    String lastPlayed, String completed_date) {
 	try {
-	    String query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
+	    String query;
+	    
+	    if(completed == "1" && !isCompleted(gameId)) {
+		ModelPlayer mp = new ModelPlayer();
+		String gameName = getNameFromId(gameId);
+		String achievement = "Has terminado el juego " + gameName;
+		mp.saveAchievement(achievement, gameName, gameId);
+		MainUI.LoadData();
+	    }
+	    
+	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
 		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
-		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ? WHERE id = ?";    
+		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ? WHERE id = ?";
 	    
 	    if(completed.equals("0")) completed_date = "0000:00:00";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
