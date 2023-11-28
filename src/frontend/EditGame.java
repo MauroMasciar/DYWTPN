@@ -15,7 +15,6 @@ import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -96,7 +95,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	setClosable(true);
 	setResizable(true);
 	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
-	setLayout(new FlowLayout());
 	this.gameId = gameId;
 
 	pnlDetails.setLayout(new GridBagLayout());

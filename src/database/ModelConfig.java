@@ -268,6 +268,7 @@ public class ModelConfig {
 	    stmt.close();
 	    conex.close();
 	    rs.close();
+	    System.out.println("gettheme: " + r);
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
@@ -285,6 +286,7 @@ public class ModelConfig {
 	    conex.close();
 	    p.close();
 	    loadTheme(theme);
+	    System.out.println("settheme: " + theme);
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
@@ -296,6 +298,7 @@ public class ModelConfig {
 	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
 	    else if(theme == 2) UIManager.setLookAndFeel(new FlatDarkLaf());
 	    else UIManager.setLookAndFeel(new FlatIntelliJLaf());
+	    System.out.println("loadtheme: " + theme);
 	} catch (Exception ex) {
 	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
 	    ex.printStackTrace();

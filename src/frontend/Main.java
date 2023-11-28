@@ -7,12 +7,9 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.32.13";
+    public static final String VERSIONAPP = "1.2.32.16";
 
     public static void main(String[] args) {
-	ModelConfig mc = new ModelConfig();
-	mc.loadTheme(mc.getTheme());
-
 	final boolean test = false;
 	if(!test) {
 	    ProcessBuilder pb;
@@ -23,18 +20,21 @@ public class Main {
 		JOptionPane.showMessageDialog(null,"No se ha podido cargar los datos. Vuelve a intentarlo. Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
 	    }
-	    new Thread(new Runnable() {
-		public void run() {
-		    try {
-			Thread.sleep(1000);
-			new MainWindow();
-		    } catch (InterruptedException ex) {
-			System.exit(0);
-		    }
-		}
-	    }).start();
-	} else {
-	    new MainWindow();
 	}
+
+	new Thread(new Runnable() {
+	    public void run() {
+		try {
+		    new Splash();
+		    Thread.sleep(1000);
+		    ModelConfig mc = new ModelConfig();
+		    mc.loadTheme(mc.getTheme());
+		    Thread.sleep(2000);
+		    MainUI.LoadData();
+		} catch (InterruptedException ex) {
+		    System.exit(0);
+		}
+	    }
+	}).start();
     }
 }

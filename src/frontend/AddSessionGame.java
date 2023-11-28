@@ -22,8 +22,8 @@ import database.ModelGames;
 public class AddSessionGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -7862927860955738026L;
     private final JLabel lblCbGame = new JLabel("Seleccione el juego:");
-    private final JLabel lblTime = new JLabel("Tiempo jugado (En minutos):");
-    private final JLabel lblDate = new JLabel("Fecha: (YYYY-MM-DD HH:MM:SS):");
+    private final JLabel lblTime = new JLabel("Tiempo jugado:");
+    private final JLabel lblDate = new JLabel("Fecha:");
     private final JComboBox<String> cbGame = new JComboBox<String>();
     private final JSpinner spinTime = new JSpinner();
     private final SpinnerNumberModel spnModelTime = new SpinnerNumberModel();
@@ -39,7 +39,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 	setTitle("Añadir nueva sesion");
-	setBounds(100, 100, 390, 150);
+	setBounds(100, 80, 390, 150);
 	setClosable(true);
 	setResizable(true);
 	setLayout(new GridBagLayout());
@@ -70,9 +70,8 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	gbc.gridx = 0;
 	gbc.gridy++;
 	gbc.gridwidth = 2;
-	panel.add(btnAdd, gbc);
-	
 	gbc.fill = GridBagConstraints.NONE;
+	panel.add(btnAdd, gbc);
 	gbc.gridwidth = 1;
 	gbc.gridx = 0;
 	gbc.gridy = 0;
@@ -81,6 +80,9 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	spnModelTime.setMinimum(0);
 	spinTime.setModel(spnModelTime);
 	txtDate.setText(Utils.getFormattedDateTime());
+	
+	spinTime.setToolTipText("El tiempo es en minutos");
+	txtDate.setToolTipText("El formato es YYYY-MM-DD HH:MM:SS");
 
 	btnAdd.addActionListener(this);
 

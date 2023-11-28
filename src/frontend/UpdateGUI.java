@@ -77,5 +77,4 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
 	    txtSql.setText("");
 	}	
     }
-
 }
