@@ -9,6 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.UIManager;
+
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatIntelliJLaf;
+
 public class ModelConfig {
     private Connection conex = null;
     private static Statement stmt;
@@ -236,7 +241,6 @@ public class ModelConfig {
 	}
     }
 
-    
     public int Update(String query) {
 	int r = 0;
 	try {
@@ -251,5 +255,50 @@ public class ModelConfig {
 	}
 	Log.Loguear(String.valueOf(r));
 	return r;	
+    }
+    
+    public int getTheme() {
+	String query = "SELECT theme FROM config";
+	int r = 1;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) r = rs.getInt("theme");
+	    stmt.close();
+	    conex.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return r;
+    }
+    
+    public void setTheme(int theme) {
+	String query = "UPDATE config SET theme = ?";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setInt(1, theme);
+	    p.executeUpdate();
+	    conex.close();
+	    p.close();
+	    loadTheme(theme);
+	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+    }
+    
+    public void loadTheme(int theme) {
+	try {
+	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
+	    else if(theme == 2) UIManager.setLookAndFeel(new FlatDarkLaf());
+	    else UIManager.setLookAndFeel(new FlatIntelliJLaf());
+	} catch (Exception ex) {
+	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
+	    ex.printStackTrace();
+	}
     }
 }

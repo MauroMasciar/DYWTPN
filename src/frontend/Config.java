@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import backend.Validations;
@@ -15,22 +16,24 @@ import database.ModelConfig;
 
 public class Config extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6985809216237042311L;
-    private JLabel lblName = new JLabel("Nuevo nombre");
-    private JTextField txtName = new JTextField(10);
-    private JButton btnSave = new JButton("Guardar datos");
-    private JButton btnTruncate = new JButton("Resetear datos");
-    private JLabel lblMainUIx = new JLabel("Main X");
-    private JTextField txtMainUIx = new JTextField(10);
-    private JLabel lblMainUIy = new JLabel("Main Y");
-    private JTextField txtMainUIy = new JTextField(10);
-    private JLabel lblActivityx = new JLabel("Actividad X");
-    private JTextField txtActivityx = new JTextField(10);
-    private JLabel lblActivityy = new JLabel("Actividad Y");
-    private JTextField txtActivityy = new JTextField(10);
-    private JLabel lblHistoryx = new JLabel("Historial X");
-    private JTextField txtHistoryx = new JTextField(10);
-    private JLabel lblHistoryy = new JLabel("Historial Y");
-    private JTextField txtHistoryy = new JTextField(10);
+    private final JLabel lblName = new JLabel("Nuevo nombre");
+    private final JTextField txtName = new JTextField(10);
+    private final JButton btnSave = new JButton("Guardar datos");
+    private final JButton btnTruncate = new JButton("Resetear datos");
+    private final JLabel lblMainUIx = new JLabel("Main X");
+    private final JTextField txtMainUIx = new JTextField(10);
+    private final JLabel lblMainUIy = new JLabel("Main Y");
+    private final JTextField txtMainUIy = new JTextField(10);
+    private final JLabel lblActivityx = new JLabel("Actividad X");
+    private final JTextField txtActivityx = new JTextField(10);
+    private final JLabel lblActivityy = new JLabel("Actividad Y");
+    private final JTextField txtActivityy = new JTextField(10);
+    private final JLabel lblHistoryx = new JLabel("Historial X");
+    private final JTextField txtHistoryx = new JTextField(10);
+    private final JLabel lblHistoryy = new JLabel("Historial Y");
+    private final JTextField txtHistoryy = new JTextField(10);
+    private final JComboBox<String> cbTheme = new JComboBox<String>();
+    private final JLabel lblTheme = new JLabel("Requiere reincio");
 
     public Config() {
 	try {
@@ -44,6 +47,9 @@ public class Config extends JInternalFrame implements ActionListener {
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setLayout(new FlowLayout());
 	setClosable(true);
+	
+	cbTheme.addItem("Claro");
+	cbTheme.addItem("Oscuro");
 
 	add(lblName);
 	add(txtName);
@@ -61,10 +67,19 @@ public class Config extends JInternalFrame implements ActionListener {
 	add(txtHistoryy);
 	add(btnSave);
 	add(btnTruncate);
+	add(cbTheme);
+	add(lblTheme);
 
 	btnSave.addActionListener(this);
 	btnTruncate.addActionListener(this);
+	cbTheme.addActionListener(this);
+	
+	loadData();
 
+	setVisible(true);
+    }
+    
+    public void loadData() {
 	ModelConfig mc = new ModelConfig();
 	txtName.setText(mc.getUsername());
 	txtMainUIx.setText(String.valueOf(mc.getBounds_x("MainUI")));
@@ -73,8 +88,9 @@ public class Config extends JInternalFrame implements ActionListener {
 	txtActivityy.setText(String.valueOf(mc.getBounds_y("Activity")));
 	txtHistoryx.setText(String.valueOf(mc.getBounds_y("History")));
 	txtHistoryy.setText(String.valueOf(mc.getBounds_y("History")));
-
-	setVisible(true);
+	int theme = mc.getTheme();
+	if(theme == 1) cbTheme.setSelectedItem("Claro");
+	else if(theme == 2) cbTheme.setSelectedItem("Oscuro");
     }
 
     @Override
@@ -107,6 +123,10 @@ public class Config extends JInternalFrame implements ActionListener {
 	    } catch(NumberFormatException ex) {
 		JOptionPane.showMessageDialog(this, "Algunos campos tienen datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
+	} else if(e.getSource() == cbTheme) {
+	    ModelConfig mc = new ModelConfig();
+	    if(cbTheme.getSelectedItem().equals("Claro")) mc.setTheme(1);
+	    else if(cbTheme.getSelectedItem().equals("Oscuro")) mc.setTheme(2);
 	}
     }
 }

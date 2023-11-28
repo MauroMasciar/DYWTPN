@@ -17,23 +17,23 @@ import database.ModelConfig;
 public class MainWindow extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = -82854956961477559L; //-82854956961477559L
     public static JFrame j = new JFrame();
-    private JMenuBar menubar = new JMenuBar();
-    private JMenu mnuGames = new JMenu("Juegos");
-    private JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("bin/gfx/new_game.png"));
-    private JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion", new ImageIcon("bin/gfx/new_session.png"));
-    private JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("bin/gfx/refresh.png"));
-    private JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("bin/gfx/games_list.png"));
-    private JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
-    private JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("bin/gfx/category.png"));
-    private JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("bin/gfx/collections.png"));
-    private JMenu mnuPlayer = new JMenu("Jugador");
-    private JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("bin/gfx/history.png"));
-    private JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("bin/gfx/activity.png"));
-    private JMenu mnuHelp = new JMenu("Ayuda");
-    private JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("bin/gfx/config.png"));
-    private JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("bin/gfx/update.png"));
-    private JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de", new ImageIcon("bin/gfx/about.png"));
-    private JMenuItem mnuiHelpDebug = new JMenuItem("Debug", new ImageIcon("bin/gfx/debug.png"));
+    private final JMenuBar menubar = new JMenuBar();
+    private final JMenu mnuGames = new JMenu("Juegos");
+    private final JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("bin/gfx/new_game.png"));
+    private final JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion", new ImageIcon("bin/gfx/new_session.png"));
+    private final JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("bin/gfx/refresh.png"));
+    private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("bin/gfx/games_list.png"));
+    private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
+    private final JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("bin/gfx/category.png"));
+    private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("bin/gfx/collections.png"));
+    private final JMenu mnuPlayer = new JMenu("Jugador");
+    private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("bin/gfx/history.png"));
+    private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("bin/gfx/activity.png"));
+    private final JMenu mnuHelp = new JMenu("Ayuda");
+    private final JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("bin/gfx/config.png"));
+    private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("bin/gfx/update.png"));
+    private final JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de", new ImageIcon("bin/gfx/about.png"));
+    private final JMenuItem mnuiHelpDebug = new JMenuItem("Debug", new ImageIcon("bin/gfx/debug.png"));
 
     public MainWindow() {
 	try {

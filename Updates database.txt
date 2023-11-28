@@ -37,3 +37,5 @@ ALTER TABLE `games` ADD `notes` TEXT NOT NULL AFTER `image`;
 -- 1.2.31
 ALTER TABLE `games` ADD `completed_date` DATE NULL DEFAULT NULL AFTER `completed`;
 ALTER TABLE `games` CHANGE `completed_date` `completed_date` DATE NULL DEFAULT '0000:00:00';
+-- 1.2.32.6
+ALTER TABLE `config` ADD `theme` INT(10) NOT NULL DEFAULT '1' AFTER `show_hidden`;

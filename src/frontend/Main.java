@@ -2,26 +2,18 @@ package frontend;
 
 import java.io.IOException;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
-//import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
+import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.32.5";
+    public static final String VERSIONAPP = "1.2.32.8";
 
     public static void main(String[] args) {
-	try {
-	    UIManager.setLookAndFeel(new FlatIntelliJLaf()); // https://www.formdev.com/flatlaf/
-	    //UIManager.setLookAndFeel(new FlatDarkLaf()); // https://www.formdev.com/flatlaf/
-	} catch (Exception ex) {
-	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
-	    ex.printStackTrace();
-	}
+	ModelConfig mc = new ModelConfig();
+	mc.loadTheme(mc.getTheme());
 
 	boolean test = false;
-
 	if(!test) {
 	    ProcessBuilder pb;
 	    pb = new ProcessBuilder("core\\mysql\\bin\\mysqld_z.exe");
