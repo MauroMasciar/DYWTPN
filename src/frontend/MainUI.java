@@ -11,7 +11,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -28,6 +27,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import backend.InGame;
+import backend.Utils;
 import database.ModelConfig;
 import database.ModelGames;
 import database.ModelPlayer;
@@ -43,7 +43,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static final JTextField txtMinsPlayed = new JTextField(20);
     private static final JTextField txtCategory = new JTextField(20);
     private final JTextField txtPathGame = new JTextField(20);
-    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    //private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private static final JButton btnLaunchGame = new JButton("Lanzar");
     private final JButton btnEditGame = new JButton("Editar");
     public static final JTextField txtTimePlaying = new JTextField(20);
@@ -256,21 +256,25 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelConfig mc = new ModelConfig();
 	ModelPlayer mp = new ModelPlayer();
 	ModelGames mg = new ModelGames();
-	double totalHours = mg.getMinutesTotalPlayed();
+	int totalSeconds = mg.getSecondsTotalPlayed();
+	String totalTimePlayed = Utils.getTotalHoursFromSeconds(totalSeconds, true);
 
 	showHidden = mc.getIsHidden();
 	if (gameIdLaunched == 0) UpdateGameList();
 
-	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Total de juegos: " + modelList.size() + " | Total de horas: " + decimalFormat.format(totalHours / 60));
+	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Total de juegos: " + modelList.size() + " | Tiempo: " + totalTimePlayed);
 
-	double uno = mg.getLastDays(0, 1);
-	double siete = mg.getLastDays(0, 7);
-	double catorce = mg.getLastDays(0, 14);
-	double treinta = mg.getLastDays(0, 30);
+	int tuno = mg.getLastDays(0, 1, true);
+	int tsiete = mg.getLastDays(0, 7, true);
+	int tcatorce = mg.getLastDays(0, 14, true);
+	int ttreinta = mg.getLastDays(0, 30, true);
+	
+	String uno = Utils.getTotalHoursFromSeconds(tuno, false);
+	String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
+	String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
+	String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
 
-	txtLastDays.setText(" Horas el ultimo dia: " + decimalFormat.format(uno / 60) + " | Semana: "
-		+ decimalFormat.format(siete / 60) + " | 2 semanas: " + decimalFormat.format(catorce / 60) + " | Mes: "
-		+ decimalFormat.format(treinta / 60));
+	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
 	
 	txtTotalInfo.setText(" Juegos iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Juegos completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones totales: " + mg.getTotalSessions());
 	
@@ -343,20 +347,22 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    ModelGames mg = new ModelGames();
 
 	    gameIdSelected = mg.getIdFromGameName(txtGameName.getText());
-	    if(gameIdSelected != 0) {
-		double mins_played = mg.getMinsPlayed(gameIdSelected);
-		txtMinsPlayed.setText(decimalFormat.format(mins_played / 60));
-		txtGames.setText(" Juego: " + txtGameName.getText() + " | Horas jugadas: " + txtMinsPlayed.getText()
+	    if(gameIdSelected != 0) {		
+		String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
+		txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed
 		+ " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
 		+ mg.getDateLastSession(gameIdSelected));
 
-		double uno = mg.getLastDays(gameIdSelected, 1);
-		double siete = mg.getLastDays(gameIdSelected, 7);
-		double catorce = mg.getLastDays(gameIdSelected, 14);
-		double treinta = mg.getLastDays(gameIdSelected, 30);
 
-		txtGamesTime.setText(" Horas ultimo dia: " + decimalFormat.format(uno / 60) + " | Semana: " + decimalFormat.format(siete / 60) + " | 2 semanas: " + decimalFormat.format(catorce / 60)
-		+ " | Mes: " + decimalFormat.format(treinta / 60));
+		int tuno = mg.getLastDays(gameIdSelected, 1, true);
+		int tsiete = mg.getLastDays(gameIdSelected, 7, true);
+		int tcatorce = mg.getLastDays(gameIdSelected, 14, true);
+		int ttreinta = mg.getLastDays(gameIdSelected, 30, true);
+		String uno = Utils.getTotalHoursFromSeconds(tuno, false);
+		String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
+		String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
+		String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
+		txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
 		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 	    }
 	}

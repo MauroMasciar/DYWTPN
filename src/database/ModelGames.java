@@ -182,6 +182,27 @@ public class ModelGames {
 	}
 	return minutes;
     }
+    
+    public int getSecondsTotalPlayed() {
+	String query = "SELECT SUM(time_played) AS seconds FROM games";
+	int seconds = 0;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		seconds = rs.getInt("seconds");
+	    } else {
+		seconds = 0;
+	    }
+	    stmt.close();
+	    conex.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    ex.getMessage();
+	}
+	return seconds;
+    }
 
     public int getPlayCount(int gameId) {
 	String query = "SELECT play_count FROM games WHERE id = " + gameId;
@@ -204,7 +225,7 @@ public class ModelGames {
 	return play_count;
     }
 
-    public int getLastDays(int gameId, int days) {
+    public int getLastDays(int gameId, int days, boolean hours) {
 	int mins = 0;
 	String query;
 	if (gameId == 0) {
@@ -231,6 +252,7 @@ public class ModelGames {
 	} catch (Exception ex) {
 	    ex.getMessage();
 	}
+	if(hours) mins = mins * 60;
 	return mins;
     }
 

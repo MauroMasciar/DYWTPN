@@ -7,7 +7,7 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.31";
+    public static final String VERSIONAPP = "1.2.32";
 
     public static void main(String[] args) {
 	try {

@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import database.ModelGames;
+import backend.Utils;
 import backend.Validations;
 
 public class EditGame extends JInternalFrame implements ActionListener {
@@ -43,6 +44,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
     private final JLabel lblGameTime = new JLabel(" Tiempo jugado:");
     private final JLabel lblCompletedDate = new JLabel(" Fecha de completado:");
     private final JLabel lblPlayCount = new JLabel(" Veces jugado:");
+    private final JLabel lblConvertedSeconds = new JLabel();
     private final JLabel lblPath = new JLabel("Directorio:");
     private final JLabel lblScore = new JLabel(" Puntaje:");
     private final JLabel lblCategory = new JLabel("Categoria:");
@@ -236,9 +238,8 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridx++;
 	pnlDetails.add(spinGameTime, gbc);
 	gbc.gridx++;
-	pnlDetails.add(lblScore, gbc);
-	gbc.gridx++;
-	pnlDetails.add(spinScore, gbc);
+	pnlDetails.add(lblConvertedSeconds, gbc);
+	
 	gbc.gridy++;
 	gbc.gridx = 0;
 	pnlDetails.add(lblCategory, gbc);
@@ -250,6 +251,11 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(lblPlayCount, gbc);
 	gbc.gridx++;
 	pnlDetails.add(spinPlayCount, gbc);
+	gbc.gridx++;
+	pnlDetails.add(lblScore, gbc);
+	gbc.gridx++;
+	pnlDetails.add(spinScore, gbc);
+	
 
 	add(pnlDetails);
 	add(btnSave);
@@ -352,6 +358,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	txtModified.setText(mg.getModified(gameId));
 	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId));
 	txtCompletedDate.setText(mg.getCompletedDate(gameId));
+	lblConvertedSeconds.setText(" (" + Utils.getTotalHoursFromSeconds(secondsPlayed, true) + ")");
 	if(chCompleted.isSelected()) {
 	    txtCompletedDate.setEditable(true);
 	} else {

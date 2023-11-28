@@ -29,4 +29,25 @@ public class Utils {
 	time = LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue() + "-" + LocalDate.now().getDayOfMonth() + " " + sHour + ":" + sMinute + ":" + sSecond;
 	return time;
     }
+    
+    public static String getTotalHoursFromSeconds(int seconds, boolean withSeconds) {
+	String sHour, sMinute, sSecond;
+	int seconds_final = 0;
+	int minutes = seconds / 60;
+	seconds_final = seconds % 60;
+	int minutes_final = minutes % 60;
+	int hours_final = minutes / 60;
+	
+	if(seconds_final < 10) sSecond = "0" + seconds_final;
+	else sSecond = String.valueOf(seconds_final);
+
+	if(minutes_final < 10) sMinute = "0" + minutes_final;
+	else sMinute = String.valueOf(minutes_final);
+
+	if(hours_final < 10) sHour = "0" + hours_final;
+	else sHour = String.valueOf(hours_final);
+	
+	if(withSeconds) return sHour + "h " + sMinute + "m " + sSecond + "s";
+	else return sHour + "h " + sMinute + "m";
+    }
 }
