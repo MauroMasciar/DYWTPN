@@ -11,6 +11,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -22,7 +24,7 @@ import database.ModelGames;
 import backend.Utils;
 import backend.Validations;
 
-public class EditGame extends JInternalFrame implements ActionListener {
+public class EditGame extends JInternalFrame implements ActionListener, ChangeListener {
     private static final long serialVersionUID = 4203707721315187637L;
     private final JPanel pnlDetails = new JPanel();
     private final JLabel lblTitle = new JLabel("Titulo:");
@@ -238,8 +240,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	gbc.gridx++;
 	pnlDetails.add(spinGameTime, gbc);
 	gbc.gridx++;
-	pnlDetails.add(lblConvertedSeconds, gbc);
-	
+	pnlDetails.add(lblConvertedSeconds, gbc);	
 	gbc.gridy++;
 	gbc.gridx = 0;
 	pnlDetails.add(lblCategory, gbc);
@@ -263,6 +264,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	cbTitle.addActionListener(this);
 	btnSave.addActionListener(this);
 	chCompleted.addActionListener(this);
+	spinGameTime.addChangeListener(this);
 	txtAdded.setEditable(false);
 	txtModified.setEditable(false);
 	LoadCategory();
@@ -412,7 +414,7 @@ public class EditGame extends JInternalFrame implements ActionListener {
 		playMode, version, status, source, lastPlayed, completedDate);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-	    MainUI.UpdateGameList();
+	    MainUI.LoadData();
 	    dispose();
 	} else {
 	    JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
@@ -432,6 +434,13 @@ public class EditGame extends JInternalFrame implements ActionListener {
 	    } else {
 		txtCompletedDate.setEditable(false);
 	    }
+	}
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+	if(e.getSource() == spinGameTime) {
+	    lblConvertedSeconds.setText(" (" + Utils.getTotalHoursFromSeconds((Integer)spinGameTime.getValue(), true) + ")");
 	}
     }
 }

@@ -17,7 +17,7 @@ public class Main {
 	    ex.printStackTrace();
 	}
 
-	boolean test = false;
+	boolean test = true;
 
 	if(!test) {
 	    ProcessBuilder pb;

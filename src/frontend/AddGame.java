@@ -18,12 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import backend.Utils;
 import backend.Validations;
 import database.ModelGames;
 
-public class AddGame extends JInternalFrame implements ActionListener {
+public class AddGame extends JInternalFrame implements ActionListener, ChangeListener {
     private static final long serialVersionUID = 2765307118548151447L;
     private final JPanel pnlDetails = new JPanel();
     private final JLabel lblTitle = new JLabel("Titulo:");
@@ -43,7 +45,9 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private final JLabel lblAdded = new JLabel(" Añadido:");
     private final JLabel lblModified = new JLabel(" Modificado:");
     private final JLabel lblGameTime = new JLabel(" Tiempo jugado:");
+    private final JLabel lblCompletedDate = new JLabel(" Fecha de completado:");
     private final JLabel lblPlayCount = new JLabel(" Veces jugado:");
+    private final JLabel lblConvertedSeconds = new JLabel(" (00h 00m 00s)");
     private final JLabel lblPath = new JLabel("Directorio:");
     private final JLabel lblScore = new JLabel(" Puntaje:");
     private final JLabel lblCategory = new JLabel("Categoria:");
@@ -64,6 +68,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
     private final JTextField txtAdded = new JTextField(10);
     private final JTextField txtModified = new JTextField(10);
     private final JTextField txtPath = new JTextField(10);
+    private final JTextField txtCompletedDate = new JTextField(10);
     private final JCheckBox chFavorite = new JCheckBox("Favorito");
     private final JCheckBox chCompleted = new JCheckBox("Completado");
     private final JCheckBox chBroken = new JCheckBox("Roto");
@@ -87,7 +92,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 	setTitle("Añadir nuevo juego");
-	setSize(800, 400);
+	setSize(850, 400);
 	setClosable(true);
 	setResizable(false);
 	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -221,9 +226,9 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(txtLastPlayed, gbc);
 	gbc.gridx += 3;
 	gbc.gridwidth = 1;
-	pnlDetails.add(lblPlayCount, gbc);
+	pnlDetails.add(lblCompletedDate, gbc);
 	gbc.gridx++;
-	pnlDetails.add(spinPlayCount, gbc);
+	pnlDetails.add(txtCompletedDate, gbc);
 	gbc.gridx++;
 	pnlDetails.add(chBroken, gbc);
 	gbc.gridx++;
@@ -239,6 +244,8 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(lblGameTime, gbc);
 	gbc.gridx++;
 	pnlDetails.add(spinGameTime, gbc);
+	gbc.gridx++;
+	pnlDetails.add(lblConvertedSeconds, gbc);
 	gbc.gridy++;
 	gbc.gridx = 0;
 	pnlDetails.add(lblCategory, gbc);
@@ -247,14 +254,19 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	pnlDetails.add(cbCategory, gbc);
 	gbc.gridx += 3;
 	gbc.gridwidth = 1;
+	pnlDetails.add(lblPlayCount, gbc);
+	gbc.gridx++;
+	pnlDetails.add(spinPlayCount, gbc);
+	gbc.gridx++;
 	pnlDetails.add(lblScore, gbc);
 	gbc.gridx++;
-	pnlDetails.add(spinScore, gbc);	
+	pnlDetails.add(spinScore, gbc);
 
 	add(pnlDetails);
 	add(btnSave);
 
 	btnSave.addActionListener(this);
+	spinGameTime.addChangeListener(this);
 	txtAdded.setEditable(false);
 	txtModified.setEditable(false);
 	LoadCategory();
@@ -297,6 +309,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	    return;
 	}
 	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
+	if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("0000-00-00");
 
 	String completed = "0", ghost = "0";
 	int hide = 0, favorite = 0, broken = 0, portable = 0;
@@ -326,6 +339,7 @@ public class AddGame extends JInternalFrame implements ActionListener {
 	String name = txtGameName.getText();
 	String added = Utils.getFormattedDate();
 	String modified = Utils.getFormattedDateTime();
+	String completed_date = txtCompletedDate.getText();
 	int score = (Integer) spinScore.getValue();
 	int gameTime = (Integer) spinGameTime.getValue();
 	int playCount = (Integer) spinPlayCount.getValue();
@@ -333,10 +347,10 @@ public class AddGame extends JInternalFrame implements ActionListener {
 
 	int res = mg.addGame(name, gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
-		playMode, version, status, source, lastPlayed, added, modified);
+		playMode, version, status, source, lastPlayed, added, modified, completed_date);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido guardado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-	    MainUI.UpdateGameList();
+	    MainUI.LoadData();
 	    dispose();
 	} else {
 	    JOptionPane.showMessageDialog(this, "Ha habido un error al guardado el juego", "Error", JOptionPane.ERROR_MESSAGE);
@@ -347,6 +361,13 @@ public class AddGame extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnSave) {
 	    SaveData();
+	}
+    }
+    
+    @Override
+    public void stateChanged(ChangeEvent e) {
+	if(e.getSource() == spinGameTime) {
+	    lblConvertedSeconds.setText(" (" + Utils.getTotalHoursFromSeconds((Integer)spinGameTime.getValue(), true) + ")");
 	}
     }
 }

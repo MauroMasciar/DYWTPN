@@ -584,11 +584,11 @@ public class ModelGames {
 	    int score, int category, int hide, int favorite, int broken, int portable, String releasedate,
 	    String rating, String genre, String platform, String developer, String publisher, String series,
 	    String region, String playMode, String version, String status, String source, String lastPlayed,
-	    String added, String modified) {
+	    String added, String modified, String completed_date) {
 	try {
 	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, broken, portable, release_date, "
-		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified) VALUES (?, ?, ?, ?, ?, ?, ?, ?, "
-		    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified, completed_date) "
+		    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    Log.Loguear(query);
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -619,6 +619,7 @@ public class ModelGames {
 	    p.setString(25, lastPlayed);
 	    p.setString(26, added);
 	    p.setString(27, modified);
+	    p.setString(28, completed_date);
 
 	    int resultado = p.executeUpdate();
 	    conex.close();
@@ -628,30 +629,80 @@ public class ModelGames {
 	    Log.Loguear("SQLException en int ModelGames.addGame" + ex.getMessage());
 	    ex.getMessage();
 	}
-
 	return 0;
     }
-
-    public int addGame(String name, int timePlayed, String path, int ghost, int completed, int category, int score) {
+    
+    public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
+	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
+	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
+	    String series, String region, String playMode, String version, String status, String source,
+	    String lastPlayed, String completed_date) {
 	try {
-	    String query = "INSERT INTO games (name, time_played, path, ghost, completed, category, score) VALUES (?,?,?,?,?,?,?)";
-	    Log.Loguear(query);
+	    String query;
+	    
+	    if(completed == "1" && !isCompleted(gameId)) {
+		ModelPlayer mp = new ModelPlayer();
+		String gameName = getNameFromId(gameId);
+		String achievement = "Has terminado el juego " + gameName;
+		mp.saveAchievement(achievement, gameName, gameId);
+		MainUI.LoadData();
+		completed_date = Utils.getFormattedDate();
+	    }
+	    
+	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
+		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
+		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ? WHERE id = ?";
+	    
+	    if(completed.equals("0")) completed_date = "0000-00-00";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
-	    p.setInt(2, timePlayed);
+	    p.setInt(2, secondsPlayed);
 	    p.setString(3, path);
-	    p.setInt(4, ghost);
-	    p.setInt(5, completed);
-	    p.setInt(6, category);
+	    p.setString(4, ghost);
+	    p.setInt(5, playCount);
+	    p.setString(6, completed);
 	    p.setInt(7, score);
-	    int resultado = p.executeUpdate();
-	    conex.close();
+	    p.setInt(8, category);
+	    p.setInt(9, hidden);
+	    p.setInt(10, favorite);
+	    p.setInt(11, broken);
+	    p.setInt(12, portable);
+	    p.setString(13, releasedate);
+	    p.setString(14, rating);
+	    p.setString(15, genre);
+	    p.setString(16, platform);
+	    p.setString(17, developer);
+	    p.setString(18, publisher);
+	    p.setString(19, series);
+	    p.setString(20, region);
+	    p.setString(21, playMode);
+	    p.setString(22, version);
+	    p.setString(23, status);
+	    p.setString(24, source);
+	    p.setString(25, lastPlayed);
+	    p.setString(26, Utils.getFormattedDateTime());
+	    p.setString(27, completed_date);
+	    p.setInt(28, gameId);
+
+	    int res = p.executeUpdate();
+	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";
+	    p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    p.setInt(2, gameId);
+	    p.executeUpdate();
+	    query = "UPDATE player_activities SET game_name = ? WHERE game_id = ?";
+	    p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    p.setInt(2, gameId);
+	    p.executeUpdate();
 	    p.close();
-	    return resultado;
+	    stmt.close();
+	    conex.close();
+	    return res;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int ModelGames.addGame(String name, String MinsPlayed, String path, int ghost)" + ex.getMessage());
-	    ex.getMessage();
+	    Log.Loguear("SQLException en int ModelGames.editGame(int gameId, String name, String MinsPlayed, String path, String ghost)");
+	    ex.printStackTrace();
 	}
 	return 0;
     }
@@ -1154,80 +1205,6 @@ public class ModelGames {
 	    ex.printStackTrace();
 	}
 	return res;
-    }
-
-    public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
-	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
-	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
-	    String series, String region, String playMode, String version, String status, String source,
-	    String lastPlayed, String completed_date) {
-	try {
-	    String query;
-	    
-	    if(completed == "1" && !isCompleted(gameId)) {
-		ModelPlayer mp = new ModelPlayer();
-		String gameName = getNameFromId(gameId);
-		String achievement = "Has terminado el juego " + gameName;
-		mp.saveAchievement(achievement, gameName, gameId);
-		MainUI.LoadData();
-	    }
-	    
-	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
-		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
-		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ? WHERE id = ?";
-	    
-	    if(completed.equals("0")) completed_date = "0000:00:00";
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    PreparedStatement p = conex.prepareStatement(query);
-	    p.setString(1, name);
-	    p.setInt(2, secondsPlayed);
-	    p.setString(3, path);
-	    p.setString(4, ghost);
-	    p.setInt(5, playCount);
-	    p.setString(6, completed);
-	    p.setInt(7, score);
-	    p.setInt(8, category);
-	    p.setInt(9, hidden);
-	    p.setInt(10, favorite);
-	    p.setInt(11, broken);
-	    p.setInt(12, portable);
-	    p.setString(13, releasedate);
-	    p.setString(14, rating);
-	    p.setString(15, genre);
-	    p.setString(16, platform);
-	    p.setString(17, developer);
-	    p.setString(18, publisher);
-	    p.setString(19, series);
-	    p.setString(20, region);
-	    p.setString(21, playMode);
-	    p.setString(22, version);
-	    p.setString(23, status);
-	    p.setString(24, source);
-	    p.setString(25, lastPlayed);
-	    p.setString(26, Utils.getFormattedDateTime());
-	    p.setString(27, completed_date);
-	    p.setInt(28, gameId);
-
-	    int res = p.executeUpdate();
-	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";
-	    p = conex.prepareStatement(query);
-	    p.setString(1, name);
-	    p.setInt(2, gameId);
-	    p.executeUpdate();
-	    query = "UPDATE player_activities SET game_name = ? WHERE game_id = ?";
-	    p = conex.prepareStatement(query);
-	    p.setString(1, name);
-	    p.setInt(2, gameId);
-	    p.executeUpdate();
-	    p.close();
-	    stmt.close();
-	    conex.close();
-	    return res;
-	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int ModelGames.editGame(int gameId, String name, String MinsPlayed, String path, String ghost)");
-	    ex.printStackTrace();
-	}
-	return 0;
     }
 
     public int deleteGame(int gameId) {

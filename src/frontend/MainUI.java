@@ -66,7 +66,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public MainUI() {
 	setTitle("DYWTPN");
 	ModelConfig mc = new ModelConfig();
-	setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 800, 280);
+	setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 900, 280);
 	setClosable(false);
 	setResizable(true);
 	setIconifiable(false);
@@ -194,6 +194,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setForeground(Color.RED);
 	txtLastDays.setForeground(Color.RED);
 	txtTotalInfo.setForeground(Color.RED);
+	txtGames.setForeground(Color.RED);
+	txtGamesTime.setForeground(Color.RED);
 	txtStatistics.setText(" CARGANDO ...");
 	txtStatistics.setEditable(false);
 	txtLastDays.setText(" CARGANDO ...");
@@ -219,6 +221,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setFont(new Font("Serief", Font.BOLD, 12));
 	txtLastDays.setFont(new Font("Serief", Font.BOLD, 12));
 	txtTotalInfo.setFont(new Font("Serief", Font.BOLD, 12));
+	txtGames.setFont(new Font("Serief", Font.BOLD, 12));
+	txtGamesTime.setFont(new Font("Serief", Font.BOLD, 12));
 
 	txtPathGame.setEnabled(false);
 	txtCategory.setEditable(false);
@@ -260,7 +264,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	String totalTimePlayed = Utils.getTotalHoursFromSeconds(totalSeconds, true);
 
 	showHidden = mc.getIsHidden();
-	if (gameIdLaunched == 0) UpdateGameList();
+	//if(gameIdLaunched == 0) UpdateGameList();
+	UpdateGameList();
 
 	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Total de juegos: " + modelList.size() + " | Tiempo: " + totalTimePlayed);
 
@@ -298,18 +303,22 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtLastAchie.setForeground(Color.RED);
 		txtLastDays.setForeground(Color.RED);
 		txtTotalInfo.setForeground(Color.RED);
+		txtGames.setForeground(Color.RED);
+		txtGamesTime.setForeground(Color.RED);
 	    } else {
 		txtTimePlaying.setForeground(Color.BLACK);
 		txtGamePlaying.setForeground(Color.BLACK);
 		txtStatistics.setForeground(Color.BLACK);
 		txtLastAchie.setForeground(Color.BLACK);
 		txtLastDays.setForeground(Color.BLACK);
-		txtTotalInfo.setForeground(Color.RED);
+		txtTotalInfo.setForeground(Color.BLACK);
+		txtGames.setForeground(Color.BLACK);
+		txtGamesTime.setForeground(Color.BLACK);
 	    }
 	}
     }
 
-    public static void UpdateGameList() {
+    private static void UpdateGameList() {
 	jlistGames.removeAll();
 	modelList.clear();
 	txtGameName.setText("");
@@ -321,7 +330,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	listGames = g.getGamesNameList(showHidden);
 	for (int i = 1; i < listGames.size(); i++) modelList.addElement(listGames.get(i));
 	jlistGames.setModel(modelList);
-	Log.Loguear("Actualizando datos");
     }
 
     @Override
@@ -362,7 +370,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
 		String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
 		String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
-		txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
+		//txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
+		txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
 		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 	    }
 	}

@@ -108,7 +108,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 		mc.setIsHidden(0);
 	    }
 	    MainUI.LoadData();
-	    MainUI.UpdateGameList();
 	} else if(e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
 	    j.repaint();
