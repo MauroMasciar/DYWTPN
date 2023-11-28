@@ -256,7 +256,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	pnlDetails.add(lblScore, gbc);
 	gbc.gridx++;
 	pnlDetails.add(spinScore, gbc);
-	
 
 	add(pnlDetails);
 	add(btnSave);

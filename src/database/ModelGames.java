@@ -37,7 +37,8 @@ public class ModelGames {
 	    rs.close();
 	    conex.close();
 	} catch (Exception ex) {
-	    Log.Loguear("SQLException en ModelGames.ModelGames(int gameId)");
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
     }
 
@@ -90,6 +91,7 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return m;
@@ -111,8 +113,10 @@ public class ModelGames {
 	    rs.close();
 	    conex.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return path;
@@ -135,7 +139,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return minutesplayed;
     }
@@ -156,7 +161,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return time_played;
     }
@@ -178,11 +184,12 @@ public class ModelGames {
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return minutes;
     }
-    
+
     public int getSecondsTotalPlayed() {
 	String query = "SELECT SUM(time_played) AS seconds FROM games";
 	int seconds = 0;
@@ -199,7 +206,8 @@ public class ModelGames {
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return seconds;
     }
@@ -220,7 +228,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return play_count;
     }
@@ -250,7 +259,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	if(hours) mins = mins * 60;
 	return mins;
@@ -275,7 +285,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return gameName;
     }
@@ -295,7 +306,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (Exception ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return gameName;
     }
@@ -317,7 +329,8 @@ public class ModelGames {
 		stmt.close();
 		rs.close();
 	    } catch (Exception ex) {
-		ex.getMessage();
+		Log.Loguear(ex.getMessage());
+		ex.printStackTrace();
 	    }
 	    return id;
 	}
@@ -340,9 +353,11 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	    name = "ERROR";
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	    name = "ERROR";
 	}
@@ -365,6 +380,7 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	    dateLastSession = "ERROR";
 	}
@@ -385,6 +401,7 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return category;
@@ -404,6 +421,7 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return score;
@@ -423,7 +441,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	if (ghost == 1)
 	    return true;
@@ -445,7 +464,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	if(completed == 1) return true;
 	else return false;
@@ -465,7 +485,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	if (hidden == 1)
 	    return true;
@@ -487,7 +508,8 @@ public class ModelGames {
 	    stmt.close();
 	    conex.close();
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en ModelGames.closeGame(int gameIdLaunched, int gameTimePlayed)");
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
     }
 
@@ -515,7 +537,8 @@ public class ModelGames {
 			    "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
 		}
 	    } catch (Exception ex) {
-		ex.getMessage();
+		Log.Loguear(ex.getMessage());
+		ex.printStackTrace();
 	    }
 	}
     }
@@ -534,6 +557,8 @@ public class ModelGames {
 	    conex.close();
 	} catch (SQLException ex) {
 	    JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return r;
     }
@@ -551,6 +576,8 @@ public class ModelGames {
 	    conex.close();
 	} catch (SQLException ex) {
 	    JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
     }
 
@@ -575,6 +602,8 @@ public class ModelGames {
 	    p.close();
 	    conex.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	    return 0;
 	}
 	return resultado;
@@ -626,12 +655,12 @@ public class ModelGames {
 	    p.close();
 	    return resultado;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int ModelGames.addGame" + ex.getMessage());
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return 0;
     }
-    
+
     public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
 	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
 	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
@@ -639,7 +668,7 @@ public class ModelGames {
 	    String lastPlayed, String completed_date) {
 	try {
 	    String query;
-	    
+
 	    if(completed == "1" && !isCompleted(gameId)) {
 		ModelPlayer mp = new ModelPlayer();
 		String gameName = getNameFromId(gameId);
@@ -648,11 +677,11 @@ public class ModelGames {
 		MainUI.LoadData();
 		completed_date = Utils.getFormattedDate();
 	    }
-	    
+
 	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
 		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
 		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ? WHERE id = ?";
-	    
+
 	    if(completed.equals("0")) completed_date = "0000-00-00";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -701,7 +730,7 @@ public class ModelGames {
 	    conex.close();
 	    return res;
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en int ModelGames.editGame(int gameId, String name, String MinsPlayed, String path, String ghost)");
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return 0;
@@ -718,6 +747,7 @@ public class ModelGames {
 	    conex.close();
 	    p.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return resultado;
@@ -735,6 +765,7 @@ public class ModelGames {
 	    conex.close();
 	    p.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return resultado;
@@ -754,7 +785,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return category;
     }
@@ -774,7 +806,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return category;
     }
@@ -793,7 +826,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return id;
     }
@@ -812,7 +846,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -831,7 +866,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -850,7 +886,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -869,7 +906,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -888,7 +926,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -907,7 +946,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -926,7 +966,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -945,7 +986,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -964,7 +1006,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -983,7 +1026,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1002,7 +1046,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1021,7 +1066,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1040,7 +1086,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1059,7 +1106,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1078,7 +1126,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1097,7 +1146,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1116,11 +1166,12 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
-    
+
     public String getCompletedDate(int gameId) {
 	String query = "SELECT completed_date FROM games WHERE id = " + gameId;
 	String res = "";
@@ -1135,7 +1186,8 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    ex.getMessage();
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return res;
     }
@@ -1154,11 +1206,12 @@ public class ModelGames {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return res;
     }
-    
+
     public int getNumberCompletedGames() {
 	String query = "SELECT name FROM games WHERE completed = 1";
 	int res = 0;
@@ -1170,11 +1223,12 @@ public class ModelGames {
 		res++;
 	    }
 	} catch(SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return res;
     }
-    
+
     public int getTotalSessions() {
 	String query = "SELECT SUM(play_count) AS total_sessions FROM games";
 	int res = 0;
@@ -1186,11 +1240,12 @@ public class ModelGames {
 		res = rs.getInt("total_sessions");
 	    }
 	} catch(SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return res;
     }
-    
+
     public int getCountGamesPlayed() {
 	String query = "SELECT count(time_played) AS games_played FROM games WHERE time_played > 60";
 	int res = 0;
@@ -1202,6 +1257,7 @@ public class ModelGames {
 		res = rs.getInt("games_played");
 	    }
 	} catch(SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return res;
@@ -1229,7 +1285,7 @@ public class ModelGames {
 	    p.close();
 	    conex.close();
 	} catch (Exception ex) {
-	    Log.Loguear("SQLException en int ModelGames.deleteGame(int gameId)");
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return res;

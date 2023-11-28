@@ -301,15 +301,24 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     }
 
     private void SaveData() {
-	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
-		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
-		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) || Validations.isEmpty(txtSource) ||
-		Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtGameName)) {
-	    JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
-	    return;
-	}
-	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
-	if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("0000-00-00");
+	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
+	if(Validations.isEmpty(txtRating)) txtRating.setText("N/A");
+	if(Validations.isEmpty(txtGenre)) txtGenre.setText("N/A");
+	if(Validations.isEmpty(txtPlatform)) txtPlatform.setText("N/A");
+	if(Validations.isEmpty(txtDeveloper)) txtDeveloper.setText("N/A");
+	if(Validations.isEmpty(txtPublisher)) txtPublisher.setText("N/A");
+	if(Validations.isEmpty(txtSeries)) txtSeries.setText("N/A");
+	if(Validations.isEmpty(txtStatus)) txtStatus.setText("N/A");
+	if(Validations.isEmpty(txtSource)) txtSource.setText("N/A");
+	if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("N/A");
+	if(Validations.isEmpty(txtVersion)) txtVersion.setText("N/A");
+	if(Validations.isEmpty(txtRegion)) txtRegion.setText("N/A");
+	if(Validations.isEmpty(txtGameName)) txtGameName.setText("N/A");
+	if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
+	if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
+	if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("1900-01-01");
+	if(Validations.isEmpty(txtLastPlayed)) txtPath.setText("1900-01-01");
+	
 
 	String completed = "0", ghost = "0";
 	int hide = 0, favorite = 0, broken = 0, portable = 0;

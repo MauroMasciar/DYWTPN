@@ -3,6 +3,8 @@ package backend;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import debug.Log;
+
 public class Utils {
     public static String getFormattedDate() {
 	String date;
@@ -29,7 +31,7 @@ public class Utils {
 	time = LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue() + "-" + LocalDate.now().getDayOfMonth() + " " + sHour + ":" + sMinute + ":" + sSecond;
 	return time;
     }
-    
+
     public static String getTotalHoursFromSeconds(int seconds, boolean withSeconds) {
 	String sHour, sMinute, sSecond;
 	int seconds_final = 0;
@@ -37,7 +39,7 @@ public class Utils {
 	seconds_final = seconds % 60;
 	int minutes_final = minutes % 60;
 	int hours_final = minutes / 60;
-	
+
 	if(seconds_final < 10) sSecond = "0" + seconds_final;
 	else sSecond = String.valueOf(seconds_final);
 
@@ -46,8 +48,18 @@ public class Utils {
 
 	if(hours_final < 10) sHour = "0" + hours_final;
 	else sHour = String.valueOf(hours_final);
-	
+
 	if(withSeconds) return sHour + "h " + sMinute + "m " + sSecond + "s";
 	else return sHour + "h " + sMinute + "m";
+    }
+
+    public static void exceptions(Exception ex) {
+	ex.printStackTrace();
+	StackTraceElement[] e = ex.getStackTrace();
+	Log.Loguear("Rastreo de la pila de getStackTrace:");
+	Log.Loguear("Clase\t\t Archivo\t\tLínea\tMetodo");
+	for(StackTraceElement element : e ) {
+	    Log.Loguear(element.getClassName() + "\t\t" + element.getFileName() + "\t\t" + String.valueOf(element.getLineNumber()) + "\t\t" + element.getMethodName());
+	}
     }
 }

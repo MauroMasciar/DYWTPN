@@ -39,7 +39,7 @@ public class ModelPlayer {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en DefaultTableModel getActivities(String gameName)");
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return m;
@@ -73,7 +73,7 @@ public class ModelPlayer {
 	    stmt.close();
 	    rs.close();
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en DefaultTableModel getHistory(String gameName)");
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return m;
@@ -91,7 +91,7 @@ public class ModelPlayer {
 	    conex.close();
 	    p.close();
 	} catch (SQLException ex) {
-	    Log.Loguear("SQLException en void saveAchievement(String achievement, String gamename, int gameid");
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
     }
@@ -106,6 +106,7 @@ public class ModelPlayer {
 		s = rs.getString(1);
 	    }
 	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return s;

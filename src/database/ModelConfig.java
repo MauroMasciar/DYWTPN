@@ -52,6 +52,7 @@ public class ModelConfig {
 	    return 1;
 	} catch (SQLException ex) {
 	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
 	}
 	return 0;
     }
@@ -72,6 +73,7 @@ public class ModelConfig {
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return name;
@@ -93,6 +95,7 @@ public class ModelConfig {
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return last_game;
@@ -114,6 +117,7 @@ public class ModelConfig {
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return last_session_time;
@@ -131,6 +135,7 @@ public class ModelConfig {
 	    conex.close();
 	    rs.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	if(sH == 1) return true;
@@ -146,6 +151,7 @@ public class ModelConfig {
 	    stmt.close();
 	    conex.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
     }
@@ -159,6 +165,7 @@ public class ModelConfig {
 	    stmt.close();
 	    conex.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
     }
@@ -179,6 +186,7 @@ public class ModelConfig {
 	    conex.close();
 	    rs.close();
 	} catch(Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return x;
@@ -200,6 +208,7 @@ public class ModelConfig {
 	    conex.close();
 	    rs.close();
 	} catch(Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return y;
@@ -222,10 +231,12 @@ public class ModelConfig {
 	    conex.close();
 	    p.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
     }
 
+    
     public int Update(String query) {
 	int r = 0;
 	try {
@@ -235,6 +246,7 @@ public class ModelConfig {
 	    stmt.close();
 	    conex.close();
 	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	Log.Loguear(String.valueOf(r));

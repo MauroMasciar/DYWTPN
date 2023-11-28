@@ -212,7 +212,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setEditable(false);
 	txtSeparator.setEditable(false);
 	txtSeparator.setText(
-		"______________________________________________________________________________________________________");
+		"__________________________________________________________________________________________________________________");
 	txtCategory.setForeground(Color.BLACK);
 
 	txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
@@ -267,7 +267,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	//if(gameIdLaunched == 0) UpdateGameList();
 	UpdateGameList();
 
-	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Total de juegos: " + modelList.size() + " | Tiempo: " + totalTimePlayed);
+	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Tiempo total: " + totalTimePlayed);
 
 	int tuno = mg.getLastDays(0, 1, true);
 	int tsiete = mg.getLastDays(0, 7, true);
@@ -281,7 +281,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
 	
-	txtTotalInfo.setText(" Juegos iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Juegos completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones totales: " + mg.getTotalSessions());
+	txtTotalInfo.setText(" Total de juegos: " + modelList.size() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions());
 	
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
@@ -305,6 +305,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtTotalInfo.setForeground(Color.RED);
 		txtGames.setForeground(Color.RED);
 		txtGamesTime.setForeground(Color.RED);
+		/*txtStatistics.setForeground(Color.WHITE);
+		txtTimePlaying.setForeground(Color.WHITE);
+		txtGamePlaying.setForeground(Color.WHITE);
+		txtLastAchie.setForeground(Color.WHITE);
+		txtLastDays.setForeground(Color.WHITE);
+		txtTotalInfo.setForeground(Color.WHITE);
+		txtGames.setForeground(Color.WHITE);
+		txtGamesTime.setForeground(Color.WHITE);*/
 	    } else {
 		txtTimePlaying.setForeground(Color.BLACK);
 		txtGamePlaying.setForeground(Color.BLACK);
