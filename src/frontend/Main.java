@@ -7,13 +7,13 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.32.8";
+    public static final String VERSIONAPP = "1.2.32.13";
 
     public static void main(String[] args) {
 	ModelConfig mc = new ModelConfig();
 	mc.loadTheme(mc.getTheme());
 
-	boolean test = false;
+	final boolean test = false;
 	if(!test) {
 	    ProcessBuilder pb;
 	    pb = new ProcessBuilder("core\\mysql\\bin\\mysqld_z.exe");
@@ -26,7 +26,7 @@ public class Main {
 	    new Thread(new Runnable() {
 		public void run() {
 		    try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 			new MainWindow();
 		    } catch (InterruptedException ex) {
 			System.exit(0);

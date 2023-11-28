@@ -2,6 +2,7 @@ package frontend;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -10,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -81,12 +83,16 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JSpinner spinScore = new JSpinner();
     private final JSpinner spinGameTime = new JSpinner();
     private final JSpinner spinPlayCount = new JSpinner();
+    private final JPanel pnlNotes = new JPanel();
+    private final JTextArea txtaNotes = new JTextArea();
+    private final JScrollPane scrNotes = new JScrollPane(txtaNotes);
     private final JButton btnSave = new JButton("Guardar");
     private int gameId;
 
     public EditGame(int gameId) {
+	if(gameId == 0) gameId = 1;
 	setTitle("Editar juegos");
-	setSize(850, 400);
+	setSize(850, 550);
 	setClosable(true);
 	setResizable(true);
 	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
@@ -103,7 +109,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	gbc.weighty = 1.0;
 	gbc.ipadx = 8;
 	gbc.ipady = 1;
-	gbc.fill = GridBagConstraints.BOTH;
+	gbc.fill = GridBagConstraints.HORIZONTAL;
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	pnlDetails.add(lblTitle, gbc);
@@ -256,9 +262,43 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	pnlDetails.add(lblScore, gbc);
 	gbc.gridx++;
 	pnlDetails.add(spinScore, gbc);
-
-	add(pnlDetails);
-	add(btnSave);
+	// Panel notes
+	pnlNotes.setLayout(new GridBagLayout());
+	pnlNotes.setBorder(BorderFactory.createTitledBorder("Notas"));
+	gbc.gridheight = 1;
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.ipadx = 1;
+	gbc.ipady = 1;
+	gbc.fill = GridBagConstraints.BOTH;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	pnlNotes.add(scrNotes, gbc);
+	setLayout(new GridBagLayout());
+	gbc.gridheight = 1;
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.ipadx = 1;
+	gbc.ipady = 1;
+	gbc.fill = GridBagConstraints.BOTH;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	add(pnlDetails, gbc);
+	gbc.gridy++;
+	gbc.gridheight = 2;
+	gbc.gridwidth = 2;
+	gbc.weightx = 2.0;
+	gbc.weighty = 2.0;
+	add(pnlNotes, gbc);
+	gbc.gridy += 2;
+	gbc.gridheight = 1;
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.fill = GridBagConstraints.NONE;
+	add(btnSave, gbc);
 
 	cbTitle.addActionListener(this);
 	btnSave.addActionListener(this);
@@ -376,6 +416,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	    return;
 	}
 	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
+	if(Validations.isEmpty(txtaNotes)) txtaNotes.setText(" ");
 
 	String completed = "0", ghost = "0";
 	int hide = 0, favorite = 0, broken = 0, portable = 0;
@@ -403,6 +444,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	String lastPlayed = txtLastPlayed.getText();
 	String path = txtPath.getText();
 	String completedDate = txtCompletedDate.getText();
+	String notes = txtaNotes.getText();
 	int score = (Integer) spinScore.getValue();
 	int gameTime = (Integer) spinGameTime.getValue();
 	int playCount = (Integer) spinPlayCount.getValue();
@@ -410,7 +452,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
 	int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
-		playMode, version, status, source, lastPlayed, completedDate);
+		playMode, version, status, source, lastPlayed, completedDate, notes);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 	    MainUI.LoadData();

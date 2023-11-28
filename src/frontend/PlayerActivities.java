@@ -18,9 +18,9 @@ import database.ModelPlayer;
 
 public class PlayerActivities extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 4484286064012240569L;
-    private JComboBox<String> cbGames = new JComboBox<String>();
-    private JScrollPane scrTable = new JScrollPane(tbPlayerActivities);
-    public static JTable tbPlayerActivities = new JTable();
+    private final JComboBox<String> cbGames = new JComboBox<String>();
+    private final JScrollPane scrTable = new JScrollPane(tbPlayerActivities);
+    public static final JTable tbPlayerActivities = new JTable();
 
     public PlayerActivities() {
 	try {

@@ -17,9 +17,9 @@ import database.ModelConfig;
 
 public class UpdateGUI extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 7976244907769602999L;
-    private JTextField txtSql = new JTextField(30);
-    private JButton btnApply = new JButton("Aplicar");
-    private JLabel lblInfo = new JLabel("Ingrese las instrucciones y haga clic en aplicar (Una linea a la vez)");
+    private final JTextField txtSql = new JTextField(30);
+    private final JButton btnApply = new JButton("Aplicar");
+    private final JLabel lblInfo = new JLabel("Ingrese las instrucciones y haga clic en aplicar (Una linea a la vez)");
 
     public UpdateGUI() {
 	try {
@@ -51,7 +51,6 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
 	pnl.add(txtSql, gbc);
 	gbc.gridy++;
 	pnl.add(btnApply, gbc);
-
 	gbc.gridy = 0;
 	gbc.fill = GridBagConstraints.BOTH;
 	gbc.ipadx = 100;
@@ -73,11 +72,8 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
 	    }
 	    ModelConfig mc = new ModelConfig();
 	    int res = mc.Update(txtSql.getText());
-	    if(res == 1) {
-		JOptionPane.showMessageDialog(this, "Actualizacion añadida", "Actualizacion", JOptionPane.INFORMATION_MESSAGE);
-	    } else {
-		JOptionPane.showMessageDialog(this, "Ha habido un error al actualizar", "Error", JOptionPane.ERROR_MESSAGE);
-	    }
+	    if(res == 1) JOptionPane.showMessageDialog(this, "Actualizacion añadida", "Actualizacion", JOptionPane.INFORMATION_MESSAGE);
+	    else JOptionPane.showMessageDialog(this, "Ha habido un error al actualizar", "Error", JOptionPane.ERROR_MESSAGE);
 	    txtSql.setText("");
 	}	
     }

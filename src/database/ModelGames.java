@@ -613,11 +613,11 @@ public class ModelGames {
 	    int score, int category, int hide, int favorite, int broken, int portable, String releasedate,
 	    String rating, String genre, String platform, String developer, String publisher, String series,
 	    String region, String playMode, String version, String status, String source, String lastPlayed,
-	    String added, String modified, String completed_date) {
+	    String added, String modified, String completed_date, String notes) {
 	try {
 	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, broken, portable, release_date, "
-		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified, completed_date) "
-		    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified, completed_date, notes) "
+		    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    Log.Loguear(query);
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -649,6 +649,7 @@ public class ModelGames {
 	    p.setString(26, added);
 	    p.setString(27, modified);
 	    p.setString(28, completed_date);
+	    p.setString(29, notes);
 
 	    int resultado = p.executeUpdate();
 	    conex.close();
@@ -665,7 +666,7 @@ public class ModelGames {
 	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
 	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
 	    String series, String region, String playMode, String version, String status, String source,
-	    String lastPlayed, String completed_date) {
+	    String lastPlayed, String completed_date, String notes) {
 	try {
 	    String query;
 
@@ -680,7 +681,7 @@ public class ModelGames {
 
 	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
 		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
-		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ? WHERE id = ?";
+		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ?, notes = ? WHERE id = ?";
 
 	    if(completed.equals("0")) completed_date = "0000-00-00";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -712,7 +713,8 @@ public class ModelGames {
 	    p.setString(25, lastPlayed);
 	    p.setString(26, Utils.getFormattedDateTime());
 	    p.setString(27, completed_date);
-	    p.setInt(28, gameId);
+	    p.setString(28, notes);
+	    p.setInt(29, gameId);
 
 	    int res = p.executeUpdate();
 	    query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";

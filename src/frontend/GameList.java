@@ -16,11 +16,11 @@ import database.ModelGames;
 
 public class GameList extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -4569846762834010208L;
-    private JComboBox<String> cbGames = new JComboBox<String>();
-    private JComboBox<String> cbCompleted = new JComboBox<String>();
-    private JComboBox<String> cbCategory = new JComboBox<String>();
-    public static JTable tblGames = new JTable();
-    private JScrollPane scrTable = new JScrollPane(tblGames);
+    private final JComboBox<String> cbGames = new JComboBox<String>();
+    private final JComboBox<String> cbCompleted = new JComboBox<String>();
+    private final JComboBox<String> cbCategory = new JComboBox<String>();
+    public static final JTable tblGames = new JTable();
+    private final JScrollPane scrTable = new JScrollPane(tblGames);
 
     public GameList() {
 	try {

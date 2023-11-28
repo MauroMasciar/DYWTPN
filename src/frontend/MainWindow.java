@@ -16,10 +16,11 @@ import database.ModelConfig;
 
 public class MainWindow extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = -82854956961477559L; //-82854956961477559L
-    public static JFrame j = new JFrame();
+    public static final JFrame j = new JFrame();
     private final JMenuBar menubar = new JMenuBar();
     private final JMenu mnuGames = new JMenu("Juegos");
     private final JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("bin/gfx/new_game.png"));
+    private final JMenuItem mnuiGamesEdit = new JMenuItem("Editar juego");
     private final JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion", new ImageIcon("bin/gfx/new_session.png"));
     private final JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("bin/gfx/refresh.png"));
     private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("bin/gfx/games_list.png"));
@@ -53,6 +54,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	menubar.add(mnuPlayer);
 	menubar.add(mnuHelp);
 	mnuGames.add(mnuiGamesAdd);
+	mnuGames.add(mnuiGamesEdit);
 	mnuGames.add(mnuiGamesAddSession);
 	mnuGames.add(mnuiGamesList);
 	mnuGames.add(mnuiGamesHidden);
@@ -70,6 +72,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	mnuiGamesRefresh.addActionListener(this);
 	mnuiGamesAdd.addActionListener(this);
+	mnuiGamesEdit.addActionListener(this);
 	mnuiGamesAddSession.addActionListener(this);
 	mnuiGamesCollections.addActionListener(this);
 	mnuiGamesCategory.addActionListener(this);
@@ -93,6 +96,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
+	    j.repaint();
+	} else if(e.getSource() == mnuiGamesEdit) {
+	    j.add(new EditGame(0));
 	    j.repaint();
 	} else if(e.getSource() == mnuiGamesAddSession) {
 	    j.add(new AddSessionGame());

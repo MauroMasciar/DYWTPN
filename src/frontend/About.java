@@ -11,9 +11,9 @@ import javax.swing.JOptionPane;
 
 public class About extends JInternalFrame {
     private static final long serialVersionUID = 7342188362929540330L;
-    private JPanel pnlInfo = new JPanel();
-    private JLabel lblFirstLine = new JLabel();
-    private JLabel lblSecondLine = new JLabel();
+    private final JPanel pnlInfo = new JPanel();
+    private final JLabel lblFirstLine = new JLabel();
+    private final JLabel lblSecondLine = new JLabel();
 
     public About() {
 	try {
