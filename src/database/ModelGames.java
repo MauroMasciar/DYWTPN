@@ -61,7 +61,7 @@ public class ModelGames {
 
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    Statement sstmt = conex.createStatement();
 
 	    if(name == "Todos" && comp == 2 && category == "Todos") {
 		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category ORDER BY name";
@@ -73,23 +73,24 @@ public class ModelGames {
 			+ name + "'";
 	    } else if(category != "Todos" && comp == 2) {
 		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category, completed, score, path FROM games WHERE category = "
-			+ category + " ORDER BY name";
+			+ getCategoryIdFromName(category) + " ORDER BY name";
 	    } else if(category != "Todos" && comp != 2) {
 		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category, completed, score, path FROM games WHERE category = "
-			+ category + " AND completed = " + comp + " ORDER BY name";
+			+ getCategoryIdFromName(category) + " AND completed = " + comp + " ORDER BY name";
 	    }
-	    rs = stmt.executeQuery(query);
 
-	    while(rs.next()) {
+	    ResultSet rrs = sstmt.executeQuery(query);
+
+	    while(rrs.next()) {
 		Object[] f = new Object[8];
 		for (int i = 0; i < 8; i++) {
-		    f[i] = rs.getObject(i + 1);
+		    f[i] = rrs.getObject(i + 1);
 		}
 		m.addRow(f);
 	    }
 	    conex.close();
-	    stmt.close();
-	    rs.close();
+	    sstmt.close();
+	    rrs.close();
 	} catch (SQLException ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();

@@ -15,8 +15,8 @@ public class Splash extends JDialog {
 	setUndecorated(true);
 	setLocationRelativeTo(null);
 	setLayout(new GridBagLayout());
-	ImageIcon imagen  = new ImageIcon(this.getClass().getResource("/gfx/splash.png"));
-	lblImg.setIcon(imagen);
+	ImageIcon splash_image  = new ImageIcon(this.getClass().getResource("/gfx/splash.png"));
+	lblImg.setIcon(splash_image);
 
 	GridBagConstraints gbc = new GridBagConstraints();
 	gbc.gridheight = 1;

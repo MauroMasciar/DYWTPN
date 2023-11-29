@@ -95,6 +95,8 @@ public class GameList extends JInternalFrame implements ActionListener {
 	ModelGames mg = new ModelGames();
 	if(cbCompleted.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") {
 	    cbCompleted.setSelectedItem("Todos");
+	} else if(cbCategory.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") {
+	    cbGames.setSelectedItem("Todos");
 	}
 	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString()));
     }

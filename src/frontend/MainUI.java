@@ -90,7 +90,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.weightx = 1.0;
 	gbc.weighty = 3.0;
 	gbc.fill = GridBagConstraints.BOTH;
-
 	pnlLeft.add(scrListGame, gbc);
 	gbc.gridy++;
 	pnlLeft.add(txtSearch, gbc);
@@ -127,7 +126,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	// Interfaz inferior - controles
 	JPanel pnlBottom = new JPanel();
 	pnlBottom.setLayout(new GridBagLayout());
-
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	gbc.gridwidth = 1;
@@ -390,10 +388,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    gameIdSelected = mg.getIdFromGameName(txtGameName.getText());
 	    if(gameIdSelected != 0) {		
 		String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
-		txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed
-			+ " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
+		txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: " 
 			+ mg.getDateLastSession(gameIdSelected));
-
 
 		int tuno = mg.getLastDays(gameIdSelected, 1, true);
 		int tsiete = mg.getLastDays(gameIdSelected, 7, true);
