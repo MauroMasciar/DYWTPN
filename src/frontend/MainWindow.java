@@ -13,6 +13,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
 
 import database.ModelConfig;
+import debug.Log;
 
 public class MainWindow extends JFrame implements ActionListener, WindowListener {
     private static final long serialVersionUID = -82854956961477559L; //-82854956961477559L
@@ -156,7 +157,10 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     public void windowClosing(WindowEvent e) {
 	try {
 	    Main.p.destroy();
-	} catch (Exception ex) {
+	} catch(NullPointerException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	} finally {
 	    System.exit(0);
 	}
     }

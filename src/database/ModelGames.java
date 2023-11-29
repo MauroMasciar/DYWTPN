@@ -42,7 +42,7 @@ public class ModelGames {
 	}
     }
 
-    public DefaultTableModel getFilteredGameList(String name, String completed, String category) { // TODO: No filtra por categorias con la nueva version de la bd
+    public DefaultTableModel getFilteredGameList(String name, String completed, String category) {
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Juego");
 	m.addColumn("Fantasma");

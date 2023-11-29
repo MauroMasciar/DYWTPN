@@ -13,6 +13,7 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import debug.Log;
+import frontend.Main;
 
 public class ModelConfig {
     private Connection conex = null;
@@ -194,7 +195,11 @@ public class ModelConfig {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(null, "Ha habido un error al conectar con la base de datos.\nReinstalar la aplicacion puede solucionar el problema.\n\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-	    System.exit(0);
+	    try {
+		Main.p.destroy();
+	    } catch(NullPointerException exx) {
+		System.exit(0);
+	    }
 	}
 	return x;
     }
@@ -258,7 +263,7 @@ public class ModelConfig {
 	Log.Loguear(String.valueOf(r));
 	return r;	
     }
-    
+
     public int getTheme() {
 	String query = "SELECT theme FROM config";
 	int r = 1;
@@ -277,7 +282,7 @@ public class ModelConfig {
 	}
 	return r;
     }
-    
+
     public void setTheme(int theme) {
 	String query = "UPDATE config SET theme = ?";
 	try {
@@ -294,7 +299,7 @@ public class ModelConfig {
 	    ex.printStackTrace();
 	}
     }
-    
+
     public void loadTheme(int theme) {
 	try {
 	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
