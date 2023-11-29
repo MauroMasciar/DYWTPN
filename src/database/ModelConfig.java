@@ -1,18 +1,18 @@
 package database;
 
-import debug.Log;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+
+import debug.Log;
 
 public class ModelConfig {
     private Connection conex = null;
@@ -193,6 +193,8 @@ public class ModelConfig {
 	} catch(Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
+	    JOptionPane.showMessageDialog(null, "Ha habido un error al conectar con la base de datos.\nReinstalar la aplicacion puede solucionar el problema.\n\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	    System.exit(0);
 	}
 	return x;
     }

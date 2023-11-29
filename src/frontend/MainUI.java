@@ -43,7 +43,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static final JTextField txtMinsPlayed = new JTextField(20);
     private static final JTextField txtCategory = new JTextField(20);
     private final JTextField txtPathGame = new JTextField(20);
-    //private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private static final JButton btnLaunchGame = new JButton("Lanzar");
     private final JButton btnEditGame = new JButton("Editar");
     public static final JTextField txtTimePlaying = new JTextField(20);
@@ -54,6 +53,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static final JTextArea txtLastAchie = new JTextArea();
     public static final JTextArea txtGames = new JTextArea();
     public static final JTextArea txtGamesTime = new JTextArea();
+    //private final JLabel lblPortrait = new JLabel();
     private final JTextArea txtSeparator = new JTextArea();
     private final JPopupMenu popUpMenu = new JPopupMenu();
     private final JMenuItem mnuiLaunch = new JMenuItem("Lanzar");
@@ -66,6 +66,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public MainUI() {
 	setTitle("DYWTPN");
 	ModelConfig mc = new ModelConfig();
+	//setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 1100, 280);
 	setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 900, 280);
 	setClosable(false);
 	setResizable(true);
@@ -149,6 +150,26 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridx = 1;
 	pnlBottom.add(btnLaunchGame, gbc);
 
+	// Portada
+	/*JPanel pnlPortrait = new JPanel();
+	pnlPortrait.setLayout(new GridBagLayout());
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	gbc.gridwidth = 1;
+	gbc.gridheight = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.fill = GridBagConstraints.BOTH;
+	try {
+	    ImageIcon imgIcon = new ImageIcon(getClass().getResource("/gfx/test.jpg"));
+	    Image imgEscalada = imgIcon.getImage().getScaledInstance(200,230, Image.SCALE_SMOOTH);
+	    ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
+	    lblPortrait.setIcon(iconoEscalado);
+	} catch(NullPointerException ex) {
+	    System.out.println("No carga la portada");
+	}
+	pnlPortrait.add(lblPortrait, gbc);*/
+
 	// Paneles
 	gbc.gridx = 0;
 	gbc.gridy = 0;
@@ -177,6 +198,15 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.fill = GridBagConstraints.BOTH;
 	add(pnlBottom, gbc);
 
+	/*gbc.gridx = 4;
+	gbc.gridy = 0;
+	gbc.gridwidth = 2;
+	gbc.gridheight = 4;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.fill = GridBagConstraints.BOTH;
+	add(pnlPortrait, gbc);*/
+
 	jlistGames.addListSelectionListener(this);
 	jlistGames.addMouseListener(this);
 	jlistGames.setComponentPopupMenu(popUpMenu);
@@ -188,14 +218,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	txtGameName.setEditable(false);
 	txtMinsPlayed.setEditable(false);
-	txtStatistics.setForeground(Color.RED);
+	/*txtStatistics.setForeground(Color.RED);
 	txtTimePlaying.setForeground(Color.RED);
 	txtGamePlaying.setForeground(Color.RED);
 	txtLastAchie.setForeground(Color.RED);
 	txtLastDays.setForeground(Color.RED);
 	txtTotalInfo.setForeground(Color.RED);
 	txtGames.setForeground(Color.RED);
-	txtGamesTime.setForeground(Color.RED);
+	txtGamesTime.setForeground(Color.RED);*/
 	txtStatistics.setText(" CARGANDO ...");
 	txtStatistics.setEditable(false);
 	txtLastDays.setText(" CARGANDO ...");
@@ -273,16 +303,16 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	int tsiete = mg.getLastDays(0, 7, true);
 	int tcatorce = mg.getLastDays(0, 14, true);
 	int ttreinta = mg.getLastDays(0, 30, true);
-	
+
 	String uno = Utils.getTotalHoursFromSeconds(tuno, false);
 	String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
 	String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
 	String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
 
 	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
-	
+
 	txtTotalInfo.setText(" Total de juegos: " + modelList.size() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions());
-	
+
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
@@ -305,23 +335,18 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtTotalInfo.setForeground(Color.RED);
 		txtGames.setForeground(Color.RED);
 		txtGamesTime.setForeground(Color.RED);
-		/*txtStatistics.setForeground(Color.WHITE);
-		txtTimePlaying.setForeground(Color.WHITE);
-		txtGamePlaying.setForeground(Color.WHITE);
-		txtLastAchie.setForeground(Color.WHITE);
-		txtLastDays.setForeground(Color.WHITE);
-		txtTotalInfo.setForeground(Color.WHITE);
-		txtGames.setForeground(Color.WHITE);
-		txtGamesTime.setForeground(Color.WHITE);*/
 	    } else {
-		txtTimePlaying.setForeground(Color.BLACK);
-		txtGamePlaying.setForeground(Color.BLACK);
-		txtStatistics.setForeground(Color.BLACK);
-		txtLastAchie.setForeground(Color.BLACK);
-		txtLastDays.setForeground(Color.BLACK);
-		txtTotalInfo.setForeground(Color.BLACK);
-		txtGames.setForeground(Color.BLACK);
-		txtGamesTime.setForeground(Color.BLACK);
+		int theme = mc.getTheme();
+		if(theme == 1) {
+		    txtTimePlaying.setForeground(Color.BLACK);
+		    txtGamePlaying.setForeground(Color.BLACK);
+		    txtStatistics.setForeground(Color.BLACK);
+		    txtLastAchie.setForeground(Color.BLACK);
+		    txtLastDays.setForeground(Color.BLACK);
+		    txtTotalInfo.setForeground(Color.BLACK);
+		    txtGames.setForeground(Color.BLACK);
+		    txtGamesTime.setForeground(Color.BLACK);
+		}
 	    }
 	}
     }
@@ -366,8 +391,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    if(gameIdSelected != 0) {		
 		String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
 		txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed
-		+ " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
-		+ mg.getDateLastSession(gameIdSelected));
+			+ " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
+			+ mg.getDateLastSession(gameIdSelected));
 
 
 		int tuno = mg.getLastDays(gameIdSelected, 1, true);
@@ -378,7 +403,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
 		String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
 		String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
-		//txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
 		txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
 		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 	    }

@@ -46,8 +46,7 @@ public class Utils {
 	if(minutes_final < 10) sMinute = "0" + minutes_final;
 	else sMinute = String.valueOf(minutes_final);
 
-	if(hours_final < 10) sHour = "0" + hours_final;
-	else sHour = String.valueOf(hours_final);
+	sHour = String.valueOf(hours_final);
 
 	if(withSeconds) return sHour + "h " + sMinute + "m " + sSecond + "s";
 	else return sHour + "h " + sMinute + "m";

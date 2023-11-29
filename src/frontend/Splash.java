@@ -8,10 +8,10 @@ import javax.swing.JLabel;
 
 public class Splash extends JDialog {
     private static final long serialVersionUID = 8022358665918705197L;
-    private JLabel lblImg = new JLabel();
+    private final JLabel lblImg = new JLabel();
 
     public Splash() {
-	setSize(626, 417);
+	setSize(600, 400);
 	setUndecorated(true);
 	setLocationRelativeTo(null);
 	setLayout(new GridBagLayout());
@@ -35,9 +35,11 @@ public class Splash extends JDialog {
 	new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    Thread.sleep(3500);
+		    Thread.sleep(2500);
+		    new MainWindow();
+		    Thread.sleep(500);
+		    MainWindow.showWindow();
 		    dispose();
-		    new MainWindow();	    
 		} catch (InterruptedException ex) {
 		    System.exit(0);
 		}

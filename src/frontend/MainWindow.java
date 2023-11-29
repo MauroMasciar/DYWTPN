@@ -19,22 +19,22 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     public static final JFrame j = new JFrame();
     private final JMenuBar menubar = new JMenuBar();
     private final JMenu mnuGames = new JMenu("Juegos");
-    private final JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("bin/gfx/new_game.png"));
+    private final JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("gfx/new_game.png"));
+    private final JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion", new ImageIcon("gfx/new_session.png"));
     private final JMenuItem mnuiGamesEdit = new JMenuItem("Editar juego");
-    private final JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion", new ImageIcon("bin/gfx/new_session.png"));
-    private final JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("bin/gfx/refresh.png"));
-    private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("bin/gfx/games_list.png"));
+    private final JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("gfx/refresh.png"));
+    private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("gfx/games_list.png"));
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
-    private final JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("bin/gfx/category.png"));
-    private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("bin/gfx/collections.png"));
+    private final JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("gfx/category.png"));
+    private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("gfx/collections.png"));
     private final JMenu mnuPlayer = new JMenu("Jugador");
-    private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("bin/gfx/history.png"));
-    private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("bin/gfx/activity.png"));
+    private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("gfx/history.png"));
+    private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("gfx/activity.png"));
     private final JMenu mnuHelp = new JMenu("Ayuda");
-    private final JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("bin/gfx/config.png"));
-    private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("bin/gfx/update.png"));
-    private final JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de", new ImageIcon("bin/gfx/about.png"));
-    private final JMenuItem mnuiHelpDebug = new JMenuItem("Debug", new ImageIcon("bin/gfx/debug.png"));
+    private final JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("gfx/config.png"));
+    private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("gfx/update.png"));
+    private final JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de", new ImageIcon("gfx/about.png"));
+    private final JMenuItem mnuiHelpDebug = new JMenuItem("Debug", new ImageIcon("gfx/debug.png"));
 
     public MainWindow() {
 	try {
@@ -48,14 +48,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.setTitle(title);
 	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	// j.setExtendedState(MAXIMIZED_BOTH);
+	j.setLocationRelativeTo(null);
+	//j.setExtendedState(MAXIMIZED_BOTH);
 
 	menubar.add(mnuGames);
 	menubar.add(mnuPlayer);
 	menubar.add(mnuHelp);
 	mnuGames.add(mnuiGamesAdd);
-	mnuGames.add(mnuiGamesEdit);
 	mnuGames.add(mnuiGamesAddSession);
+	mnuGames.add(mnuiGamesEdit);
 	mnuGames.add(mnuiGamesList);
 	mnuGames.add(mnuiGamesHidden);
 	mnuGames.add(mnuiGamesCategory);
@@ -89,7 +90,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
 	j.setJMenuBar(menubar);
 	j.addWindowListener(this);
-
+    }
+    
+    public static void showWindow() {
 	j.setVisible(true);
     }
 

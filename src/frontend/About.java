@@ -22,7 +22,7 @@ public class About extends JInternalFrame {
 	} catch (Exception ex) {
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
-	setBounds(70, 70, 400, 100);
+	setBounds(90, 70, 400, 100);
 	setTitle("Acerca de");
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setClosable(true);
