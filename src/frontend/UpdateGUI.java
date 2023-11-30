@@ -19,7 +19,7 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 7976244907769602999L;
     private final JTextField txtSql = new JTextField(30);
     private final JButton btnApply = new JButton("Aplicar");
-    private final JLabel lblInfo = new JLabel("Ingrese las instrucciones y haga clic en aplicar (Una linea a la vez)");
+    private final JLabel lblInfo = new JLabel("  Ingrese las instrucciones y haga clic en aplicar (Una linea a la vez)");
 
     public UpdateGUI() {
 	try {
@@ -50,6 +50,7 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
 	gbc.gridy++;
 	pnl.add(txtSql, gbc);
 	gbc.gridy++;
+	gbc.fill = GridBagConstraints.NONE;
 	pnl.add(btnApply, gbc);
 	gbc.gridy = 0;
 	gbc.fill = GridBagConstraints.BOTH;

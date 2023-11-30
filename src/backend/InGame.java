@@ -37,8 +37,12 @@ public class InGame {
 		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
 		while(gameIdLaunched != 0) {
 		    try {
-			String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + ". Total: " + gameTimePlayedTotal;
-			Log.Loguear(s);
+			if(second == 0 && minute != 0) {
+			    String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + "(" + gameTimePlayed/60 + ")" 
+				    + ". Total: " + gameTimePlayedTotal + "(" + (gameTimePlayedTotal/60)/60 + ")";
+			    
+			    Log.Loguear(s);
+			}
 			checkAchievement();
 			Thread.sleep(1000);
 			second++;

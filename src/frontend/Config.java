@@ -1,6 +1,7 @@
 package frontend;
 
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JInternalFrame;
@@ -10,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import backend.Validations;
 import database.ModelConfig;
@@ -33,7 +35,8 @@ public class Config extends JInternalFrame implements ActionListener {
     private final JLabel lblHistoryy = new JLabel("Historial Y");
     private final JTextField txtHistoryy = new JTextField(10);
     private final JComboBox<String> cbTheme = new JComboBox<String>();
-    private final JLabel lblTheme = new JLabel("Requiere reincio");
+    private final JLabel lblTheme = new JLabel("(Requiere reincio)");
+    private final JPanel pnl = new JPanel();
 
     public Config() {
 	try {
@@ -43,43 +46,90 @@ public class Config extends JInternalFrame implements ActionListener {
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 	setTitle("Configuracion");
-	setSize(800, 400);
+	setSize(550, 270);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	setLayout(new FlowLayout());
 	setClosable(true);
+	setResizable(true);
+	setLayout(new GridBagLayout());
+	GridBagConstraints gbc = new GridBagConstraints();
+	pnl.setLayout(new GridBagLayout());
+	gbc.gridheight = 1;
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.ipadx = 10;
+	gbc.ipady = 10;
+	gbc.fill = GridBagConstraints.HORIZONTAL;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	pnl.add(lblName, gbc);
+	gbc.gridx++;
+	gbc.gridwidth = 3;
+	gbc.weightx = 3.0;
+	pnl.add(txtName, gbc);
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnl.add(lblMainUIx, gbc);
+	gbc.gridx++;	
+	pnl.add(txtMainUIx, gbc);
+	gbc.gridx++;
+	pnl.add(lblMainUIy, gbc);
+	gbc.gridx++;
+	pnl.add(txtMainUIy, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;	
+	pnl.add(lblActivityx, gbc);
+	gbc.gridx++;
+	pnl.add(txtActivityx, gbc);
+	gbc.gridx++;
+	pnl.add(lblActivityy, gbc);
+	gbc.gridx++;
+	pnl.add(txtActivityy, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnl.add(lblHistoryx, gbc);
+	gbc.gridx++;
+	pnl.add(txtHistoryx, gbc);
+	gbc.gridx++;
+	pnl.add(lblHistoryy, gbc);
+	gbc.gridx++;
+	pnl.add(txtHistoryy, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnl.add(cbTheme, gbc);
+	gbc.gridx++;
+	pnl.add(lblTheme, gbc);
+	gbc.gridx = 0;
+	gbc.gridy++;
+	pnl.add(btnSave, gbc);
+	gbc.gridx += 3;
+	pnl.add(btnTruncate, gbc);
 	
-	cbTheme.addItem("Claro");
-	cbTheme.addItem("Oscuro");
-
-	add(lblName);
-	add(txtName);
-	add(lblMainUIx);
-	add(txtMainUIx);
-	add(lblMainUIy);
-	add(txtMainUIy);
-	add(lblActivityx);
-	add(txtActivityx);
-	add(lblActivityy);
-	add(txtActivityy);
-	add(lblHistoryx);
-	add(txtHistoryx);
-	add(lblHistoryy);
-	add(txtHistoryy);
-	add(btnSave);
-	add(btnTruncate);
-	add(cbTheme);
-	add(lblTheme);
+	gbc.gridheight = 1;
+	gbc.gridwidth = 1;
+	gbc.weightx = 1.0;
+	gbc.weighty = 1.0;
+	gbc.ipadx = 10;
+	gbc.ipady = 10;
+	gbc.fill = GridBagConstraints.NONE;
+	gbc.gridx = 0;
+	gbc.gridy = 0;
+	add(pnl, gbc);	
 
 	btnSave.addActionListener(this);
 	btnTruncate.addActionListener(this);
 	cbTheme.addActionListener(this);
-	
+
 	loadData();
 
 	setVisible(true);
     }
-    
+
     public void loadData() {
+	cbTheme.addItem("Claro");
+	cbTheme.addItem("Oscuro");
 	ModelConfig mc = new ModelConfig();
 	txtName.setText(mc.getUsername());
 	txtMainUIx.setText(String.valueOf(mc.getBounds_x("MainUI")));
@@ -91,6 +141,12 @@ public class Config extends JInternalFrame implements ActionListener {
 	int theme = mc.getTheme();
 	if(theme == 1) cbTheme.setSelectedItem("Claro");
 	else if(theme == 2) cbTheme.setSelectedItem("Oscuro");
+    }
+
+    public void setTheme() {
+	ModelConfig mc = new ModelConfig();
+	if(cbTheme.getSelectedItem().equals("Claro")) mc.setTheme(1);
+	else if(cbTheme.getSelectedItem().equals("Oscuro")) mc.setTheme(2);
     }
 
     @Override
@@ -108,6 +164,8 @@ public class Config extends JInternalFrame implements ActionListener {
 	    }
 	} else if (e.getSource() == btnSave) {
 	    ModelConfig mc = new ModelConfig();
+	    setTheme();
+
 	    if(Validations.isEmpty(txtName) || Validations.isEmpty(txtMainUIx) || Validations.isEmpty(txtMainUIy) || Validations.isEmpty(txtActivityx) || Validations.isEmpty(txtActivityy)
 		    || Validations.isEmpty(txtHistoryx) || Validations.isEmpty(txtHistoryy)) {
 		JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
@@ -124,9 +182,7 @@ public class Config extends JInternalFrame implements ActionListener {
 		JOptionPane.showMessageDialog(this, "Algunos campos tienen datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 	} else if(e.getSource() == cbTheme) {
-	    ModelConfig mc = new ModelConfig();
-	    if(cbTheme.getSelectedItem().equals("Claro")) mc.setTheme(1);
-	    else if(cbTheme.getSelectedItem().equals("Oscuro")) mc.setTheme(2);
+	    setTheme();
 	}
     }
 }

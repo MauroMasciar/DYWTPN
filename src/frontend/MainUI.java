@@ -148,6 +148,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.gridx = 1;
 	pnlBottom.add(btnLaunchGame, gbc);
 
+	// Interfaz izquierda
 	// Portada
 	/*JPanel pnlPortrait = new JPanel();
 	pnlPortrait.setLayout(new GridBagLayout());
@@ -189,7 +190,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	gbc.gridx = 1;
 	gbc.gridy = 1;
-	gbc.gridwidth = 2; // ancho
+	gbc.gridwidth = 2;
 	gbc.gridheight = 3;
 	gbc.weightx = 1.0;
 	gbc.weighty = 1.0;
@@ -216,14 +217,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	txtGameName.setEditable(false);
 	txtMinsPlayed.setEditable(false);
-	/*txtStatistics.setForeground(Color.RED);
-	txtTimePlaying.setForeground(Color.RED);
-	txtGamePlaying.setForeground(Color.RED);
-	txtLastAchie.setForeground(Color.RED);
-	txtLastDays.setForeground(Color.RED);
-	txtTotalInfo.setForeground(Color.RED);
-	txtGames.setForeground(Color.RED);
-	txtGamesTime.setForeground(Color.RED);*/
 	txtStatistics.setText(" CARGANDO ...");
 	txtStatistics.setEditable(false);
 	txtLastDays.setText(" CARGANDO ...");
@@ -239,10 +232,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setText(" CARGANDO ...");
 	txtLastAchie.setEditable(false);
 	txtSeparator.setEditable(false);
-	txtSeparator.setText(
-		"__________________________________________________________________________________________________________________");
-	txtCategory.setForeground(Color.BLACK);
-
+	txtSeparator.setText("__________________________________________________________________________________________________________________");
+	
 	txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
 	txtGamePlaying.setFont(new Font("Serief", Font.BOLD, 12));
 	txtTimePlaying.setFont(new Font("Serief", Font.BOLD, 12));
@@ -252,9 +243,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtGames.setFont(new Font("Serief", Font.BOLD, 12));
 	txtGamesTime.setFont(new Font("Serief", Font.BOLD, 12));
 
-	txtPathGame.setEnabled(false);
 	txtCategory.setEditable(false);
-
+	txtPathGame.setEnabled(false);
 	btnEditGame.setEnabled(false);
 
 	new Thread(new Runnable() {
@@ -480,7 +470,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     @Override
     public void keyPressed(KeyEvent e) {
-
     }
 
     @Override

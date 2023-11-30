@@ -11,11 +11,10 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.4.29";
+    public static final String VERSIONAPP = "1.2.4.36";
+    public static final boolean test = true;
 
     public static void main(String[] args) {
-	final boolean test = false;
-	
 	if(!test) {
 	    new Thread(new Runnable() {
 		public void run() {

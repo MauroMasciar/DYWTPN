@@ -3,7 +3,11 @@ package backend;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.swing.JInternalFrame;
+
 import debug.Log;
+import frontend.Main;
+import frontend.MainUI;
 
 public class Utils {
     public static String getFormattedDate() {
@@ -52,13 +56,28 @@ public class Utils {
 	else return sHour + "h " + sMinute + "m";
     }
 
-    public static void exceptions(Exception ex) {
+    public static void logExceptions(Exception ex) {
 	ex.printStackTrace();
 	StackTraceElement[] e = ex.getStackTrace();
 	Log.Loguear("Rastreo de la pila de getStackTrace:");
 	Log.Loguear("Clase\t\t Archivo\t\tLínea\tMetodo");
 	for(StackTraceElement element : e ) {
 	    Log.Loguear(element.getClassName() + "\t\t" + element.getFileName() + "\t\t" + String.valueOf(element.getLineNumber()) + "\t\t" + element.getMethodName());
+	}
+    }
+
+    public void getSize(JInternalFrame internalFrame) {
+	if(Main.test) {
+	    new Thread(new Runnable() {
+		public void run() {
+		    try {
+			Thread.sleep(1000);
+			System.out.println(internalFrame.getSize());
+		    } catch (InterruptedException ex) {
+			Log.Loguear(ex.getMessage());
+		    }
+		}
+	    }).start();
 	}
     }
 }

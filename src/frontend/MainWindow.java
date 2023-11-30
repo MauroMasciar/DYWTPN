@@ -92,7 +92,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.setJMenuBar(menubar);
 	j.addWindowListener(this);
     }
-    
+
     public static void showWindow() {
 	j.setVisible(true);
     }
@@ -155,13 +155,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     @Override
     public void windowClosing(WindowEvent e) {
-	try {
-	    Main.p.destroy();
-	} catch(NullPointerException ex) {
-	    Log.Loguear(ex.getMessage());
-	    ex.printStackTrace();
-	} finally {
-	    System.exit(0);
+	if(!Main.test) {
+	    try {
+		Main.p.destroy();
+	    } catch(NullPointerException ex) {
+		Log.Loguear(ex.getMessage());
+		ex.printStackTrace();
+	    } finally {
+		System.exit(0);
+	    }   
 	}
     }
 

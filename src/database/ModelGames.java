@@ -1,8 +1,5 @@
 package database;
 
-import debug.Log;
-import frontend.MainUI;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -14,6 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import backend.Utils;
+import debug.Log;
+import frontend.MainUI;
 
 public class ModelGames {
     private Connection conex = null;
