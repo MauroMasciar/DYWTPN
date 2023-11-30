@@ -1193,6 +1193,26 @@ public class ModelGames {
 	}
 	return res;
     }
+    
+    public String getNotes(int gameId) {
+	String query = "SELECT notes FROM games WHERE id = " + gameId;
+	String res = "";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		res = rs.getString("notes");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return res;
+    }
 
     public String getModified(int gameId) {
 	String query = "SELECT modified FROM games WHERE id = " + gameId;

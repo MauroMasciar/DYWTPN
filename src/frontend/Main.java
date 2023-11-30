@@ -11,7 +11,7 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.4.38";
+    public static final String VERSIONAPP = "1.2.4.40";
     public static boolean test = false;
 
     public static void main(String[] args) {
@@ -33,7 +33,8 @@ public class Main {
 			Thread.sleep(1000);
 			MainUI.LoadData();
 		    } catch (InterruptedException | IOException ex) {
-			JOptionPane.showMessageDialog(null,"No se ha podido cargar los datos. Vuelve a intentarlo. Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"No se ha podido cargar los datos, vuelva a intentarlo."
+				+ " Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		    }
 		}

@@ -304,8 +304,8 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	spinGameTime.addChangeListener(this);
 	txtAdded.setEditable(false);
 	txtModified.setEditable(false);
-	LoadCategory();
-	LoadGameList();
+	loadCategory();
+	loadGameList();
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
 
@@ -341,7 +341,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	setVisible(true);
     }
 
-    private void LoadCategory() {
+    private void loadCategory() {
 	cbCategory.removeAllItems();
 	ArrayList<String> listCategory = new ArrayList<String>();
 	listCategory.clear();
@@ -352,7 +352,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	}
     }
 
-    private void LoadGameList() {
+    private void loadGameList() {
 	cbTitle.removeAllItems();
 	ArrayList<String> listGames = new ArrayList<String>();
 	listGames.clear();
@@ -363,7 +363,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	}
     }
 
-    private void LoadData(String gameName) {
+    private void loadData(String gameName) {
 	ModelGames mg = new ModelGames();
 	gameId = mg.getIdFromGameName(gameName);
 	int secondsPlayed = mg.getSecondsPlayed(gameId);
@@ -391,6 +391,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	chPortable.setSelected(mg.isPortable(gameId));
 	chHide.setSelected(mg.isHidden(gameId));
 	txtAdded.setText(mg.getAddedDate(gameId));
+	txtaNotes.setText(mg.getNotes(gameId));
 	spinScore.setValue(score);
 	spinGameTime.setValue(secondsPlayed);
 	spinPlayCount.setValue(playCount);
@@ -405,7 +406,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	}
     }
 
-    private void SaveData(int gameId) {
+    private void saveData(int gameId) {
 	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
 		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
 		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) || Validations.isEmpty(txtSource) ||
@@ -463,10 +464,10 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     @Override
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == cbTitle) {
-	    LoadData(cbTitle.getSelectedItem().toString());
+	    loadData(cbTitle.getSelectedItem().toString());
 	} else if(e.getSource() == btnSave) {
 	    ModelGames mg = new ModelGames();
-	    SaveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));
+	    saveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));
 	} else if(e.getSource() == chCompleted) {
 	    if(chCompleted.isSelected()) {
 		txtCompletedDate.setEditable(true);

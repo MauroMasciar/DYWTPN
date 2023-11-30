@@ -160,7 +160,9 @@ public class Config extends JInternalFrame implements ActionListener {
 		ModelConfig mc = new ModelConfig();
 		int dataTruncated = mc.truncateData();
 		if(dataTruncated == 1) {
-		    JOptionPane.showMessageDialog(this, "Los datos han sido reseteados. Debe reiniciar la aplicacion", "Datos cerrados", JOptionPane.INFORMATION_MESSAGE);
+		    //JOptionPane.showMessageDialog(this, "Los datos han sido reseteados. Debe reiniciar la aplicacion", "Datos cerrados", JOptionPane.INFORMATION_MESSAGE);
+		    MainUI.LoadData();
+		    this.dispose();
 		} else {
 		    JOptionPane.showMessageDialog(this, "No se han podido borrar los datos. Prueba a reiniciar la aplicacion y volver a intentarlo", "Error", JOptionPane.ERROR_MESSAGE);
 		}
