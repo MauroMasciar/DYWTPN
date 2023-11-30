@@ -7,7 +7,6 @@ import javax.swing.JInternalFrame;
 
 import debug.Log;
 import frontend.Main;
-import frontend.MainUI;
 
 public class Utils {
     public static String getFormattedDate() {
@@ -66,18 +65,19 @@ public class Utils {
 	}
     }
 
-    public void getSize(JInternalFrame internalFrame) {
-	if(Main.test) {
-	    new Thread(new Runnable() {
-		public void run() {
+    public static void getSize(JInternalFrame internalFrame) {
+	new Thread(new Runnable() {
+	    public void run() {
+		while(Main.test) {
 		    try {
 			Thread.sleep(1000);
 			System.out.println(internalFrame.getSize());
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
-		    }
+		    }		    
 		}
-	    }).start();
-	}
+
+	    }
+	}).start();
     }
 }

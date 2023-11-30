@@ -11,10 +11,15 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.4.36";
-    public static final boolean test = true;
+    public static final String VERSIONAPP = "1.2.4.38";
+    public static boolean test = false;
 
     public static void main(String[] args) {
+	try {
+	    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+	    ex.printStackTrace();
+	}
 	if(!test) {
 	    new Thread(new Runnable() {
 		public void run() {
