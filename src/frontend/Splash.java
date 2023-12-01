@@ -35,7 +35,7 @@ public class Splash extends JDialog {
 	new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    Thread.sleep(2500);
+		    Thread.sleep(3500);
 		    @SuppressWarnings("unused")
 		    MainWindow mainWindow = new MainWindow();
 		    Thread.sleep(500);

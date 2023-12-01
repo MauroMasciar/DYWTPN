@@ -280,12 +280,17 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelGames mg = new ModelGames();
 	int totalSeconds = mg.getSecondsTotalPlayed();
 	String totalTimePlayed = Utils.getTotalHoursFromSeconds(totalSeconds, true);
+	String lastGame = mc.getLastGame();
+	String lastSession = mc.getLastSessionTime();
 
 	showHidden = mc.getIsHidden();
 	//if(gameIdLaunched == 0) UpdateGameList();
 	UpdateGameList();
-
-	txtStatistics.setText(" Nombre: " + mc.getUsername() + " | Tiempo total: " + totalTimePlayed);
+	String statistics = " Nombre: " + mc.getUsername() + " | Tiempo total: " + totalTimePlayed;
+	txtStatistics.setText(statistics);
+	
+	String statusBar = statistics + " | " + lastGame + " " + lastSession;
+	MainWindow.updateStatusBar(statusBar);
 
 	int tuno = mg.getLastDays(0, 1, true);
 	int tsiete = mg.getLastDays(0, 7, true);

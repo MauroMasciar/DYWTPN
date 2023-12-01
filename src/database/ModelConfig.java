@@ -300,9 +300,9 @@ public class ModelConfig {
 
     public static void loadTheme(int theme) {
 	try {
-	    if(theme == 2) UIManager.setLookAndFeel(new FlatMacDarkLaf());
+	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
+	    else if(theme == 2) UIManager.setLookAndFeel(new FlatMacDarkLaf());
 	    else if(theme == 3) UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    else UIManager.setLookAndFeel(new FlatIntelliJLaf()); // Default: 1
 	} catch (Exception ex) {
 	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
 	    ex.printStackTrace();

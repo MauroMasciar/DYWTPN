@@ -1,22 +1,32 @@
 package frontend;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import database.ModelConfig;
 import debug.Log;
 
-public class MainWindow extends JFrame implements ActionListener, WindowListener {
-    private static final long serialVersionUID = -82854956961477559L; //-82854956961477559L
+public class MainWindow extends JFrame implements ActionListener, WindowListener, WindowStateListener, ComponentListener {
+    private static final long serialVersionUID = -82854956961477559L;
     public static final JFrame j = new JFrame();
     private final JMenuBar menubar = new JMenuBar();
     private final JMenu mnuGames = new JMenu("Juegos");
@@ -36,6 +46,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("gfx/update.png"));
     private final JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de", new ImageIcon("gfx/about.png"));
     private final JMenuItem mnuiHelpDebug = new JMenuItem("Debug", new ImageIcon("gfx/debug.png"));
+    private final JPanel statusBar = new JPanel();
+    private static JLabel lblStatusMessage = new JLabel("STATUS BAR", SwingConstants.LEFT);
 
     public MainWindow() {
 	try {
@@ -87,19 +99,37 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiHelpAbout.addActionListener(this);
 	mnuiHelpUpdate.addActionListener(this);
 	mnuiHelpDebug.addActionListener(this);
+	
+	statusBar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
 	j.add(new MainUI());
-
+	updateGuiStatusBar();
 	j.setJMenuBar(menubar);
 	j.addWindowListener(this);
+	j.addWindowStateListener(this);
+	j.addComponentListener(this);
     }
 
     public static void showWindow() {
 	j.setVisible(true);
+	j.setLayout(null);
+    }
+
+    public void updateGuiStatusBar() {
+	j.setLayout(new BorderLayout());
+	lblStatusMessage.setPreferredSize(new Dimension(j.getWidth()-20,15));
+	statusBar.add(lblStatusMessage);
+	statusBar.setAlignmentX(LEFT_ALIGNMENT);
+	j.add(statusBar, BorderLayout.SOUTH);
+    }
+    
+    public static void updateStatusBar(String s) {
+	lblStatusMessage.setText(s);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+	j.setLayout(null);
 	if(e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
 	    j.repaint();
@@ -168,10 +198,17 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    }   
 	}
     }
+    
+    public void windowStateChanged(WindowEvent e) {
+	updateGuiStatusBar();
+    }
+    
+    public void componentResized(ComponentEvent e) {
+	updateGuiStatusBar();
+    }
 
     @Override
     public void windowClosed(WindowEvent e) {
-	
     }
 
     @Override
@@ -188,5 +225,17 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     @Override
     public void windowDeactivated(WindowEvent e) {
+    }
+
+    public void componentMoved(ComponentEvent e) {
+	
+    }
+
+    public void componentShown(ComponentEvent e) {
+	
+    }
+
+    public void componentHidden(ComponentEvent e) {
+	
     }
 }
