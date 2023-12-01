@@ -134,6 +134,8 @@ public class Config extends JInternalFrame implements ActionListener {
     public void loadData() {
 	cbTheme.addItem("Claro");
 	cbTheme.addItem("Oscuro");
+	cbTheme.addItem("Sistema");
+	
 	ModelConfig mc = new ModelConfig();
 	txtName.setText(mc.getUsername());
 	txtMainUIx.setText(String.valueOf(mc.getBounds_x("MainUI")));
@@ -145,12 +147,14 @@ public class Config extends JInternalFrame implements ActionListener {
 	int theme = mc.getTheme();
 	if(theme == 1) cbTheme.setSelectedItem("Claro");
 	else if(theme == 2) cbTheme.setSelectedItem("Oscuro");
+	else if(theme == 3) cbTheme.setSelectedItem("Sistema");
     }
 
     public void setTheme() {
 	ModelConfig mc = new ModelConfig();
 	if(cbTheme.getSelectedItem().equals("Claro")) mc.setTheme(1);
 	else if(cbTheme.getSelectedItem().equals("Oscuro")) mc.setTheme(2);
+	else if(cbTheme.getSelectedItem().equals("Sistema")) mc.setTheme(3);
     }
 
     @Override

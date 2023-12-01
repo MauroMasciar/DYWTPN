@@ -8,9 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import debug.Log;
 import frontend.Main;
@@ -276,7 +275,6 @@ public class ModelConfig {
 	    stmt.close();
 	    this.conex.close();
 	    rs.close();
-	    System.out.println("gettheme: " + r);
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
@@ -294,7 +292,6 @@ public class ModelConfig {
 	    this.conex.close();
 	    p.close();
 	    loadTheme(theme);
-	    System.out.println("settheme: " + theme);
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
@@ -303,10 +300,9 @@ public class ModelConfig {
 
     public static void loadTheme(int theme) {
 	try {
-	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
-	    else if(theme == 2) UIManager.setLookAndFeel(new FlatDarkLaf());
-	    else UIManager.setLookAndFeel(new FlatIntelliJLaf());
-	    System.out.println("loadtheme: " + theme);
+	    if(theme == 2) UIManager.setLookAndFeel(new FlatMacDarkLaf());
+	    else if(theme == 3) UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    else UIManager.setLookAndFeel(new FlatIntelliJLaf()); // Default: 1
 	} catch (Exception ex) {
 	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
 	    ex.printStackTrace();

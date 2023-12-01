@@ -4,15 +4,14 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.4.46";
-    public static boolean test = true;
+    public static final String VERSIONAPP = "1.2.4.47";
+    public static boolean test = false;
 
     public static void main(String[] args) {
 	try {
