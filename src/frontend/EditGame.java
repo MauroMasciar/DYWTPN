@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.GridBagLayout;
@@ -51,7 +52,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JLabel lblPath = new JLabel("Directorio:");
     private final JLabel lblScore = new JLabel(" Puntaje:");
     private final JLabel lblCategory = new JLabel("Categoria:");
-    private final JComboBox<String> cbTitle = new JComboBox<String>();
+    private final JComboBox<String> cbTitle = new JComboBox<>();
     private final JTextField txtReleaseDate = new JTextField(20);
     private final JTextField txtRating = new JTextField(20);
     private final JTextField txtGenre = new JTextField(10);
@@ -75,7 +76,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JCheckBox chGhost = new JCheckBox("Fantasma");
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
-    private final JComboBox<String> cbCategory = new JComboBox<String>();
+    private final JComboBox<String> cbCategory = new JComboBox<>();
     private final SpinnerNumberModel spinnerNumberModelScore = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelGameTime = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelPlayCount = new SpinnerNumberModel();
@@ -89,12 +90,17 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private int gameId;
 
     public EditGame(int gameId) {
+	ModelGames mg = new ModelGames();
+	if(mg.getTotalGames() == 0) {
+	    JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
+	    return;
+	}
 	if(gameId == 0) gameId = 1;
 	setTitle("Editar juegos");
 	setSize(850, 550);
 	setClosable(true);
 	setResizable(true);
-	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	this.gameId = gameId;
 
 	pnlDetails.setLayout(new GridBagLayout());
@@ -318,7 +324,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	spinPlayCount.setModel(spinnerNumberModelPlayCount);
 
 	if(gameId != 0) {
-	    ModelGames mg = new ModelGames();
 	    cbTitle.setSelectedItem(mg.getNameFromId(gameId));
 	}
 
@@ -343,7 +348,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
     private void loadCategory() {
 	cbCategory.removeAllItems();
-	ArrayList<String> listCategory = new ArrayList<String>();
+	ArrayList<String> listCategory = new ArrayList<>();
 	listCategory.clear();
 	ModelGames mg = new ModelGames();
 	listCategory = mg.getCategoryList();
@@ -354,7 +359,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
     private void loadGameList() {
 	cbTitle.removeAllItems();
-	ArrayList<String> listGames = new ArrayList<String>();
+	ArrayList<String> listGames = new ArrayList<>();
 	listGames.clear();
 	ModelGames mg = new ModelGames();
 	listGames = mg.getGamesNameList(true);
@@ -454,7 +459,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 		playMode, version, status, source, lastPlayed, completedDate, notes);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-	    MainUI.LoadData();
+	    MainUI.loadData();
 	    dispose();
 	} else {
 	    JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);

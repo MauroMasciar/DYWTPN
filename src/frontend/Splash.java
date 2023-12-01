@@ -36,11 +36,13 @@ public class Splash extends JDialog {
 	    public void run() {
 		try {
 		    Thread.sleep(2500);
-		    new MainWindow();
+		    @SuppressWarnings("unused")
+		    MainWindow mainWindow = new MainWindow();
 		    Thread.sleep(500);
 		    MainWindow.showWindow();
 		    dispose();
 		} catch (InterruptedException ex) {
+		    ex.printStackTrace();
 		    System.exit(0);
 		}
 	    }

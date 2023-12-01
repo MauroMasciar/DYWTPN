@@ -41,6 +41,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	try {
 	    j.setIconImage(new ImageIcon(getClass().getResource("/gfx/icon.png")).getImage());
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 
@@ -97,6 +98,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.setVisible(true);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
@@ -117,7 +119,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    } else {
 		mc.setIsHidden(0);
 	    }
-	    MainUI.LoadData();
+	    MainUI.loadData();
 	} else if(e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
 	    j.repaint();
@@ -134,7 +136,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.add(new PlayerHistory());
 	    j.repaint();
 	} else if(e.getSource() == mnuiGamesRefresh) {
-	    MainUI.LoadData();
+	    MainUI.loadData();
 	} else if(e.getSource() == mnuiHelpUpdate) {
 	    j.add(new UpdateGUI());
 	    j.repaint();
@@ -169,6 +171,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     @Override
     public void windowClosed(WindowEvent e) {
+	
     }
 
     @Override

@@ -18,7 +18,7 @@ import database.ModelPlayer;
 
 public class PlayerActivities extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 4484286064012240569L;
-    private final JComboBox<String> cbGames = new JComboBox<String>();
+    private final JComboBox<String> cbGames = new JComboBox<>();
     private final JScrollPane scrTable = new JScrollPane(tbPlayerActivities);
     public static final JTable tbPlayerActivities = new JTable();
 
@@ -27,7 +27,13 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
 	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/activity.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
+	ModelGames mg = new ModelGames();
+	if(mg.getTotalGames() == 0) {
+	    JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
+	    return;
 	}
 	ModelConfig mc = new ModelConfig();
 	setBounds(mc.getBounds_x("Activity"), mc.getBounds_y("Activity"), 500, 500);
@@ -58,7 +64,7 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
     }
 
     private void loadActivity() {
-	ArrayList<String> listGames = new ArrayList<String>();
+	ArrayList<String> listGames = new ArrayList<>();
 	ModelGames mg = new ModelGames();
 	listGames = mg.getGamesNameList(true);
 	cbGames.removeAllItems();

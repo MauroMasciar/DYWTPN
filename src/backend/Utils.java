@@ -52,7 +52,7 @@ public class Utils {
 	sHour = String.valueOf(hours_final);
 
 	if(withSeconds) return sHour + "h " + sMinute + "m " + sSecond + "s";
-	else return sHour + "h " + sMinute + "m";
+	return sHour + "h " + sMinute + "m";
     }
 
     public static void logExceptions(Exception ex) {

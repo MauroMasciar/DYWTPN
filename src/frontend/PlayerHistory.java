@@ -18,7 +18,7 @@ import database.ModelPlayer;
 
 public class PlayerHistory extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 4484286064012240569L;
-    private final JComboBox<String> cbGames = new JComboBox<String>();
+    private final JComboBox<String> cbGames = new JComboBox<>();
     private final JScrollPane scrTable = new JScrollPane(tbPlayerHistory);
     public static final JTable tbPlayerHistory = new JTable();
 
@@ -28,6 +28,12 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	    ex.printStackTrace();
+	}
+	ModelGames mg = new ModelGames();
+	if(mg.getTotalGames() == 0) {
+	    JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
+	    return;
 	}
 	ModelConfig mc = new ModelConfig();
 	setBounds(mc.getBounds_x("History"), mc.getBounds_y("History"), 500, 500);
@@ -58,7 +64,7 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
     }
 
     public void loadHistory() {
-	ArrayList<String> listGames = new ArrayList<String>();
+	ArrayList<String> listGames = new ArrayList<>();
 	ModelGames mg = new ModelGames();
 	listGames = mg.getGamesNameList(true);
 	cbGames.removeAllItems();

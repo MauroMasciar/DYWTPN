@@ -18,7 +18,7 @@ public class ModelGames {
     private Connection conex = null;
     private static Statement stmt;
     private static ResultSet rs;
-    private ArrayList<String> gameName = new ArrayList<String>();
+    private ArrayList<String> gameName = new ArrayList<>();
 
     public void newSession(int gameId) {
 	String query = "SELECT play_count FROM games WHERE id = " + gameId;
@@ -388,7 +388,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getCategoryList() {
-	ArrayList<String> category = new ArrayList<String>();
+	ArrayList<String> category = new ArrayList<>();
 	String query = "SELECT * FROM category ORDER BY id";
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -444,10 +444,8 @@ public class ModelGames {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
-	if (ghost == 1)
-	    return true;
-	else
-	    return false;
+	if (ghost == 1) return true;
+	return false;
     }
 
     public boolean isCompleted(int gameId) {
@@ -468,7 +466,7 @@ public class ModelGames {
 	    ex.printStackTrace();
 	}
 	if(completed == 1) return true;
-	else return false;
+	return false; 
     }
 
     public boolean isHidden(int gameId) {
@@ -488,10 +486,8 @@ public class ModelGames {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
-	if (hidden == 1)
-	    return true;
-	else
-	    return false;
+	if (hidden == 1) return true;
+	return false;
     }
 
     public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed) {
@@ -675,15 +671,15 @@ public class ModelGames {
 		String gameName = getNameFromId(gameId);
 		String achievement = "Has terminado el juego " + gameName;
 		mp.saveAchievement(achievement, gameName, gameId);
-		MainUI.LoadData();
+		MainUI.loadData();
 		completed_date = Utils.getFormattedDate();
 	    }
+	    if(completed.equals("0")) completed_date = "0000-00-00";
 
 	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
 		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
 		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ?, notes = ? WHERE id = ?";
 
-	    if(completed.equals("0")) completed_date = "0000-00-00";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);
@@ -1260,6 +1256,23 @@ public class ModelGames {
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
 		res = rs.getInt("total_sessions");
+	    }
+	} catch(SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return res;
+    }
+    
+    public int getTotalGames() {
+	String query = "SELECT count(name) AS total FROM games";
+	int res = 0;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		res = rs.getInt("total");
 	    }
 	} catch(SQLException ex) {
 	    Log.Loguear(ex.getMessage());

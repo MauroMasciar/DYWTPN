@@ -22,8 +22,8 @@ public class ModelConfig {
 
     public int truncateData() {
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 
 	    String query = "TRUNCATE category";
 	    stmt.execute(query);
@@ -53,7 +53,7 @@ public class ModelConfig {
 	    stmt.execute(query);
 
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    Log.Loguear("Datos borrados");
 	    return 1;
 	} catch (SQLException ex) {
@@ -67,8 +67,8 @@ public class ModelConfig {
 	String query = "SELECT name FROM config";
 	String name = "";
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
 		name = rs.getString("name");
@@ -76,7 +76,7 @@ public class ModelConfig {
 		name = "ERROR";
 	    }
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    rs.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
@@ -89,8 +89,8 @@ public class ModelConfig {
 	String query = "SELECT last_game FROM config";
 	String last_game = "";
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
 		last_game = rs.getString("last_game");
@@ -98,7 +98,7 @@ public class ModelConfig {
 		last_game = "ERROR";
 	    }
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    rs.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
@@ -111,8 +111,8 @@ public class ModelConfig {
 	String query = "SELECT last_session_time FROM config";
 	String last_session_time = "";
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
 		last_session_time = rs.getString("last_session_time");
@@ -120,7 +120,7 @@ public class ModelConfig {
 		last_session_time = "ERROR";
 	    }
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    rs.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
@@ -133,29 +133,29 @@ public class ModelConfig {
 	String query = "SELECT show_hidden FROM config";
 	int sH = 0;
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) sH = rs.getInt("show_hidden");
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    rs.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	if(sH == 1) return true;
-	else return false;
+	return false;
     }
 
     public void setIsHidden(int args) {
 	String query = "UPDATE config SET show_hidden = " + args;
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    stmt.execute(query);
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
@@ -165,11 +165,11 @@ public class ModelConfig {
     public void saveUserName(String newName) {
 	String query = "UPDATE config SET name = '" + newName + "';";
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    stmt.execute(query);
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
@@ -180,8 +180,8 @@ public class ModelConfig {
 	int x = 30;
 	String query = "";
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    if(window.equals("MainUI")) query = "SELECT MainUI_x FROM config";
 	    else if(window.equals("Activity")) query = "SELECT Activity_x FROM config";
 	    else if(window.equals("History")) query = "SELECT History_x FROM config";
@@ -189,7 +189,7 @@ public class ModelConfig {
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) x = rs.getInt(1);
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    rs.close();
 	} catch(Exception ex) {
 	    Log.Loguear(ex.getMessage());
@@ -198,6 +198,7 @@ public class ModelConfig {
 	    try {
 		Main.p.destroy();
 	    } catch(NullPointerException exx) {
+		exx.printStackTrace();
 		System.exit(0);
 	    }
 	}
@@ -208,8 +209,8 @@ public class ModelConfig {
 	int y = 30;
 	String query = "";
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    if(window.equals("MainUI")) query = "SELECT MainUI_y FROM config";
 	    else if(window.equals("Activity")) query = "SELECT Activity_y FROM config";
 	    else if(window.equals("History")) query = "SELECT History_y FROM config";
@@ -217,7 +218,7 @@ public class ModelConfig {
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) y = rs.getInt(1);
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    rs.close();
 	} catch(Exception ex) {
 	    Log.Loguear(ex.getMessage());
@@ -235,12 +236,12 @@ public class ModelConfig {
 	if(window.equals("History")) query = "UPDATE config SET History_x = ?, History_y = ?";
 
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    PreparedStatement p = conex.prepareStatement(query);
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = this.conex.prepareStatement(query);
 	    p.setInt(1, x);
 	    p.setInt(2, y);
 	    p.executeUpdate();
-	    conex.close();
+	    this.conex.close();
 	    p.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
@@ -251,11 +252,11 @@ public class ModelConfig {
     public int Update(String query) {
 	int r = 0;
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    r = stmt.executeUpdate(query);
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
@@ -268,12 +269,12 @@ public class ModelConfig {
 	String query = "SELECT theme FROM config";
 	int r = 1;
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    stmt = conex.createStatement();
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) r = rs.getInt("theme");
 	    stmt.close();
-	    conex.close();
+	    this.conex.close();
 	    rs.close();
 	    System.out.println("gettheme: " + r);
 	} catch (Exception ex) {
@@ -286,11 +287,11 @@ public class ModelConfig {
     public void setTheme(int theme) {
 	String query = "UPDATE config SET theme = ?";
 	try {
-	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-	    PreparedStatement p = conex.prepareStatement(query);
+	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = this.conex.prepareStatement(query);
 	    p.setInt(1, theme);
 	    p.executeUpdate();
-	    conex.close();
+	    this.conex.close();
 	    p.close();
 	    loadTheme(theme);
 	    System.out.println("settheme: " + theme);
@@ -300,7 +301,7 @@ public class ModelConfig {
 	}
     }
 
-    public void loadTheme(int theme) {
+    public static void loadTheme(int theme) {
 	try {
 	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
 	    else if(theme == 2) UIManager.setLookAndFeel(new FlatDarkLaf());

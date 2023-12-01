@@ -26,6 +26,7 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
 	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/update.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 	setTitle("Aplicar actualizaciones");

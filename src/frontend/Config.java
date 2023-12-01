@@ -35,7 +35,7 @@ public class Config extends JInternalFrame implements ActionListener {
     private final JTextField txtHistoryx = new JTextField(10);
     private final JLabel lblHistoryy = new JLabel("Historial Y");
     private final JTextField txtHistoryy = new JTextField(10);
-    private final JComboBox<String> cbTheme = new JComboBox<String>();
+    private final JComboBox<String> cbTheme = new JComboBox<>();
     private final JLabel lblTheme = new JLabel("(Requiere reincio)");
     private final JPanel pnl = new JPanel();
 
@@ -44,6 +44,7 @@ public class Config extends JInternalFrame implements ActionListener {
 	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/config.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 	setTitle("Configuracion");
@@ -161,7 +162,7 @@ public class Config extends JInternalFrame implements ActionListener {
 		int dataTruncated = mc.truncateData();
 		if(dataTruncated == 1) {
 		    //JOptionPane.showMessageDialog(this, "Los datos han sido reseteados. Debe reiniciar la aplicacion", "Datos cerrados", JOptionPane.INFORMATION_MESSAGE);
-		    MainUI.LoadData();
+		    MainUI.loadData();
 		    this.dispose();
 		} else {
 		    JOptionPane.showMessageDialog(this, "No se han podido borrar los datos. Prueba a reiniciar la aplicacion y volver a intentarlo", "Error", JOptionPane.ERROR_MESSAGE);
@@ -184,6 +185,7 @@ public class Config extends JInternalFrame implements ActionListener {
 		mc.setSavedBounds("History", Double.parseDouble(txtHistoryx.getText()), Double.parseDouble(txtHistoryy.getText()));
 		JOptionPane.showMessageDialog(this, "Los datos han sido guardados", "Datos guardados", JOptionPane.INFORMATION_MESSAGE);
 	    } catch(NumberFormatException ex) {
+		ex.printStackTrace();
 		JOptionPane.showMessageDialog(this, "Algunos campos tienen datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
 	} else if(e.getSource() == cbTheme) {

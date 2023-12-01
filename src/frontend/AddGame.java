@@ -19,6 +19,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -76,7 +77,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     private final JCheckBox chGhost = new JCheckBox("Fantasma");
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
-    private final JComboBox<String> cbCategory = new JComboBox<String>();
+    private final JComboBox<String> cbCategory = new JComboBox<>();
     private final SpinnerNumberModel spinnerNumberModelScore = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelGameTime = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelPlayCount = new SpinnerNumberModel();
@@ -93,13 +94,14 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/new_game.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 	setTitle("Añadir nuevo juego");
 	setSize(850, 550);
 	setClosable(true);
 	setResizable(false);
-	setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	setLayout(new GridBagLayout());
 
 	pnlDetails.setLayout(new GridBagLayout());
@@ -329,7 +331,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 
     private void LoadCategory() {
 	cbCategory.removeAllItems();
-	ArrayList<String> listCategory = new ArrayList<String>();
+	ArrayList<String> listCategory = new ArrayList<>();
 	listCategory.clear();
 	ModelGames mg = new ModelGames();
 	listCategory = mg.getCategoryList();
@@ -399,7 +401,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 		playMode, version, status, source, lastPlayed, added, modified, completed_date, notes);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido guardado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-	    MainUI.LoadData();
+	    MainUI.loadData();
 	    dispose();
 	} else {
 	    JOptionPane.showMessageDialog(this, "Ha habido un error al guardado el juego", "Error", JOptionPane.ERROR_MESSAGE);

@@ -24,7 +24,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
     private final JLabel lblCbGame = new JLabel("Juego:");
     private final JLabel lblTime = new JLabel("Tiempo (Minutos): ");
     private final JLabel lblDate = new JLabel("Fecha:");
-    private final JComboBox<String> cbGame = new JComboBox<String>();
+    private final JComboBox<String> cbGame = new JComboBox<>();
     private final JSpinner spinTime = new JSpinner();
     private final SpinnerNumberModel spnModelTime = new SpinnerNumberModel();
     private final JTextField txtDate = new JTextField(30);
@@ -36,7 +36,13 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/new_session.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
+	ModelGames mg = new ModelGames();
+	if(mg.getTotalGames() == 0) {
+	    JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
+	    return;
 	}
 	setTitle("Añadir nueva sesion");
 	setBounds(100, 80, 300, 150);
@@ -86,7 +92,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 
 	btnAdd.addActionListener(this);
 
-	ArrayList<String> gameList = new ArrayList<String>();
+	ArrayList<String> gameList = new ArrayList<>();
 	gameList = mg.getGamesNameList(false);
 	for (int i = 1; i < gameList.size(); i++) {
 	    cbGame.addItem(gameList.get(i));

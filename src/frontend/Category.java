@@ -19,7 +19,7 @@ public class Category extends JInternalFrame implements ActionListener {
     private final JLabel lblInfo = new JLabel(" Aqui tiene la lista de categorias, puede seleccionarla");
     private final JLabel lblInfo2 = new JLabel("y usar editar o añadir una nueva");
     private final JLabel lblCategory = new JLabel("Categoria:");
-    private final JComboBox<String> cbCategory = new JComboBox<String>();
+    private final JComboBox<String> cbCategory = new JComboBox<>();
     private final JButton btnEdit = new JButton("Editar");
     private final JButton btnAdd = new JButton("Añadir");
 
@@ -28,6 +28,7 @@ public class Category extends JInternalFrame implements ActionListener {
 	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/category.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 	setTitle("Categorias");

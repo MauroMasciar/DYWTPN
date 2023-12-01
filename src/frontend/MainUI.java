@@ -35,9 +35,9 @@ import debug.Log;
 
 public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1L;
-    private static JList<String> jlistGames = new JList<String>();
+    private static JList<String> jlistGames = new JList<>();
     private final JScrollPane scrListGame = new JScrollPane(jlistGames);
-    private static DefaultListModel<String> modelList = new DefaultListModel<String>();
+    private static DefaultListModel<String> modelList = new DefaultListModel<>();
     private final JTextField txtSearch = new JTextField(20);
     private static final JTextField txtGameName = new JTextField(20);
     private static final JTextField txtMinsPlayed = new JTextField(20);
@@ -251,7 +251,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    public void run() {
 		while (true) {
 		    try {
-			if(gameIdLaunched != 0) LoadData();
+			if(gameIdLaunched != 0) loadData();
 			Thread.sleep(600000);
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
@@ -264,7 +264,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    public void run() {
 		try {
 		    Thread.sleep(500);
-		    LoadData();
+		    loadData();
 		} catch (InterruptedException ex) {
 		    ex.printStackTrace();
 		}
@@ -274,7 +274,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	setVisible(true);
     }
 
-    public static void LoadData() {
+    public static void loadData() {
 	ModelConfig mc = new ModelConfig();
 	ModelPlayer mp = new ModelPlayer();
 	ModelGames mg = new ModelGames();
@@ -299,7 +299,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
 
-	txtTotalInfo.setText(" Total de juegos: " + modelList.size() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions());
+	txtTotalInfo.setText(" Total de juegos: " + mg.getTotalGames() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions());
 
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
@@ -347,7 +347,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtCategory.setText("");
 
 	ModelGames g = new ModelGames();
-	ArrayList<String> listGames = new ArrayList<String>();
+	ArrayList<String> listGames = new ArrayList<>();
 	listGames = g.getGamesNameList(showHidden);
 	for (int i = 1; i < listGames.size(); i++) modelList.addElement(listGames.get(i));
 	jlistGames.setModel(modelList);
@@ -363,7 +363,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
 	} else if(e.getSource() == btnLaunchGame || e.getSource() == mnuiLaunch) {
-	    LaunchGame();
+	    launchGame();
 	}
     }
 
@@ -395,7 +395,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	}
     }
 
-    private void LaunchGame() {
+    private void launchGame() {
 	if(txtGameName.getText().isEmpty()) {
 	    JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	    return;
@@ -426,7 +426,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
 				gameIdLaunched = 0;
 				ig.closeGame();
-				LoadData();
+				loadData();
 			    } catch (InterruptedException ex) {
 				JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 			    }
@@ -444,7 +444,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     @Override
     public void mouseClicked(MouseEvent e) {
 	if(e.getSource() == jlistGames && e.getClickCount() == 2) {
-	    LaunchGame();
+	    launchGame();
 	}
     }
 
@@ -484,7 +484,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    txtCategory.setText("");
 
 	    ModelGames g = new ModelGames();
-	    ArrayList<String> listGames = new ArrayList<String>();
+	    ArrayList<String> listGames = new ArrayList<>();
 	    listGames = g.getGamesNameList(txtSearch.getText());
 	    for (int i = 1; i < listGames.size(); i++)
 		modelList.addElement(listGames.get(i));

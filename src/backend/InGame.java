@@ -27,11 +27,11 @@ public class InGame {
 	    mg.setLastPlayed(IdLaunched);
 
 	    MainUI.txtGamePlaying.setText(" Jugando a '" + gameName + "'");
-	    launchGame(IdLaunched);
+	    launchGame();
 	}
     }
 
-    private void launchGame(int IdLaunched) {
+    private void launchGame() {
 	new Thread(new Runnable() {
 	    public void run() {
 		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
@@ -102,7 +102,7 @@ public class InGame {
 	if(achiev != "") {
 	    ModelPlayer mp = new ModelPlayer();
 	    mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
-	    MainUI.LoadData();
+	    MainUI.loadData();
 	}
     }
 
@@ -119,7 +119,7 @@ public class InGame {
 		public void run() {
 		    try {
 			Thread.sleep(1000);
-			MainUI.LoadData();
+			MainUI.loadData();
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
 		    }

@@ -16,9 +16,9 @@ import database.ModelGames;
 
 public class GameList extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -4569846762834010208L;
-    private final JComboBox<String> cbGames = new JComboBox<String>();
-    private final JComboBox<String> cbCompleted = new JComboBox<String>();
-    private final JComboBox<String> cbCategory = new JComboBox<String>();
+    private final JComboBox<String> cbGames = new JComboBox<>();
+    private final JComboBox<String> cbCompleted = new JComboBox<>();
+    private final JComboBox<String> cbCategory = new JComboBox<>();
     public static final JTable tblGames = new JTable();
     private final JScrollPane scrTable = new JScrollPane(tblGames);
 
@@ -27,7 +27,13 @@ public class GameList extends JInternalFrame implements ActionListener {
 	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/games_list.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
+	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	}
+	ModelGames mg = new ModelGames();
+	if(mg.getTotalGames() == 0) {
+	    JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
+	    return;
 	}
 	setTitle("Lista de juegos");
 	setBounds(50, 50, 800, 500);
@@ -59,8 +65,7 @@ public class GameList extends JInternalFrame implements ActionListener {
 	cbCompleted.addItem("Completados");
 	cbCompleted.addItem("No completados");
 
-	ArrayList<String> list = new ArrayList<String>();
-	ModelGames mg = new ModelGames();
+	ArrayList<String> list = new ArrayList<>();
 	list = mg.getGamesNameList(true);
 	try {
 	    cbGames.addItem("Todos");
