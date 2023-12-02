@@ -613,8 +613,7 @@ public class ModelGames {
 	try {
 	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, broken, portable, release_date, "
 		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified, completed_date, notes) "
-		    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	    Log.Loguear(query);
+		    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
 	    p.setString(1, name);

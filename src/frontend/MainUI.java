@@ -33,7 +33,8 @@ import database.ModelGames;
 import database.ModelPlayer;
 import debug.Log;
 
-public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener, KeyListener {
+public class MainUI extends JInternalFrame
+implements ActionListener, ListSelectionListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1L;
     private static JList<String> jlistGames = new JList<>();
     private final JScrollPane scrListGame = new JScrollPane(jlistGames);
@@ -53,7 +54,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static final JTextArea txtLastAchie = new JTextArea();
     public static final JTextArea txtGames = new JTextArea();
     public static final JTextArea txtGamesTime = new JTextArea();
-    //private final JLabel lblPortrait = new JLabel();
+    // private final JLabel lblPortrait = new JLabel();
     private final JTextArea txtSeparator = new JTextArea();
     private final JPopupMenu popUpMenu = new JPopupMenu();
     private final JMenuItem mnuiLaunch = new JMenuItem("Lanzar");
@@ -66,7 +67,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public MainUI() {
 	setTitle("DYWTPN");
 	ModelConfig mc = new ModelConfig();
-	//setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 1100, 280);
+	// setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 1100, 280);
 	setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 900, 280);
 	setClosable(false);
 	setResizable(true);
@@ -82,6 +83,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	// Interfaz izquierda
 	JPanel pnlLeft = new JPanel();
 	pnlLeft.setLayout(new GridBagLayout());
+
 	// Panel izquierdo
 	gbc.gridx = 0;
 	gbc.gridy = 0;
@@ -150,24 +152,27 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	// Interfaz izquierda
 	// Portada
-	/*JPanel pnlPortrait = new JPanel();
-	pnlPortrait.setLayout(new GridBagLayout());
-	gbc.gridx = 0;
-	gbc.gridy = 0;
-	gbc.gridwidth = 1;
-	gbc.gridheight = 1;
-	gbc.weightx = 1.0;
-	gbc.weighty = 1.0;
-	gbc.fill = GridBagConstraints.BOTH;
-	try {
-	    ImageIcon imgIcon = new ImageIcon(getClass().getResource("/gfx/test.jpg"));
-	    Image imgEscalada = imgIcon.getImage().getScaledInstance(200,230, Image.SCALE_SMOOTH);
-	    ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
-	    lblPortrait.setIcon(iconoEscalado);
-	} catch(NullPointerException ex) {
-	    System.out.println("No carga la portada");
-	}
-	pnlPortrait.add(lblPortrait, gbc);*/
+	/*
+	 * JPanel pnlPortrait = new JPanel();
+	 * pnlPortrait.setLayout(new GridBagLayout());
+	 * gbc.gridx = 0;
+	 * gbc.gridy = 0;
+	 * gbc.gridwidth = 1;
+	 * gbc.gridheight = 1;
+	 * gbc.weightx = 1.0;
+	 * gbc.weighty = 1.0;
+	 * gbc.fill = GridBagConstraints.BOTH;
+	 * try {
+	 * ImageIcon imgIcon = new ImageIcon(getClass().getResource("/gfx/test.jpg"));
+	 * Image imgEscalada = imgIcon.getImage().getScaledInstance(200,230,
+	 * Image.SCALE_SMOOTH);
+	 * ImageIcon iconoEscalado = new ImageIcon(imgEscalada);
+	 * lblPortrait.setIcon(iconoEscalado);
+	 * } catch(NullPointerException ex) {
+	 * System.out.println("No carga la portada");
+	 * }
+	 * pnlPortrait.add(lblPortrait, gbc);
+	 */
 
 	// Paneles
 	gbc.gridx = 0;
@@ -197,14 +202,16 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.fill = GridBagConstraints.BOTH;
 	add(pnlBottom, gbc);
 
-	/*gbc.gridx = 4;
-	gbc.gridy = 0;
-	gbc.gridwidth = 2;
-	gbc.gridheight = 4;
-	gbc.weightx = 1.0;
-	gbc.weighty = 1.0;
-	gbc.fill = GridBagConstraints.BOTH;
-	add(pnlPortrait, gbc);*/
+	/*
+	 * gbc.gridx = 4;
+	 * gbc.gridy = 0;
+	 * gbc.gridwidth = 2;
+	 * gbc.gridheight = 4;
+	 * gbc.weightx = 1.0;
+	 * gbc.weighty = 1.0;
+	 * gbc.fill = GridBagConstraints.BOTH;
+	 * add(pnlPortrait, gbc);
+	 */
 
 	jlistGames.addListSelectionListener(this);
 	jlistGames.addMouseListener(this);
@@ -232,8 +239,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setText(" CARGANDO ...");
 	txtLastAchie.setEditable(false);
 	txtSeparator.setEditable(false);
-	txtSeparator.setText("__________________________________________________________________________________________________________________");
-	
+	txtSeparator.setText(
+		"__________________________________________________________________________________________________________________");
+
 	txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
 	txtGamePlaying.setFont(new Font("Serief", Font.BOLD, 12));
 	txtTimePlaying.setFont(new Font("Serief", Font.BOLD, 12));
@@ -251,7 +259,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    public void run() {
 		while (true) {
 		    try {
-			if(gameIdLaunched != 0) loadData();
+			if (gameIdLaunched != 0) {
+			    loadData();
+			}
 			Thread.sleep(600000);
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
@@ -280,16 +290,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelGames mg = new ModelGames();
 	int totalSeconds = mg.getSecondsTotalPlayed();
 	String totalTimePlayed = Utils.getTotalHoursFromSeconds(totalSeconds, true);
-	String lastGame = mc.getLastGame();
-	String lastSession = mc.getLastSessionTime();
 
 	showHidden = mc.getIsHidden();
-	//if(gameIdLaunched == 0) UpdateGameList();
+	// if(gameIdLaunched == 0) UpdateGameList();
 	UpdateGameList();
 	String statistics = " Nombre: " + mc.getUsername() + " | Tiempo total: " + totalTimePlayed;
 	txtStatistics.setText(statistics);
-	
-	String statusBar = statistics + " | " + lastGame + " " + lastSession;
+
+	String statusBar = statistics;
 	MainWindow.updateStatusBar(statusBar);
 
 	int tuno = mg.getLastDays(0, 1, true);
@@ -302,9 +310,12 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
 	String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
 
-	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
+	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce
+		+ " | Mes: " + treinta);
 
-	txtTotalInfo.setText(" Total de juegos: " + mg.getTotalGames() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: " + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions());
+	txtTotalInfo.setText(" Total de juegos: " + mg.getTotalGames() + " | Iniciados: "
+		+ String.valueOf(mg.getCountGamesPlayed()) + " | Completados: "
+		+ String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions());
 
 	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
 	PlayerHistory.tbPlayerHistory.removeAll();
@@ -313,13 +324,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	PlayerActivities.tbPlayerActivities.setModel(mp.getActivities("Todos"));
 	GameList.tblGames.removeAll();
 	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos", "Todos"));
-	if(gameIdLaunched == 0) {
+	if (gameIdLaunched == 0) {
 	    txtGames.setText("");
 	    txtGamesTime.setText("");
 	    // LoadLastSession
 	    txtGamePlaying.setText(mc.getLastGame());
 	    txtTimePlaying.setText(mc.getLastSessionTime());
-	    if(mc.getUsername().equals("PRUEBAS")) {
+	    if (mc.getUsername().equals("PRUEBAS")) {
 		txtStatistics.setForeground(Color.RED);
 		txtTimePlaying.setForeground(Color.RED);
 		txtGamePlaying.setForeground(Color.RED);
@@ -330,7 +341,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtGamesTime.setForeground(Color.RED);
 	    } else {
 		int theme = mc.getTheme();
-		if(theme == 1) {
+		if (theme == 1) {
 		    txtTimePlaying.setForeground(Color.BLACK);
 		    txtGamePlaying.setForeground(Color.BLACK);
 		    txtStatistics.setForeground(Color.BLACK);
@@ -354,36 +365,40 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	ModelGames g = new ModelGames();
 	ArrayList<String> listGames = new ArrayList<>();
 	listGames = g.getGamesNameList(showHidden);
-	for (int i = 1; i < listGames.size(); i++) modelList.addElement(listGames.get(i));
+	for (int i = 1; i < listGames.size(); i++) {
+	    modelList.addElement(listGames.get(i));
+	}
 	jlistGames.setModel(modelList);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == btnEditGame || e.getSource() == mnuiEdit) {
-	    if(gameIdSelected == 0) {
+	MainWindow.j.setLayout(null);
+	if (e.getSource() == btnEditGame || e.getSource() == mnuiEdit) {
+	    if (gameIdSelected == 0) {
 		JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres editar", "Error al editar juego", JOptionPane.ERROR_MESSAGE);
 		return;
 	    }
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
-	} else if(e.getSource() == btnLaunchGame || e.getSource() == mnuiLaunch) {
+	} else if (e.getSource() == btnLaunchGame || e.getSource() == mnuiLaunch) {
 	    launchGame();
 	}
     }
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-	if(e.getSource() == jlistGames) {
+	if (e.getSource() == jlistGames) {
 	    btnEditGame.setEnabled(true);
 	    String s = jlistGames.getSelectedValue();
 	    txtGameName.setText(s);
 	    ModelGames mg = new ModelGames();
 
 	    gameIdSelected = mg.getIdFromGameName(txtGameName.getText());
-	    if(gameIdSelected != 0) {		
+	    if (gameIdSelected != 0) {
 		String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
-		txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: " 
+		txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed + " | Veces jugado: "
+			+ mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
 			+ mg.getDateLastSession(gameIdSelected));
 
 		int tuno = mg.getLastDays(gameIdSelected, 1, true);
@@ -394,22 +409,24 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
 		String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
 		String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
-		txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
+		txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce
+			+ " | 30 dias: " + treinta);
 		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 	    }
 	}
     }
 
     private void launchGame() {
-	if(txtGameName.getText().isEmpty()) {
-	    JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+	if (txtGameName.getText().isEmpty()) {
+	    JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego",
+		    JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
-	if(gameIdLaunched == 0) {
-	    ModelGames g = new ModelGames();
-	    String path = g.getPathFromGame(gameIdSelected);
+	if (gameIdLaunched == 0) {
+	    ModelGames mg = new ModelGames();
+	    String path = mg.getPathFromGame(gameIdSelected);
 	    ProcessBuilder pb;
-	    if (g.isGhost(gameIdSelected)) {
+	    if (mg.isGhost(gameIdSelected)) {
 		pb = new ProcessBuilder("GhostGame.exe");
 	    } else {
 		pb = new ProcessBuilder(path);
@@ -418,7 +435,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    try {
 		p = pb.start();
 		if (p.isAlive()) {
-		    ModelGames mg = new ModelGames();
 		    InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getSecondsPlayed(gameIdSelected));
 		    gameIdLaunched = gameIdSelected;
 
@@ -433,22 +449,28 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				ig.closeGame();
 				loadData();
 			    } catch (InterruptedException ex) {
-				JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+					"No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n"
+						+ ex.getMessage(),
+						"Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 			    }
 			}
 		    }).start();
 		}
 	    } catch (IOException ex) {
-		JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this,
+			"No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(),
+			"Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	    }
 	} else {
-	    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose",
+		    "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	}
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-	if(e.getSource() == jlistGames && e.getClickCount() == 2) {
+	if (e.getSource() == jlistGames && e.getClickCount() == 2) {
 	    launchGame();
 	}
     }
@@ -479,7 +501,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     @Override
     public void keyReleased(KeyEvent e) {
-	if(txtSearch.getText().isEmpty()) {
+	if (txtSearch.getText().isEmpty()) {
 	    UpdateGameList();
 	} else {
 	    jlistGames.removeAll();
@@ -491,8 +513,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    ModelGames g = new ModelGames();
 	    ArrayList<String> listGames = new ArrayList<>();
 	    listGames = g.getGamesNameList(txtSearch.getText());
-	    for (int i = 1; i < listGames.size(); i++)
+	    for (int i = 1; i < listGames.size(); i++) {
 		modelList.addElement(listGames.get(i));
+	    }
 	    jlistGames.setModel(modelList);
 	}
     }

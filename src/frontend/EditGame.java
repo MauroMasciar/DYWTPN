@@ -21,6 +21,7 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import com.raven.datechooser.DateChooser;
 
 import database.ModelGames;
 import backend.Utils;
@@ -87,6 +88,8 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JTextArea txtaNotes = new JTextArea();
     private final JScrollPane scrNotes = new JScrollPane(txtaNotes);
     private final JButton btnSave = new JButton("Guardar");
+    private final DateChooser dcCompletedDate = new DateChooser();
+    private final DateChooser dcReleaseDate = new DateChooser();
     private int gameId;
 
     public EditGame(int gameId) {
@@ -306,6 +309,8 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
 	cbTitle.addActionListener(this);
 	btnSave.addActionListener(this);
+	txtCompletedDate.addActionListener(this);
+	txtReleaseDate.addActionListener(this);
 	chCompleted.addActionListener(this);
 	spinGameTime.addChangeListener(this);
 	txtAdded.setEditable(false);
@@ -322,6 +327,15 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	spinScore.setModel(spinnerNumberModelScore);
 	spinGameTime.setModel(spinnerNumberModelGameTime);
 	spinPlayCount.setModel(spinnerNumberModelPlayCount);
+
+	dcCompletedDate.setDateFormat("yyyy-MM-dd");
+	dcCompletedDate.setTextRefernce(txtCompletedDate);
+	dcCompletedDate.hidePopup();
+	dcReleaseDate.setDateFormat("yyyy-MM-dd");
+	dcReleaseDate.setTextRefernce(txtReleaseDate);
+	dcReleaseDate.hidePopup();
+	
+	txtLastPlayed.setEditable(false);
 
 	if(gameId != 0) {
 	    cbTitle.setSelectedItem(mg.getNameFromId(gameId));
@@ -470,6 +484,10 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == cbTitle) {
 	    loadData(cbTitle.getSelectedItem().toString());
+	} else if(e.getSource() == txtCompletedDate) {
+	    dcCompletedDate.showPopup();
+	} else if(e.getSource() == txtReleaseDate) {
+	    dcReleaseDate.showPopup();
 	} else if(e.getSource() == btnSave) {
 	    ModelGames mg = new ModelGames();
 	    saveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));

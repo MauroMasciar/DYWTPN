@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +24,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import com.raven.datechooser.DateChooser;
 
 import backend.Utils;
 import backend.Validations;
@@ -87,6 +90,8 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     private final JPanel pnlNotes = new JPanel();
     private final JTextArea txtaNotes = new JTextArea();
     private final JScrollPane scrNotes = new JScrollPane(txtaNotes);
+    private final DateChooser dcCompletedDate = new DateChooser();
+    private final DateChooser dcReleaseDate = new DateChooser();
     private final JButton btnSave = new JButton("Guardar");
 
     public AddGame() {
@@ -305,6 +310,8 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	gbc.fill = GridBagConstraints.NONE;
 	add(btnSave, gbc);
 
+	txtCompletedDate.addActionListener(this);
+	txtReleaseDate.addActionListener(this);
 	btnSave.addActionListener(this);
 	spinGameTime.addChangeListener(this);
 	txtAdded.setEditable(false);
@@ -322,6 +329,18 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	spinPlayCount.setModel(spinnerNumberModelPlayCount);
 	txtAdded.setText(Utils.getFormattedDate());
 	txtModified.setText(Utils.getFormattedDateTime());
+	
+	dcCompletedDate.setDateFormat("yyyy-MM-dd");
+	dcCompletedDate.setTextRefernce(txtCompletedDate);
+	dcCompletedDate.hidePopup();
+	dcReleaseDate.setDateFormat("yyyy-MM-dd");
+	dcReleaseDate.setTextRefernce(txtReleaseDate);
+	dcReleaseDate.hidePopup();
+	
+	dcCompletedDate.setSelectedDate(new Date(1));
+	dcReleaseDate.setSelectedDate(new Date(1));
+	
+	txtLastPlayed.setEditable(false);
 
 	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
 	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
@@ -358,7 +377,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
 	if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("1900-01-01");
 	if(Validations.isEmpty(txtLastPlayed)) txtPath.setText("1900-01-01");
-	if(Validations.isEmpty(txtaNotes)) txtaNotes.setText(" ");
+	if(Validations.isEmpty(txtaNotes)) txtaNotes.setText("N/A");
 
 
 	String completed = "0", ghost = "0";
@@ -412,7 +431,11 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     public void actionPerformed(ActionEvent e) {
 	if(e.getSource() == btnSave) {
 	    SaveData();
-	}
+	} else if(e.getSource() == txtCompletedDate) {
+	    dcCompletedDate.showPopup();
+	} else if(e.getSource() == txtReleaseDate) {
+	    dcReleaseDate.showPopup();
+	} 
     }
 
     @Override

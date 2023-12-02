@@ -46,6 +46,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("gfx/update.png"));
     private final JMenuItem mnuiHelpAbout = new JMenuItem("Acerca de", new ImageIcon("gfx/about.png"));
     private final JMenuItem mnuiHelpDebug = new JMenuItem("Debug", new ImageIcon("gfx/debug.png"));
+    private final JMenuItem mnuiGamesExit = new JMenuItem("Salir");
+
     private final JPanel statusBar = new JPanel();
     private static JLabel lblStatusMessage = new JLabel("STATUS BAR", SwingConstants.LEFT);
 
@@ -54,7 +56,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.setIconImage(new ImageIcon(getClass().getResource("/gfx/icon.png")).getImage());
 	} catch (Exception ex) {
 	    ex.printStackTrace();
-	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.",
+		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 
 	j.setLayout(null);
@@ -63,7 +66,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.setBounds(30, 30, 1200, 800);
 	j.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	j.setLocationRelativeTo(null);
-	//j.setExtendedState(MAXIMIZED_BOTH);
+	// j.setExtendedState(MAXIMIZED_BOTH);
 
 	menubar.add(mnuGames);
 	menubar.add(mnuPlayer);
@@ -77,6 +80,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuGames.add(mnuiGamesCollections);
 	mnuGames.addSeparator();
 	mnuGames.add(mnuiGamesRefresh);
+	mnuGames.add(mnuiGamesExit);
 	mnuPlayer.add(mnuiPlayerHistory);
 	mnuPlayer.add(mnuiPlayerActivities);
 	mnuHelp.add(mnuiHelpConfig);
@@ -85,6 +89,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuHelp.addSeparator();
 	mnuHelp.add(mnuiHelpAbout);
 
+	mnuiGamesExit.addActionListener(this);
 	mnuiGamesRefresh.addActionListener(this);
 	mnuiGamesAdd.addActionListener(this);
 	mnuiGamesEdit.addActionListener(this);
@@ -99,7 +104,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiHelpAbout.addActionListener(this);
 	mnuiHelpUpdate.addActionListener(this);
 	mnuiHelpDebug.addActionListener(this);
-	
+
 	statusBar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
 	j.add(new MainUI());
@@ -117,12 +122,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     public void updateGuiStatusBar() {
 	j.setLayout(new BorderLayout());
-	lblStatusMessage.setPreferredSize(new Dimension(j.getWidth()-20,15));
+	lblStatusMessage.setPreferredSize(new Dimension(j.getWidth() - 20, 15));
 	statusBar.add(lblStatusMessage);
 	statusBar.setAlignmentX(LEFT_ALIGNMENT);
 	j.add(statusBar, BorderLayout.SOUTH);
     }
-    
+
     public static void updateStatusBar(String s) {
 	lblStatusMessage.setText(s);
     }
@@ -130,52 +135,67 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     @Override
     public void actionPerformed(ActionEvent e) {
 	j.setLayout(null);
-	if(e.getSource() == mnuiGamesAdd) {
+	if (e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesEdit) {
+	} else if (e.getSource() == mnuiGamesEdit) {
 	    j.add(new EditGame(0));
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesAddSession) {
+	} else if (e.getSource() == mnuiGamesAddSession) {
 	    j.add(new AddSessionGame());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesList) {
+	} else if (e.getSource() == mnuiGamesList) {
 	    j.add(new GameList());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesHidden) {
+	} else if (e.getSource() == mnuiGamesHidden) {
 	    ModelConfig mc = new ModelConfig();
-	    if(mnuiGamesHidden.isSelected()) {
+	    if (mnuiGamesHidden.isSelected()) {
 		mc.setIsHidden(1);
 	    } else {
 		mc.setIsHidden(0);
 	    }
 	    MainUI.loadData();
-	} else if(e.getSource() == mnuiGamesCategory) {
+	} else if (e.getSource() == mnuiGamesExit) {
+	    if (!Main.test) {
+		ExitApplication();
+	    }
+	} else if (e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesCollections) {
+	} else if (e.getSource() == mnuiGamesCollections) {
 	    j.add(new Collections());
 	    j.repaint();
-	} else if(e.getSource() == mnuiHelpConfig) {
+	} else if (e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());
 	    j.repaint();
-	} else if(e.getSource() == mnuiPlayerActivities) {
+	} else if (e.getSource() == mnuiPlayerActivities) {
 	    j.add(new PlayerActivities());
 	    j.repaint();
-	} else if(e.getSource() == mnuiPlayerHistory) {
+	} else if (e.getSource() == mnuiPlayerHistory) {
 	    j.add(new PlayerHistory());
 	    j.repaint();
-	} else if(e.getSource() == mnuiGamesRefresh) {
+	} else if (e.getSource() == mnuiGamesRefresh) {
 	    MainUI.loadData();
-	} else if(e.getSource() == mnuiHelpUpdate) {
+	} else if (e.getSource() == mnuiHelpUpdate) {
 	    j.add(new UpdateGUI());
 	    j.repaint();
 	} else if (e.getSource() == mnuiHelpAbout) {
 	    j.add(new About());
 	    j.repaint();
-	} else if(e.getSource() == mnuiHelpDebug) {
+	} else if (e.getSource() == mnuiHelpDebug) {
 	    j.add(new debug.LogGUI());
 	    j.repaint();
+	}
+    }
+
+    private static void ExitApplication() {
+	try {
+	    Main.p.destroy();
+	} catch (NullPointerException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	} finally {
+	    System.exit(0);
 	}
     }
 
@@ -187,22 +207,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     @Override
     public void windowClosing(WindowEvent e) {
-	if(!Main.test) {
-	    try {
-		Main.p.destroy();
-	    } catch(NullPointerException ex) {
-		Log.Loguear(ex.getMessage());
-		ex.printStackTrace();
-	    } finally {
-		System.exit(0);
-	    }   
+	if (!Main.test) {
+	    ExitApplication();
 	}
     }
-    
+
     public void windowStateChanged(WindowEvent e) {
 	updateGuiStatusBar();
     }
-    
+
     public void componentResized(ComponentEvent e) {
 	updateGuiStatusBar();
     }
@@ -228,14 +241,14 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     }
 
     public void componentMoved(ComponentEvent e) {
-	
+
     }
 
     public void componentShown(ComponentEvent e) {
-	
+
     }
 
     public void componentHidden(ComponentEvent e) {
-	
+
     }
 }
