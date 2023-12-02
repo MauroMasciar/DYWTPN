@@ -31,7 +31,7 @@ public class Splash extends JDialog {
 	add(lblImg, gbc);
 
 	setVisible(true);
-	
+
 	new Thread(new Runnable() {
 	    public void run() {
 		try {

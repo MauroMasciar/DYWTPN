@@ -413,7 +413,8 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	int score = (Integer) spinScore.getValue();
 	int gameTime = (Integer) spinGameTime.getValue();
 	int playCount = (Integer) spinPlayCount.getValue();
-	int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
+	//int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
+	int category = 1;
 
 	int res = mg.addGame(name, gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 

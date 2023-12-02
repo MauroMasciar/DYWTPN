@@ -45,6 +45,8 @@ public class ModelConfig {
 	    query = "INSERT INTO config (name) VALUES ('Usuario')";
 	    stmt.execute(query);
 
+	    query = "INSERT INTO category (name_category) VALUES ('NULL')";
+	    stmt.execute(query);
 	    query = "INSERT INTO category (name_category) VALUES ('Ninguna')";
 	    stmt.execute(query);
 
@@ -66,7 +68,7 @@ public class ModelConfig {
 	String query = "SELECT name FROM config";
 	String name = "";
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
@@ -88,7 +90,7 @@ public class ModelConfig {
 	String query = "SELECT last_game FROM config";
 	String last_game = "";
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
@@ -110,7 +112,7 @@ public class ModelConfig {
 	String query = "SELECT last_session_time FROM config";
 	String last_session_time = "";
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) {
@@ -132,7 +134,7 @@ public class ModelConfig {
 	String query = "SELECT show_hidden FROM config";
 	int sH = 0;
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) sH = rs.getInt("show_hidden");
@@ -150,7 +152,7 @@ public class ModelConfig {
     public void setIsHidden(int args) {
 	String query = "UPDATE config SET show_hidden = " + args;
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    stmt.execute(query);
 	    stmt.close();
@@ -164,7 +166,7 @@ public class ModelConfig {
     public void saveUserName(String newName) {
 	String query = "UPDATE config SET name = '" + newName + "';";
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    stmt.execute(query);
 	    stmt.close();
@@ -179,7 +181,7 @@ public class ModelConfig {
 	int x = 30;
 	String query = "";
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    if(window.equals("MainUI")) query = "SELECT MainUI_x FROM config";
 	    else if(window.equals("Activity")) query = "SELECT Activity_x FROM config";
@@ -208,7 +210,7 @@ public class ModelConfig {
 	int y = 30;
 	String query = "";
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    if(window.equals("MainUI")) query = "SELECT MainUI_y FROM config";
 	    else if(window.equals("Activity")) query = "SELECT Activity_y FROM config";
@@ -235,7 +237,7 @@ public class ModelConfig {
 	if(window.equals("History")) query = "UPDATE config SET History_x = ?, History_y = ?";
 
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = this.conex.prepareStatement(query);
 	    p.setInt(1, x);
 	    p.setInt(2, y);
@@ -251,7 +253,7 @@ public class ModelConfig {
     public int Update(String query) {
 	int r = 0;
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    r = stmt.executeUpdate(query);
 	    stmt.close();
@@ -268,7 +270,7 @@ public class ModelConfig {
 	String query = "SELECT theme FROM config";
 	int r = 1;
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = this.conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if(rs.next()) r = rs.getInt("theme");
@@ -285,7 +287,7 @@ public class ModelConfig {
     public void setTheme(int theme) {
 	String query = "UPDATE config SET theme = ?";
 	try {
-	    this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = this.conex.prepareStatement(query);
 	    p.setInt(1, theme);
 	    p.executeUpdate();
