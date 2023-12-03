@@ -38,6 +38,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
     private final JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("gfx/category.png"));
     private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("gfx/collections.png"));
+    private final JMenu mnuGamesStatistics = new JMenu("Estadisticas");
+    private final JMenuItem mnuiGamesStatisticsPlayCount = new JMenuItem("Sesiones");
     private final JMenu mnuPlayer = new JMenu("Jugador");
     private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("gfx/history.png"));
     private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("gfx/activity.png"));
@@ -83,6 +85,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuGames.add(mnuiGamesExit);
 	mnuPlayer.add(mnuiPlayerHistory);
 	mnuPlayer.add(mnuiPlayerActivities);
+	mnuPlayer.add(mnuGamesStatistics);
+	mnuGamesStatistics.add(mnuiGamesStatisticsPlayCount);
 	mnuHelp.add(mnuiHelpConfig);
 	mnuHelp.add(mnuiHelpDebug);
 	mnuHelp.add(mnuiHelpUpdate);
@@ -100,6 +104,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiGamesHidden.addActionListener(this);
 	mnuiHelpConfig.addActionListener(this);
 	mnuiPlayerActivities.addActionListener(this);
+	mnuiGamesStatisticsPlayCount.addActionListener(this);
 	mnuiPlayerHistory.addActionListener(this);
 	mnuiHelpAbout.addActionListener(this);
 	mnuiHelpUpdate.addActionListener(this);
@@ -137,16 +142,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	j.setLayout(null);
 	if (e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
-	    j.repaint();
 	} else if (e.getSource() == mnuiGamesEdit) {
 	    j.add(new EditGame(0));
-	    j.repaint();
 	} else if (e.getSource() == mnuiGamesAddSession) {
 	    j.add(new AddSessionGame());
-	    j.repaint();
 	} else if (e.getSource() == mnuiGamesList) {
 	    j.add(new GameList());
-	    j.repaint();
 	} else if (e.getSource() == mnuiGamesHidden) {
 	    ModelConfig mc = new ModelConfig();
 	    if (mnuiGamesHidden.isSelected()) {
@@ -161,31 +162,27 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    }
 	} else if (e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
-	    j.repaint();
 	} else if (e.getSource() == mnuiGamesCollections) {
 	    j.add(new Collections());
-	    j.repaint();
 	} else if (e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());
-	    j.repaint();
 	} else if (e.getSource() == mnuiPlayerActivities) {
 	    j.add(new PlayerActivities());
-	    j.repaint();
+	} else if(e.getSource() == mnuiGamesStatisticsPlayCount) {
+	    j.add(new StatisticsPlayCount());
 	} else if (e.getSource() == mnuiPlayerHistory) {
 	    j.add(new PlayerHistory());
-	    j.repaint();
 	} else if (e.getSource() == mnuiGamesRefresh) {
 	    MainUI.loadData();
 	} else if (e.getSource() == mnuiHelpUpdate) {
 	    j.add(new UpdateGUI());
-	    j.repaint();
 	} else if (e.getSource() == mnuiHelpAbout) {
 	    j.add(new About());
-	    j.repaint();
 	} else if (e.getSource() == mnuiHelpDebug) {
 	    j.add(new debug.LogGUI());
-	    j.repaint();
 	}
+	
+	j.repaint();
     }
 
     private static void ExitApplication() {

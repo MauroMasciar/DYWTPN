@@ -7,7 +7,7 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.4.60";
+    public static final String VERSIONAPP = "1.2.4.63";
     public static boolean test = false;
 
     public static void main(String[] args) {

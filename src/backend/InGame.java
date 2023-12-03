@@ -99,6 +99,12 @@ public class InGame {
 	else if(gameTimePlayedTotal == HOUR_GAME * 5000) achiev = "Has alcanzado 5000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
 	else if(gameTimePlayedTotal == HOUR_GAME * 10000) achiev = "Has alcanzado 10000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
 
+	if(achiev != "") {
+	    ModelPlayer mp = new ModelPlayer();
+	    mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+	}
+
+	achiev = "";
 	if(sessionCount != 0) {
 	    if(sessionCount == 100) achiev = "Has jugado 100 veces a " + mg.getNameFromId(gameIdLaunched);
 	    else if(sessionCount == 250) achiev = "Has jugado 250 veces a " + mg.getNameFromId(gameIdLaunched);
@@ -108,8 +114,14 @@ public class InGame {
 	    else if(sessionCount == 2500) achiev = "Has jugado 2500 veces a " + mg.getNameFromId(gameIdLaunched);
 	    else if(sessionCount == 5000) achiev = "Has jugado 5000 veces a " + mg.getNameFromId(gameIdLaunched);
 	    else if(sessionCount == 10000) achiev = "Has jugado 10000 veces a " + mg.getNameFromId(gameIdLaunched);
+
+	    if(achiev != "") {
+		ModelPlayer mp = new ModelPlayer();
+		mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+	    }
 	}
-	
+
+	achiev = "";
 	if(totalSessionCount != 0) {
 	    if(totalSessionCount == 100) achiev = "Has tenido 100 sesiones de juego hasta ahora";
 	    else if(totalSessionCount == 250) achiev = "Has tenido 250 sesiones de juego hasta ahora";
@@ -119,13 +131,14 @@ public class InGame {
 	    else if(totalSessionCount == 2500) achiev = "Has tenido 2500 sesiones de juego hasta ahora";
 	    else if(totalSessionCount == 5000) achiev = "Has tenido 5000 sesiones de juego hasta ahora";
 	    else if(totalSessionCount == 10000) achiev = "Has tenido 10000 sesiones de juego hasta ahora";
+
+	    if(achiev != "") {
+		ModelPlayer mp = new ModelPlayer();
+		mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+	    }
 	}
 
-	if(achiev != "") {
-	    ModelPlayer mp = new ModelPlayer();
-	    mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
-	    MainUI.loadData();
-	}
+	MainUI.loadData();
     }
 
     public void closeGame() {
@@ -133,7 +146,11 @@ public class InGame {
 	    String sGameTimePlayed = " Jugaste durante: " + hour + ":" + sMinute + ":" + sSecond;
 	    ModelGames mg = new ModelGames();
 	    mg.closeGame(gameIdLaunched, gameTimePlayed, gameName, sGameTimePlayed);
-	    int count = mg.newSession(gameIdLaunched);
+	    int count = 0;
+	    if(gameTimePlayed > 60) {
+		count = mg.newSession(gameIdLaunched);
+	    }
+	    
 	    checkAchievement(count, mg.getTotalSessions());
 
 	    gameIdLaunched = 0;
