@@ -45,8 +45,6 @@ public class ModelConfig {
 	    query = "INSERT INTO config (name) VALUES ('Usuario')";
 	    stmt.execute(query);
 
-	    query = "INSERT INTO category (name_category) VALUES ('NULL')";
-	    stmt.execute(query);
 	    query = "INSERT INTO category (name_category) VALUES ('Ninguna')";
 	    stmt.execute(query);
 
@@ -56,6 +54,8 @@ public class ModelConfig {
 	    stmt.close();
 	    this.conex.close();
 	    Log.Loguear("Datos borrados");
+	    JOptionPane.showMessageDialog(null, "La aplicacion se cerrara", "Datos borrados", JOptionPane.INFORMATION_MESSAGE);
+	    System.exit(0);
 	    return 1;
 	} catch (SQLException ex) {
 	    Log.Loguear(ex.getMessage());
@@ -281,6 +281,7 @@ public class ModelConfig {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
+	Log.Loguear("getTheme: " + r);
 	return r;
     }
 
@@ -298,16 +299,17 @@ public class ModelConfig {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
+	Log.Loguear("setTheme: " + theme);
     }
 
     public static void loadTheme(int theme) {
 	try {
 	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
 	    else if(theme == 2) UIManager.setLookAndFeel(new FlatMacDarkLaf());
-	    else if(theme == 3) UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 	} catch (Exception ex) {
 	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
 	    ex.printStackTrace();
 	}
+	Log.Loguear("loadTheme: " + theme);
     }
 }

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -319,6 +318,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	LoadCategory();
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
+	txtPath.setToolTipText("Especifique la ruta completa al .exe");
 
 	spinnerNumberModelScore.setMinimum(0);
 	spinnerNumberModelScore.setMaximum(10);
@@ -354,7 +354,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	listCategory.clear();
 	ModelGames mg = new ModelGames();
 	listCategory = mg.getCategoryList();
-	for(int i = 1; i < listCategory.size(); i++) {
+	for(int i = 0; i < listCategory.size(); i++) {
 	    cbCategory.addItem(listCategory.get(i));
 	}
     }

@@ -324,7 +324,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    // LoadLastSession
 	    txtGamePlaying.setText(mc.getLastGame());
 	    txtTimePlaying.setText(mc.getLastSessionTime());
-	    if (mc.getUsername().equals("PRUEBAS")) {
+	    if(mc.getUsername().equals("PRUEBAS")) {
 		txtStatistics.setForeground(Color.RED);
 		txtTimePlaying.setForeground(Color.RED);
 		txtGamePlaying.setForeground(Color.RED);
@@ -335,6 +335,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtGamesTime.setForeground(Color.RED);
 	    } else {
 		int theme = mc.getTheme();
+		Log.Loguear("a");
 		if(theme == 1) {
 		    txtTimePlaying.setForeground(Color.BLACK);
 		    txtGamePlaying.setForeground(Color.BLACK);

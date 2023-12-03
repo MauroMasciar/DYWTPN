@@ -122,7 +122,6 @@ public class Config extends JInternalFrame implements ActionListener {
 
 	btnSave.addActionListener(this);
 	btnTruncate.addActionListener(this);
-	cbTheme.addActionListener(this);
 
 	loadData();
 
@@ -134,7 +133,6 @@ public class Config extends JInternalFrame implements ActionListener {
     public void loadData() {
 	cbTheme.addItem("Claro");
 	cbTheme.addItem("Oscuro");
-	cbTheme.addItem("Sistema");
 	
 	ModelConfig mc = new ModelConfig();
 	txtName.setText(mc.getUsername());
@@ -147,14 +145,12 @@ public class Config extends JInternalFrame implements ActionListener {
 	int theme = mc.getTheme();
 	if(theme == 1) cbTheme.setSelectedItem("Claro");
 	else if(theme == 2) cbTheme.setSelectedItem("Oscuro");
-	else if(theme == 3) cbTheme.setSelectedItem("Sistema");
     }
 
     public void setTheme() {
 	ModelConfig mc = new ModelConfig();
 	if(cbTheme.getSelectedItem().equals("Claro")) mc.setTheme(1);
 	else if(cbTheme.getSelectedItem().equals("Oscuro")) mc.setTheme(2);
-	else if(cbTheme.getSelectedItem().equals("Sistema")) mc.setTheme(3);
     }
 
     @Override
@@ -192,8 +188,6 @@ public class Config extends JInternalFrame implements ActionListener {
 		ex.printStackTrace();
 		JOptionPane.showMessageDialog(this, "Algunos campos tienen datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 	    }
-	} else if(e.getSource() == cbTheme) {
-	    setTheme();
 	}
     }
 }

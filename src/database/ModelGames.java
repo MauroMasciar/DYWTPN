@@ -20,9 +20,9 @@ public class ModelGames {
     private static ResultSet rs;
     private ArrayList<String> gameName = new ArrayList<>();
 
-    public void newSession(int gameId) {
+    public int newSession(int gameId) {
 	String query = "SELECT play_count FROM games WHERE id = " + gameId;
-	int play_count;
+	int play_count = 0;
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
@@ -39,6 +39,7 @@ public class ModelGames {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
+	return play_count;
     }
 
     public DefaultTableModel getFilteredGameList(String name, String completed, String category) {

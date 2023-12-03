@@ -75,8 +75,9 @@ public class Category extends JInternalFrame implements ActionListener {
 	ModelGames mg = new ModelGames();
 	ArrayList<String> category = mg.getCategoryList();
 	cbCategory.removeAllItems();
-	for (int i = 0; i < category.size(); i++)
+	for (int i = 0; i < category.size(); i++) {
 	    cbCategory.addItem(category.get(i));
+	}   
     }
 
     @Override
