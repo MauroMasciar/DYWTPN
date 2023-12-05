@@ -318,7 +318,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	LoadCategory();
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
-	txtPath.setToolTipText("Especifique la ruta completa al .exe");
+	txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
 
 	spinnerNumberModelScore.setMinimum(0);
 	spinnerNumberModelScore.setMaximum(10);
@@ -372,14 +372,11 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("N/A");
 	if(Validations.isEmpty(txtVersion)) txtVersion.setText("N/A");
 	if(Validations.isEmpty(txtRegion)) txtRegion.setText("N/A");
-	if(Validations.isEmpty(txtGameName)) txtGameName.setText("N/A");
-	if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
 	if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
 	if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("1900-01-01");
-	if(Validations.isEmpty(txtLastPlayed)) txtPath.setText("1900-01-01");
+	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01");
 	if(Validations.isEmpty(txtaNotes)) txtaNotes.setText("N/A");
-
-
+	
 	String completed = "0", ghost = "0";
 	int hide = 0, favorite = 0, broken = 0, portable = 0;
 	ModelGames mg = new ModelGames();
@@ -413,8 +410,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	int score = (Integer) spinScore.getValue();
 	int gameTime = (Integer) spinGameTime.getValue();
 	int playCount = (Integer) spinPlayCount.getValue();
-	//int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
-	int category = 1;
+	int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
 	int res = mg.addGame(name, gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 

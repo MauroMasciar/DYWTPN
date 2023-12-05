@@ -319,6 +319,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	loadGameList();
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
+	txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
 
 	spinnerNumberModelScore.setMinimum(0);
 	spinnerNumberModelScore.setMaximum(10);

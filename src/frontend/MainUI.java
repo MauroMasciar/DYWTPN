@@ -335,7 +335,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtGamesTime.setForeground(Color.RED);
 	    } else {
 		int theme = mc.getTheme();
-		Log.Loguear("a");
 		if(theme == 1) {
 		    txtTimePlaying.setForeground(Color.BLACK);
 		    txtGamePlaying.setForeground(Color.BLACK);

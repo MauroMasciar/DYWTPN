@@ -40,6 +40,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("gfx/collections.png"));
     private final JMenu mnuGamesStatistics = new JMenu("Estadisticas");
     private final JMenuItem mnuiGamesStatisticsPlayCount = new JMenuItem("Sesiones");
+    private final JMenuItem mnuiGamesStatisticsTotalHours = new JMenuItem("Tiempo");
     private final JMenu mnuPlayer = new JMenu("Jugador");
     private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("gfx/history.png"));
     private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("gfx/activity.png"));
@@ -58,8 +59,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.setIconImage(new ImageIcon(getClass().getResource("/gfx/icon.png")).getImage());
 	} catch (Exception ex) {
 	    ex.printStackTrace();
-	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.",
-		    "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
 
 	j.setLayout(null);
@@ -87,6 +87,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuPlayer.add(mnuiPlayerActivities);
 	mnuPlayer.add(mnuGamesStatistics);
 	mnuGamesStatistics.add(mnuiGamesStatisticsPlayCount);
+	mnuGamesStatistics.add(mnuiGamesStatisticsTotalHours);
 	mnuHelp.add(mnuiHelpConfig);
 	mnuHelp.add(mnuiHelpDebug);
 	mnuHelp.add(mnuiHelpUpdate);
@@ -105,6 +106,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiHelpConfig.addActionListener(this);
 	mnuiPlayerActivities.addActionListener(this);
 	mnuiGamesStatisticsPlayCount.addActionListener(this);
+	mnuiGamesStatisticsTotalHours.addActionListener(this);
 	mnuiPlayerHistory.addActionListener(this);
 	mnuiHelpAbout.addActionListener(this);
 	mnuiHelpUpdate.addActionListener(this);
@@ -170,6 +172,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.add(new PlayerActivities());
 	} else if(e.getSource() == mnuiGamesStatisticsPlayCount) {
 	    j.add(new StatisticsPlayCount());
+	} else if(e.getSource() == mnuiGamesStatisticsTotalHours) {
+	    j.add(new StatisticsTotalHours());
 	} else if (e.getSource() == mnuiPlayerHistory) {
 	    j.add(new PlayerHistory());
 	} else if (e.getSource() == mnuiGamesRefresh) {

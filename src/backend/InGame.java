@@ -102,6 +102,7 @@ public class InGame {
 	if(achiev != "") {
 	    ModelPlayer mp = new ModelPlayer();
 	    mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+	    MainUI.loadData();
 	}
 
 	achiev = "";
@@ -118,6 +119,7 @@ public class InGame {
 	    if(achiev != "") {
 		ModelPlayer mp = new ModelPlayer();
 		mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+		MainUI.loadData();
 	    }
 	}
 
@@ -135,10 +137,9 @@ public class InGame {
 	    if(achiev != "") {
 		ModelPlayer mp = new ModelPlayer();
 		mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+		MainUI.loadData();
 	    }
 	}
-
-	MainUI.loadData();
     }
 
     public void closeGame() {

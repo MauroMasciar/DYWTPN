@@ -7,7 +7,7 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.4.63";
+    public static final String VERSIONAPP = "1.2.4.68";
     public static boolean test = false;
 
     public static void main(String[] args) {
@@ -15,8 +15,10 @@ public class Main {
 	    new Thread(new Runnable() {
 		public void run() {
 		    try {
-			ProcessBuilder pb = new ProcessBuilder("core\\mysql\\bin\\mysqld_z.exe");
-			p = pb.start();
+			//ProcessBuilder pb = new ProcessBuilder(string);
+			//p = pb.start();
+			String string = "core\\mysql\\bin\\mysqld_z.exe --port 3308";
+			p = Runtime.getRuntime().exec(string);
 			@SuppressWarnings("unused")
 			Splash splash = new Splash();
 			Thread.sleep(1000);

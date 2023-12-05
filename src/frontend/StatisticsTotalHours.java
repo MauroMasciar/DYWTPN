@@ -15,16 +15,16 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import database.ModelGames;
 
-public class StatisticsPlayCount extends JInternalFrame {
-    private JFreeChart barChart = ChartFactory.createBarChart("", "Juegos", "Sesiones", createData(), PlotOrientation.VERTICAL, true, true, false);
+public class StatisticsTotalHours extends JInternalFrame {
+    private JFreeChart barChart = ChartFactory.createBarChart("", "Juegos", "Horas", createData(), PlotOrientation.VERTICAL, true, true, false);
 
-    public StatisticsPlayCount() {
+    public StatisticsTotalHours() {
 	ModelGames mg = new ModelGames();
 	if(mg.getTotalGames() == 0) {
 	    JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
-	setTitle("Estadisticas de sesiones");
+	setTitle("Estadisticas de tiempo de juego");
 	setSize(850, 550);
 	setClosable(true);
 	setResizable(true);
@@ -46,7 +46,7 @@ public class StatisticsPlayCount extends JInternalFrame {
 	int id, count;
 	for(int i = 0; i < gameNameList.size(); i++) {
 	    id = mg.getIdFromGameName(gameNameList.get(i));
-	    count = mg.getPlayCount(id);
+	    count = mg.getMinsPlayed(id) / 60;
 	    if(count > 0) {
 		dataset.addValue(count, gameNameList.get(i), "");
 	    }
