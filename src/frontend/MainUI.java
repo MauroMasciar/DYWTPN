@@ -40,7 +40,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static DefaultListModel<String> modelList = new DefaultListModel<>();
     private final JTextField txtSearch = new JTextField(20);
     private static final JTextField txtGameName = new JTextField(20);
-    private static final JTextField txtMinsPlayed = new JTextField(20);
+    private final static JTextField txtLibrary = new JTextField(20);
     private static final JTextField txtCategory = new JTextField(20);
     private final JTextField txtPathGame = new JTextField(20);
     private static final JButton btnLaunchGame = new JButton("Lanzar");
@@ -136,7 +136,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	gbc.fill = GridBagConstraints.BOTH;
 	pnlBottom.add(txtGameName, gbc);
 	gbc.gridx++;
-	pnlBottom.add(txtMinsPlayed, gbc);
+	pnlBottom.add(txtLibrary, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	pnlBottom.add(txtCategory, gbc);
@@ -218,26 +218,31 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	btnEditGame.addActionListener(this);
 
 	txtSearch.addKeyListener(this);
+	
+	txtStatistics.setText(" CARGANDO ...");
+	txtLastDays.setText(" CARGANDO ...");
+	txtTotalInfo.setText(" CARGANDO ...");
+	txtGamePlaying.setText(" CARGANDO ...");
+	txtTimePlaying.setText(" CARGANDO ...");
+	txtLastAchie.setText(" CARGANDO ...");
+	
 
 	txtGameName.setEditable(false);
-	txtMinsPlayed.setEditable(false);
-	txtStatistics.setText(" CARGANDO ...");
+	txtLibrary.setEditable(false);
 	txtStatistics.setEditable(false);
-	txtLastDays.setText(" CARGANDO ...");
 	txtLastDays.setEditable(false);
-	txtTotalInfo.setText(" CARGANDO ...");
 	txtTotalInfo.setEditable(false);
 	txtGames.setEditable(false);
 	txtGamesTime.setEditable(false);
 	txtGamePlaying.setEditable(false);
-	txtGamePlaying.setText(" CARGANDO ...");
 	txtTimePlaying.setEditable(false);
-	txtTimePlaying.setText(" CARGANDO ...");
-	txtLastAchie.setText(" CARGANDO ...");
 	txtLastAchie.setEditable(false);
+	txtCategory.setEditable(false);
 	txtSeparator.setEditable(false);
+	
 	txtSeparator.setText("__________________________________________________________________________________________________________________");
 
+	txtGameName.setFont(new Font("Serief", Font.BOLD, 12));
 	txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
 	txtGamePlaying.setFont(new Font("Serief", Font.BOLD, 12));
 	txtTimePlaying.setFont(new Font("Serief", Font.BOLD, 12));
@@ -246,11 +251,12 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtTotalInfo.setFont(new Font("Serief", Font.BOLD, 12));
 	txtGames.setFont(new Font("Serief", Font.BOLD, 12));
 	txtGamesTime.setFont(new Font("Serief", Font.BOLD, 12));
+	txtLibrary.setFont(new Font("Serief", Font.BOLD, 12));
+	txtCategory.setFont(new Font("Serief", Font.BOLD, 12));
 
-	txtCategory.setEditable(false);
 	txtPathGame.setEnabled(false);
 	btnEditGame.setEnabled(false);
-
+	
 	new Thread(new Runnable() {
 	    public void run() {
 		while (true) {
@@ -349,7 +355,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     public static void paint() {
 	ModelConfig mc = new ModelConfig();
-	if (gameIdLaunched == 0) {	    
+	if(gameIdLaunched == 0) {	    
 	    if(mc.getUsername().equals("PRUEBAS")) {
 		txtStatistics.setForeground(Color.RED);
 		txtTimePlaying.setForeground(Color.RED);
@@ -395,6 +401,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		    Thread.sleep(500);
 		    loadTables();
 		    Thread.sleep(500);
+		    
 		    verifyLoadStatistics();
 		    Thread.sleep(500);
 		    verifyLoadLastDays();
@@ -446,7 +453,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	jlistGames.removeAll();
 	modelList.clear();
 	txtGameName.setText("");
-	txtMinsPlayed.setText("");
+	txtLibrary.setText("");
 	txtCategory.setText("");
 
 	ModelGames g = new ModelGames();
@@ -497,6 +504,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
 		txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
 		txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
+		txtLibrary.setText(mg.getLibraryName(gameIdSelected));
 	    }
 	}
     }
@@ -585,7 +593,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    jlistGames.removeAll();
 	    modelList.clear();
 	    txtGameName.setText("");
-	    txtMinsPlayed.setText("");
+	    txtLibrary.setText("");
 	    txtCategory.setText("");
 
 	    ModelGames g = new ModelGames();

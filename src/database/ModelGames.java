@@ -1381,7 +1381,7 @@ public class ModelGames {
 	return resultado;
     }
 
-    public Object getLibraryName(int gameId) {
+    public String getLibraryName(int gameId) {
 	String query = "SELECT library.name FROM `games` inner join library on library.id = games.library where games.id = " + gameId;
 	String library = "Ninguna";
 	try {
@@ -1398,7 +1398,6 @@ public class ModelGames {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
-	System.out.println(library);
 	return library;
     }
 

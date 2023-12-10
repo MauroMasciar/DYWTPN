@@ -111,7 +111,6 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	    int minsPlayed = (Integer) spinTime.getValue();
 	    int gameId = mg.getIdFromGameName(cbGame.getSelectedItem().toString());
 	    if(mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), minsPlayed, txtDate.getText()) == 1) {
-		//txtDate.setText("");
 		ModelGames mg = new ModelGames();
 		mg.setLastPlayed(gameId);
 		mg.newSession(gameId);

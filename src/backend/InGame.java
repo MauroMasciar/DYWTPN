@@ -103,7 +103,7 @@ public class InGame {
 	if(achiev != "") {
 	    ModelPlayer mp = new ModelPlayer();
 	    mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
-	    MainUI.loadData();
+	    MainUI.loadAchievs();
 	}
 
 	achiev = "";
@@ -120,7 +120,7 @@ public class InGame {
 	    if(achiev != "") {
 		ModelPlayer mp = new ModelPlayer();
 		mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
-		MainUI.loadData();
+		MainUI.loadAchievs();
 	    }
 	}
 
@@ -138,7 +138,7 @@ public class InGame {
 	    if(achiev != "") {
 		ModelPlayer mp = new ModelPlayer();
 		mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
-		MainUI.loadData();
+		MainUI.loadAchievs();
 	    }
 	}
     }
@@ -152,7 +152,7 @@ public class InGame {
 	    if(gameTimePlayed > 60) {
 		count = mg.newSession(gameIdLaunched);
 	    }
-	    
+
 	    checkAchievement(count, mg.getTotalSessions());
 
 	    gameIdLaunched = 0;
@@ -162,7 +162,15 @@ public class InGame {
 		public void run() {
 		    try {
 			Thread.sleep(1000);
-			MainUI.loadData();
+			MainUI.loadGames();
+			Thread.sleep(500);
+			MainUI.loadStatistics();
+			Thread.sleep(500);
+			MainUI.loadLastDays();
+			Thread.sleep(500);
+			MainUI.loadTotal();
+			Thread.sleep(500);
+			MainUI.loadLast();
 		    } catch (InterruptedException ex) {
 			Log.Loguear(ex.getMessage());
 		    }
