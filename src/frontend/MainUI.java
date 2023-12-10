@@ -266,36 +266,42 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    }
 	}).start();
 
-	new Thread(new Runnable() {
+	/*new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    Thread.sleep(500);
+		    Thread.sleep(1000);
 		    loadData();
 		} catch (InterruptedException ex) {
 		    ex.printStackTrace();
 		}
 	    }
-	}).start();
+	}).start();*/
 
 	setVisible(true);
     }
 
-    public static void loadData() {
+    public static void loadGames() {
 	ModelConfig mc = new ModelConfig();
-	ModelPlayer mp = new ModelPlayer();
+	showHidden = mc.getIsHidden();
+	UpdateGameList();
+    }
+
+    public static void loadStatistics() {
+	ModelConfig mc = new ModelConfig();
 	ModelGames mg = new ModelGames();
 	int totalSeconds = mg.getSecondsTotalPlayed();
 	String totalTimePlayed = Utils.getTotalHoursFromSeconds(totalSeconds, true);
 
-	showHidden = mc.getIsHidden();
-	// if(gameIdLaunched == 0) UpdateGameList();
-	UpdateGameList();
+
 	String statistics = " Nombre: " + mc.getUsername() + " | Tiempo total: " + totalTimePlayed;
 	txtStatistics.setText(statistics);
 
 	String statusBar = statistics;
 	MainWindow.updateStatusBar(statusBar);
+    }
 
+    public static void loadLastDays() {
+	ModelGames mg = new ModelGames();
 	int tuno = mg.getLastDays(0, 1, true);
 	int tsiete = mg.getLastDays(0, 7, true);
 	int tcatorce = mg.getLastDays(0, 14, true);
@@ -307,24 +313,43 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
 
 	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
+    }
 
+    public static void loadTotal() {
+	ModelGames mg = new ModelGames();
 	String totalInfo = " Total de juegos: " + mg.getTotalGames() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: "
 		+ String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions();
 	txtTotalInfo.setText(totalInfo);
+    }
 
+    public static void loadAchievs() {
+	ModelPlayer mp = new ModelPlayer();
 	String lastAchie = " Ultima hazaña: " + mp.getLastAchievement();
 	txtLastAchie.setText(lastAchie);
+    }
+
+    public static void loadTables() {
+	ModelPlayer mp = new ModelPlayer();
+	ModelGames mg = new ModelGames();
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
 	PlayerActivities.tbPlayerActivities.removeAll();
 	PlayerActivities.tbPlayerActivities.setModel(mp.getActivities("Todos"));
 	GameList.tblGames.removeAll();
 	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos", "Todos"));
-	if (gameIdLaunched == 0) {
-	    txtGames.setText("");
-	    txtGamesTime.setText("");
-	    txtGamePlaying.setText(mc.getLastGame());
-	    txtTimePlaying.setText(mc.getLastSessionTime());
+    }
+
+    public static void loadLast() {
+	ModelConfig mc = new ModelConfig();
+	txtGames.setText("");
+	txtGamesTime.setText("");
+	txtGamePlaying.setText(mc.getLastGame());
+	txtTimePlaying.setText(mc.getLastSessionTime());
+    }
+
+    public static void paint() {
+	ModelConfig mc = new ModelConfig();
+	if (gameIdLaunched == 0) {	    
 	    if(mc.getUsername().equals("PRUEBAS")) {
 		txtStatistics.setForeground(Color.RED);
 		txtTimePlaying.setForeground(Color.RED);
@@ -350,6 +375,73 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	}
     }
 
+    public static void loadData() {
+	new Thread(new Runnable() {
+	    public void run() {
+		try {
+		    loadGames();
+		    Thread.sleep(500);
+		    loadStatistics();
+		    Thread.sleep(500);
+		    loadLastDays();
+		    Thread.sleep(500);
+		    loadTotal();
+		    Thread.sleep(500);
+		    loadAchievs();
+		    Thread.sleep(500);
+		    loadLast();
+		    Thread.sleep(500);
+		    paint();
+		    Thread.sleep(500);
+		    loadTables();
+		    Thread.sleep(500);
+		    verifyLoadStatistics();
+		    Thread.sleep(500);
+		    verifyLoadLastDays();
+		    Thread.sleep(500);
+		    verifyLoadTotal();
+		    Thread.sleep(500);
+		    verifyLoadLast();
+		    Thread.sleep(500);
+		    verifyLoadLastAchie();
+		} catch (InterruptedException ex) {
+		    ex.printStackTrace();
+		}
+	    }
+	}).start();
+    }
+    
+    private static void verifyLoadStatistics() {
+	if(txtStatistics.getText().equals(" CARGANDO ...")) {
+	    loadStatistics();
+	}
+    }
+    
+    private static void verifyLoadLastDays() {
+	if(txtLastDays.getText().equals(" CARGANDO ...")) {
+	    loadLastDays();
+	}
+    }
+    
+    private static void verifyLoadTotal() {
+	if(txtTotalInfo.getText().equals(" CARGANDO ...")) {
+	    loadTotal();
+	}
+    }
+    
+    private static void verifyLoadLast() {
+	if(txtGamesTime.getText().equals(" CARGANDO ...") || txtGamePlaying.getText().equals(" CARGANDO ...") || 
+		txtGames.getText().equals(" CARGANDO ...") || txtTimePlaying.getText().equals(" CARGANDO ...")) {
+	    loadLast();
+	}
+    }
+    
+    private static void verifyLoadLastAchie() {
+	if(txtLastAchie.getText().equals(" CARGANDO ...")) {
+	    loadAchievs();
+	}
+    }
+    
     private static void UpdateGameList() {
 	jlistGames.removeAll();
 	modelList.clear();
@@ -390,7 +482,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    ModelGames mg = new ModelGames();
 
 	    gameIdSelected = mg.getIdFromGameName(txtGameName.getText());
-	    if (gameIdSelected != 0) {
+	    if(gameIdSelected != 0) {
 		String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
 		txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
 			+ mg.getDateLastSession(gameIdSelected));

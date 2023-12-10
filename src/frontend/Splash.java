@@ -6,6 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import database.ModelConfig;
+
 public class Splash extends JDialog {
     private static final long serialVersionUID = 8022358665918705197L;
     private final JLabel lblImg = new JLabel();
@@ -41,9 +43,13 @@ public class Splash extends JDialog {
 			MainWindow.showWindow();
 			dispose();
 		    } else {
-			Thread.sleep(3500);
-			MainWindow mainWindow = new MainWindow();
+			Thread.sleep(1000);
+			ModelConfig mc = new ModelConfig();
+			ModelConfig.loadTheme(mc.getTheme());
 			Thread.sleep(500);
+			MainUI.loadData();
+			Thread.sleep(2000);
+			MainWindow mainWindow = new MainWindow();
 			MainWindow.showWindow();
 			dispose();
 		    }
