@@ -255,7 +255,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    public void run() {
 		while (true) {
 		    try {
-			if (gameIdLaunched != 0) {
+			if(gameIdLaunched != 0) {
 			    loadData();
 			}
 			Thread.sleep(600000);
@@ -308,10 +308,12 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
 
-	txtTotalInfo.setText(" Total de juegos: " + mg.getTotalGames() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: "
-		+ String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions());
+	String totalInfo = " Total de juegos: " + mg.getTotalGames() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: "
+		+ String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions();
+	txtTotalInfo.setText(totalInfo);
 
-	txtLastAchie.setText(" Ultima hazaña: " + mp.getLastAchievement());
+	String lastAchie = " Ultima hazaña: " + mp.getLastAchievement();
+	txtLastAchie.setText(lastAchie);
 	PlayerHistory.tbPlayerHistory.removeAll();
 	PlayerHistory.tbPlayerHistory.setModel(mp.getHistory("Todos"));
 	PlayerActivities.tbPlayerActivities.removeAll();
@@ -321,7 +323,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	if (gameIdLaunched == 0) {
 	    txtGames.setText("");
 	    txtGamesTime.setText("");
-	    // LoadLastSession
 	    txtGamePlaying.setText(mc.getLastGame());
 	    txtTimePlaying.setText(mc.getLastSessionTime());
 	    if(mc.getUsername().equals("PRUEBAS")) {

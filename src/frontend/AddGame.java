@@ -44,7 +44,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     private final JLabel lblPlayMode = new JLabel("Modo de juego:");
     private final JLabel lblVersion = new JLabel(" Version:");
     private final JLabel lblStatus = new JLabel("Estado:");
-    private final JLabel lblSource = new JLabel("Fuente:");
+    private final JLabel lblLibrary = new JLabel("Biblioteca:");
     private final JLabel lblLastPlayed = new JLabel("Ultima sesion:");
     private final JLabel lblAdded = new JLabel(" Añadido:");
     private final JLabel lblModified = new JLabel(" Modificado:");
@@ -80,6 +80,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
     private final JComboBox<String> cbCategory = new JComboBox<>();
+    private final JComboBox<String> cbLibrary = new JComboBox<>();
     private final SpinnerNumberModel spinnerNumberModelScore = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelGameTime = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelPlayCount = new SpinnerNumberModel();
@@ -215,10 +216,10 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	pnlDetails.add(chPortable, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	pnlDetails.add(lblSource, gbc);
+	pnlDetails.add(lblLibrary, gbc);
 	gbc.gridx++;
 	gbc.gridwidth = 3;
-	pnlDetails.add(txtSource, gbc);
+	pnlDetails.add(cbLibrary, gbc);
 	gbc.gridx += 3;
 	gbc.gridwidth = 1;
 	pnlDetails.add(lblModified, gbc);
@@ -315,7 +316,9 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	spinGameTime.addChangeListener(this);
 	txtAdded.setEditable(false);
 	txtModified.setEditable(false);
-	LoadCategory();
+	txtaNotes.setLineWrap(true);
+	loadCategory();
+	loadLibrary();
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
 	txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
@@ -348,7 +351,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	setVisible(true);
     }
 
-    private void LoadCategory() {
+    private void loadCategory() {
 	cbCategory.removeAllItems();
 	ArrayList<String> listCategory = new ArrayList<>();
 	listCategory.clear();
@@ -356,6 +359,17 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	listCategory = mg.getCategoryList();
 	for(int i = 0; i < listCategory.size(); i++) {
 	    cbCategory.addItem(listCategory.get(i));
+	}
+    }
+    
+    private void loadLibrary() {
+	cbLibrary.removeAllItems();
+	ArrayList<String> listLibrary = new ArrayList<>();
+	listLibrary.clear();
+	ModelGames mg = new ModelGames();
+	listLibrary = mg.getLibraryList();
+	for(int i = 0; i < listLibrary.size(); i++) {
+	    cbLibrary.addItem(listLibrary.get(i));
 	}
     }
 
@@ -399,7 +413,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	String playMode = txtPlayMode.getText();
 	String version = txtVersion.getText();
 	String status = txtStatus.getText();
-	String source = txtSource.getText();
+	int library = mg.getLibraryIdFromName(cbLibrary.getSelectedItem().toString());
 	String lastPlayed = txtLastPlayed.getText();
 	String path = txtPath.getText();
 	String name = txtGameName.getText();
@@ -414,7 +428,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 
 	int res = mg.addGame(name, gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
-		playMode, version, status, source, lastPlayed, added, modified, completed_date, notes);
+		playMode, version, status, lastPlayed, added, modified, completed_date, library, notes);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido guardado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 	    MainUI.loadData();

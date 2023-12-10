@@ -14,24 +14,24 @@ import java.util.ArrayList;
 
 import database.ModelGames;
 
-public class Category extends JInternalFrame implements ActionListener {
+public class Library extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -1072944751022628676L;
-    private final JLabel lblInfo = new JLabel(" Aqui tiene la lista de categorias, puede seleccionarla");
+    private final JLabel lblInfo = new JLabel(" Aqui tiene la lista de bibliotecas, puede seleccionarla");
     private final JLabel lblInfo2 = new JLabel("y usar editar o añadir una nueva");
-    private final JLabel lblCategory = new JLabel("Categoria:");
-    private final JComboBox<String> cbCategory = new JComboBox<>();
+    private final JLabel lblLibrary = new JLabel("Biblioteca:");
+    private final JComboBox<String> cbLibrary = new JComboBox<>();
     private final JButton btnEdit = new JButton("Editar");
     private final JButton btnAdd = new JButton("Añadir");
 
-    public Category() {
+    public Library() {
 	try {
-	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/category.png"));
+	    ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/library.png"));
 	    this.setFrameIcon(icon);
 	} catch (Exception ex) {
 	    ex.printStackTrace();
 	    JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
 	}
-	setTitle("Categorias");
+	setTitle("Bibliotecas");
 	setBounds(100, 100, 295, 140);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	setClosable(true);
@@ -54,9 +54,9 @@ public class Category extends JInternalFrame implements ActionListener {
 	gbc.gridwidth = 1;
 	gbc.weightx = 1.0;
 	gbc.gridy++;
-	add(lblCategory, gbc);
+	add(lblLibrary, gbc);
 	gbc.gridx++;
-	add(cbCategory, gbc);
+	add(cbLibrary, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
 	add(btnEdit, gbc);
@@ -73,38 +73,38 @@ public class Category extends JInternalFrame implements ActionListener {
 
     private void updateData() {
 	ModelGames mg = new ModelGames();
-	ArrayList<String> category = mg.getCategoryList();
-	cbCategory.removeAllItems();
-	for (int i = 0; i < category.size(); i++) {
-	    cbCategory.addItem(category.get(i));
+	ArrayList<String> library = mg.getLibraryList();
+	cbLibrary.removeAllItems();
+	for (int i = 0; i < library.size(); i++) {
+	    cbLibrary.addItem(library.get(i));
 	}   
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 	if (e.getSource() == btnAdd) {
-	    String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre de la categoria");
+	    String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre de la biblioteca");
 	    if (cat.length() == 0)
 		return;
 	    if (cat != "") {
 		ModelGames mg = new ModelGames();
-		int rp = mg.addCategory(cat);
+		int rp = mg.addLibrary(cat);
 		if (rp == 1) {
-		    JOptionPane.showMessageDialog(this, "La categoria ha sido guardada");
+		    JOptionPane.showMessageDialog(this, "La biblioteca ha sido guardada");
 		    updateData();
 		} else {
 		    JOptionPane.showMessageDialog(this, "Ha habido un error al guardar los datos", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	    }
 	} else if (e.getSource() == btnEdit) {
-	    String cat = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre de la categoria", cbCategory.getSelectedItem().toString());
+	    String cat = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre de la biblioteca", cbLibrary.getSelectedItem().toString());
 	    if (cat == null)
 		return;
 	    if (cat != "") {
 		ModelGames mg = new ModelGames();
-		int rp = mg.editCategory(cbCategory.getSelectedItem().toString(), cat);
+		int rp = mg.editLibrary(cbLibrary.getSelectedItem().toString(), cat);
 		if (rp == 1) {
-		    JOptionPane.showMessageDialog(this, "La categoria ha sido actualizada");
+		    JOptionPane.showMessageDialog(this, "La biblioteca ha sido actualizada");
 		    updateData();
 		} else {
 		    JOptionPane.showMessageDialog(this, "Ha habido un error al actualizar los datos", "Error", JOptionPane.ERROR_MESSAGE);

@@ -35,6 +35,7 @@ public class InGame {
 	new Thread(new Runnable() {
 	    public void run() {
 		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
+		if(gameIdLaunched == 0) Thread.currentThread().interrupt();
 		while(gameIdLaunched != 0) {
 		    try {
 			if(second == 0 && minute != 0) {

@@ -42,7 +42,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JLabel lblPlayMode = new JLabel("Modo de juego:");
     private final JLabel lblVersion = new JLabel(" Version:");
     private final JLabel lblStatus = new JLabel("Estado:");
-    private final JLabel lblSource = new JLabel("Fuente:");
+    private final JLabel lblLibrary = new JLabel("Biblioteca:");
     private final JLabel lblLastPlayed = new JLabel("Ultima sesion:");
     private final JLabel lblAdded = new JLabel(" Añadido:");
     private final JLabel lblModified = new JLabel(" Modificado:");
@@ -53,7 +53,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JLabel lblPath = new JLabel("Directorio:");
     private final JLabel lblScore = new JLabel(" Puntaje:");
     private final JLabel lblCategory = new JLabel("Categoria:");
-    private final JComboBox<String> cbTitle = new JComboBox<>();
     private final JTextField txtReleaseDate = new JTextField(20);
     private final JTextField txtRating = new JTextField(20);
     private final JTextField txtGenre = new JTextField(10);
@@ -65,7 +64,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JTextField txtPlayMode = new JTextField(10);
     private final JTextField txtVersion = new JTextField(10);
     private final JTextField txtStatus = new JTextField(10);
-    private final JTextField txtSource = new JTextField(10);
     private final JTextField txtLastPlayed = new JTextField(10);
     private final JTextField txtAdded = new JTextField(10);
     private final JTextField txtModified = new JTextField(10);
@@ -78,6 +76,8 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
     private final JComboBox<String> cbCategory = new JComboBox<>();
+    private final JComboBox<String> cbLibrary = new JComboBox<>();
+    private final JComboBox<String> cbTitle = new JComboBox<>();
     private final SpinnerNumberModel spinnerNumberModelScore = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelGameTime = new SpinnerNumberModel();
     private final SpinnerNumberModel spinnerNumberModelPlayCount = new SpinnerNumberModel();
@@ -213,10 +213,10 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	pnlDetails.add(chPortable, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	pnlDetails.add(lblSource, gbc);
+	pnlDetails.add(lblLibrary, gbc);
 	gbc.gridx++;
 	gbc.gridwidth = 3;
-	pnlDetails.add(txtSource, gbc);
+	pnlDetails.add(cbLibrary, gbc);
 	gbc.gridx += 3;
 	gbc.gridwidth = 1;
 	pnlDetails.add(lblModified, gbc);
@@ -315,7 +315,9 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	spinGameTime.addChangeListener(this);
 	txtAdded.setEditable(false);
 	txtModified.setEditable(false);
+	txtaNotes.setLineWrap(true);
 	loadCategory();
+	loadLibrary();
 	loadGameList();
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
@@ -349,7 +351,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	if(Validations.isEmpty(txtSeries)) txtSeries.setText("-");
 	if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("-");
 	if(Validations.isEmpty(txtStatus)) txtStatus.setText("-");
-	if(Validations.isEmpty(txtSource)) txtSource.setText("-");
 	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
 	if(Validations.isEmpty(txtRating)) txtRating.setText("-");
 	if(Validations.isEmpty(txtPlatform)) txtPlatform.setText("-");
@@ -367,8 +368,19 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	listCategory.clear();
 	ModelGames mg = new ModelGames();
 	listCategory = mg.getCategoryList();
-	for(int i = 1; i < listCategory.size(); i++) {
+	for(int i = 0; i < listCategory.size(); i++) {
 	    cbCategory.addItem(listCategory.get(i));
+	}
+    }
+    
+    private void loadLibrary() {
+	cbLibrary.removeAllItems();
+	ArrayList<String> listLibrary = new ArrayList<>();
+	listLibrary.clear();
+	ModelGames mg = new ModelGames();
+	listLibrary = mg.getLibraryList();
+	for(int i = 0; i < listLibrary.size(); i++) {
+	    cbLibrary.addItem(listLibrary.get(i));
 	}
     }
 
@@ -401,7 +413,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	txtPlayMode.setText(mg.getPlayMode(gameId));
 	txtVersion.setText(mg.getVersion(gameId));
 	txtStatus.setText(mg.getStatus(gameId));
-	txtSource.setText(mg.getSource(gameId));
+	cbLibrary.setSelectedItem(mg.getLibraryName((gameId)));
 	txtLastPlayed.setText(mg.getLastPlayed(gameId));
 	txtPath.setText(mg.getPathFromGame(gameId));	
 	chFavorite.setSelected(mg.isFavorite(gameId));
@@ -429,7 +441,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private void saveData(int gameId) {
 	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
 		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
-		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) || Validations.isEmpty(txtSource) ||
+		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) ||
 		Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtCompletedDate)) {
 	    JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
 	    return;
@@ -459,7 +471,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	String playMode = txtPlayMode.getText();
 	String version = txtVersion.getText();
 	String status = txtStatus.getText();
-	String source = txtSource.getText();
+	int library = mg.getLibraryIdFromName(cbLibrary.getSelectedItem().toString());
 	String lastPlayed = txtLastPlayed.getText();
 	String path = txtPath.getText();
 	String completedDate = txtCompletedDate.getText();
@@ -471,7 +483,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
 	int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
 		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
-		playMode, version, status, source, lastPlayed, completedDate, notes);
+		playMode, version, status, lastPlayed, completedDate, library, notes);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
 	    MainUI.loadData();

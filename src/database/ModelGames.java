@@ -407,7 +407,7 @@ public class ModelGames {
 	}
 	return category;
     }
-
+    
     public int getScore(int gameId) {
 	int score = 0;
 	String query = "SELECT score FROM games WHERE id = " + gameId;
@@ -609,11 +609,11 @@ public class ModelGames {
     public int addGame(String name, int gameTime, String path, String ghost, int playCount, String completed,
 	    int score, int category, int hide, int favorite, int broken, int portable, String releasedate,
 	    String rating, String genre, String platform, String developer, String publisher, String series,
-	    String region, String playMode, String version, String status, String source, String lastPlayed,
-	    String added, String modified, String completed_date, String notes) {
+	    String region, String playMode, String version, String status, String lastPlayed,
+	    String added, String modified, String completed_date, int library, String notes) {
 	try {
 	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, broken, portable, release_date, "
-		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, source, last_played, added, modified, completed_date, notes) "
+		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, notes) "
 		    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -640,11 +640,11 @@ public class ModelGames {
 	    p.setString(21, playMode);
 	    p.setString(22, version);
 	    p.setString(23, status);
-	    p.setString(24, source);
-	    p.setString(25, lastPlayed);
-	    p.setString(26, added);
-	    p.setString(27, modified);
-	    p.setString(28, completed_date);
+	    p.setString(24, lastPlayed);
+	    p.setString(25, added);
+	    p.setString(26, modified);
+	    p.setString(27, completed_date);
+	    p.setInt(28, library);
 	    p.setString(29, notes);
 
 	    int resultado = p.executeUpdate();
@@ -661,8 +661,8 @@ public class ModelGames {
     public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
 	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
 	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
-	    String series, String region, String playMode, String version, String status, String source,
-	    String lastPlayed, String completed_date, String notes) {
+	    String series, String region, String playMode, String version, String status,
+	    String lastPlayed, String completed_date, int library, String notes) {
 	try {
 	    String query;
 
@@ -678,7 +678,7 @@ public class ModelGames {
 
 	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
 		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
-		    + "region = ?, play_mode = ?, version = ?, status = ?, source = ?, last_played = ?, modified = ?, completed_date = ?, notes = ? WHERE id = ?";
+		    + "region = ?, play_mode = ?, version = ?, status = ?, last_played = ?, modified = ?, completed_date = ?, library = ?, notes = ? WHERE id = ?";
 
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    PreparedStatement p = conex.prepareStatement(query);
@@ -705,10 +705,10 @@ public class ModelGames {
 	    p.setString(21, playMode);
 	    p.setString(22, version);
 	    p.setString(23, status);
-	    p.setString(24, source);
-	    p.setString(25, lastPlayed);
-	    p.setString(26, Utils.getFormattedDateTime());
-	    p.setString(27, completed_date);
+	    p.setString(24, lastPlayed);
+	    p.setString(25, Utils.getFormattedDateTime());
+	    p.setString(26, completed_date);
+	    p.setInt(27, library);
 	    p.setString(28, notes);
 	    p.setInt(29, gameId);
 
@@ -1325,4 +1325,100 @@ public class ModelGames {
 	}
 	return res;
     }
+    
+    public ArrayList<String> getLibraryList() {
+	ArrayList<String> library = new ArrayList<>();
+	String query = "SELECT * FROM library ORDER BY id";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    while(rs.next()) {
+		library.add(rs.getString("name"));
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return library;
+    }
+
+    public int addLibrary(String name) {
+	int resultado = 0;
+	try {
+	    String query = "INSERT INTO library (name) VALUES (?)";
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setString(1, name);
+	    resultado = p.executeUpdate();
+	    conex.close();
+	    p.close();
+	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return resultado;
+    }
+    
+    public int editLibrary(String oldName, String newName) {
+	int resultado = 0;
+	try {
+	    String query = "UPDATE library SET name = ? WHERE name = ?";
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    PreparedStatement p = conex.prepareStatement(query);
+	    p.setString(1, newName);
+	    p.setString(2, oldName);
+	    resultado = p.executeUpdate();
+	    conex.close();
+	    p.close();
+	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return resultado;
+    }
+
+    public Object getLibraryName(int gameId) {
+	String query = "SELECT library.name FROM `games` inner join library on library.id = games.library where games.id = " + gameId;
+	String library = "Ninguna";
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		library = rs.getString("name");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	System.out.println(library);
+	return library;
+    }
+
+    public int getLibraryIdFromName(String name) {
+	String query = "SELECT id FROM library WHERE name = '" + name + "'";
+	int id = 0;
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    if(rs.next()) {
+		id = rs.getInt("id");
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (SQLException ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return id;
+    }     
 }

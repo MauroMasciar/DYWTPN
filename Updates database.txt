@@ -41,3 +41,5 @@ ALTER TABLE `games` CHANGE `completed_date` `completed_date` DATE NULL DEFAULT '
 ALTER TABLE `config` ADD `theme` INT(10) NOT NULL DEFAULT '1' AFTER `show_hidden`;
 -- 1.2.4.55
 ALTER TABLE `games` CHANGE `image` `image` VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+-- 1.2.4.69
+ALTER TABLE `games` ADD `show_sta` BOOLEAN NOT NULL DEFAULT TRUE AFTER `play_count`;

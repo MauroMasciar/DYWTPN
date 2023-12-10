@@ -38,6 +38,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
     private final JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("gfx/category.png"));
     private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("gfx/collections.png"));
+    private final JMenuItem mnuiGamesLibrary = new JMenuItem("Ver bibliotecas", new ImageIcon("gfx/library.png"));
     private final JMenu mnuGamesStatistics = new JMenu("Estadisticas");
     private final JMenuItem mnuiGamesStatisticsPlayCount = new JMenuItem("Sesiones");
     private final JMenuItem mnuiGamesStatisticsTotalHours = new JMenuItem("Tiempo");
@@ -80,6 +81,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuGames.add(mnuiGamesHidden);
 	mnuGames.add(mnuiGamesCategory);
 	mnuGames.add(mnuiGamesCollections);
+	mnuGames.add(mnuiGamesLibrary);
 	mnuGames.addSeparator();
 	mnuGames.add(mnuiGamesRefresh);
 	mnuGames.add(mnuiGamesExit);
@@ -101,6 +103,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	mnuiGamesAddSession.addActionListener(this);
 	mnuiGamesCollections.addActionListener(this);
 	mnuiGamesCategory.addActionListener(this);
+	mnuiGamesLibrary.addActionListener(this);
 	mnuiGamesList.addActionListener(this);
 	mnuiGamesHidden.addActionListener(this);
 	mnuiHelpConfig.addActionListener(this);
@@ -142,30 +145,32 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     @Override
     public void actionPerformed(ActionEvent e) {
 	j.setLayout(null);
-	if (e.getSource() == mnuiGamesAdd) {
+	if(e.getSource() == mnuiGamesAdd) {
 	    j.add(new AddGame());
-	} else if (e.getSource() == mnuiGamesEdit) {
+	} else if(e.getSource() == mnuiGamesEdit) {
 	    j.add(new EditGame(0));
-	} else if (e.getSource() == mnuiGamesAddSession) {
+	} else if(e.getSource() == mnuiGamesAddSession) {
 	    j.add(new AddSessionGame());
 	} else if (e.getSource() == mnuiGamesList) {
 	    j.add(new GameList());
-	} else if (e.getSource() == mnuiGamesHidden) {
+	} else if(e.getSource() == mnuiGamesHidden) {
 	    ModelConfig mc = new ModelConfig();
-	    if (mnuiGamesHidden.isSelected()) {
+	    if(mnuiGamesHidden.isSelected()) {
 		mc.setIsHidden(1);
 	    } else {
 		mc.setIsHidden(0);
 	    }
 	    MainUI.loadData();
-	} else if (e.getSource() == mnuiGamesExit) {
+	} else if(e.getSource() == mnuiGamesExit) {
 	    if (!Main.test) {
 		ExitApplication();
 	    }
-	} else if (e.getSource() == mnuiGamesCategory) {
+	} else if(e.getSource() == mnuiGamesCategory) {
 	    j.add(new Category());
-	} else if (e.getSource() == mnuiGamesCollections) {
+	} else if(e.getSource() == mnuiGamesCollections) {
 	    j.add(new Collections());
+	} else if(e.getSource() == mnuiGamesLibrary) {
+	    j.add(new Library());
 	} else if (e.getSource() == mnuiHelpConfig) {
 	    j.add(new Config());
 	} else if (e.getSource() == mnuiPlayerActivities) {
@@ -174,18 +179,18 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 	    j.add(new StatisticsPlayCount());
 	} else if(e.getSource() == mnuiGamesStatisticsTotalHours) {
 	    j.add(new StatisticsTotalHours());
-	} else if (e.getSource() == mnuiPlayerHistory) {
+	} else if(e.getSource() == mnuiPlayerHistory) {
 	    j.add(new PlayerHistory());
-	} else if (e.getSource() == mnuiGamesRefresh) {
+	} else if(e.getSource() == mnuiGamesRefresh) {
 	    MainUI.loadData();
-	} else if (e.getSource() == mnuiHelpUpdate) {
+	} else if(e.getSource() == mnuiHelpUpdate) {
 	    j.add(new UpdateGUI());
-	} else if (e.getSource() == mnuiHelpAbout) {
+	} else if(e.getSource() == mnuiHelpAbout) {
 	    j.add(new About());
-	} else if (e.getSource() == mnuiHelpDebug) {
+	} else if(e.getSource() == mnuiHelpDebug) {
 	    j.add(new debug.LogGUI());
 	}
-	
+
 	j.repaint();
     }
 
@@ -208,7 +213,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
     @Override
     public void windowClosing(WindowEvent e) {
-	if (!Main.test) {
+	if(!Main.test) {
 	    ExitApplication();
 	}
     }
