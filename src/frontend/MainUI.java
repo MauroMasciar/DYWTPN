@@ -395,7 +395,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		    Thread.sleep(500);
 		    loadAchievs();
 		    Thread.sleep(500);
-		    loadLast();
+		    if(gameIdLaunched == 0) loadLast();
 		    Thread.sleep(500);
 		    paint();
 		    Thread.sleep(500);

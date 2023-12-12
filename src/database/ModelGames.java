@@ -672,7 +672,7 @@ public class ModelGames {
 		String achievement = "Has terminado el juego " + gameName;
 		mp.saveAchievement(achievement, gameName, gameId);
 		MainUI.loadData();
-		completed_date = Utils.getFormattedDate();
+		if(completed_date.equals("0000-00-00")) completed_date = Utils.getFormattedDate();
 	    }
 	    if(completed.equals("0")) completed_date = "0000-00-00";
 

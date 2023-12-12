@@ -73,7 +73,7 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
 		return;
 	    }
 	    ModelConfig mc = new ModelConfig();
-	    int res = mc.Update(txtSql.getText());
+	    int res = mc.update(txtSql.getText());
 	    if(res == 1) JOptionPane.showMessageDialog(this, "Actualizacion añadida", "Actualizacion", JOptionPane.INFORMATION_MESSAGE);
 	    else JOptionPane.showMessageDialog(this, "Ha habido un error al actualizar", "Error", JOptionPane.ERROR_MESSAGE);
 	    txtSql.setText("");

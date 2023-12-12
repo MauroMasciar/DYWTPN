@@ -7,8 +7,8 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSIONAPP = "1.2.4.75";
-    public static boolean test = false;
+    public static final String VERSION_APP = "1.2.4"; //77
+    public static boolean test = true;
 
     @SuppressWarnings("unused")
     public static void main(String[] args) {

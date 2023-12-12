@@ -250,7 +250,7 @@ public class ModelConfig {
 	}
     }
 
-    public int Update(String query) {
+    public int update(String query) {
 	int r = 0;
 	try {
 	  this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -281,7 +281,6 @@ public class ModelConfig {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
-	Log.Loguear("getTheme: " + r);
 	return r;
     }
 
@@ -299,7 +298,6 @@ public class ModelConfig {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
-	Log.Loguear("setTheme: " + theme);
     }
 
     public static void loadTheme(int theme) {
@@ -307,9 +305,7 @@ public class ModelConfig {
 	    if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
 	    else if(theme == 2) UIManager.setLookAndFeel(new FlatMacDarkLaf());
 	} catch (Exception ex) {
-	    System.out.println("No se ha podido configurar el look and feel: " + ex.getMessage());
 	    ex.printStackTrace();
 	}
-	Log.Loguear("loadTheme: " + theme);
     }
 }
