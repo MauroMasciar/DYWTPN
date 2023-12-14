@@ -60,6 +60,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private final JMenuItem mnuiEdit = new JMenuItem("Editar");
 
     public int gameIdSelected = 0;
+    public static boolean gamePaused = false;
     public static int gameIdLaunched = 0;
     private static boolean showHidden = false;
 
@@ -218,14 +219,14 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	btnEditGame.addActionListener(this);
 
 	txtSearch.addKeyListener(this);
-	
+
 	txtStatistics.setText(" CARGANDO ...");
 	txtLastDays.setText(" CARGANDO ...");
 	txtTotalInfo.setText(" CARGANDO ...");
 	txtGamePlaying.setText(" CARGANDO ...");
 	txtTimePlaying.setText(" CARGANDO ...");
 	txtLastAchie.setText(" CARGANDO ...");
-	
+
 
 	txtGameName.setEditable(false);
 	txtLibrary.setEditable(false);
@@ -239,7 +240,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	txtLastAchie.setEditable(false);
 	txtCategory.setEditable(false);
 	txtSeparator.setEditable(false);
-	
+
 	txtSeparator.setText("__________________________________________________________________________________________________________________");
 
 	txtGameName.setFont(new Font("Serief", Font.BOLD, 12));
@@ -256,7 +257,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	txtPathGame.setEnabled(false);
 	btnEditGame.setEnabled(false);
-	
+
 	new Thread(new Runnable() {
 	    public void run() {
 		while (true) {
@@ -401,7 +402,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		    Thread.sleep(500);
 		    loadTables();
 		    Thread.sleep(500);
-		    
+
 		    verifyLoadStatistics();
 		    Thread.sleep(500);
 		    verifyLoadLastDays();
@@ -417,38 +418,38 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    }
 	}).start();
     }
-    
+
     private static void verifyLoadStatistics() {
 	if(txtStatistics.getText().equals(" CARGANDO ...")) {
 	    loadStatistics();
 	}
     }
-    
+
     private static void verifyLoadLastDays() {
 	if(txtLastDays.getText().equals(" CARGANDO ...")) {
 	    loadLastDays();
 	}
     }
-    
+
     private static void verifyLoadTotal() {
 	if(txtTotalInfo.getText().equals(" CARGANDO ...")) {
 	    loadTotal();
 	}
     }
-    
+
     private static void verifyLoadLast() {
 	if(txtGamesTime.getText().equals(" CARGANDO ...") || txtGamePlaying.getText().equals(" CARGANDO ...") || 
 		txtGames.getText().equals(" CARGANDO ...") || txtTimePlaying.getText().equals(" CARGANDO ...")) {
 	    loadLast();
 	}
     }
-    
+
     private static void verifyLoadLastAchie() {
 	if(txtLastAchie.getText().equals(" CARGANDO ...")) {
 	    loadAchievs();
 	}
     }
-    
+
     private static void UpdateGameList() {
 	jlistGames.removeAll();
 	modelList.clear();
@@ -475,8 +476,17 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    }
 	    MainWindow.j.add(new EditGame(gameIdSelected));
 	    MainWindow.j.repaint();
-	} else if (e.getSource() == btnLaunchGame || e.getSource() == mnuiLaunch) {
-	    launchGame();
+	} else if(e.getSource() == btnLaunchGame || e.getSource() == mnuiLaunch) {
+	    if(gameIdLaunched == 0) launchGame();
+	    else {
+		if(gamePaused) {
+		    gamePaused = false;
+		    btnLaunchGame.setText("Pausar");
+		} else {
+		    gamePaused = true;
+		    btnLaunchGame.setText("Continuar");
+		}
+	    }
 	}
     }
 
@@ -514,43 +524,42 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	    JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	    return;
 	}
-	if(gameIdLaunched != 0) {
-	    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego porque ya tienes uno ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-	} else {	    
-	    ModelGames mg = new ModelGames();
-	    String path = mg.getPathFromGame(gameIdSelected);
-	    ProcessBuilder pb;
-	    if (mg.isGhost(gameIdSelected)) {
-		pb = new ProcessBuilder("GhostGame.exe");
-	    } else {
-		pb = new ProcessBuilder(path);
-	    }
-	    Process p;
-	    try {
-		p = pb.start();
-		if (p.isAlive()) {
-		    InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getSecondsPlayed(gameIdSelected));
-		    gameIdLaunched = gameIdSelected;
 
-		    new Thread(new Runnable() {
-			public void run() {
-			    int statusProcess;
-			    try {
-				statusProcess = p.waitFor();
-				Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
-				Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
-				gameIdLaunched = 0;
-				ig.closeGame();
-				loadData();
-			    } catch (InterruptedException ex) {
-				JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
-			    }
+	ModelGames mg = new ModelGames();
+	String path = mg.getPathFromGame(gameIdSelected);
+	ProcessBuilder pb;
+	if (mg.isGhost(gameIdSelected)) {
+	    pb = new ProcessBuilder("GhostGame.exe");
+	} else {
+	    pb = new ProcessBuilder(path);
+	}
+	Process p;
+	try {
+	    p = pb.start();
+	    if (p.isAlive()) {
+		InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getSecondsPlayed(gameIdSelected));
+		gameIdLaunched = gameIdSelected;
+		btnLaunchGame.setText("Pausar");
+
+		new Thread(new Runnable() {
+		    public void run() {
+			int statusProcess;
+			try {
+			    statusProcess = p.waitFor();
+			    Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
+			    Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
+			    gameIdLaunched = 0;
+			    btnLaunchGame.setText("Lanzar");
+			    ig.closeGame();
+			    loadData();
+			} catch (InterruptedException ex) {
+			    JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 			}
-		    }).start();
-		}
-	    } catch (IOException ex) {
-		JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+		    }
+		}).start();
 	    }
+	} catch (IOException ex) {
+	    JOptionPane.showMessageDialog(this, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 	}
     }
 

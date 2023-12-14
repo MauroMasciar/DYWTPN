@@ -37,46 +37,54 @@ public class InGame {
 		MainUI.txtTimePlaying.setText(" Tiempo jugando: 0:00:00");
 		if(gameIdLaunched == 0) Thread.currentThread().interrupt();
 		while(gameIdLaunched != 0) {
-		    try {
-			if(second == 0 && minute != 0) {
-			    String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + "(" + gameTimePlayed/60 + ")" 
-				    + ". Total: " + gameTimePlayedTotal + "(" + (gameTimePlayedTotal/60)/60 + ")";
-
-			    Log.Loguear(s);
+		    if(MainUI.gamePaused) {
+			try {
+			    Thread.sleep(1000);
+			} catch (InterruptedException ex) {
+			    Log.Loguear(ex.getMessage());
 			}
-			checkAchievement(0, 0);
-			Thread.sleep(1000);
-			second++;
+		    } else {
+			try {
+			    if(second == 0 && minute != 0) {
+				String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + "(" + gameTimePlayed/60 + ")" 
+					+ ". Total: " + gameTimePlayedTotal + "(" + (gameTimePlayedTotal/60)/60 + ")";
 
-			if(second == 60) {
-			    second = 0;
-			    minute++;
+				Log.Loguear(s);
+			    }
+			    checkAchievement(0, 0);
+			    Thread.sleep(1000);
+			    second++;
+
+			    if(second == 60) {
+				second = 0;
+				minute++;
+			    }
+
+			    if(minute == 60) {
+				minute = 0;
+				hour++;
+			    }
+
+			    if(second < 10) {
+				sSecond = "0" + second;
+			    } else {
+				sSecond = String.valueOf(second);
+			    }
+
+			    if(minute < 10) {
+				sMinute = "0" + minute;
+			    } else {
+				sMinute = String.valueOf(minute);
+			    }
+
+			    MainUI.txtTimePlaying.setText(" Tiempo jugando: " + hour + ":" + sMinute + ":" + sSecond);
+
+			    gameTimePlayedTotal++;
+			    gameTimePlayed++;
+			    saveGameTime();
+			} catch (InterruptedException ex) {
+			    Log.Loguear(ex.getMessage());
 			}
-
-			if(minute == 60) {
-			    minute = 0;
-			    hour++;
-			}
-
-			if(second < 10) {
-			    sSecond = "0" + second;
-			} else {
-			    sSecond = String.valueOf(second);
-			}
-
-			if(minute < 10) {
-			    sMinute = "0" + minute;
-			} else {
-			    sMinute = String.valueOf(minute);
-			}
-
-			MainUI.txtTimePlaying.setText(" Tiempo jugando: " + hour + ":" + sMinute + ":" + sSecond);
-
-			gameTimePlayedTotal++;
-			gameTimePlayed++;
-			saveGameTime();
-		    } catch (InterruptedException ex) {
-			Log.Loguear(ex.getMessage());
 		    }
 		}
 	    }
