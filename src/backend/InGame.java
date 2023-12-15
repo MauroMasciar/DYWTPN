@@ -45,14 +45,15 @@ public class InGame {
 			}
 		    } else {
 			try {
-			    if(second == 0 && minute != 0) {
+			    /*if(second == 0 && minute != 0) {
 				String s = "ID del juego lanzado: " + gameIdLaunched + ". Sesion actual: " + gameTimePlayed + "(" + gameTimePlayed/60 + ")" 
 					+ ". Total: " + gameTimePlayedTotal + "(" + (gameTimePlayedTotal/60)/60 + ")";
 
 				Log.Loguear(s);
-			    }
+			    }*/
 			    checkAchievement(0, 0);
 			    Thread.sleep(1000);
+
 			    second++;
 
 			    if(second == 60) {
@@ -142,6 +143,29 @@ public class InGame {
 	    else if(totalSessionCount == 2500) achiev = "Has tenido 2500 sesiones de juego hasta ahora";
 	    else if(totalSessionCount == 5000) achiev = "Has tenido 5000 sesiones de juego hasta ahora";
 	    else if(totalSessionCount == 10000) achiev = "Has tenido 10000 sesiones de juego hasta ahora";
+
+	    if(achiev != "") {
+		ModelPlayer mp = new ModelPlayer();
+		mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+		MainUI.loadAchievs();
+	    }
+	}
+
+	achiev = "";
+	if(gameTimePlayed % 60 == 0) {
+	    int allTotalGameMinutesPlayed = mg.getMinutesTotalPlayed();
+	    if(allTotalGameMinutesPlayed == 60) achiev = "Has alcanzado tu primera hora de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 5) achiev = "Has alcanzado 5 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 10) achiev = "Has alcanzado 10 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 25) achiev = "Has alcanzado 25 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 50) achiev = "Has alcanzado 50 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 100) achiev = "Has alcanzado 100 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 250) achiev = "Has alcanzado 250 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 500) achiev = "Has alcanzado 500 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 1000) achiev = "Has alcanzado 1000 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 2000) achiev = "Has alcanzado 2000 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 5000) achiev = "Has alcanzado 5000 horas de juego en total";
+	    else if(allTotalGameMinutesPlayed == 60 * 10000) achiev = "Has alcanzado 10000 horas de juego en total";
 
 	    if(achiev != "") {
 		ModelPlayer mp = new ModelPlayer();

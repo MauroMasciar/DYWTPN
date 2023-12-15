@@ -322,6 +322,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 
 	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
 	txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
+	chStatistic.setToolTipText("Especifique si quiere que este juego aparezca en las estadisticas");
 
 	spinnerNumberModelScore.setMinimum(0);
 	spinnerNumberModelScore.setMaximum(10);
