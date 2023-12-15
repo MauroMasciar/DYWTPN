@@ -42,7 +42,7 @@ public class StatisticsPlayCount extends JInternalFrame {
 	DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 	ModelGames mg = new ModelGames();
 	ArrayList<String> gameNameList = new ArrayList<>();
-	gameNameList = mg.getGamesNameList(false);
+	gameNameList = mg.getStatisticsGamesNameList();
 	int id, count;
 	for(int i = 0; i < gameNameList.size(); i++) {
 	    id = mg.getIdFromGameName(gameNameList.get(i));

@@ -71,7 +71,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JTextField txtCompletedDate = new JTextField(10);
     private final JCheckBox chFavorite = new JCheckBox("Favorito");
     private final JCheckBox chCompleted = new JCheckBox("Completado");
-    private final JCheckBox chBroken = new JCheckBox("Roto");
+    private final JCheckBox chStatistic = new JCheckBox("Estadisticas");
     private final JCheckBox chGhost = new JCheckBox("Fantasma");
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
@@ -238,7 +238,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	gbc.gridx++;
 	pnlDetails.add(txtCompletedDate, gbc);
 	gbc.gridx++;
-	pnlDetails.add(chBroken, gbc);
+	pnlDetails.add(chStatistic, gbc);
 	gbc.gridx++;
 	pnlDetails.add(chGhost, gbc);
 	gbc.gridx = 0;
@@ -418,7 +418,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	txtPath.setText(mg.getPathFromGame(gameId));	
 	chFavorite.setSelected(mg.isFavorite(gameId));
 	chCompleted.setSelected(mg.isCompleted(gameId));
-	chBroken.setSelected(mg.isBroken(gameId));
+	chStatistic.setSelected(mg.isStatistic(gameId));
 	chGhost.setSelected(mg.isGhost(gameId));
 	chPortable.setSelected(mg.isPortable(gameId));
 	chHide.setSelected(mg.isHidden(gameId));
@@ -450,12 +450,12 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	if(Validations.isEmpty(txtaNotes)) txtaNotes.setText(" ");
 
 	String completed = "0", ghost = "0";
-	int hide = 0, favorite = 0, broken = 0, portable = 0;
+	int hide = 0, favorite = 0, statistic = 0, portable = 0;
 	ModelGames mg = new ModelGames();
 
 	if(chFavorite.isSelected()) favorite = 1;
 	if(chCompleted.isSelected()) completed = "1";
-	if(chBroken.isSelected()) broken = 1;
+	if(chStatistic.isSelected()) statistic = 1;
 	if(chGhost.isSelected()) ghost = "1";
 	if(chPortable.isSelected()) portable = 1;
 	if(chHide.isSelected()) hide = 1;
@@ -482,7 +482,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
 	int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
-		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
+		favorite, statistic, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
 		playMode, version, status, lastPlayed, completedDate, library, notes);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
@@ -504,6 +504,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 	} else if(e.getSource() == btnSave) {
 	    ModelGames mg = new ModelGames();
 	    saveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));
+	    MainUI.txtSearch.setText("");
 	} else if(e.getSource() == chCompleted) {
 	    if(chCompleted.isSelected()) {
 		txtCompletedDate.setEditable(true);

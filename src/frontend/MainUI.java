@@ -38,7 +38,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static JList<String> jlistGames = new JList<>();
     private final JScrollPane scrListGame = new JScrollPane(jlistGames);
     private static DefaultListModel<String> modelList = new DefaultListModel<>();
-    private final JTextField txtSearch = new JTextField(20);
+    public static final JTextField txtSearch = new JTextField(20);
     private static final JTextField txtGameName = new JTextField(20);
     private final static JTextField txtLibrary = new JTextField(20);
     private static final JTextField txtCategory = new JTextField(20);
@@ -290,7 +290,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static void loadGames() {
 	ModelConfig mc = new ModelConfig();
 	showHidden = mc.getIsHidden();
-	UpdateGameList();
+	updateGameList();
     }
 
     public static void loadStatistics() {
@@ -386,7 +386,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	new Thread(new Runnable() {
 	    public void run() {
 		try {
-		    loadGames();
+		    if(gameIdLaunched == 0) loadGames();
 		    Thread.sleep(500);
 		    loadStatistics();
 		    Thread.sleep(500);
@@ -402,7 +402,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		    Thread.sleep(500);
 		    loadTables();
 		    Thread.sleep(500);
-
 		    verifyLoadStatistics();
 		    Thread.sleep(500);
 		    verifyLoadLastDays();
@@ -450,7 +449,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	}
     }
 
-    private static void UpdateGameList() {
+    private static void updateGameList() {
 	jlistGames.removeAll();
 	modelList.clear();
 	txtGameName.setText("");
@@ -597,7 +596,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     @Override
     public void keyReleased(KeyEvent e) {
 	if(txtSearch.getText().isEmpty()) {
-	    UpdateGameList();
+	    updateGameList();
 	} else {
 	    jlistGames.removeAll();
 	    modelList.clear();

@@ -312,6 +312,27 @@ public class ModelGames {
 	}
 	return gameName;
     }
+    
+    public ArrayList<String> getStatisticsGamesNameList() {
+	try {
+	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+	    gameName.add("null");
+	    String query;
+	    query = "SELECT name FROM games WHERE statistic = 1 ORDER BY name";
+	    stmt = conex.createStatement();
+	    rs = stmt.executeQuery(query);
+	    while (rs.next()) {
+		gameName.add(rs.getString("name"));
+	    }
+	    conex.close();
+	    stmt.close();
+	    rs.close();
+	} catch (Exception ex) {
+	    Log.Loguear(ex.getMessage());
+	    ex.printStackTrace();
+	}
+	return gameName;
+    }    
 
     public int getIdFromGameName(String name) {
 	if (name != "") {
@@ -607,12 +628,12 @@ public class ModelGames {
     }
 
     public int addGame(String name, int gameTime, String path, String ghost, int playCount, String completed,
-	    int score, int category, int hide, int favorite, int broken, int portable, String releasedate,
+	    int score, int category, int hide, int favorite, int statistic, int portable, String releasedate,
 	    String rating, String genre, String platform, String developer, String publisher, String series,
 	    String region, String playMode, String version, String status, String lastPlayed,
 	    String added, String modified, String completed_date, int library, String notes) {
 	try {
-	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, broken, portable, release_date, "
+	    String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, statistic, portable, release_date, "
 		    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, notes) "
 		    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -627,7 +648,7 @@ public class ModelGames {
 	    p.setInt(8, category);
 	    p.setInt(9, hide);
 	    p.setInt(10, favorite);
-	    p.setInt(11, broken);
+	    p.setInt(11, statistic);
 	    p.setInt(12, portable);
 	    p.setString(13, releasedate);
 	    p.setString(14, rating);
@@ -659,7 +680,7 @@ public class ModelGames {
     }
 
     public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
-	    String completed, int score, int category, int hidden, int favorite, int broken, int portable,
+	    String completed, int score, int category, int hidden, int favorite, int statistic, int portable,
 	    String releasedate, String rating, String genre, String platform, String developer, String publisher,
 	    String series, String region, String playMode, String version, String status,
 	    String lastPlayed, String completed_date, int library, String notes) {
@@ -677,7 +698,7 @@ public class ModelGames {
 	    if(completed.equals("0")) completed_date = "0000-00-00";
 
 	    query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
-		    + "favorite = ?, broken = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
+		    + "favorite = ?, statistic = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
 		    + "region = ?, play_mode = ?, version = ?, status = ?, last_played = ?, modified = ?, completed_date = ?, library = ?, notes = ? WHERE id = ?";
 
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -692,7 +713,7 @@ public class ModelGames {
 	    p.setInt(8, category);
 	    p.setInt(9, hidden);
 	    p.setInt(10, favorite);
-	    p.setInt(11, broken);
+	    p.setInt(11, statistic);
 	    p.setInt(12, portable);
 	    p.setString(13, releasedate);
 	    p.setString(14, rating);
@@ -1110,15 +1131,15 @@ public class ModelGames {
 	return res;
     }
 
-    public boolean isBroken(int gameId) {
-	String query = "SELECT broken FROM games WHERE id = " + gameId;
+    public boolean isStatistic(int gameId) {
+	String query = "SELECT statistic FROM games WHERE id = " + gameId;
 	boolean res = false;
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
 	    rs = stmt.executeQuery(query);
 	    if (rs.next()) {
-		res = rs.getBoolean("broken");
+		res = rs.getBoolean("statistic");
 	    }
 	    conex.close();
 	    stmt.close();
@@ -1419,5 +1440,5 @@ public class ModelGames {
 	    ex.printStackTrace();
 	}
 	return id;
-    }     
+    } 
 }

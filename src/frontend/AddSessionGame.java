@@ -82,11 +82,11 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 	gbc.gridx = 0;
 	gbc.gridy = 0;
 	add(panel, gbc);
-	
+
 	spnModelTime.setMinimum(0);
 	spinTime.setModel(spnModelTime);
 	txtDate.setText(Utils.getFormattedDateTime());
-	
+
 	spinTime.setToolTipText("El tiempo es en minutos");
 	txtDate.setToolTipText("El formato es YYYY-MM-DD HH:MM:SS");
 
@@ -114,6 +114,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
 		ModelGames mg = new ModelGames();
 		mg.setLastPlayed(gameId);
 		mg.newSession(gameId);
+		MainUI.loadTables();
 		this.dispose();
 		JOptionPane.showMessageDialog(this, "La sesion de juego se ha agregado satisfactoriamente", "Sesion añadida", JOptionPane.INFORMATION_MESSAGE);
 	    } else {

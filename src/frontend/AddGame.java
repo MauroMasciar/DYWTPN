@@ -75,7 +75,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     private final JTextField txtCompletedDate = new JTextField(10);
     private final JCheckBox chFavorite = new JCheckBox("Favorito");
     private final JCheckBox chCompleted = new JCheckBox("Completado");
-    private final JCheckBox chBroken = new JCheckBox("Roto");
+    private final JCheckBox chStatistic = new JCheckBox("Estadisticas");
     private final JCheckBox chGhost = new JCheckBox("Fantasma");
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
@@ -241,7 +241,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	gbc.gridx++;
 	pnlDetails.add(txtCompletedDate, gbc);
 	gbc.gridx++;
-	pnlDetails.add(chBroken, gbc);
+	pnlDetails.add(chStatistic, gbc);
 	gbc.gridx++;
 	pnlDetails.add(chGhost, gbc);
 	gbc.gridx = 0;
@@ -339,11 +339,12 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	dcReleaseDate.setDateFormat("yyyy-MM-dd");
 	dcReleaseDate.setTextRefernce(txtReleaseDate);
 	dcReleaseDate.hidePopup();
-	
 	dcCompletedDate.setSelectedDate(new Date(1));
 	dcReleaseDate.setSelectedDate(new Date(1));
 	
 	txtLastPlayed.setEditable(false);
+	
+	chStatistic.setSelected(true);
 
 	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
 	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
@@ -392,12 +393,12 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	if(Validations.isEmpty(txtaNotes)) txtaNotes.setText("N/A");
 	
 	String completed = "0", ghost = "0";
-	int hide = 0, favorite = 0, broken = 0, portable = 0;
+	int hide = 0, favorite = 0, statistic = 0, portable = 0;
 	ModelGames mg = new ModelGames();
 
 	if(chFavorite.isSelected()) favorite = 1;
 	if(chCompleted.isSelected()) completed = "1";
-	if(chBroken.isSelected()) broken = 1;
+	if(chStatistic.isSelected()) statistic = 1;
 	if(chGhost.isSelected()) ghost = "1";
 	if(chPortable.isSelected()) portable = 1;
 	if(chHide.isSelected()) hide = 1;
@@ -427,7 +428,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 	int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
 	int res = mg.addGame(name, gameTime, path, ghost, playCount, completed, score, category, hide, 
-		favorite, broken, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
+		favorite, statistic, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
 		playMode, version, status, lastPlayed, added, modified, completed_date, library, notes);
 	if(res == 1) {
 	    JOptionPane.showMessageDialog(this, "El juego ha sido guardado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
