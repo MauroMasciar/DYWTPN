@@ -464,6 +464,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	}
 	jlistGames.setModel(modelList);
     }
+    
+    /*public void act() {
+	KeyEvent k = new KeyEvent(txtSearch, 87, 1, 0, 87, 'w',KeyEvent.KEY_LOCATION_STANDARD );
+	keyReleased(k);
+    }*/
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -34,12 +34,51 @@ public class ModelGames {
 	    stmt.execute(query);
 	    stmt.close();
 	    rs.close();
-	    conex.close();
+	    conex.close();	    
+	    checkAchievement(gameId, play_count);
 	} catch (Exception ex) {
 	    Log.Loguear(ex.getMessage());
 	    ex.printStackTrace();
 	}
 	return play_count;
+    }
+
+    private void checkAchievement(int gameId, int play_count) {
+	String achiev = "";
+	if(play_count == 1) achiev = "Has jugado a " + getNameFromId(gameId) + " por primera vez";
+	else if(play_count == 100) achiev = "Has jugado 100 veces a " + getNameFromId(gameId);
+	else if(play_count == 250) achiev = "Has jugado 250 veces a " + getNameFromId(gameId);
+	else if(play_count == 500) achiev = "Has jugado 500 veces a " + getNameFromId(gameId);
+	else if(play_count == 1000) achiev = "Has jugado 1000 veces a " + getNameFromId(gameId);
+	else if(play_count == 1500) achiev = "Has jugado 1500 veces a " + getNameFromId(gameId);
+	else if(play_count == 2500) achiev = "Has jugado 2500 veces a " + getNameFromId(gameId);
+	else if(play_count == 5000) achiev = "Has jugado 5000 veces a " + getNameFromId(gameId);
+	else if(play_count == 10000) achiev = "Has jugado 10000 veces a " + getNameFromId(gameId);
+
+	if(achiev != "") {
+	    ModelPlayer mp = new ModelPlayer();
+	    mp.saveAchievement(achiev, getNameFromId(gameId), gameId);
+	    MainUI.loadAchievs();
+	}
+
+	achiev = "";
+	int totalSessionCount = getTotalSessions();
+	if(totalSessionCount != 0) {
+	    if(totalSessionCount == 100) achiev = "Has tenido 100 sesiones de juego hasta ahora";
+	    else if(totalSessionCount == 250) achiev = "Has tenido 250 sesiones de juego hasta ahora";
+	    else if(totalSessionCount == 500) achiev = "Has tenido 500 sesiones de juego hasta ahora";
+	    else if(totalSessionCount == 1000) achiev = "Has tenido 1000 sesiones de juego hasta ahora";
+	    else if(totalSessionCount == 1500) achiev = "Has tenido 1500 sesiones de juego hasta ahora";
+	    else if(totalSessionCount == 2500) achiev = "Has tenido 2500 sesiones de juego hasta ahora";
+	    else if(totalSessionCount == 5000) achiev = "Has tenido 5000 sesiones de juego hasta ahora";
+	    else if(totalSessionCount == 10000) achiev = "Has tenido 10000 sesiones de juego hasta ahora";
+
+	    if(achiev != "") {
+		ModelPlayer mp = new ModelPlayer();
+		mp.saveAchievement(achiev, getNameFromId(gameId), gameId);
+		MainUI.loadAchievs();
+	    }
+	}
     }
 
     public DefaultTableModel getFilteredGameList(String name, String completed, String category) {
@@ -312,7 +351,7 @@ public class ModelGames {
 	}
 	return gameName;
     }
-    
+
     public ArrayList<String> getStatisticsGamesNameList() {
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -428,7 +467,7 @@ public class ModelGames {
 	}
 	return category;
     }
-    
+
     public int getScore(int gameId) {
 	int score = 0;
 	String query = "SELECT score FROM games WHERE id = " + gameId;
@@ -514,8 +553,7 @@ public class ModelGames {
 
     public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed) {
 	int minsPlayed = gameTimePlayed / 60;
-	String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + ","
-		+ minsPlayed + ",'" + gameName + "')";
+	String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "')";
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
@@ -551,8 +589,7 @@ public class ModelGames {
 			Log.Loguear(ex.getMessage());
 		    }
 		} else {
-		    JOptionPane.showMessageDialog(null, "No se ha podido guardar el tiempo jugado",
-			    "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+		    JOptionPane.showMessageDialog(null, "No se ha podido guardar el tiempo jugado", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
 		}
 	    } catch (Exception ex) {
 		Log.Loguear(ex.getMessage());
@@ -1210,7 +1247,7 @@ public class ModelGames {
 	}
 	return res;
     }
-    
+
     public String getNotes(int gameId) {
 	String query = "SELECT notes FROM games WHERE id = " + gameId;
 	String res = "";
@@ -1284,7 +1321,7 @@ public class ModelGames {
 	}
 	return res;
     }
-    
+
     public int getTotalGames() {
 	String query = "SELECT count(name) AS total FROM games";
 	int res = 0;
@@ -1346,7 +1383,7 @@ public class ModelGames {
 	}
 	return res;
     }
-    
+
     public ArrayList<String> getLibraryList() {
 	ArrayList<String> library = new ArrayList<>();
 	String query = "SELECT * FROM library ORDER BY id";
@@ -1383,7 +1420,7 @@ public class ModelGames {
 	}
 	return resultado;
     }
-    
+
     public int editLibrary(String oldName, String newName) {
 	int resultado = 0;
 	try {
