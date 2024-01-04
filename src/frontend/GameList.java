@@ -19,6 +19,7 @@ public class GameList extends JInternalFrame implements ActionListener {
     private final JComboBox<String> cbGames = new JComboBox<>();
     private final JComboBox<String> cbCompleted = new JComboBox<>();
     private final JComboBox<String> cbCategory = new JComboBox<>();
+    private final JComboBox<String> cbFilter = new JComboBox<>();
     public static final JTable tblGames = new JTable();
     private final JScrollPane scrTable = new JScrollPane(tblGames);
 
@@ -56,14 +57,23 @@ public class GameList extends JInternalFrame implements ActionListener {
 	add(cbCompleted, gbc);
 	gbc.gridx++;
 	add(cbCategory, gbc);
+	gbc.gridx ++;
+	add(cbFilter, gbc);
 	gbc.gridx = 0;
 	gbc.gridy++;
-	gbc.gridwidth = 3;
+	gbc.gridwidth = 4;
 	add(scrTable, gbc);
-
+	
 	cbCompleted.addItem("Todos");
 	cbCompleted.addItem("Completados");
 	cbCompleted.addItem("No completados");
+	
+	cbFilter.addItem("Nombre");
+	cbFilter.addItem("Tiempo");
+	cbFilter.addItem("Veces");
+	cbFilter.addItem("Categoria");
+	cbFilter.addItem("Completado");
+	cbFilter.addItem("Puntos");
 
 	ArrayList<String> list = new ArrayList<>();
 	list = mg.getGamesNameList(true);
@@ -92,6 +102,7 @@ public class GameList extends JInternalFrame implements ActionListener {
 	cbGames.addActionListener(this);
 	cbCompleted.addActionListener(this);
 	cbCategory.addActionListener(this);
+	cbFilter.addActionListener(this);
 
 	setVisible(true);
     }
@@ -103,12 +114,12 @@ public class GameList extends JInternalFrame implements ActionListener {
 	} else if(cbCategory.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") {
 	    cbGames.setSelectedItem("Todos");
 	}
-	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString()));
+	tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString(), cbFilter.getSelectedItem().toString()));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == cbCategory || e.getSource() == cbGames || e.getSource() == cbCompleted) {
+	if(e.getSource() == cbCategory || e.getSource() == cbGames || e.getSource() == cbCompleted || e.getSource() == cbFilter) {
 	    refreshTable();
 	}
     }

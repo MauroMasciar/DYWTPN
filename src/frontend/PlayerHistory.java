@@ -71,8 +71,9 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
 	cbGames.addItem("Todos");
 
 	try {
-	    for (int i = 1; i < listGames.size(); i++)
+	    for(int i = 1; i < listGames.size(); i++) {
 		cbGames.addItem(listGames.get(i));
+	    }
 	} catch (ArrayIndexOutOfBoundsException ex) {
 	    ex.printStackTrace();
 	}

@@ -157,8 +157,6 @@ public class InGame {
 		public void run() {
 		    try {
 			Thread.sleep(1000);
-			MainUI.loadGames();
-			Thread.sleep(500);
 			MainUI.loadStatistics();
 			Thread.sleep(500);
 			MainUI.loadLastDays();

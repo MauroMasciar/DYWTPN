@@ -343,7 +343,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	PlayerActivities.tbPlayerActivities.removeAll();
 	PlayerActivities.tbPlayerActivities.setModel(mp.getActivities("Todos"));
 	GameList.tblGames.removeAll();
-	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos", "Todos"));
+	GameList.tblGames.setModel(mg.getFilteredGameList("Todos", "Todos", "Todos", "Nombre"));
     }
 
     public static void loadLast() {

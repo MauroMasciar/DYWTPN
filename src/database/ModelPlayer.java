@@ -55,7 +55,7 @@ public class ModelPlayer {
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    stmt = conex.createStatement();
-	    if (gameName == "Todos") {
+	    if(gameName == "Todos") {
 		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` ORDER BY id DESC");
 	    } else {
 		rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` WHERE game_name = '"

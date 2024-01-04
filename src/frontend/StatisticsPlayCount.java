@@ -25,7 +25,7 @@ public class StatisticsPlayCount extends JInternalFrame {
 	    return;
 	}
 	setTitle("Estadisticas de sesiones");
-	setSize(850, 550);
+	setBounds(50, 50, 850, 550);
 	setClosable(true);
 	setResizable(true);
 	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

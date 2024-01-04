@@ -81,7 +81,7 @@ public class ModelGames {
 	}
     }
 
-    public DefaultTableModel getFilteredGameList(String name, String completed, String category) {
+    public DefaultTableModel getFilteredGameList(String name, String completed, String category, String filter) {
 	DefaultTableModel m = new DefaultTableModel();
 	m.addColumn("Juego");
 	m.addColumn("Fantasma");
@@ -89,7 +89,7 @@ public class ModelGames {
 	m.addColumn("Veces ejecutado");
 	m.addColumn("Categoria");
 	m.addColumn("Completado");
-	m.addColumn("Puntuacion");
+	m.addColumn("Puntos");
 	m.addColumn("Path");
 	int comp = 0;
 
@@ -97,25 +97,32 @@ public class ModelGames {
 	else if (completed == "Completados") comp = 1;
 
 	String query = "";
+	
+	if(filter == "Tiempo") filter = "time DESC";
+	else if(filter == "Veces") filter = "play_count DESC";
+	else if(filter == "Categoria") filter = "category DESC";
+	else if(filter == "Completado") filter = "completed DESC";
+	else if(filter == "Puntos") filter = "score DESC";
+	else filter = "name ASC"; 
 
 	try {
 	    conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 	    Statement sstmt = conex.createStatement();
 
 	    if(name == "Todos" && comp == 2 && category == "Todos") {
-		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2) AS time, play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category ORDER BY " + filter;
 	    } else if(name == "Todos" && comp != 2 && category == "Todos") {
-		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = "
-			+ comp + " ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2) AS time, play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = "
+			+ comp + " ORDER BY " + filter;
 	    } else if(name != "Todos") {
-		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '"
-			+ name + "'";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2) AS time, play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '"
+			+ name + "' ORDER BY " + filter;
 	    } else if(category != "Todos" && comp == 2) {
-		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category, completed, score, path FROM games WHERE category = "
-			+ getCategoryIdFromName(category) + " ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2) AS time, play_count, category, completed, score, path FROM games WHERE category = "
+			+ getCategoryIdFromName(category) + " ORDER BY " + filter;
 	    } else if(category != "Todos" && comp != 2) {
-		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2), play_count, category, completed, score, path FROM games WHERE category = "
-			+ getCategoryIdFromName(category) + " AND completed = " + comp + " ORDER BY name";
+		query = "SELECT name, ghost, ROUND(((time_played / 60)/60),2) AS time, play_count, category, completed, score, path FROM games WHERE category = "
+			+ getCategoryIdFromName(category) + " AND completed = " + comp + " ORDER BY " + filter;
 	    }
 
 	    ResultSet rrs = sstmt.executeQuery(query);

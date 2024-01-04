@@ -25,14 +25,14 @@ public class StatisticsTotalHours extends JInternalFrame {
 	    return;
 	}
 	setTitle("Estadisticas de tiempo de juego");
-	setSize(850, 550);
+	setBounds(50, 50, 850, 550);
 	setClosable(true);
 	setResizable(true);
 	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	setLayout(new FlowLayout());
 
 	ChartPanel chartPanel = new ChartPanel(barChart);
-	chartPanel.setPreferredSize(new Dimension(560, 367) );        
+	chartPanel.setPreferredSize(new Dimension(560, 367));        
 	setContentPane(chartPanel); 
 	
 	setVisible(true);
