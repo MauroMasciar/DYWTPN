@@ -6,32 +6,33 @@ import javax.swing.JOptionPane;
 import database.ModelConfig;
 
 public class Main {
-    public static Process p;
-    public static final String VERSION_APP = "1.2.4.85";
-    public static boolean test = false;
+	public static Process p;
+	public static final String VERSION_APP = "1.2.4.86";
+	public static boolean test = false;
 
-    @SuppressWarnings("unused")
-    public static void main(String[] args) {
-	if(!test) {
-	    new Thread(new Runnable() {
-		public void run() {
-		    try {
-			//ProcessBuilder pb = new ProcessBuilder(string);
-			//p = pb.start();
-			String string = "core\\mysql\\bin\\mysqld_z.exe --port 3308";
-			p = Runtime.getRuntime().exec(string);
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
+		if(!test) {
+			new Thread(new Runnable() {
+				@SuppressWarnings("deprecation")
+				public void run() {
+					try {
+						//ProcessBuilder pb = new ProcessBuilder(string);
+						//p = pb.start();
+						String string = "core\\mysql\\bin\\mysqld_z.exe --port 3308";
+						p = Runtime.getRuntime().exec(string);
+						Splash splash = new Splash();
+					} catch (IOException ex) {
+						JOptionPane.showMessageDialog(null, "No se ha podido cargar los datos, vuelva a intentarlo. Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
+						System.exit(0);
+					}
+				}
+			}).start();
+		} else {
+			ModelConfig mc = new ModelConfig();
+			ModelConfig.loadTheme(mc.getTheme());
 			Splash splash = new Splash();
-		    } catch (IOException ex) {
-			JOptionPane.showMessageDialog(null, "No se ha podido cargar los datos, vuelva a intentarlo. Si el problema persiste, reinstale la aplicacion.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
-		    }
+			MainUI.loadData();
 		}
-	    }).start();
-	} else {
-	    ModelConfig mc = new ModelConfig();
-	    ModelConfig.loadTheme(mc.getTheme());
-	    Splash splash = new Splash();
-	    MainUI.loadData();
 	}
-    }
 }
