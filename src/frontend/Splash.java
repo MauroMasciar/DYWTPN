@@ -13,51 +13,51 @@ public class Splash extends JDialog {
     private final JLabel lblImg = new JLabel();
 
     public Splash() {
-	setSize(600, 400);
-	setUndecorated(true);
-	setLocationRelativeTo(null);
-	setLayout(new GridBagLayout());
-	ImageIcon splash_image  = new ImageIcon(this.getClass().getResource("/gfx/splash.png"));
-	lblImg.setIcon(splash_image);
+        setSize(600, 400);
+        setUndecorated(true);
+        setLocationRelativeTo(null);
+        setLayout(new GridBagLayout());
+        ImageIcon splash_image  = new ImageIcon(this.getClass().getResource("/gfx/splash.png"));
+        lblImg.setIcon(splash_image);
 
-	GridBagConstraints gbc = new GridBagConstraints();
-	gbc.gridheight = 1;
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.weighty = 1.0;
-	gbc.ipadx = 1;
-	gbc.ipady = 1;
-	gbc.fill = GridBagConstraints.BOTH;
-	gbc.gridx = 0;
-	gbc.gridy = 0;
-	add(lblImg, gbc);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.ipadx = 1;
+        gbc.ipady = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(lblImg, gbc);
 
-	setVisible(true);
+        setVisible(true);
 
-	new Thread(new Runnable() {
-	    @SuppressWarnings("unused")
-	    public void run() {
-		try {
-		    if(Main.test) {
-			MainWindow mainWindow = new MainWindow();
-			MainWindow.showWindow();
-			dispose();
-		    } else {
-			Thread.sleep(1000);
-			ModelConfig mc = new ModelConfig();
-			ModelConfig.loadTheme(mc.getTheme());
-			Thread.sleep(500);
-			MainUI.loadData();
-			Thread.sleep(2000);
-			MainWindow mainWindow = new MainWindow();
-			MainWindow.showWindow();
-			dispose();
-		    }
-		} catch (InterruptedException ex) {
-		    ex.printStackTrace();
-		    System.exit(0);
-		}
-	    }
-	}).start();
+        new Thread(new Runnable() {
+            @SuppressWarnings("unused")
+            public void run() {
+                try {
+                    if(Main.test) {
+                        MainWindow mainWindow = new MainWindow();
+                        MainWindow.showWindow();
+                        dispose();
+                    } else {
+                        Thread.sleep(1000);
+                        ModelConfig mc = new ModelConfig();
+                        ModelConfig.loadTheme(mc.getTheme());
+                        Thread.sleep(500);
+                        MainUI.loadData();
+                        Thread.sleep(2000);
+                        MainWindow mainWindow = new MainWindow();
+                        MainWindow.showWindow();
+                        dispose();
+                    }
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                    System.exit(0);
+                }
+            }
+        }).start();
     }
 }

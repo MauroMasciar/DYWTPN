@@ -21,26 +21,26 @@ public final class Test extends JPanel {
     }*/
 
     private Test() {
-	super(new BorderLayout());
-	JPanel p = new JPanel(new GridLayout(0, 1));
-	p.add(new CheckedComboBox<>(makeModel()));
-	add(p, BorderLayout.NORTH);
-	setPreferredSize(new Dimension(320, 240));
+        super(new BorderLayout());
+        JPanel p = new JPanel(new GridLayout(0, 1));
+        p.add(new CheckedComboBox<>(makeModel()));
+        add(p, BorderLayout.NORTH);
+        setPreferredSize(new Dimension(320, 240));
     }
 
     private static ComboBoxModel<CheckableItem> makeModel() {
-	ModelGames mg = new ModelGames();
-	ArrayList<String> games = new ArrayList<>();
-	games = mg.getGamesNameList(true);
-	
-	CheckableItem[] m = {
-		new CheckableItem(games.get(1), false),
-		new CheckableItem("bb", true),
-		new CheckableItem("111", false),
-		new CheckableItem("33333", true),
-		new CheckableItem("2222", true),
-		new CheckableItem("c", false)
-	};
-	return new DefaultComboBoxModel<>(m);
+        ModelGames mg = new ModelGames();
+        ArrayList<String> games = new ArrayList<>();
+        games = mg.getGamesNameList(true);
+
+        CheckableItem[] m = {
+                new CheckableItem(games.get(1), false),
+                new CheckableItem("bb", true),
+                new CheckableItem("111", false),
+                new CheckableItem("33333", true),
+                new CheckableItem("2222", true),
+                new CheckableItem("c", false)
+        };
+        return new DefaultComboBoxModel<>(m);
     }
 }

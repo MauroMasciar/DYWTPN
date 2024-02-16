@@ -93,432 +93,432 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private int gameId;
 
     public EditGame(int gameId) {
-	ModelGames mg = new ModelGames();
-	if(mg.getTotalGames() == 0) {
-	    JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
-	    return;
-	}
-	if(gameId == 0) gameId = 1;
-	setTitle("Editar juegos");
-	setBounds(50, 50, 850, 550);
-	setClosable(true);
-	setResizable(true);
-	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	this.gameId = gameId;
+        ModelGames mg = new ModelGames();
+        if(mg.getTotalGames() == 0) {
+            JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(gameId == 0) gameId = 1;
+        setTitle("Editar juegos");
+        setBounds(50, 50, 850, 550);
+        setClosable(true);
+        setResizable(true);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.gameId = gameId;
 
-	pnlDetails.setLayout(new GridBagLayout());
-	pnlDetails.setBorder(BorderFactory.createTitledBorder("Detalles"));
+        pnlDetails.setLayout(new GridBagLayout());
+        pnlDetails.setBorder(BorderFactory.createTitledBorder("Detalles"));
 
-	GridBagConstraints gbc = new GridBagConstraints();
-	gbc.gridheight = 1;
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.weighty = 1.0;
-	gbc.ipadx = 8;
-	gbc.ipady = 1;
-	gbc.fill = GridBagConstraints.HORIZONTAL;
-	gbc.gridx = 0;
-	gbc.gridy = 0;
-	pnlDetails.add(lblTitle, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 7;
-	pnlDetails.add(cbTitle, gbc);
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblReleaseDate, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtReleaseDate, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblRating, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtRating, gbc);
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblGenre, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtGenre, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblPlatform, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtPlatform, gbc);
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblDeveloper, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtDeveloper, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblPublisher, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtPublisher, gbc);
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblSeries, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtSeries, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblRegion, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtRegion, gbc);
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblPlayMode, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtPlayMode, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblVersion, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtVersion, gbc);
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblStatus, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtStatus, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblAdded, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 1;
-	pnlDetails.add(txtAdded, gbc);
-	gbc.gridx++;
-	pnlDetails.add(chFavorite, gbc);
-	gbc.gridx++;
-	pnlDetails.add(chPortable, gbc);
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblLibrary, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(cbLibrary, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblModified, gbc);
-	gbc.gridx++;
-	pnlDetails.add(txtModified, gbc);
-	gbc.gridx++;
-	pnlDetails.add(chCompleted, gbc);
-	gbc.gridx++;
-	pnlDetails.add(chHide, gbc);
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblLastPlayed, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtLastPlayed, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblCompletedDate, gbc);
-	gbc.gridx++;
-	pnlDetails.add(txtCompletedDate, gbc);
-	gbc.gridx++;
-	pnlDetails.add(chStatistic, gbc);
-	gbc.gridx++;
-	pnlDetails.add(chGhost, gbc);
-	gbc.gridx = 0;
-	gbc.gridy++;
-	pnlDetails.add(lblPath, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(txtPath, gbc);
-	gbc.gridwidth = 1;
-	gbc.gridx += 3;
-	pnlDetails.add(lblGameTime, gbc);
-	gbc.gridx++;
-	pnlDetails.add(spinGameTime, gbc);
-	gbc.gridx++;
-	pnlDetails.add(lblConvertedSeconds, gbc);	
-	gbc.gridy++;
-	gbc.gridx = 0;
-	pnlDetails.add(lblCategory, gbc);
-	gbc.gridx++;
-	gbc.gridwidth = 3;
-	pnlDetails.add(cbCategory, gbc);
-	gbc.gridx += 3;
-	gbc.gridwidth = 1;
-	pnlDetails.add(lblPlayCount, gbc);
-	gbc.gridx++;
-	pnlDetails.add(spinPlayCount, gbc);
-	gbc.gridx++;
-	pnlDetails.add(lblScore, gbc);
-	gbc.gridx++;
-	pnlDetails.add(spinScore, gbc);
-	// Panel notes
-	pnlNotes.setLayout(new GridBagLayout());
-	pnlNotes.setBorder(BorderFactory.createTitledBorder("Notas"));
-	gbc.gridheight = 1;
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.weighty = 1.0;
-	gbc.ipadx = 1;
-	gbc.ipady = 1;
-	gbc.fill = GridBagConstraints.BOTH;
-	gbc.gridx = 0;
-	gbc.gridy = 0;
-	pnlNotes.add(scrNotes, gbc);
-	setLayout(new GridBagLayout());
-	gbc.gridheight = 1;
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.weighty = 1.0;
-	gbc.ipadx = 1;
-	gbc.ipady = 1;
-	gbc.fill = GridBagConstraints.BOTH;
-	gbc.gridx = 0;
-	gbc.gridy = 0;
-	add(pnlDetails, gbc);
-	gbc.gridy++;
-	gbc.gridheight = 2;
-	gbc.gridwidth = 2;
-	gbc.weightx = 2.0;
-	gbc.weighty = 2.0;
-	add(pnlNotes, gbc);
-	gbc.gridy += 2;
-	gbc.gridheight = 1;
-	gbc.gridwidth = 1;
-	gbc.weightx = 1.0;
-	gbc.weighty = 1.0;
-	gbc.fill = GridBagConstraints.NONE;
-	add(btnSave, gbc);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.ipadx = 8;
+        gbc.ipady = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        pnlDetails.add(lblTitle, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 7;
+        pnlDetails.add(cbTitle, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblReleaseDate, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtReleaseDate, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblRating, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtRating, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblGenre, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtGenre, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblPlatform, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtPlatform, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblDeveloper, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtDeveloper, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblPublisher, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtPublisher, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblSeries, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtSeries, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblRegion, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtRegion, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblPlayMode, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtPlayMode, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblVersion, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtVersion, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblStatus, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtStatus, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblAdded, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 1;
+        pnlDetails.add(txtAdded, gbc);
+        gbc.gridx++;
+        pnlDetails.add(chFavorite, gbc);
+        gbc.gridx++;
+        pnlDetails.add(chPortable, gbc);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblLibrary, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(cbLibrary, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblModified, gbc);
+        gbc.gridx++;
+        pnlDetails.add(txtModified, gbc);
+        gbc.gridx++;
+        pnlDetails.add(chCompleted, gbc);
+        gbc.gridx++;
+        pnlDetails.add(chHide, gbc);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblLastPlayed, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtLastPlayed, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblCompletedDate, gbc);
+        gbc.gridx++;
+        pnlDetails.add(txtCompletedDate, gbc);
+        gbc.gridx++;
+        pnlDetails.add(chStatistic, gbc);
+        gbc.gridx++;
+        pnlDetails.add(chGhost, gbc);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnlDetails.add(lblPath, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(txtPath, gbc);
+        gbc.gridwidth = 1;
+        gbc.gridx += 3;
+        pnlDetails.add(lblGameTime, gbc);
+        gbc.gridx++;
+        pnlDetails.add(spinGameTime, gbc);
+        gbc.gridx++;
+        pnlDetails.add(lblConvertedSeconds, gbc);	
+        gbc.gridy++;
+        gbc.gridx = 0;
+        pnlDetails.add(lblCategory, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        pnlDetails.add(cbCategory, gbc);
+        gbc.gridx += 3;
+        gbc.gridwidth = 1;
+        pnlDetails.add(lblPlayCount, gbc);
+        gbc.gridx++;
+        pnlDetails.add(spinPlayCount, gbc);
+        gbc.gridx++;
+        pnlDetails.add(lblScore, gbc);
+        gbc.gridx++;
+        pnlDetails.add(spinScore, gbc);
+        // Panel notes
+        pnlNotes.setLayout(new GridBagLayout());
+        pnlNotes.setBorder(BorderFactory.createTitledBorder("Notas"));
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.ipadx = 1;
+        gbc.ipady = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        pnlNotes.add(scrNotes, gbc);
+        setLayout(new GridBagLayout());
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.ipadx = 1;
+        gbc.ipady = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(pnlDetails, gbc);
+        gbc.gridy++;
+        gbc.gridheight = 2;
+        gbc.gridwidth = 2;
+        gbc.weightx = 2.0;
+        gbc.weighty = 2.0;
+        add(pnlNotes, gbc);
+        gbc.gridy += 2;
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.NONE;
+        add(btnSave, gbc);
 
-	cbTitle.addActionListener(this);
-	btnSave.addActionListener(this);
-	txtCompletedDate.addActionListener(this);
-	txtReleaseDate.addActionListener(this);
-	chCompleted.addActionListener(this);
-	spinGameTime.addChangeListener(this);
-	txtAdded.setEditable(false);
-	txtModified.setEditable(false);
-	txtaNotes.setLineWrap(true);
-	txtaNotes.setWrapStyleWord(true);
-	loadCategory();
-	loadLibrary();
-	loadGameList();
+        cbTitle.addActionListener(this);
+        btnSave.addActionListener(this);
+        txtCompletedDate.addActionListener(this);
+        txtReleaseDate.addActionListener(this);
+        chCompleted.addActionListener(this);
+        spinGameTime.addChangeListener(this);
+        txtAdded.setEditable(false);
+        txtModified.setEditable(false);
+        txtaNotes.setLineWrap(true);
+        txtaNotes.setWrapStyleWord(true);
+        loadCategory();
+        loadLibrary();
+        loadGameList();
 
-	chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
-	txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
+        chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicacion");
+        txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
 
-	spinnerNumberModelScore.setMinimum(0);
-	spinnerNumberModelScore.setMaximum(10);
-	spinnerNumberModelGameTime.setMinimum(0);
-	spinnerNumberModelPlayCount.setMinimum(0);
-	spinScore.setModel(spinnerNumberModelScore);
-	spinGameTime.setModel(spinnerNumberModelGameTime);
-	spinPlayCount.setModel(spinnerNumberModelPlayCount);
+        spinnerNumberModelScore.setMinimum(0);
+        spinnerNumberModelScore.setMaximum(10);
+        spinnerNumberModelGameTime.setMinimum(0);
+        spinnerNumberModelPlayCount.setMinimum(0);
+        spinScore.setModel(spinnerNumberModelScore);
+        spinGameTime.setModel(spinnerNumberModelGameTime);
+        spinPlayCount.setModel(spinnerNumberModelPlayCount);
 
-	dcCompletedDate.setDateFormat("yyyy-MM-dd");
-	dcCompletedDate.setTextRefernce(txtCompletedDate);
-	dcCompletedDate.hidePopup();
-	dcReleaseDate.setDateFormat("yyyy-MM-dd");
-	dcReleaseDate.setTextRefernce(txtReleaseDate);
-	dcReleaseDate.hidePopup();
-	
-	txtLastPlayed.setEditable(false);
+        dcCompletedDate.setDateFormat("yyyy-MM-dd");
+        dcCompletedDate.setTextRefernce(txtCompletedDate);
+        dcCompletedDate.hidePopup();
+        dcReleaseDate.setDateFormat("yyyy-MM-dd");
+        dcReleaseDate.setTextRefernce(txtReleaseDate);
+        dcReleaseDate.hidePopup();
 
-	if(gameId != 0) {
-	    cbTitle.setSelectedItem(mg.getNameFromId(gameId));
-	}
+        txtLastPlayed.setEditable(false);
 
-	if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
-	if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
-	if(Validations.isEmpty(txtGenre)) txtGenre.setText("-");
-	if(Validations.isEmpty(txtDeveloper)) txtDeveloper.setText("-");
-	if(Validations.isEmpty(txtSeries)) txtSeries.setText("-");
-	if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("-");
-	if(Validations.isEmpty(txtStatus)) txtStatus.setText("-");
-	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
-	if(Validations.isEmpty(txtRating)) txtRating.setText("-");
-	if(Validations.isEmpty(txtPlatform)) txtPlatform.setText("-");
-	if(Validations.isEmpty(txtPublisher)) txtPublisher.setText("-");
-	if(Validations.isEmpty(txtRegion)) txtRegion.setText("-");
-	if(Validations.isEmpty(txtVersion)) txtVersion.setText("-");
-	if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("0000-00-00");
+        if(gameId != 0) {
+            cbTitle.setSelectedItem(mg.getNameFromId(gameId));
+        }
 
-	setVisible(true);
+        if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
+        if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
+        if(Validations.isEmpty(txtGenre)) txtGenre.setText("-");
+        if(Validations.isEmpty(txtDeveloper)) txtDeveloper.setText("-");
+        if(Validations.isEmpty(txtSeries)) txtSeries.setText("-");
+        if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("-");
+        if(Validations.isEmpty(txtStatus)) txtStatus.setText("-");
+        if(Validations.isEmpty(txtPath)) txtPath.setText("-");
+        if(Validations.isEmpty(txtRating)) txtRating.setText("-");
+        if(Validations.isEmpty(txtPlatform)) txtPlatform.setText("-");
+        if(Validations.isEmpty(txtPublisher)) txtPublisher.setText("-");
+        if(Validations.isEmpty(txtRegion)) txtRegion.setText("-");
+        if(Validations.isEmpty(txtVersion)) txtVersion.setText("-");
+        if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("0000-00-00");
+
+        setVisible(true);
     }
 
     private void loadCategory() {
-	cbCategory.removeAllItems();
-	ArrayList<String> listCategory = new ArrayList<>();
-	listCategory.clear();
-	ModelGames mg = new ModelGames();
-	listCategory = mg.getCategoryList();
-	for(int i = 0; i < listCategory.size(); i++) {
-	    cbCategory.addItem(listCategory.get(i));
-	}
+        cbCategory.removeAllItems();
+        ArrayList<String> listCategory = new ArrayList<>();
+        listCategory.clear();
+        ModelGames mg = new ModelGames();
+        listCategory = mg.getCategoryList();
+        for(int i = 0; i < listCategory.size(); i++) {
+            cbCategory.addItem(listCategory.get(i));
+        }
     }
-    
+
     private void loadLibrary() {
-	cbLibrary.removeAllItems();
-	ArrayList<String> listLibrary = new ArrayList<>();
-	listLibrary.clear();
-	ModelGames mg = new ModelGames();
-	listLibrary = mg.getLibraryList();
-	for(int i = 0; i < listLibrary.size(); i++) {
-	    cbLibrary.addItem(listLibrary.get(i));
-	}
+        cbLibrary.removeAllItems();
+        ArrayList<String> listLibrary = new ArrayList<>();
+        listLibrary.clear();
+        ModelGames mg = new ModelGames();
+        listLibrary = mg.getLibraryList();
+        for(int i = 0; i < listLibrary.size(); i++) {
+            cbLibrary.addItem(listLibrary.get(i));
+        }
     }
 
     private void loadGameList() {
-	cbTitle.removeAllItems();
-	ArrayList<String> listGames = new ArrayList<>();
-	listGames.clear();
-	ModelGames mg = new ModelGames();
-	listGames = mg.getGamesNameList(true);
-	for(int i = 1; i < listGames.size(); i++) {
-	    cbTitle.addItem(listGames.get(i));
-	}
+        cbTitle.removeAllItems();
+        ArrayList<String> listGames = new ArrayList<>();
+        listGames.clear();
+        ModelGames mg = new ModelGames();
+        listGames = mg.getGamesNameList(true);
+        for(int i = 1; i < listGames.size(); i++) {
+            cbTitle.addItem(listGames.get(i));
+        }
     }
 
     private void loadData(String gameName) {
-	ModelGames mg = new ModelGames();
-	gameId = mg.getIdFromGameName(gameName);
-	int secondsPlayed = mg.getSecondsPlayed(gameId);
-	int playCount = mg.getPlayCount(gameId);
-	int score = mg.getScore(gameId);
+        ModelGames mg = new ModelGames();
+        gameId = mg.getIdFromGameName(gameName);
+        int secondsPlayed = mg.getSecondsPlayed(gameId);
+        int playCount = mg.getPlayCount(gameId);
+        int score = mg.getScore(gameId);
 
-	txtReleaseDate.setText(mg.getReleaseDate(gameId));
-	txtRating.setText(mg.getRating(gameId));
-	txtGenre.setText(mg.getGenre(gameId));
-	txtPlatform.setText(mg.getPlatform(gameId));
-	txtDeveloper.setText(mg.getDeveloper(gameId));
-	txtPublisher.setText(mg.getPublisher(gameId));
-	txtSeries.setText(mg.getSeries(gameId));
-	txtRegion.setText(mg.getRegion(gameId));
-	txtPlayMode.setText(mg.getPlayMode(gameId));
-	txtVersion.setText(mg.getVersion(gameId));
-	txtStatus.setText(mg.getStatus(gameId));
-	cbLibrary.setSelectedItem(mg.getLibraryName((gameId)));
-	txtLastPlayed.setText(mg.getLastPlayed(gameId));
-	txtPath.setText(mg.getPathFromGame(gameId));	
-	chFavorite.setSelected(mg.isFavorite(gameId));
-	chCompleted.setSelected(mg.isCompleted(gameId));
-	chStatistic.setSelected(mg.isStatistic(gameId));
-	chGhost.setSelected(mg.isGhost(gameId));
-	chPortable.setSelected(mg.isPortable(gameId));
-	chHide.setSelected(mg.isHidden(gameId));
-	txtAdded.setText(mg.getAddedDate(gameId));
-	txtaNotes.setText(mg.getNotes(gameId));
-	spinScore.setValue(score);
-	spinGameTime.setValue(secondsPlayed);
-	spinPlayCount.setValue(playCount);
-	txtModified.setText(mg.getModified(gameId));
-	cbCategory.setSelectedItem(mg.getGameCategoryName(gameId));
-	txtCompletedDate.setText(mg.getCompletedDate(gameId));
-	lblConvertedSeconds.setText(" (" + Utils.getTotalHoursFromSeconds(secondsPlayed, true) + ")");
-	if(chCompleted.isSelected()) {
-	    txtCompletedDate.setEditable(true);
-	} else {
-	    txtCompletedDate.setEditable(false);
-	}
+        txtReleaseDate.setText(mg.getReleaseDate(gameId));
+        txtRating.setText(mg.getRating(gameId));
+        txtGenre.setText(mg.getGenre(gameId));
+        txtPlatform.setText(mg.getPlatform(gameId));
+        txtDeveloper.setText(mg.getDeveloper(gameId));
+        txtPublisher.setText(mg.getPublisher(gameId));
+        txtSeries.setText(mg.getSeries(gameId));
+        txtRegion.setText(mg.getRegion(gameId));
+        txtPlayMode.setText(mg.getPlayMode(gameId));
+        txtVersion.setText(mg.getVersion(gameId));
+        txtStatus.setText(mg.getStatus(gameId));
+        cbLibrary.setSelectedItem(mg.getLibraryName((gameId)));
+        txtLastPlayed.setText(mg.getLastPlayed(gameId));
+        txtPath.setText(mg.getPathFromGame(gameId));	
+        chFavorite.setSelected(mg.isFavorite(gameId));
+        chCompleted.setSelected(mg.isCompleted(gameId));
+        chStatistic.setSelected(mg.isStatistic(gameId));
+        chGhost.setSelected(mg.isGhost(gameId));
+        chPortable.setSelected(mg.isPortable(gameId));
+        chHide.setSelected(mg.isHidden(gameId));
+        txtAdded.setText(mg.getAddedDate(gameId));
+        txtaNotes.setText(mg.getNotes(gameId));
+        spinScore.setValue(score);
+        spinGameTime.setValue(secondsPlayed);
+        spinPlayCount.setValue(playCount);
+        txtModified.setText(mg.getModified(gameId));
+        cbCategory.setSelectedItem(mg.getGameCategoryName(gameId));
+        txtCompletedDate.setText(mg.getCompletedDate(gameId));
+        lblConvertedSeconds.setText(" (" + Utils.getTotalHoursFromSeconds(secondsPlayed, true) + ")");
+        if(chCompleted.isSelected()) {
+            txtCompletedDate.setEditable(true);
+        } else {
+            txtCompletedDate.setEditable(false);
+        }
     }
 
     private void saveData(int gameId) {
-	if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
-		Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
-		Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) ||
-		Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtCompletedDate)) {
-	    JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
-	    return;
-	}
-	if(Validations.isEmpty(txtPath)) txtPath.setText("-");
-	if(Validations.isEmpty(txtaNotes)) txtaNotes.setText(" ");
+        if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) || Validations.isEmpty(txtPlatform) ||
+                Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
+                Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) ||
+                Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtCompletedDate)) {
+            JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(Validations.isEmpty(txtPath)) txtPath.setText("-");
+        if(Validations.isEmpty(txtaNotes)) txtaNotes.setText(" ");
 
-	String completed = "0", ghost = "0";
-	int hide = 0, favorite = 0, statistic = 0, portable = 0;
-	ModelGames mg = new ModelGames();
+        String completed = "0", ghost = "0";
+        int hide = 0, favorite = 0, statistic = 0, portable = 0;
+        ModelGames mg = new ModelGames();
 
-	if(chFavorite.isSelected()) favorite = 1;
-	if(chCompleted.isSelected()) completed = "1";
-	if(chStatistic.isSelected()) statistic = 1;
-	if(chGhost.isSelected()) ghost = "1";
-	if(chPortable.isSelected()) portable = 1;
-	if(chHide.isSelected()) hide = 1;
+        if(chFavorite.isSelected()) favorite = 1;
+        if(chCompleted.isSelected()) completed = "1";
+        if(chStatistic.isSelected()) statistic = 1;
+        if(chGhost.isSelected()) ghost = "1";
+        if(chPortable.isSelected()) portable = 1;
+        if(chHide.isSelected()) hide = 1;
 
-	String releasedate = txtReleaseDate.getText();
-	String rating = txtRating.getText();
-	String genre = txtGenre.getText();
-	String platform = txtPlatform.getText();
-	String developer = txtDeveloper.getText();
-	String publisher = txtPublisher.getText();
-	String series = txtSeries.getText();
-	String region = txtRegion.getText();
-	String playMode = txtPlayMode.getText();
-	String version = txtVersion.getText();
-	String status = txtStatus.getText();
-	int library = mg.getLibraryIdFromName(cbLibrary.getSelectedItem().toString());
-	String lastPlayed = txtLastPlayed.getText();
-	String path = txtPath.getText();
-	String completedDate = txtCompletedDate.getText();
-	String notes = txtaNotes.getText();
-	int score = (Integer) spinScore.getValue();
-	int gameTime = (Integer) spinGameTime.getValue();
-	int playCount = (Integer) spinPlayCount.getValue();
-	int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
+        String releasedate = txtReleaseDate.getText();
+        String rating = txtRating.getText();
+        String genre = txtGenre.getText();
+        String platform = txtPlatform.getText();
+        String developer = txtDeveloper.getText();
+        String publisher = txtPublisher.getText();
+        String series = txtSeries.getText();
+        String region = txtRegion.getText();
+        String playMode = txtPlayMode.getText();
+        String version = txtVersion.getText();
+        String status = txtStatus.getText();
+        int library = mg.getLibraryIdFromName(cbLibrary.getSelectedItem().toString());
+        String lastPlayed = txtLastPlayed.getText();
+        String path = txtPath.getText();
+        String completedDate = txtCompletedDate.getText();
+        String notes = txtaNotes.getText();
+        int score = (Integer) spinScore.getValue();
+        int gameTime = (Integer) spinGameTime.getValue();
+        int playCount = (Integer) spinPlayCount.getValue();
+        int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
-	int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
-		favorite, statistic, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
-		playMode, version, status, lastPlayed, completedDate, library, notes);
-	if(res == 1) {
-	    JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-	    MainUI.loadData();
-	    dispose();
-	} else {
-	    JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
-	}
+        int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
+                favorite, statistic, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
+                playMode, version, status, lastPlayed, completedDate, library, notes);
+        if(res == 1) {
+            JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
+            MainUI.loadData();
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	if(e.getSource() == cbTitle) {
-	    loadData(cbTitle.getSelectedItem().toString());
-	} else if(e.getSource() == txtCompletedDate) {
-	    dcCompletedDate.showPopup();
-	} else if(e.getSource() == txtReleaseDate) {
-	    dcReleaseDate.showPopup();
-	} else if(e.getSource() == btnSave) {
-	    ModelGames mg = new ModelGames();
-	    saveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));
-	    MainUI.txtSearch.setText("");
-	} else if(e.getSource() == chCompleted) {
-	    if(chCompleted.isSelected()) {
-		txtCompletedDate.setEditable(true);
-	    } else {
-		txtCompletedDate.setEditable(false);
-	    }
-	}
+        if(e.getSource() == cbTitle) {
+            loadData(cbTitle.getSelectedItem().toString());
+        } else if(e.getSource() == txtCompletedDate) {
+            dcCompletedDate.showPopup();
+        } else if(e.getSource() == txtReleaseDate) {
+            dcReleaseDate.showPopup();
+        } else if(e.getSource() == btnSave) {
+            ModelGames mg = new ModelGames();
+            saveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));
+            MainUI.txtSearch.setText("");
+        } else if(e.getSource() == chCompleted) {
+            if(chCompleted.isSelected()) {
+                txtCompletedDate.setEditable(true);
+            } else {
+                txtCompletedDate.setEditable(false);
+            }
+        }
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
-	if(e.getSource() == spinGameTime) {
-	    lblConvertedSeconds.setText(" (" + Utils.getTotalHoursFromSeconds((Integer)spinGameTime.getValue(), true) + ")");
-	}
+        if(e.getSource() == spinGameTime) {
+            lblConvertedSeconds.setText(" (" + Utils.getTotalHoursFromSeconds((Integer)spinGameTime.getValue(), true) + ")");
+        }
     }
 }
