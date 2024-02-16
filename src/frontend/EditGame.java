@@ -325,7 +325,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
 
         spinnerNumberModelScore.setMinimum(0);
-        spinnerNumberModelScore.setMaximum(10);
+        spinnerNumberModelScore.setMaximum(100);
         spinnerNumberModelGameTime.setMinimum(0);
         spinnerNumberModelPlayCount.setMinimum(0);
         spinScore.setModel(spinnerNumberModelScore);

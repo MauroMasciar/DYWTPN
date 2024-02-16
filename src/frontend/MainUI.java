@@ -569,6 +569,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                             btnLaunchGame.setText("Lanzar");
                             ig.closeGame();
                             loadData();
+                            gamePaused = false;
+                            btnLaunchGame.setText("Pausar");
                         } catch (InterruptedException ex) {
                             JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
                         }

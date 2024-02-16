@@ -43,6 +43,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiGamesStatisticsPlayCount = new JMenuItem("Sesiones");
     private final JMenuItem mnuiGamesStatisticsTotalHours = new JMenuItem("Tiempo");
     private final JMenu mnuPlayer = new JMenu("Jugador");
+    private final JMenuItem mnuiAddAchiev = new JMenuItem("Añadir hazaña", new ImageIcon("gfx/x.png"));
     private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("gfx/history.png"));
     private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("gfx/activity.png"));
     private final JMenu mnuHelp = new JMenu("Ayuda");
@@ -85,6 +86,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuGames.addSeparator();
         mnuGames.add(mnuiGamesRefresh);
         mnuGames.add(mnuiGamesExit);
+        mnuPlayer.add(mnuiAddAchiev);
         mnuPlayer.add(mnuiPlayerHistory);
         mnuPlayer.add(mnuiPlayerActivities);
         mnuPlayer.add(mnuGamesStatistics);
@@ -110,6 +112,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiPlayerActivities.addActionListener(this);
         mnuiGamesStatisticsPlayCount.addActionListener(this);
         mnuiGamesStatisticsTotalHours.addActionListener(this);
+        mnuiAddAchiev.addActionListener(this);
         mnuiPlayerHistory.addActionListener(this);
         mnuiHelpAbout.addActionListener(this);
         mnuiHelpUpdate.addActionListener(this);
@@ -179,6 +182,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             j.add(new StatisticsPlayCount());
         } else if(e.getSource() == mnuiGamesStatisticsTotalHours) {
             j.add(new StatisticsTotalHours());
+        } else if(e.getSource() == mnuiAddAchiev) {
+            j.add(new addAchievement());
         } else if(e.getSource() == mnuiPlayerHistory) {
             j.add(new PlayerHistory());
         } else if(e.getSource() == mnuiGamesRefresh) {

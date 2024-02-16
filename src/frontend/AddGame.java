@@ -326,7 +326,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         chStatistic.setToolTipText("Especifique si quiere que este juego aparezca en las estadisticas");
 
         spinnerNumberModelScore.setMinimum(0);
-        spinnerNumberModelScore.setMaximum(10);
+        spinnerNumberModelScore.setMaximum(100);
         spinnerNumberModelGameTime.setMinimum(0);
         spinnerNumberModelPlayCount.setMinimum(0);
         spinScore.setModel(spinnerNumberModelScore);

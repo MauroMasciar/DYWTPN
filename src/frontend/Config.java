@@ -19,7 +19,7 @@ import database.ModelConfig;
 
 public class Config extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6985809216237042311L;
-    private final JLabel lblName = new JLabel("Nuevo nombre");
+    private final JLabel lblName = new JLabel("Nombre");
     private final JTextField txtName = new JTextField(10);
     private final JButton btnSave = new JButton("Guardar datos");
     private final JButton btnTruncate = new JButton("Resetear datos");
