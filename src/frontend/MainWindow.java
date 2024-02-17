@@ -36,6 +36,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("gfx/refresh.png"));
     private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("gfx/games_list.png"));
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
+    private final JCheckBoxMenuItem mnuiGamesOrderByDate = new JCheckBoxMenuItem("Ordenar por última vez");
     private final JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("gfx/category.png"));
     private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("gfx/collections.png"));
     private final JMenuItem mnuiGamesLibrary = new JMenuItem("Ver bibliotecas", new ImageIcon("gfx/library.png"));
@@ -79,7 +80,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuGames.add(mnuiGamesAddSession);
         mnuGames.add(mnuiGamesEdit);
         mnuGames.add(mnuiGamesList);
-        mnuGames.add(mnuiGamesHidden);
+        mnuGames.add(mnuiGamesOrderByDate);
         mnuGames.add(mnuiGamesCategory);
         mnuGames.add(mnuiGamesCollections);
         mnuGames.add(mnuiGamesLibrary);
@@ -104,6 +105,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiGamesEdit.addActionListener(this);
         mnuiGamesAddSession.addActionListener(this);
         mnuiGamesCollections.addActionListener(this);
+        mnuiGamesOrderByDate.addActionListener(this);
         mnuiGamesCategory.addActionListener(this);
         mnuiGamesLibrary.addActionListener(this);
         mnuiGamesList.addActionListener(this);
@@ -165,11 +167,19 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             }
             MainUI.loadData();
         } else if(e.getSource() == mnuiGamesExit) {
-            if (!Main.test) {
+            if(!Main.test) {
                 ExitApplication();
             }
         } else if(e.getSource() == mnuiGamesCategory) {
             j.add(new Category());
+        } else if(e.getSource() == mnuiGamesOrderByDate) {
+            ModelConfig mc = new ModelConfig();
+            if(mnuiGamesOrderByDate.isSelected()) {
+                mc.setOrderByDate(1);
+            } else {
+                mc.setOrderByDate(0);
+            }
+            MainUI.loadData();
         } else if(e.getSource() == mnuiGamesCollections) {
             j.add(new Collections());
         } else if(e.getSource() == mnuiGamesLibrary) {
@@ -214,6 +224,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     public void windowOpened(WindowEvent e) {
         ModelConfig mc = new ModelConfig();
         mnuiGamesHidden.setSelected(mc.getIsHidden());
+        mnuiGamesOrderByDate.setSelected(mc.getOrderByDate());
     }
 
     @Override

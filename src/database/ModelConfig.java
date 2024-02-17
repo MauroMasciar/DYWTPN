@@ -162,6 +162,39 @@ public class ModelConfig {
             ex.printStackTrace();
         }
     }
+    
+    public boolean getOrderByDate() {
+        String query = "SELECT show_orderbydate FROM config";
+        int sH = 0;
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) sH = rs.getInt("show_orderbydate");
+            stmt.close();
+            this.conex.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        if(sH == 1) return true;
+        return false;
+    }    
+    
+    public void setOrderByDate(int args) {
+        String query = "UPDATE config SET show_orderbydate = " + args;
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            stmt.execute(query);
+            stmt.close();
+            this.conex.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 
     public void saveUserName(String newName) {
         String query = "UPDATE config SET name = '" + newName + "';";

@@ -44,3 +44,5 @@ ALTER TABLE `games` CHANGE `image` `image` VARCHAR(250) CHARACTER SET utf8 COLLA
 -- 1.2.4.79
 ALTER TABLE `games` CHANGE `broken` `statistic` TINYINT(1) NOT NULL DEFAULT '1';
 update games set statistic = 1;
+-- 1.2.4.92
+ALTER TABLE `config` ADD `show_orderbydate` BOOLEAN NOT NULL AFTER `show_hidden`;

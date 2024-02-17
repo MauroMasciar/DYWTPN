@@ -76,7 +76,7 @@ public class GameList extends JInternalFrame implements ActionListener {
         cbFilter.addItem("Puntos");
 
         ArrayList<String> list = new ArrayList<>();
-        list = mg.getGamesNameList(true);
+        list = mg.getGamesNameList(true, false);
         try {
             cbGames.addItem("Todos");
             for (int i = 1; i < list.size(); i++) {

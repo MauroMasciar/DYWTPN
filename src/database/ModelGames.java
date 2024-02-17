@@ -313,15 +313,21 @@ public class ModelGames {
         return mins;
     }
 
-    public ArrayList<String> getGamesNameList(boolean hidden) {
+    public ArrayList<String> getGamesNameList(boolean hidden, boolean orderByDate) {
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
             String query;
             if(hidden) {
                 query = "SELECT name FROM games ORDER BY name";
+                if(orderByDate) {
+                    query = "SELECT * FROM games ORDER BY last_played DESC";
+                }
             } else {
                 query = "SELECT name FROM games WHERE hidden = 0 ORDER BY name";
+                if(orderByDate) {
+                    query = "SELECT name FROM games WHERE hidden = 0 ORDER BY last_played DESC";
+                }
             }
             stmt = conex.createStatement();
             rs = stmt.executeQuery(query);

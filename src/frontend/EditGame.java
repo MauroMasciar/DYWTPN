@@ -390,7 +390,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         ArrayList<String> listGames = new ArrayList<>();
         listGames.clear();
         ModelGames mg = new ModelGames();
-        listGames = mg.getGamesNameList(true);
+        listGames = mg.getGamesNameList(true, false);
         for(int i = 1; i < listGames.size(); i++) {
             cbTitle.addItem(listGames.get(i));
         }
@@ -505,7 +505,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         } else if(e.getSource() == btnSave) {
             ModelGames mg = new ModelGames();
             saveData(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()));
-            MainUI.txtSearch.setText("");
         } else if(e.getSource() == chCompleted) {
             if(chCompleted.isSelected()) {
                 txtCompletedDate.setEditable(true);

@@ -8,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
@@ -33,12 +31,11 @@ import database.ModelGames;
 import database.ModelPlayer;
 import debug.Log;
 
-public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener, KeyListener {
+public class MainUI extends JInternalFrame implements ActionListener, ListSelectionListener, MouseListener {
     private static final long serialVersionUID = 1L;
     private static JList<String> jlistGames = new JList<>();
     private final JScrollPane scrListGame = new JScrollPane(jlistGames);
     private static DefaultListModel<String> modelList = new DefaultListModel<>();
-    public static final JTextField txtSearch = new JTextField(10);
     private static final JTextField txtGameName = new JTextField(20);
     private final static JTextField txtLibrary = new JTextField(20);
     private static final JTextField txtCategory = new JTextField(20);
@@ -63,6 +60,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static boolean gamePaused = false;
     public static int gameIdLaunched = 0;
     private static boolean showHidden = false;
+    private static boolean orderByDate = false;
 
     public MainUI() {
         setTitle("DYWTPN");
@@ -226,13 +224,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         btnLaunchGame.addActionListener(this);
         btnEditGame.addActionListener(this);
 
-        txtSearch.addKeyListener(this);
-
         txtStatistics.setText(" CARGANDO ...");
         txtLastDays.setText(" CARGANDO ...");
         txtTotalInfo.setText(" CARGANDO ...");
-        /*txtGamePlaying.setText(" CARGANDO ...");
-		txtTimePlaying.setText(" CARGANDO ...");*/
         txtLastAchie.setText(" CARGANDO ...");
 
 
@@ -243,8 +237,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         txtTotalInfo.setEditable(false);
         txtGames.setEditable(false);
         txtGamesTime.setEditable(false);
-        /*txtGamePlaying.setEditable(false);
-		txtTimePlaying.setEditable(false);*/
         txtLastAchie.setEditable(false);
         txtCategory.setEditable(false);
         txtSeparator.setEditable(false);
@@ -253,8 +245,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
         txtGameName.setFont(new Font("Serief", Font.BOLD, 12));
         txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
-        /*txtGamePlaying.setFont(new Font("Serief", Font.BOLD, 12));
-		txtTimePlaying.setFont(new Font("Serief", Font.BOLD, 12));*/
         txtLastAchie.setFont(new Font("Serief", Font.BOLD, 12));
         txtLastDays.setFont(new Font("Serief", Font.BOLD, 12));
         txtTotalInfo.setFont(new Font("Serief", Font.BOLD, 12));
@@ -298,6 +288,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static void loadGames() {
         ModelConfig mc = new ModelConfig();
         showHidden = mc.getIsHidden();
+        orderByDate = mc.getOrderByDate();
         updateGameList();
     }
 
@@ -363,8 +354,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         //ModelConfig mc = new ModelConfig();
         txtGames.setText("");
         txtGamesTime.setText("");
-        /*txtGamePlaying.setText(mc.getLastGame());
-		txtTimePlaying.setText(mc.getLastSessionTime());*/
     }
 
     public static void paint() {
@@ -372,8 +361,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         if(gameIdLaunched == 0) {	    
             if(mc.getUsername().equals("PRUEBAS")) {
                 txtStatistics.setForeground(Color.RED);
-                /*txtTimePlaying.setForeground(Color.RED);
-				txtGamePlaying.setForeground(Color.RED);*/
                 txtLastAchie.setForeground(Color.RED);
                 txtLastDays.setForeground(Color.RED);
                 txtTotalInfo.setForeground(Color.RED);
@@ -382,8 +369,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
             } else {
                 int theme = mc.getTheme();
                 if(theme == 1) {
-                    /*txtTimePlaying.setForeground(Color.BLACK);
-					txtGamePlaying.setForeground(Color.BLACK);*/
                     txtStatistics.setForeground(Color.BLACK);
                     txtLastAchie.setForeground(Color.BLACK);
                     txtLastDays.setForeground(Color.BLACK);
@@ -471,7 +456,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
         ModelGames g = new ModelGames();
         ArrayList<String> listGames = new ArrayList<>();
-        listGames = g.getGamesNameList(showHidden);
+        listGames = g.getGamesNameList(showHidden, orderByDate);
         for (int i = 1; i < listGames.size(); i++) {
             modelList.addElement(listGames.get(i));
         }
@@ -566,11 +551,10 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                             Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
                             Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
                             gameIdLaunched = 0;
+                            gamePaused = false;
                             btnLaunchGame.setText("Lanzar");
                             ig.closeGame();
                             loadData();
-                            gamePaused = false;
-                            btnLaunchGame.setText("Pausar");
                         } catch (InterruptedException ex) {
                             JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
                         }
@@ -603,34 +587,5 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if(txtSearch.getText().isEmpty()) {
-            updateGameList();
-        } else {
-            jlistGames.removeAll();
-            modelList.clear();
-            txtGameName.setText("");
-            txtLibrary.setText("");
-            txtCategory.setText("");
-
-            ModelGames g = new ModelGames();
-            ArrayList<String> listGames = new ArrayList<>();
-            listGames = g.getGamesNameList(txtSearch.getText());
-            for (int i = 1; i < listGames.size(); i++) {
-                modelList.addElement(listGames.get(i));
-            }
-            jlistGames.setModel(modelList);
-        }
     }
 }
