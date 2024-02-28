@@ -17,7 +17,7 @@ import backend.Validations;
 import database.ModelGames;
 import database.ModelPlayer;
 
-public class addAchievement extends JInternalFrame implements ActionListener {
+public class AddAchievement extends JInternalFrame implements ActionListener {
     private JPanel pnl = new JPanel();
     private final JLabel lblGame = new JLabel("Juego: ");
     private final JLabel lblAchiev = new JLabel("Hazaña: ");
@@ -25,9 +25,9 @@ public class addAchievement extends JInternalFrame implements ActionListener {
     private JTextField txtAchiev = new JTextField(10);
     private JButton btnAdd = new JButton("Añadir");
     
-    public addAchievement() {
+    public AddAchievement() {
         setTitle("Añadir nueva hazaña");
-        setSize(230, 170);
+        setBounds(20, 20, 400, 170);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setClosable(true);
         setResizable(true);
@@ -55,7 +55,6 @@ public class addAchievement extends JInternalFrame implements ActionListener {
         gbc.gridy++;
         gbc.gridwidth = 2;
         pnl.add(btnAdd, gbc);
-        
         gbc.gridwidth = 1;
         gbc.gridy = 0;
         gbc.gridx = 0;

@@ -428,13 +428,15 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         int gameTime = (Integer) spinGameTime.getValue();
         int playCount = (Integer) spinPlayCount.getValue();
         int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
+        
+        name.replace("'", "");
 
         int res = mg.addGame(name, gameTime, path, ghost, playCount, completed, score, category, hide, 
                 favorite, statistic, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
                 playMode, version, status, lastPlayed, added, modified, completed_date, library, notes);
         if(res == 1) {
             JOptionPane.showMessageDialog(this, "El juego ha sido guardado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-            MainUI.loadData();
+            MainUI.loadData(false);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Ha habido un error al guardado el juego", "Error", JOptionPane.ERROR_MESSAGE);

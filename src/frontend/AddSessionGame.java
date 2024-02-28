@@ -45,7 +45,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
             return;
         }
         setTitle("Añadir nueva sesion");
-        setBounds(100, 80, 300, 150);
+        setBounds(100, 80, 430, 150);
         setClosable(true);
         setResizable(true);
         setLayout(new GridBagLayout());
@@ -114,7 +114,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
                 ModelGames mg = new ModelGames();
                 mg.setLastPlayed(gameId);
                 mg.newSession(gameId);
-                MainUI.loadData();                
+                MainUI.loadData(false);                
                 this.dispose();
                 JOptionPane.showMessageDialog(this, "La sesion de juego se ha agregado satisfactoriamente", "Sesion añadida", JOptionPane.INFORMATION_MESSAGE);
             } else {

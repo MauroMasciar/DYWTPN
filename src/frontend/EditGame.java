@@ -487,7 +487,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
                 playMode, version, status, lastPlayed, completedDate, library, notes);
         if(res == 1) {
             JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-            MainUI.loadData();
+            MainUI.loadData(false);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);

@@ -326,7 +326,7 @@ public class ModelGames {
             } else {
                 query = "SELECT name FROM games WHERE hidden = 0 ORDER BY name";
                 if(orderByDate) {
-                    query = "SELECT name FROM games WHERE hidden = 0 ORDER BY last_played DESC";
+                    query = "SELECT name FROM games WHERE hidden = 0 ORDER BY last_played DESC, name ASC";
                 }
             }
             stmt = conex.createStatement();
@@ -740,9 +740,9 @@ public class ModelGames {
             if(completed == "1" && !isCompleted(gameId)) {
                 ModelPlayer mp = new ModelPlayer();
                 String gameName = getNameFromId(gameId);
-                String achievement = "Has terminado el juego " + gameName;
+                String achievement = "Has terminado el juego " + gameName + " a las " + Utils.getTotalHoursFromSeconds(secondsPlayed, true);
                 mp.saveAchievement(achievement, gameName, gameId);
-                MainUI.loadData();
+                MainUI.loadData(false);
                 if(completed_date.equals("0000-00-00")) completed_date = Utils.getFormattedDate();
             }
             if(completed.equals("0")) completed_date = "0000-00-00";

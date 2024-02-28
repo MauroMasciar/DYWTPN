@@ -7,7 +7,7 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSION_APP = "1.2.4.92";
+    public static final String VERSION_APP = "1.2.4.98";
     public static boolean test = false;
 
     @SuppressWarnings("unused")
@@ -32,7 +32,7 @@ public class Main {
             ModelConfig mc = new ModelConfig();
             ModelConfig.loadTheme(mc.getTheme());
             Splash splash = new Splash();
-            MainUI.loadData();
+            MainUI.loadData(true);
         }
     }
 }

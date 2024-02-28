@@ -80,6 +80,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuGames.add(mnuiGamesAddSession);
         mnuGames.add(mnuiGamesEdit);
         mnuGames.add(mnuiGamesList);
+        mnuGames.add(mnuiGamesHidden);
         mnuGames.add(mnuiGamesOrderByDate);
         mnuGames.add(mnuiGamesCategory);
         mnuGames.add(mnuiGamesCollections);
@@ -165,7 +166,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             } else {
                 mc.setIsHidden(0);
             }
-            MainUI.loadData();
+            MainUI.loadData(false);
         } else if(e.getSource() == mnuiGamesExit) {
             if(!Main.test) {
                 ExitApplication();
@@ -179,7 +180,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             } else {
                 mc.setOrderByDate(0);
             }
-            MainUI.loadData();
+            MainUI.loadData(false);
         } else if(e.getSource() == mnuiGamesCollections) {
             j.add(new Collections());
         } else if(e.getSource() == mnuiGamesLibrary) {
@@ -193,11 +194,11 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         } else if(e.getSource() == mnuiGamesStatisticsTotalHours) {
             j.add(new StatisticsTotalHours());
         } else if(e.getSource() == mnuiAddAchiev) {
-            j.add(new addAchievement());
+            j.add(new AddAchievement());
         } else if(e.getSource() == mnuiPlayerHistory) {
             j.add(new PlayerHistory());
         } else if(e.getSource() == mnuiGamesRefresh) {
-            MainUI.loadData();
+            MainUI.loadData(false);
         } else if(e.getSource() == mnuiHelpUpdate) {
             j.add(new UpdateGUI());
         } else if(e.getSource() == mnuiHelpAbout) {

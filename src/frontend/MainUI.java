@@ -42,8 +42,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private final JTextField txtPathGame = new JTextField(20);
     private static final JButton btnLaunchGame = new JButton("Lanzar");
     private final JButton btnEditGame = new JButton("Editar");
-    //public static final JTextField txtTimePlaying = new JTextField(20);
-    //public static final JTextField txtGamePlaying = new JTextField(20);
     private static final JTextArea txtStatistics = new JTextArea();
     private static final JTextArea txtTotalInfo = new JTextArea();
     private static final JTextArea txtLastDays = new JTextArea();
@@ -66,7 +64,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         setTitle("DYWTPN");
         ModelConfig mc = new ModelConfig();
         // setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 1100, 280);
-        setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 900, 280);
+        setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 930, 280);
         setClosable(false);
         setResizable(true);
         setIconifiable(false);
@@ -261,7 +259,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 while (true) {
                     try {
                         if(gameIdLaunched != 0) {
-                            loadData();
+                            loadData(true);
                         }
                         Thread.sleep(600000);
                     } catch (InterruptedException ex) {
@@ -380,34 +378,34 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         }
     }
 
-    public static void loadData() {
+    public static void loadData(boolean res) {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     if(gameIdLaunched == 0) loadGames();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     loadStatistics(0, "0");
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     loadLastDays();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     loadTotal();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     loadAchievs();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     if(gameIdLaunched == 0) loadLast();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     paint();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     loadTables();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     verifyLoadStatistics();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     verifyLoadLastDays();
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     verifyLoadTotal();
-                    /*Thread.sleep(500);
+                    /*if(res) Thread.sleep(500);
 					verifyLoadLast();*/
-                    Thread.sleep(500);
+                    if(res) Thread.sleep(500);
                     verifyLoadLastAchie();
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
@@ -434,13 +432,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         }
     }
 
-    /*private static void verifyLoadLast() {
-		if(txtGamesTime.getText().equals(" CARGANDO ...") || txtGamePlaying.getText().equals(" CARGANDO ...") || 
-				txtGames.getText().equals(" CARGANDO ...") || txtTimePlaying.getText().equals(" CARGANDO ...")) {
-			loadLast();
-		}
-	}*/
-
     private static void verifyLoadLastAchie() {
         if(txtLastAchie.getText().equals(" CARGANDO ...")) {
             loadAchievs();
@@ -462,11 +453,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         }
         jlistGames.setModel(modelList);
     }
-
-    /*public void act() {
-	KeyEvent k = new KeyEvent(txtSearch, 87, 1, 0, 87, 'w',KeyEvent.KEY_LOCATION_STANDARD );
-	keyReleased(k);
-    }*/
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -554,7 +540,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                             gamePaused = false;
                             btnLaunchGame.setText("Lanzar");
                             ig.closeGame();
-                            loadData();
+                            loadData(true);
                         } catch (InterruptedException ex) {
                             JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
                         }
