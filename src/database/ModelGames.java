@@ -582,7 +582,7 @@ public class ModelGames {
         }
     }
 
-    public void saveGameTime(int gameId) {
+    public void saveGameTime(int gameId, int time) {
         if(gameId != 0) {
             String query = "SELECT time_played FROM games WHERE id = '" + gameId + "'";
             try {
@@ -592,7 +592,8 @@ public class ModelGames {
                 if(rs.next()) {
                     try {
                         int timePlayed = rs.getInt(1);
-                        int totalTimePlayed = timePlayed + 1;
+                        int totalTimePlayed;
+                        totalTimePlayed = timePlayed + time;
                         query = "UPDATE games SET time_played = " + totalTimePlayed + " WHERE id = " + gameId;
                         stmt.execute(query);
                         stmt.close();

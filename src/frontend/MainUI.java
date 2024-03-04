@@ -55,7 +55,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private final JMenuItem mnuiEdit = new JMenuItem("Editar");
 
     public int gameIdSelected = 0;
-    public static boolean gamePaused = false;
     public static int gameIdLaunched = 0;
     private static boolean showHidden = false;
     private static boolean orderByDate = false;
@@ -290,25 +289,24 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         updateGameList();
     }
 
-    public static void loadStatistics(int gameId, String sessionTime) {
+    public static void loadStatistics(int gameId, int sessionTime) {
         ModelConfig mc = new ModelConfig();
         ModelGames mg = new ModelGames();
-        int totalSeconds = mg.getSecondsTotalPlayed();
-        String totalTimePlayed = Utils.getTotalHoursFromSeconds(totalSeconds, true);
-        String statistics = "", name = mc.getUsername();
+        int total = mg.getSecondsTotalPlayed() + sessionTime;
+        String totalTimePlayed = Utils.getTotalHoursFromSeconds(total, true);
+        String statistics, name = mc.getUsername();
 
         txtStatistics.setText(" Nombre: " + name + " | Tiempo total: " + totalTimePlayed);
 
         if(gameIdLaunched == 0) {
             statistics = " Nombre: " + name + " | Tiempo total: " + totalTimePlayed + " | " + mc.getLastGame() + " - " + mc.getLastSessionTime();
         } else {
-            statistics = " Nombre: " + name + " | Tiempo total: " + totalTimePlayed + " | Jugando a: " + mg.getNameFromId(gameId) + " - Tiempo jugando: " + sessionTime;
+            statistics = " Nombre: " + name + " | Tiempo total: " + totalTimePlayed + " | Jugando a: " + mg.getNameFromId(gameId) + " - Tiempo jugando: " + Utils.getTotalHoursFromSeconds(sessionTime, true);
         }
-
-        String statusBar = statistics;
-        MainWindow.updateStatusBar(statusBar);
+        
+        MainWindow.updateStatusBar(statistics);
     }
-
+    
     public static void loadLastDays() {
         ModelGames mg = new ModelGames();
         int tuno = mg.getLastDays(0, 1, true);
@@ -384,7 +382,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 try {
                     if(gameIdLaunched == 0) loadGames();
                     if(res) Thread.sleep(500);
-                    loadStatistics(0, "0");
+                    loadStatistics(0, 0);
                     if(res) Thread.sleep(500);
                     loadLastDays();
                     if(res) Thread.sleep(500);
@@ -416,7 +414,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     private static void verifyLoadStatistics() {
         if(txtStatistics.getText().equals(" CARGANDO ...")) {
-            loadStatistics(0, "0");
+            loadStatistics(0, 0);
         }
     }
 
@@ -465,16 +463,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
             MainWindow.j.add(new EditGame(gameIdSelected));
             MainWindow.j.repaint();
         } else if(e.getSource() == btnLaunchGame || e.getSource() == mnuiLaunch) {
-            if(gameIdLaunched == 0) launchGame();
-            else {
-                if(gamePaused) {
-                    gamePaused = false;
-                    btnLaunchGame.setText("Pausar");
-                } else {
-                    gamePaused = true;
-                    btnLaunchGame.setText("Continuar");
-                }
-            }
+            launchGame();
         }
     }
 
@@ -512,6 +501,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
             JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        if(gameIdLaunched != 0) {
+            JOptionPane.showMessageDialog(this, "Ya hay un juego ejecutandose", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         ModelGames mg = new ModelGames();
         String path = mg.getPathFromGame(gameIdSelected);
@@ -525,9 +519,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         try {
             p = pb.start();
             if (p.isAlive()) {
-                InGame ig = new InGame(gameIdSelected, txtGameName.getText(), mg.getSecondsPlayed(gameIdSelected));
+                InGame ig = new InGame(gameIdSelected, txtGameName.getText());
                 gameIdLaunched = gameIdSelected;
-                btnLaunchGame.setText("Pausar");
 
                 new Thread(new Runnable() {
                     public void run() {
@@ -535,10 +528,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                         try {
                             statusProcess = p.waitFor();
                             Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
-                            Log.Loguear("Tiempo en la ultima sesion: " + ig.getGameTimePlayed());
                             gameIdLaunched = 0;
-                            gamePaused = false;
-                            btnLaunchGame.setText("Lanzar");
                             ig.closeGame();
                             loadData(true);
                         } catch (InterruptedException ex) {

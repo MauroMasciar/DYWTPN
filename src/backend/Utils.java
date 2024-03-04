@@ -13,7 +13,7 @@ public class Utils {
         date = LocalDate.now().getYear() + "-" + LocalDate.now().getMonthValue() + "-" + LocalDate.now().getDayOfMonth();
         return date;
     }
-    
+
     public static String getFormattedTime() {
         String time, sHour, sMinute, sSecond;
         int hour, minute, second;

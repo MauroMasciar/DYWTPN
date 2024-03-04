@@ -7,7 +7,7 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSION_APP = "1.2.4.99";
+    public static final String VERSION_APP = "1.2.4.100";
     public static boolean test = false;
 
     @SuppressWarnings("unused")
@@ -17,8 +17,6 @@ public class Main {
                 @SuppressWarnings("deprecation")
                 public void run() {
                     try {
-                        //ProcessBuilder pb = new ProcessBuilder(string);
-                        //p = pb.start();
                         String string = "core\\mysql\\bin\\mysqld_z.exe --port 3308";
                         p = Runtime.getRuntime().exec(string);
                         Splash splash = new Splash();
