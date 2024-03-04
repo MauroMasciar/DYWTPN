@@ -50,6 +50,7 @@ public class InGame {
                             if(second == 60) {
                                 second = 0;
                                 minute++;
+                                saveGameTime();
                             }
 
                             if(minute == 60) {
@@ -70,11 +71,12 @@ public class InGame {
                             }
 
                             String time = hour + ":" + sMinute + ":" + sSecond;
-                            MainUI.loadStatistics(gameIdLaunched, time);
+                            if(second == 10) MainUI.loadStatistics(gameIdLaunched, time);
 
                             gameTimePlayedTotal++;
                             gameTimePlayed++;
-                            saveGameTime();
+                            //saveGameTime();
+                            System.out.println(Utils.getFormattedTime() + ": " + time);
                         } catch (InterruptedException ex) {
                             Log.Loguear(ex.getMessage());
                         }
@@ -87,7 +89,7 @@ public class InGame {
     private void checkAchievement() {
         ModelGames mg = new ModelGames();
         String achiev = "";
-        if(gameTimePlayedTotal == 60) achiev = "Has jugado a " + mg.getNameFromId(gameIdLaunched) + " por primera vez";
+        if(gameTimePlayedTotal == 180) achiev = "Has jugado a " + mg.getNameFromId(gameIdLaunched) + " por primera vez";
         else if(gameTimePlayedTotal == HOUR_GAME) achiev = "Has alcanzado tu primera hora de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedTotal == HOUR_GAME * 5) achiev = "Has alcanzado 5 horas de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedTotal == HOUR_GAME * 10) achiev = "Has alcanzado 10 horas de juego en " + mg.getNameFromId(gameIdLaunched);
