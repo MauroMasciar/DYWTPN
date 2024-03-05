@@ -46,3 +46,7 @@ ALTER TABLE `games` CHANGE `broken` `statistic` TINYINT(1) NOT NULL DEFAULT '1';
 update games set statistic = 1;
 -- 1.2.4.92
 ALTER TABLE `config` ADD `show_orderbydate` BOOLEAN NOT NULL AFTER `show_hidden`;
+-- 1.2.4.101
+CREATE TABLE `games_sessions_backup` (`id` int(11) NOT NULL,`session_number` int(11) NOT NULL,`game_id` int(11) NOT NULL,`datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,`seconds` int(11) NOT NULL DEFAULT '0') ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `games_sessions_backup` ADD PRIMARY KEY (`id`);
+ALTER TABLE `games_sessions_backup` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

@@ -2,7 +2,6 @@ package backend;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-
 import javax.swing.JOptionPane;
 
 import database.ModelGames;
@@ -11,12 +10,12 @@ import debug.Log;
 import frontend.MainUI;
 
 public class InGame {
-    Runnable runnable = null;
     private int gameIdLaunched = 0;
     private String gameName = "Nada";
     private final int HOUR_GAME = 3600;
     private int gameTimePlayedInitCurrentGame, gameTimePlayedCurrentGame, gameTimePlayedTotalInit, gameTimePlayedTotal;
     private LocalTime initTime;
+    private int current_session_number = 0;
 
     public InGame(int IdLaunched, String gameName) {
         if(IdLaunched != 0) {
@@ -29,6 +28,9 @@ public class InGame {
             mg.setLastPlayed(IdLaunched);
             gameTimePlayedInitCurrentGame = mg.getSecondsPlayed(IdLaunched);
             gameTimePlayedTotalInit = mg.getSecondsTotalPlayed();
+            current_session_number = mg.getTotalSessions()  + 1;
+            mg.initSession(current_session_number, gameIdLaunched);
+            
             launchGame();
         }
     }
@@ -42,14 +44,18 @@ public class InGame {
                         checkAchievement();
                         LocalTime currentTime = LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
                         
-                        long secondsBeetwenTimes = ChronoUnit.SECONDS.between(initTime, currentTime);
-                        int totalSecondsSession = (int) secondsBeetwenTimes;
+                        int secondsBeetwenTimes = (int) ChronoUnit.SECONDS.between(initTime, currentTime);
                         
-                        MainUI.loadStatistics(gameIdLaunched, totalSecondsSession);
+                        MainUI.loadStatistics(gameIdLaunched, secondsBeetwenTimes);
                         
-                        gameTimePlayedCurrentGame = gameTimePlayedInitCurrentGame + totalSecondsSession;
-                        gameTimePlayedTotal = gameTimePlayedTotalInit + totalSecondsSession;
+                        gameTimePlayedCurrentGame = gameTimePlayedInitCurrentGame + secondsBeetwenTimes;
+                        gameTimePlayedTotal = gameTimePlayedTotalInit + secondsBeetwenTimes;
                         System.out.println("Sesión: " + gameTimePlayedInitCurrentGame + " - " + gameTimePlayedCurrentGame + " - Total: " + gameTimePlayedTotalInit + " - " + gameTimePlayedTotal + " -- " + initTime + " - " + currentTime);
+                        
+                        if(secondsBeetwenTimes % 10 == 0) {
+                            ModelGames mg = new ModelGames();
+                            mg.updateSession(current_session_number, secondsBeetwenTimes);
+                        }
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         Log.Loguear(ex.getMessage());
@@ -62,8 +68,7 @@ public class InGame {
     private void checkAchievement() {
         ModelGames mg = new ModelGames();
         String achiev = "";
-        if(gameTimePlayedCurrentGame == 60) achiev = "Has jugado a " + mg.getNameFromId(gameIdLaunched) + " por primera vez";
-        else if(gameTimePlayedCurrentGame == HOUR_GAME) achiev = "Has alcanzado tu primera hora de juego en " + mg.getNameFromId(gameIdLaunched);
+        if(gameTimePlayedCurrentGame == HOUR_GAME) achiev = "Has alcanzado tu primera hora de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedCurrentGame == HOUR_GAME * 5) achiev = "Has alcanzado 5 horas de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedCurrentGame == HOUR_GAME * 10) achiev = "Has alcanzado 10 horas de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedCurrentGame == HOUR_GAME * 25) achiev = "Has alcanzado 25 horas de juego en " + mg.getNameFromId(gameIdLaunched);
@@ -123,6 +128,8 @@ public class InGame {
                 mg.saveGameTime(gameIdLaunched, totalSecondsSession);
                 checkAchievement();
             }
+            
+            mg.deleteSessionBackup(current_session_number);
             
             gameIdLaunched = 0;
             gameName = "Nada";

@@ -592,8 +592,7 @@ public class ModelGames {
                 if(rs.next()) {
                     try {
                         int timePlayed = rs.getInt(1);
-                        int totalTimePlayed;
-                        totalTimePlayed = timePlayed + time;
+                        int totalTimePlayed = timePlayed + time;
                         query = "UPDATE games SET time_played = " + totalTimePlayed + " WHERE id = " + gameId;
                         stmt.execute(query);
                         stmt.close();
@@ -1491,5 +1490,47 @@ public class ModelGames {
             ex.printStackTrace();
         }
         return id;
-    } 
+    }
+
+    public void initSession(int current_session_number, int game_id) {
+        try {
+            String query = "INSERT INTO games_sessions_backup (session_number, game_id) VALUES (?, ?)";
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = conex.prepareStatement(query);
+            p.setInt(1, current_session_number);
+            p.setInt(2, game_id);
+            p.executeUpdate();
+            conex.close();
+            p.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public void updateSession(int current_session_number, int seconds) {
+        String query = "UPDATE games_sessions_backup SET seconds = " + seconds + " WHERE session_number = " + current_session_number;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            stmt.execute(query);
+            stmt.close();
+            rs.close();
+            conex.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }  
+    }
+
+    public void deleteSessionBackup(int current_session_number) {
+        String query = "DELETE FROM games_sessions_backup WHERE session_number = " + current_session_number;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = conex.prepareStatement(query);
+            p.executeUpdate();
+            p.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
