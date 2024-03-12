@@ -126,17 +126,14 @@ public class InGame {
             if(totalSecondsSession > 119) {
                 mg.newSession(gameIdLaunched);
                 mg.saveGameTime(gameIdLaunched, totalSecondsSession);
-                checkAchievement();
+                JOptionPane.showMessageDialog(null, "El tiempo de juego fue muy corto y no se han guardado datos", "Sesión muy corta", JOptionPane.INFORMATION_MESSAGE);
             }
+            checkAchievement();
             
             mg.deleteSessionBackup(current_session_number);
             
             gameIdLaunched = 0;
-            gameName = "Nada";
-            
-            if(totalSecondsSession < 119) {
-                JOptionPane.showMessageDialog(null, "El tiempo de juego fue muy corto y no se han guardado datos", "Sesión muy corta", JOptionPane.INFORMATION_MESSAGE);
-            }
+            gameName = "Nada";            
 
             new Thread(new Runnable() {
                 public void run() {

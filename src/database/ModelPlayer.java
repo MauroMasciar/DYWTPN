@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 
+import backend.Utils;
+
 public class ModelPlayer {
     private Connection conex = null;
     private static Statement stmt;
@@ -50,22 +52,25 @@ public class ModelPlayer {
         m.addColumn("Fecha");
         m.addColumn("Nombre");
         m.addColumn("Tiempo jugado");
-        m.addColumn("Minutos");
 
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             if(gameName == "Todos") {
-                rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` ORDER BY id DESC");
+                rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
             } else {
-                rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, ROUND((mins / 60),2), mins FROM `games_sessions_history` WHERE game_name = '"
+                rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
                         + gameName + "' ORDER BY id DESC");
             }
-
+            
             while (rs.next()) {
-                Object[] f = new Object[4];
-                for (int i = 0; i < 4; i++) {
-                    f[i] = rs.getObject(i + 1);
+                Object[] f = new Object[3];
+                for (int i = 0; i < 3; i++) {
+                    if(i == 2) {
+                    	f[i] = Utils.getTotalHoursFromSeconds(rs.getInt(i + 1) * 60, false);
+                    } else {
+                    	f[i] = rs.getObject(i + 1);
+                    }
                 }
                 m.addRow(f);
             }
