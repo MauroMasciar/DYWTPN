@@ -1,6 +1,6 @@
 package backend;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
@@ -14,7 +14,7 @@ public class InGame {
     private String gameName = "Nada";
     private final int HOUR_GAME = 3600;
     private int gameTimePlayedInitCurrentGame, gameTimePlayedCurrentGame, gameTimePlayedTotalInit, gameTimePlayedTotal;
-    private LocalTime initTime;
+    private LocalDateTime initTime;
     private int current_session_number = 0;
 
     public InGame(int IdLaunched, String gameName) {
@@ -22,7 +22,7 @@ public class InGame {
             this.gameIdLaunched = IdLaunched;
             this.gameName = gameName;
             
-            initTime = LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
+            initTime = LocalDateTime.now();
 
             ModelGames mg = new ModelGames();
             mg.setLastPlayed(IdLaunched);
@@ -42,7 +42,7 @@ public class InGame {
                 while(gameIdLaunched != 0) {
                     try {
                         checkAchievement();
-                        LocalTime currentTime = LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
+                        LocalDateTime currentTime = LocalDateTime.now();
                         
                         int secondsBeetwenTimes = (int) ChronoUnit.SECONDS.between(initTime, currentTime);
                         
@@ -113,7 +113,7 @@ public class InGame {
 
     public void closeGame() {
         if(gameIdLaunched != 0) {
-            LocalTime closeTime = LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute(), LocalTime.now().getSecond());
+        	LocalDateTime closeTime = LocalDateTime.now();
 
             long secondsBeetwenTimes = ChronoUnit.SECONDS.between(initTime, closeTime);
             int totalSecondsSession = (int) secondsBeetwenTimes;
