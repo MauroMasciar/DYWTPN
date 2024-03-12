@@ -32,17 +32,9 @@ public class ModelGames {
             play_count++;
             query = "UPDATE games SET play_count = " + play_count + " WHERE id = " + gameId;
             stmt.execute(query);
-            
-            query = "SELECT total_sessions FROM config";
-            rs = stmt.executeQuery(query);
-            rs.next();
-            play_count = rs.getInt("total_sessions");
-            play_count++;
-            query = "UPDATE config SET total_sessions = " + play_count;
-            stmt.execute(query);
             stmt.close();
             rs.close();
-            conex.close();
+            conex.close();	    
             checkAchievement(gameId, play_count);
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -1327,7 +1319,7 @@ public class ModelGames {
     }
 
     public int getTotalSessions() {
-        String query = "SELECT total_sessions FROM config";
+        String query = "SELECT SUM(play_count) AS total_sessions FROM games";
         int res = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);

@@ -51,5 +51,3 @@ CREATE TABLE `games_sessions_backup` (`id` int(11) NOT NULL,`session_number` int
 ALTER TABLE `games_sessions_backup` ADD PRIMARY KEY (`id`);
 ALTER TABLE `games_sessions_backup` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `games` DROP `show_sta`
--- 1.2.4.102
-ALTER TABLE `config` ADD `total_sessions` INT NOT NULL DEFAULT '0' AFTER `show_orderbydate`;
