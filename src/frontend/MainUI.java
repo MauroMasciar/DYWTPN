@@ -275,7 +275,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		ModelConfig mc = new ModelConfig();
 		showHidden = mc.getIsHidden();
 		orderByDate = mc.getOrderByDate();
-		for(int i = 0; i < 5; i++) updateGameList();
+		updateGameList();
 	}
 
 	public static void loadStatistics(int gameId, int sessionTime) {

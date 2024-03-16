@@ -88,6 +88,8 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JTextArea txtaNotes = new JTextArea();
     private final JScrollPane scrNotes = new JScrollPane(txtaNotes);
     private final JButton btnSave = new JButton("Guardar");
+    private final JButton btnRename = new JButton("...");
+    private final JButton btnDrop = new JButton("X");
     private final DateChooser dcCompletedDate = new DateChooser();
     private final DateChooser dcReleaseDate = new DateChooser();
     private int gameId;
@@ -100,7 +102,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         }
         if(gameId == 0) gameId = 1;
         setTitle("Editar juegos");
-        setBounds(50, 50, 850, 550);
+        setBounds(50, 50, 870, 550);
         setClosable(true);
         setResizable(true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -120,11 +122,15 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         gbc.gridx = 0;
         gbc.gridy = 0;
         pnlDetails.add(lblTitle, gbc);
+        gbc.gridwidth = 5;
         gbc.gridx++;
-        gbc.gridwidth = 7;
         pnlDetails.add(cbTitle, gbc);
+        gbc.gridx += 5;
         gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
+        gbc.weightx = 0.5;
+        pnlDetails.add(btnRename, gbc);
+        gbc.gridx++;
+        pnlDetails.add(btnDrop, gbc);
         gbc.gridx = 0;
         gbc.gridy++;
         pnlDetails.add(lblReleaseDate, gbc);
@@ -309,6 +315,8 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
         cbTitle.addActionListener(this);
         btnSave.addActionListener(this);
+        btnRename.addActionListener(this);
+        btnDrop.addActionListener(this);
         txtCompletedDate.addActionListener(this);
         txtReleaseDate.addActionListener(this);
         chCompleted.addActionListener(this);
@@ -511,6 +519,20 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
             } else {
                 txtCompletedDate.setEditable(false);
             }
+        } else if(e.getSource() == btnRename) {
+        	//TODO: Rename
+        } else if(e.getSource() == btnDrop) {
+        	int opcDropGame, opcDropHistory;
+        	opcDropGame = JOptionPane.showInternalConfirmDialog(null, "¿Seguro que desea borrar este juego?", "Borrar juego", JOptionPane.YES_NO_OPTION);
+        	System.out.println(opcDropGame);
+        	if(opcDropGame == 0) {
+        		ModelGames mg = new ModelGames();
+        		opcDropHistory = JOptionPane.showInternalConfirmDialog(null, "¿Desea borrar tambien el historial y actividad?", "Borrar juego", JOptionPane.YES_NO_OPTION);
+        		if(opcDropHistory == 0) mg.deleteGame(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()), true);
+        		else mg.deleteGame(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()), false);
+        		MainUI.loadData(false);
+                dispose();
+        	}
         }
     }
 

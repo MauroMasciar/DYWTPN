@@ -1380,7 +1380,7 @@ public class ModelGames {
 		return res;
 	}
 
-	public int deleteGame(int gameId) {
+	public int deleteGame(int gameId, boolean dropAll) {
 		int res = 0;
 		try {
 			String query = "DELETE FROM games WHERE id = ?";
@@ -1389,16 +1389,18 @@ public class ModelGames {
 			p.setInt(1, gameId);
 			res = p.executeUpdate();
 
-			query = "DELETE FROM games_sessions_history WHERE game_id = ?";
-			p = conex.prepareStatement(query);
-			p.setInt(1, gameId);
-			p.executeUpdate();
+			if(dropAll) {
+				query = "DELETE FROM games_sessions_history WHERE game_id = ?";
+				p = conex.prepareStatement(query);
+				p.setInt(1, gameId);
+				p.executeUpdate();
 
-			query = "DELETE FROM player_activities WHERE game_id = ?";
-			p = conex.prepareStatement(query);
-			p.setInt(1, gameId);
-			p.executeUpdate();
-
+				query = "DELETE FROM player_activities WHERE game_id = ?";
+				p = conex.prepareStatement(query);
+				p.setInt(1, gameId);
+				p.executeUpdate();
+			}
+			
 			p.close();
 			conex.close();
 		} catch (Exception ex) {
