@@ -126,7 +126,8 @@ public class InGame {
             if(totalSecondsSession > 119) {
                 mg.newSession(gameIdLaunched);
                 mg.saveGameTime(gameIdLaunched, totalSecondsSession);
-                JOptionPane.showMessageDialog(null, "El tiempo de juego fue muy corto y no se han guardado datos", "Sesión muy corta", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+            	JOptionPane.showMessageDialog(null, "El tiempo de juego fue muy corto y no se han guardado datos", "Sesión muy corta", JOptionPane.INFORMATION_MESSAGE);
             }
             checkAchievement();
             

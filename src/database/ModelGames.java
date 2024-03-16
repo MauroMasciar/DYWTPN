@@ -81,7 +81,7 @@ public class ModelGames {
 		}
 	}
 
-	public DefaultTableModel getFilteredGameList(String name, String completed, String category, String filter) {
+	public DefaultTableModel getFilteredGameList(String name, String completed, String category, String filter, boolean lastPlayed) {
 		DefaultTableModel m = new DefaultTableModel();
 		m.addColumn("Juego");
 		m.addColumn("Fantasma");
@@ -98,12 +98,13 @@ public class ModelGames {
 
 		String query = "";
 
-		if(filter == "Tiempo") filter = "time DESC";
+		if(filter == "Tiempo") filter = "time_played DESC";
 		else if(filter == "Veces") filter = "play_count DESC";
 		else if(filter == "Categoria") filter = "category DESC";
 		else if(filter == "Completado") filter = "completed DESC";
 		else if(filter == "Puntos") filter = "score DESC";
 		else filter = "name ASC"; 
+		if(lastPlayed) filter = "last_played DESC, name ASC";
 
 		try {
 			conex = DriverManager.getConnection(Data.url, Data.username, Data.password);

@@ -74,6 +74,7 @@ public class GameList extends JInternalFrame implements ActionListener {
         cbFilter.addItem("Categoria");
         cbFilter.addItem("Completado");
         cbFilter.addItem("Puntos");
+        cbFilter.addItem("Última vez");
 
         ArrayList<String> list = new ArrayList<>();
         list = mg.getGamesNameList(true, false);
@@ -114,7 +115,9 @@ public class GameList extends JInternalFrame implements ActionListener {
         } else if(cbCategory.getSelectedItem().toString() != "Todos" && cbGames.getSelectedItem().toString() != "Todos") {
             cbGames.setSelectedItem("Todos");
         }
-        tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString(), cbFilter.getSelectedItem().toString()));
+        boolean lastPlayed = false;
+        if(cbFilter.getSelectedItem().toString() == "Última vez") lastPlayed = true;
+        tblGames.setModel(mg.getFilteredGameList(cbGames.getSelectedItem().toString(), cbCompleted.getSelectedItem().toString(), cbCategory.getSelectedItem().toString(), cbFilter.getSelectedItem().toString(), lastPlayed));
     }
 
     @Override
