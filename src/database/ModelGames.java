@@ -43,6 +43,32 @@ public class ModelGames {
 		return play_count;
 	}
 
+
+	public int changeGameName(int gameId, String newName) {
+		String query = "SELECT name FROM games WHERE name = '" + newName + "'";
+		try {
+			conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+			stmt = conex.createStatement();
+			rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				stmt.close();
+				rs.close();
+				conex.close();
+				return 3;
+			}
+			query = "UPDATE games SET name = '" + newName + "' WHERE id = " + gameId;
+			stmt.execute(query);
+			stmt.close();
+			rs.close();
+			conex.close();
+			return 1;
+		} catch (Exception ex) {
+			Log.Loguear(ex.getMessage());
+			ex.printStackTrace();
+			return 2;
+		}
+	}
+	
 	private void checkAchievement(int gameId, int play_count) {
 		String achiev = "";
 		if(play_count == 1) achiev = "Has jugado a " + getNameFromId(gameId) + " por primera vez";
@@ -575,7 +601,7 @@ public class ModelGames {
 		return false;
 	}
 
-	public void closeGame(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed) {
+	public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed) {
 		int minsPlayed = gameTimePlayed / 60;
 		String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "')";
 		try {
@@ -664,7 +690,6 @@ public class ModelGames {
 		int resultado = 0;
 		try {
 			String query = "INSERT INTO games_sessions_history (game_id, game_name, mins, datetime) VALUES (?,?,?,?)";
-			Log.Loguear(query);
 			conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 			PreparedStatement p = conex.prepareStatement(query);
 			p.setInt(1, gameId);

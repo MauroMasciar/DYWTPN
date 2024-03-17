@@ -121,9 +121,9 @@ public class InGame {
             String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(totalSecondsSession, true);
 
             ModelGames mg = new ModelGames();
-            mg.closeGame(gameIdLaunched, totalSecondsSession, gameName, sGameTimePlayed);
-
+            
             if(totalSecondsSession > 119) {
+            	mg.saveGameHistory(gameIdLaunched, totalSecondsSession, gameName, sGameTimePlayed);
                 mg.newSession(gameIdLaunched);
                 mg.saveGameTime(gameIdLaunched, totalSecondsSession);
             } else {

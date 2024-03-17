@@ -505,7 +505,11 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == cbTitle) {
-            loadData(cbTitle.getSelectedItem().toString());
+        	try {
+        		loadData(cbTitle.getSelectedItem().toString());
+        	} catch(NullPointerException ex) {
+        		System.out.println("ex");
+        	}            
         } else if(e.getSource() == txtCompletedDate) {
             dcCompletedDate.showPopup();
         } else if(e.getSource() == txtReleaseDate) {
@@ -520,7 +524,23 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
                 txtCompletedDate.setEditable(false);
             }
         } else if(e.getSource() == btnRename) {
-        	//TODO: Rename
+        	String newName = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del juego", cbTitle.getSelectedItem().toString(), JOptionPane.QUESTION_MESSAGE);
+        	if(newName == null || newName.length() == 0) return;
+        	ModelGames mg = new ModelGames();
+        	int res = mg.changeGameName(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()), newName);
+        	if(res == 1) {
+        		JOptionPane.showMessageDialog(this, "El nombre del juego ha sido cambiado", "Cambiar nombre", JOptionPane.INFORMATION_MESSAGE);
+        		MainUI.loadGames();
+        		loadGameList();
+        		loadData(newName);
+        		cbTitle.setSelectedItem(newName);
+        	} else if(res == 2) {
+        		JOptionPane.showMessageDialog(this, "Ha habido un error al cambiar el nombre del juego. Vuelva a intentarlo o reinicie la aplicación", "Cambiar nombre", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	} else if(res == 3) {
+        		JOptionPane.showMessageDialog(this, "Ya existe un juego con ese nombre", "Cambiar nombre", JOptionPane.ERROR_MESSAGE);
+        		return;
+        	}
         } else if(e.getSource() == btnDrop) {
         	int opcDropGame, opcDropHistory;
         	opcDropGame = JOptionPane.showInternalConfirmDialog(null, "¿Seguro que desea borrar este juego?", "Borrar juego", JOptionPane.YES_NO_OPTION);
