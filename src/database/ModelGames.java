@@ -68,7 +68,7 @@ public class ModelGames {
 			return 2;
 		}
 	}
-	
+
 	private void checkAchievement(int gameId, int play_count) {
 		String achiev = "";
 		if(play_count == 1) achiev = "Has jugado a " + getNameFromId(gameId) + " por primera vez";
@@ -316,6 +316,25 @@ public class ModelGames {
 			ex.printStackTrace();
 		}
 		return play_count;
+	}
+
+	public int getTimeLastSession(int gameId) {
+		String query = "SELECT mins FROM `games_sessions_history` WHERE game_id = " + gameId + " ORDER BY datetime DESC limit 1";
+		int time = 0;
+		try {
+			conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+			stmt = conex.createStatement();
+			rs = stmt.executeQuery(query);
+			if(rs.next()) {
+				time = rs.getInt("mins");
+			}
+			conex.close();
+			stmt.close();
+			rs.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return time;
 	}
 
 	public int getLastDays(int gameId, int days, boolean hours) {
@@ -601,15 +620,28 @@ public class ModelGames {
 		return false;
 	}
 
-	public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, String sGameTimePlayed) {
+	public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName) {
 		int minsPlayed = gameTimePlayed / 60;
 		String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "')";
 		try {
 			conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
 			stmt = conex.createStatement();
 			stmt.execute(query);
-			String sGameName = " Ultimo juego: " + gameName;
-			query = "UPDATE config SET last_game = '" + sGameName + "', last_session_time = '" + sGameTimePlayed + "'";
+			stmt.close();
+			conex.close();
+			//saveLastGame(gameName, sGameTimePlayed);
+		} catch (SQLException ex) {
+			Log.Loguear(ex.getMessage());
+			ex.printStackTrace();
+		}
+	}
+
+	public void saveLastGame(String gameName, String sGameTimePlayed) {
+		String sGameName = " Ultimo juego: " + gameName;
+		String query = "UPDATE config SET last_game = '" + sGameName + "', last_session_time = '" + sGameTimePlayed + "'";
+		try {
+			conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+			stmt = conex.createStatement();			
 			stmt.execute(query);
 			stmt.close();
 			conex.close();
@@ -1425,7 +1457,7 @@ public class ModelGames {
 				p.setInt(1, gameId);
 				p.executeUpdate();
 			}
-			
+
 			p.close();
 			conex.close();
 		} catch (Exception ex) {

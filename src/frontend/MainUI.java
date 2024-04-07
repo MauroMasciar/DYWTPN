@@ -467,15 +467,17 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
 						+ mg.getDateLastSession(gameIdSelected));
 
+				int tses = mg.getTimeLastSession(gameIdSelected) * 60;
 				int tuno = mg.getLastDays(gameIdSelected, 1, true);
 				int tsiete = mg.getLastDays(gameIdSelected, 7, true);
 				int tcatorce = mg.getLastDays(gameIdSelected, 14, true);
 				int ttreinta = mg.getLastDays(gameIdSelected, 30, true);
+				String ses = Utils.getTotalHoursFromSeconds(tses, false);
 				String uno = Utils.getTotalHoursFromSeconds(tuno, false);
 				String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
 				String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
 				String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
-				txtGamesTime.setText(" Horas el ultimo dia: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
+				txtGamesTime.setText(" Última sesión: " + ses + " | Día: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
 				txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
 				txtLibrary.setText(mg.getLibraryName(gameIdSelected));
 			}

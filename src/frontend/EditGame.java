@@ -508,7 +508,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         	try {
         		loadData(cbTitle.getSelectedItem().toString());
         	} catch(NullPointerException ex) {
-        		System.out.println("ex");
+        		ex.getMessage();
         	}            
         } else if(e.getSource() == txtCompletedDate) {
             dcCompletedDate.showPopup();
@@ -544,7 +544,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         } else if(e.getSource() == btnDrop) {
         	int opcDropGame, opcDropHistory;
         	opcDropGame = JOptionPane.showInternalConfirmDialog(null, "¿Seguro que desea borrar este juego?", "Borrar juego", JOptionPane.YES_NO_OPTION);
-        	System.out.println(opcDropGame);
         	if(opcDropGame == 0) {
         		ModelGames mg = new ModelGames();
         		opcDropHistory = JOptionPane.showInternalConfirmDialog(null, "¿Desea borrar tambien el historial y actividad?", "Borrar juego", JOptionPane.YES_NO_OPTION);
