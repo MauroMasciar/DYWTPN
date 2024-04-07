@@ -77,11 +77,13 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
         } catch (ArrayIndexOutOfBoundsException ex) {
             ex.printStackTrace();
         }
+        ModelPlayer model = new ModelPlayer();
+        tbPlayerHistory.setModel(model.getHistory(cbGames.getSelectedItem().toString()));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == cbGames) {
+        if(e.getSource() == cbGames) {
             ModelPlayer model = new ModelPlayer();
             tbPlayerHistory.setModel(model.getHistory(cbGames.getSelectedItem().toString()));
         }

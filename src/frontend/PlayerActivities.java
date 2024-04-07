@@ -57,9 +57,11 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
         add(scrTable, gbc);
 
         loadActivity();
+        ModelPlayer model = new ModelPlayer();
+        tbPlayerActivities.setModel(model.getActivities(cbGames.getSelectedItem().toString()));
 
         cbGames.addActionListener(this);
-
+        
         setVisible(true);
     }
 
@@ -80,7 +82,7 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == cbGames) {
+        if(e.getSource() == cbGames) {
             ModelPlayer model = new ModelPlayer();
             tbPlayerActivities.setModel(model.getActivities(cbGames.getSelectedItem().toString()));
         }
