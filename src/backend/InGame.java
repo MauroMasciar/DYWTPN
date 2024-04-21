@@ -68,7 +68,8 @@ public class InGame {
 	private void checkAchievement() {
 		ModelGames mg = new ModelGames();
 		String achiev = "";
-		if(gameTimePlayedCurrentGame == HOUR_GAME) achiev = "Has alcanzado tu primera hora de juego en " + mg.getNameFromId(gameIdLaunched);
+		if(gameTimePlayedCurrentGame == 240) achiev = "Has jugado a " + mg.getNameFromId(gameIdLaunched) + " por primera vez";
+		else if(gameTimePlayedCurrentGame == HOUR_GAME) achiev = "Has alcanzado tu primera hora de juego en " + mg.getNameFromId(gameIdLaunched);
 		else if(gameTimePlayedCurrentGame == HOUR_GAME * 5) achiev = "Has alcanzado 5 horas de juego en " + mg.getNameFromId(gameIdLaunched);
 		else if(gameTimePlayedCurrentGame == HOUR_GAME * 10) achiev = "Has alcanzado 10 horas de juego en " + mg.getNameFromId(gameIdLaunched);
 		else if(gameTimePlayedCurrentGame == HOUR_GAME * 25) achiev = "Has alcanzado 25 horas de juego en " + mg.getNameFromId(gameIdLaunched);
@@ -122,7 +123,7 @@ public class InGame {
 
 			ModelGames mg = new ModelGames();
 
-			if(totalSecondsSession > 119) {
+			if(totalSecondsSession > 300) { // 5 minutos
 				mg.saveGameHistory(gameIdLaunched, totalSecondsSession, gameName);
 				mg.saveLastGame(gameName, sGameTimePlayed);
 				mg.newSession(gameIdLaunched);

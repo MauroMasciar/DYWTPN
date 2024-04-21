@@ -14,6 +14,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import backend.Validations;
+import database.ModelConfig;
 import database.ModelGames;
 import database.ModelPlayer;
 
@@ -69,8 +70,9 @@ public class AddAchievement extends JInternalFrame implements ActionListener {
     
     private void loadGamesList() {
         ModelGames mg = new ModelGames();
+        ModelConfig mc = new ModelConfig();
         ArrayList<String> gameList = new ArrayList<>();
-        gameList = mg.getGamesNameList(false, false);
+        gameList = mg.getGamesNameList(false, mc.getOrderByDateAchiev());
         for(int i = 1; i < gameList.size(); i++) {
             cbGame.addItem(gameList.get(i));
         }

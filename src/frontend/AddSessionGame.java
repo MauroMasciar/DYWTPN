@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
 import backend.Utils;
+import database.ModelConfig;
 import database.ModelGames;
 
 public class AddSessionGame extends JInternalFrame implements ActionListener {
@@ -45,7 +46,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
             return;
         }
         setTitle("Añadir nueva sesion");
-        setBounds(100, 80, 430, 150);
+        setBounds(100, 80, 450, 150);
         setClosable(true);
         setResizable(true);
         setLayout(new GridBagLayout());
@@ -91,10 +92,12 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
         txtDate.setToolTipText("El formato es YYYY-MM-DD HH:MM:SS");
 
         btnAdd.addActionListener(this);
-
+               
+        ModelConfig mc = new ModelConfig();
+        
         ArrayList<String> gameList = new ArrayList<>();
-        gameList = mg.getGamesNameList(false, false);
-        for (int i = 1; i < gameList.size(); i++) {
+        gameList = mg.getGamesNameList(false, mc.getOrderByDateSession());
+        for(int i = 1; i < gameList.size(); i++) {
             cbGame.addItem(gameList.get(i));
         }
 

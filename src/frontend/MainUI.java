@@ -62,7 +62,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	public MainUI() {
 		setTitle("DYWTPN");
 		ModelConfig mc = new ModelConfig();
-		// setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 1100, 280);
 		setBounds(mc.getBounds_x("MainUI"), mc.getBounds_y("MainUI"), 930, 280);
 		setClosable(false);
 		setResizable(true);

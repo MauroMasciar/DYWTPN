@@ -43,7 +43,6 @@ public class ModelGames {
         return play_count;
     }
 
-
     public int changeGameName(int gameId, String newName) {
         String query = "SELECT name FROM games WHERE name = '" + newName + "'";
         try {
@@ -808,7 +807,7 @@ public class ModelGames {
             if(completed == "1" && !isCompleted(gameId)) {
                 ModelPlayer mp = new ModelPlayer();
                 String gameName = getNameFromId(gameId);
-                String achievement = "Has terminado el juego " + gameName + " a las " + Utils.getTotalHoursFromSeconds(secondsPlayed, true);
+                String achievement = "Has terminado el juego " + gameName + " en " + Utils.getTotalHoursFromSeconds(secondsPlayed, true);
                 mp.saveAchievement(achievement, gameName, gameId);
                 MainUI.loadData(false);
                 if(completed_date.equals("0000-00-00")) completed_date = Utils.getFormattedDate();

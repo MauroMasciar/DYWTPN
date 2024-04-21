@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,6 +37,9 @@ public class Config extends JInternalFrame implements ActionListener {
     private final JLabel lblHistoryy = new JLabel("Historial Y");
     private final JTextField txtHistoryy = new JTextField(10);
     private final JComboBox<String> cbTheme = new JComboBox<>();
+    private final JLabel lblInfoOrder = new JLabel("Ordenar \"Por última vez\" en: ");
+    private final JCheckBox chSessionGame = new JCheckBox("Añadir sesión");
+    private final JCheckBox chAddAchiev = new JCheckBox("Añadir hazaña");
     private final JLabel lblTheme = new JLabel("(Requiere reincio)");
     private final JPanel pnl = new JPanel();
 
@@ -48,7 +52,7 @@ public class Config extends JInternalFrame implements ActionListener {
             JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
         }
         setTitle("Configuracion");
-        setSize(550, 270);
+        setSize(550, 300);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setClosable(true);
         setResizable(true);
@@ -97,7 +101,18 @@ public class Config extends JInternalFrame implements ActionListener {
         gbc.gridx++;
         pnl.add(lblHistoryy, gbc);
         gbc.gridx++;
-        pnl.add(txtHistoryy, gbc);
+        pnl.add(txtHistoryy, gbc);        
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.weightx = 2.0;
+        pnl.add(lblInfoOrder, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx+=2;
+        pnl.add(chSessionGame, gbc);
+        gbc.gridx++;
+        pnl.add(chAddAchiev, gbc);
         gbc.gridx = 0;
         gbc.gridy++;
         pnl.add(cbTheme, gbc);
@@ -145,6 +160,9 @@ public class Config extends JInternalFrame implements ActionListener {
         int theme = mc.getTheme();
         if(theme == 1) cbTheme.setSelectedItem("Claro");
         else if(theme == 2) cbTheme.setSelectedItem("Oscuro");
+        
+        chSessionGame.setSelected(mc.getOrderByDateSession());
+        chAddAchiev.setSelected(mc.getOrderByDateAchiev());
     }
 
     public void setTheme() {
@@ -187,6 +205,14 @@ public class Config extends JInternalFrame implements ActionListener {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Algunos campos tienen datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            
+            int n = 0;
+            if(chAddAchiev.isSelected()) n = 1;
+            mc.setOrderByDateNewAchiev(n);
+            n = 0;
+            if(chSessionGame.isSelected()) n = 1;
+            mc.setOrderByDateNewSession(n);
+            
         }
     }
 }

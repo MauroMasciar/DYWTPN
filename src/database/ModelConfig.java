@@ -341,4 +341,72 @@ public class ModelConfig {
             ex.printStackTrace();
         }
     }
+
+    public boolean getOrderByDateSession() {
+        String query = "SELECT orderbydate_newsession FROM config";
+        int r = 0;
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) r = rs.getInt("orderbydate_newsession");
+            stmt.close();
+            this.conex.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        if(r == 0) return false;
+        return true;
+    }
+    
+    public boolean getOrderByDateAchiev() {
+        String query = "SELECT orderbydate_newachiev FROM config";
+        int r = 0;
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) r = rs.getInt("orderbydate_newachiev");
+            stmt.close();
+            this.conex.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        if(r == 0) return false;
+        return true;
+    }
+    
+    public void setOrderByDateNewSession(int n) {
+        String query = "UPDATE config SET orderbydate_newsession = ?";
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = this.conex.prepareStatement(query);
+            p.setInt(1, n);
+            p.executeUpdate();
+            this.conex.close();
+            p.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public void setOrderByDateNewAchiev(int n) {
+        String query = "UPDATE config SET orderbydate_newachiev = ?";
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = this.conex.prepareStatement(query);
+            p.setInt(1, n);
+            p.executeUpdate();
+            this.conex.close();
+            p.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 }
