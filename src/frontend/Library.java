@@ -31,12 +31,10 @@ public class Library extends JInternalFrame implements ActionListener, MouseList
         try {
             ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/library.png"));
             this.setFrameIcon(icon);
-        } catch (@SuppressWarnings("unused") Exception ex) {
-            //ex.printStackTrace();
-            //JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
-            System.out.println("No se pudo cargar el icono de Bibliotecas");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
         }
-        setTitle("Bibliotecas");
         setBounds(100, 100, 310, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setClosable(true);
@@ -84,6 +82,8 @@ public class Library extends JInternalFrame implements ActionListener, MouseList
             modelList.addElement(listGames.get(i));
         }
         jlistGames.setModel(modelList);
+        int nGames = listGames.size() - 1;
+        setTitle("Biblioteca " + cbLibrary.getSelectedItem().toString() + " | " + nGames + " juegos");
     }
 
     private void updateData() {

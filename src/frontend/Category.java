@@ -35,7 +35,6 @@ public class Category extends JInternalFrame implements ActionListener, MouseLis
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
         }
-        setTitle("Categorias");
         setBounds(100, 100, 310, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setClosable(true);
@@ -83,6 +82,8 @@ public class Category extends JInternalFrame implements ActionListener, MouseLis
             modelList.addElement(listGames.get(i));
         }
         jlistGames.setModel(modelList);
+        int nGames = listGames.size() - 1;
+        setTitle("Categoría " + cbCategory.getSelectedItem().toString() + " | " + nGames + " juegos");
     }
 
     private void updateData() {

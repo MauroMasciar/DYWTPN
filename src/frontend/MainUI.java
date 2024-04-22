@@ -37,9 +37,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	private final JScrollPane scrListGame = new JScrollPane(jlistGames);
 	private static DefaultListModel<String> modelList = new DefaultListModel<>();
 	private static final JTextField txtGameName = new JTextField(20);
-	private final static JTextField txtLibrary = new JTextField(20);
-	private static final JTextField txtCategory = new JTextField(20);
-	private final JTextField txtPathGame = new JTextField(20);
+	private final JTextField txtGameNotes = new JTextField(20);
 	private static final JButton btnLaunchGame = new JButton("Lanzar");
 	private final JButton btnEditGame = new JButton("Editar");
 	private static final JTextArea txtStatistics = new JTextArea();
@@ -48,6 +46,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	private static final JTextArea txtLastAchie = new JTextArea();
 	public static final JTextArea txtGames = new JTextArea();
 	public static final JTextArea txtGamesTime = new JTextArea();
+	public static final JTextArea txtGameInfo = new JTextArea();
 	// private final JLabel lblPortrait = new JLabel();
 	private final JTextArea txtSeparator = new JTextArea();
 	private final JPopupMenu popUpMenu = new JPopupMenu();
@@ -125,6 +124,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		gbc.gridy++;
 		pnlTop.add(txtGames, gbc);
 		gbc.gridy++;
+		pnlTop.add(txtGameInfo, gbc);
+		gbc.gridy++;
 		pnlTop.add(txtGamesTime, gbc);
 
 		// Interfaz inferior - controles
@@ -132,21 +133,18 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		pnlBottom.setLayout(new GridBagLayout());
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
+		gbc.gridwidth = 2;
+		gbc.gridheight = 2;
+		gbc.weightx = 2.0;
+		gbc.weighty = 2.0;
 		gbc.fill = GridBagConstraints.BOTH;
-		pnlBottom.add(txtGameName, gbc);
-		gbc.gridx++;
-		pnlBottom.add(txtLibrary, gbc);
+		pnlBottom.add(txtGameNotes, gbc);
 		gbc.gridx = 0;
-		gbc.gridy++;
-		pnlBottom.add(txtCategory, gbc);
-		gbc.gridx++;
-		pnlBottom.add(txtPathGame, gbc);
-		gbc.gridx = 0;
-		gbc.gridy++;
+		gbc.gridy+=2;
+		gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
 		pnlBottom.add(btnEditGame, gbc);
 		gbc.gridx++;
 		gbc.gridx = 1;
@@ -227,14 +225,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 
 		txtGameName.setEditable(false);
-		txtLibrary.setEditable(false);
 		txtStatistics.setEditable(false);
 		txtLastDays.setEditable(false);
 		txtTotalInfo.setEditable(false);
 		txtGames.setEditable(false);
 		txtGamesTime.setEditable(false);
+		txtGameInfo.setEditable(false);
 		txtLastAchie.setEditable(false);
-		txtCategory.setEditable(false);
 		txtSeparator.setEditable(false);
 
 		txtSeparator.setText("__________________________________________________________________________________________________________________");
@@ -246,10 +243,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtTotalInfo.setFont(new Font("Serief", Font.BOLD, 12));
 		txtGames.setFont(new Font("Serief", Font.BOLD, 12));
 		txtGamesTime.setFont(new Font("Serief", Font.BOLD, 12));
-		txtLibrary.setFont(new Font("Serief", Font.BOLD, 12));
-		txtCategory.setFont(new Font("Serief", Font.BOLD, 12));
+		txtGameInfo.setFont(new Font("Serief", Font.BOLD, 12));
 
-		txtPathGame.setEnabled(false);
+		txtGameNotes.setEnabled(false);
 		btnEditGame.setEnabled(false);
 
 		new Thread(new Runnable() {
@@ -337,6 +333,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	public static void loadLast() {
 		txtGames.setText("");
 		txtGamesTime.setText("");
+		txtGameInfo.setText("");
 	}
 
 	public static void paint() {
@@ -349,6 +346,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				txtTotalInfo.setForeground(Color.RED);
 				txtGames.setForeground(Color.RED);
 				txtGamesTime.setForeground(Color.RED);
+				txtGameInfo.setForeground(Color.RED);
 			} else {
 				int theme = mc.getTheme();
 				if(theme == 1) {
@@ -358,6 +356,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 					txtTotalInfo.setForeground(Color.BLACK);
 					txtGames.setForeground(Color.BLACK);
 					txtGamesTime.setForeground(Color.BLACK);
+					txtGameInfo.setForeground(Color.BLACK);
 				}
 			}
 		}
@@ -425,8 +424,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		jlistGames.removeAll();
 		modelList.clear();
 		txtGameName.setText("");
-		txtLibrary.setText("");
-		txtCategory.setText("");
 
 		ModelGames g = new ModelGames();
 		ArrayList<String> listGames = new ArrayList<>();
@@ -465,6 +462,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
 				txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
 						+ mg.getDateLastSession(gameIdSelected));
+				
+				String lib = mg.getLibraryName(gameIdSelected);
+                String cat = mg.getGameCategoryName(gameIdSelected);
+                int score = mg.getScore(gameIdSelected);
+                txtGameInfo.setText(" Biblioteca: " + lib + " |  Categoría: " + cat + " | Puntaje: " + score + "/100");
 
 				int tses = mg.getTimeLastSession(gameIdSelected) * 60;
 				int tuno = mg.getLastDays(gameIdSelected, 1, true);
@@ -477,8 +479,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
 				String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
 				txtGamesTime.setText(" Última sesión: " + ses + " | Día: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
-				txtCategory.setText(mg.getGameCategoryName(gameIdSelected));
-				txtLibrary.setText(mg.getLibraryName(gameIdSelected));
+				
+				txtGameNotes.setText(mg.getNotes(gameIdSelected));
 			}
 		}
 	}
