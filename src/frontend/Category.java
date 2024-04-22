@@ -4,6 +4,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 
 import database.ModelGames;
 
-public class Category extends JInternalFrame implements ActionListener, MouseListener {
+public class Category extends JInternalFrame implements ActionListener, MouseListener, InternalFrameListener {
     private static final long serialVersionUID = -1072944751022628676L;
     private final JComboBox<String> cbCategory = new JComboBox<>();
     private static JList<String> jlistGames = new JList<>();
@@ -68,6 +70,7 @@ public class Category extends JInternalFrame implements ActionListener, MouseLis
 
         updateData();
 
+        this.addInternalFrameListener(this);
         setVisible(true);
     }
 
@@ -152,5 +155,27 @@ public class Category extends JInternalFrame implements ActionListener, MouseLis
     }
 
     public void mouseExited(MouseEvent e) {
+    }
+
+    public void internalFrameOpened(InternalFrameEvent e) {
+    }
+
+    public void internalFrameClosing(InternalFrameEvent e) {
+        jlistGames.removeMouseListener(this);
+    }
+
+    public void internalFrameClosed(InternalFrameEvent e) {
+    }
+
+    public void internalFrameIconified(InternalFrameEvent e) {
+    }
+
+    public void internalFrameDeiconified(InternalFrameEvent e) {
+    }
+
+    public void internalFrameActivated(InternalFrameEvent e) {
+    }
+
+    public void internalFrameDeactivated(InternalFrameEvent e) {
     }
 }

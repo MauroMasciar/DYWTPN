@@ -430,15 +430,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
         ModelGames g = new ModelGames();
         ArrayList<String> listGames = new ArrayList<>();
-        System.out.println("Primer listGames: " + listGames.size());
         listGames = g.getGamesNameList(showHidden, orderByDate);
-        System.out.println("listGames lleno: " + listGames.size());
         for(int i = 1; i < listGames.size(); i++) {
             modelList.addElement(listGames.get(i));
         }
-        System.out.println("modelList: " + modelList.getSize() + " listgames: " + listGames.size());
         jlistGames.setModel(modelList);
-        System.out.println("-----------");
     }
 
     @Override
