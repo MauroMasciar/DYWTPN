@@ -160,7 +160,7 @@ public class Config extends JInternalFrame implements ActionListener {
         int theme = mc.getTheme();
         if(theme == 1) cbTheme.setSelectedItem("Claro");
         else if(theme == 2) cbTheme.setSelectedItem("Oscuro");
-        
+
         chSessionGame.setSelected(mc.getOrderByDateSession());
         chAddAchiev.setSelected(mc.getOrderByDateAchiev());
     }
@@ -211,8 +211,7 @@ public class Config extends JInternalFrame implements ActionListener {
             mc.setOrderByDateNewAchiev(n);
             n = 0;
             if(chSessionGame.isSelected()) n = 1;
-            mc.setOrderByDateNewSession(n);
-            
+            mc.setOrderByDateNewSession(n);            
         }
     }
 }

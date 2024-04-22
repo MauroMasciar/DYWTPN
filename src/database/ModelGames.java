@@ -18,7 +18,6 @@ public class ModelGames {
     private Connection conex = null;
     private static Statement stmt;
     private static ResultSet rs;
-    private ArrayList<String> gameName = new ArrayList<>();
 
     public int newSession(int gameId) {
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
@@ -369,6 +368,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getGamesNameList(boolean hidden, boolean orderByDate) {
+        ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
@@ -400,6 +400,7 @@ public class ModelGames {
     }
     
     public ArrayList<String> getGamesNameListCategory(int category) {
+        ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
@@ -420,6 +421,7 @@ public class ModelGames {
     }
     
     public ArrayList<String> getGamesNameListLibrary(int library) {
+        ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
@@ -439,7 +441,8 @@ public class ModelGames {
         return gameName;
     }
 
-    public ArrayList<String> getGamesNameList(String name) {
+    public ArrayList<String> getGameNameLike(String name) {
+        ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
@@ -461,6 +464,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getStatisticsGamesNameList() {
+        ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
@@ -1509,7 +1513,7 @@ public class ModelGames {
 
     public ArrayList<String> getLibraryList() {
         ArrayList<String> library = new ArrayList<>();
-        String query = "SELECT * FROM library ORDER BY id";
+        String query = "SELECT * FROM library ORDER BY name";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();

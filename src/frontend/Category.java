@@ -76,13 +76,13 @@ public class Category extends JInternalFrame implements ActionListener, MouseLis
         modelList.clear();
 
         ModelGames mg = new ModelGames();
-        ArrayList<String> listGames = new ArrayList<>();
-        listGames = mg.getGamesNameListCategory(mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString()));
-        for(int i = 1; i < listGames.size(); i++) {
-            modelList.addElement(listGames.get(i));
+        ArrayList<String> listCategory = new ArrayList<>();
+        listCategory = mg.getGamesNameListCategory(mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString()));
+        for(int i = 1; i < listCategory.size(); i++) {
+            modelList.addElement(listCategory.get(i));
         }
         jlistGames.setModel(modelList);
-        int nGames = listGames.size() - 1;
+        int nGames = listCategory.size() - 1;
         setTitle("Categoría " + cbCategory.getSelectedItem().toString() + " | " + nGames + " juegos");
     }
 

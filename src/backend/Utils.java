@@ -90,12 +90,11 @@ public class Utils {
                 while(Main.test) {
                     try {
                         Thread.sleep(1000);
-                        System.out.println(internalFrame.getSize());
+                        System.out.println(internalFrame.getBounds());
                     } catch (InterruptedException ex) {
                         Log.Loguear(ex.getMessage());
-                    }		    
+                    }
                 }
-
             }
         }).start();
     }

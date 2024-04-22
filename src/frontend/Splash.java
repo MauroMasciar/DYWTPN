@@ -41,6 +41,12 @@ public class Splash extends JDialog {
                     if(Main.test) {
                         MainWindow mainWindow = new MainWindow();
                         MainWindow.showWindow();
+                        Thread.sleep(500);
+                        ModelConfig mc = new ModelConfig();
+                        ModelConfig.loadTheme(mc.getTheme());
+                        Thread.sleep(250);
+                        MainUI.loadData(true);
+                        Thread.sleep(1000);
                         dispose();
                     } else {
                         Thread.sleep(500);
@@ -51,6 +57,7 @@ public class Splash extends JDialog {
                         Thread.sleep(1000);
                         MainWindow mainWindow = new MainWindow();
                         MainWindow.showWindow();
+                        Thread.sleep(2000);
                         dispose();
                     }
                 } catch (InterruptedException ex) {

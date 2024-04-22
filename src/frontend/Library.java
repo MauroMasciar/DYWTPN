@@ -76,13 +76,13 @@ public class Library extends JInternalFrame implements ActionListener, MouseList
         modelList.clear();
 
         ModelGames mg = new ModelGames();
-        ArrayList<String> listGames = new ArrayList<>();
-        listGames = mg.getGamesNameListLibrary(mg.getLibraryIdFromName((cbLibrary.getSelectedItem().toString())));
-        for(int i = 1; i < listGames.size(); i++) {
-            modelList.addElement(listGames.get(i));
+        ArrayList<String> listLibrary = new ArrayList<>();
+        listLibrary = mg.getGamesNameListLibrary(mg.getLibraryIdFromName((cbLibrary.getSelectedItem().toString())));
+        for(int i = 1; i < listLibrary.size(); i++) {
+            modelList.addElement(listLibrary.get(i));
         }
         jlistGames.setModel(modelList);
-        int nGames = listGames.size() - 1;
+        int nGames = listLibrary.size() - 1;
         setTitle("Biblioteca " + cbLibrary.getSelectedItem().toString() + " | " + nGames + " juegos");
     }
 
