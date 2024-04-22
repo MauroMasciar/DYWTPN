@@ -497,7 +497,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		ModelGames mg = new ModelGames();
 		String path = mg.getPathFromGame(gameIdSelected);
 		ProcessBuilder pb;
-		if (mg.isGhost(gameIdSelected)) {
+		if(mg.isGhost(gameIdSelected)) {
 			pb = new ProcessBuilder("GhostGame.exe");
 		} else {
 			pb = new ProcessBuilder(path);
@@ -505,7 +505,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		Process p;
 		try {
 			p = pb.start();
-			if (p.isAlive()) {
+			if(p.isAlive()) {
 				InGame ig = new InGame(gameIdSelected, txtGameName.getText());
 				gameIdLaunched = gameIdSelected;
 

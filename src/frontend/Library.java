@@ -1,25 +1,29 @@
 package frontend;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import database.ModelGames;
 
-public class Library extends JInternalFrame implements ActionListener {
+public class Library extends JInternalFrame implements ActionListener, MouseListener {
     private static final long serialVersionUID = -1072944751022628676L;
-    private final JLabel lblInfo = new JLabel(" Aqui tiene la lista de bibliotecas, puede seleccionarla");
-    private final JLabel lblInfo2 = new JLabel("y usar editar o añadir una nueva");
-    private final JLabel lblLibrary = new JLabel("Biblioteca:");
     private final JComboBox<String> cbLibrary = new JComboBox<>();
+    private static JList<String> jlistGames = new JList<>();
+    private final JScrollPane scrListGame = new JScrollPane(jlistGames);
+    private static DefaultListModel<String> modelList = new DefaultListModel<>();
     private final JButton btnEdit = new JButton("Editar");
     private final JButton btnAdd = new JButton("Añadir");
 
@@ -27,48 +31,59 @@ public class Library extends JInternalFrame implements ActionListener {
         try {
             ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/library.png"));
             this.setFrameIcon(icon);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+        } catch (@SuppressWarnings("unused") Exception ex) {
+            //ex.printStackTrace();
+            //JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
+            System.out.println("No se pudo cargar el icono de Bibliotecas");
         }
         setTitle("Bibliotecas");
-        setBounds(100, 100, 295, 140);
+        setBounds(100, 100, 310, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setClosable(true);
         setResizable(true);
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.gridheight = 1;
-        gbc.gridwidth = 2;
-        gbc.weightx = 2.0;
-        gbc.weighty = 1.0;
         gbc.ipadx = 20;
         gbc.ipady = 20;
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        add(lblInfo, gbc);
-        gbc.gridy++;
-        add(lblInfo2, gbc);
-        gbc.gridwidth = 1;
-        gbc.weightx = 1.0;
-        gbc.gridy++;
-        add(lblLibrary, gbc);
-        gbc.gridx++;
         add(cbLibrary, gbc);
-        gbc.gridx = 0;
-        gbc.gridy++;
+        gbc.gridx++;
         add(btnEdit, gbc);
         gbc.gridx++;
         add(btnAdd, gbc);
+        gbc.gridx = 0;
+        gbc.gridy+=2;
+        gbc.gridheight = 3;
+        gbc.gridwidth = 3;
+        gbc.weightx = 3.0;
+        gbc.weighty = 3.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        add(scrListGame, gbc);
 
         btnAdd.addActionListener(this);
         btnEdit.addActionListener(this);
+        cbLibrary.addActionListener(this);
+        jlistGames.addMouseListener(this);
 
         updateData();
 
         setVisible(true);
+    }
+    
+    private void updateGameList() {
+        jlistGames.removeAll();
+        modelList.clear();
+
+        ModelGames mg = new ModelGames();
+        ArrayList<String> listGames = new ArrayList<>();
+        listGames = mg.getGamesNameListLibrary(mg.getLibraryIdFromName((cbLibrary.getSelectedItem().toString())));
+        for(int i = 1; i < listGames.size(); i++) {
+            modelList.addElement(listGames.get(i));
+        }
+        jlistGames.setModel(modelList);
     }
 
     private void updateData() {
@@ -77,16 +92,20 @@ public class Library extends JInternalFrame implements ActionListener {
         cbLibrary.removeAllItems();
         for (int i = 0; i < library.size(); i++) {
             cbLibrary.addItem(library.get(i));
-        }   
+        }
+        updateGameList();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnAdd) {
+        if(e.getSource() == btnAdd) {
             String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre de la biblioteca");
-            if (cat.length() == 0)
+            try {
+                if(cat.length() == 0) return;
+            } catch(@SuppressWarnings("unused") NullPointerException ex) {
                 return;
-            if (cat != "") {
+            }
+            if(cat != "") {
                 ModelGames mg = new ModelGames();
                 int rp = mg.addLibrary(cat);
                 if (rp == 1) {
@@ -98,18 +117,40 @@ public class Library extends JInternalFrame implements ActionListener {
             }
         } else if (e.getSource() == btnEdit) {
             String cat = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre de la biblioteca", cbLibrary.getSelectedItem().toString());
-            if (cat == null)
+            if(cat == null)
                 return;
-            if (cat != "") {
+            if(cat != "") {
                 ModelGames mg = new ModelGames();
                 int rp = mg.editLibrary(cbLibrary.getSelectedItem().toString(), cat);
-                if (rp == 1) {
+                if(rp == 1) {
                     JOptionPane.showMessageDialog(this, "La biblioteca ha sido actualizada");
                     updateData();
                 } else {
                     JOptionPane.showMessageDialog(this, "Ha habido un error al actualizar los datos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        } else if(e.getSource() == cbLibrary) {
+            updateGameList();
         }
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        if(e.getSource() == jlistGames && e.getClickCount() == 2) {
+            ModelGames mg = new ModelGames();
+            MainWindow.j.add(new EditGame(mg.getIdFromGameName(jlistGames.getSelectedValue())));
+            MainWindow.j.repaint();
+        }
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
     }
 }

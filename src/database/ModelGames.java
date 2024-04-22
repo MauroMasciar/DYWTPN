@@ -418,6 +418,26 @@ public class ModelGames {
         }
         return gameName;
     }
+    
+    public ArrayList<String> getGamesNameListLibrary(int library) {
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            gameName.add("null");
+            String query = "SELECT name FROM games WHERE library = " + library + " ORDER BY name";
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                gameName.add(rs.getString("name"));
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return gameName;
+    }
 
     public ArrayList<String> getGamesNameList(String name) {
         try {
