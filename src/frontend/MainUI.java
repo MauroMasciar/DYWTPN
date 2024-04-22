@@ -36,8 +36,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	private static JList<String> jlistGames = new JList<>();
 	private final JScrollPane scrListGame = new JScrollPane(jlistGames);
 	private static DefaultListModel<String> modelList = new DefaultListModel<>();
-	private static final JTextField txtGameName = new JTextField(20);
-	private final JTextField txtGameNotes = new JTextField(20);
+	private final static JTextField txtGameNotes = new JTextField(20);
 	private static final JButton btnLaunchGame = new JButton("Lanzar");
 	private final JButton btnEditGame = new JButton("Editar");
 	private static final JTextArea txtStatistics = new JTextArea();
@@ -55,6 +54,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 	public int gameIdSelected = 0;
 	public static int gameIdLaunched = 0;
+	private static String gameNameSelected = "";
 	private static boolean showHidden = false;
 	private static boolean orderByDate = false;
 
@@ -224,7 +224,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtLastAchie.setText(" CARGANDO ...");
 
 
-		txtGameName.setEditable(false);
 		txtStatistics.setEditable(false);
 		txtLastDays.setEditable(false);
 		txtTotalInfo.setEditable(false);
@@ -236,7 +235,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
 		txtSeparator.setText("__________________________________________________________________________________________________________________");
 
-		txtGameName.setFont(new Font("Serief", Font.BOLD, 12));
 		txtStatistics.setFont(new Font("Serief", Font.BOLD, 12));
 		txtLastAchie.setFont(new Font("Serief", Font.BOLD, 12));
 		txtLastDays.setFont(new Font("Serief", Font.BOLD, 12));
@@ -244,6 +242,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtGames.setFont(new Font("Serief", Font.BOLD, 12));
 		txtGamesTime.setFont(new Font("Serief", Font.BOLD, 12));
 		txtGameInfo.setFont(new Font("Serief", Font.BOLD, 12));
+		txtGameNotes.setFont(new Font("Serief", Font.BOLD, 12));
 
 		txtGameNotes.setEnabled(false);
 		btnEditGame.setEnabled(false);
@@ -334,6 +333,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		txtGames.setText("");
 		txtGamesTime.setText("");
 		txtGameInfo.setText("");
+		txtGameNotes.setText("");
 	}
 
 	public static void paint() {
@@ -347,6 +347,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 				txtGames.setForeground(Color.RED);
 				txtGamesTime.setForeground(Color.RED);
 				txtGameInfo.setForeground(Color.RED);
+				txtGameNotes.setForeground(Color.RED);
 			} else {
 				int theme = mc.getTheme();
 				if(theme == 1) {
@@ -357,6 +358,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 					txtGames.setForeground(Color.BLACK);
 					txtGamesTime.setForeground(Color.BLACK);
 					txtGameInfo.setForeground(Color.BLACK);
+					txtGameNotes.setForeground(Color.BLACK);
 				}
 			}
 		}
@@ -423,7 +425,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	private static void updateGameList() {
 		jlistGames.removeAll();
 		modelList.clear();
-		txtGameName.setText("");
+		gameNameSelected = "";
 
 		ModelGames g = new ModelGames();
 		ArrayList<String> listGames = new ArrayList<>();
@@ -454,13 +456,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		if(e.getSource() == jlistGames) {
 			btnEditGame.setEnabled(true);
 			String s = jlistGames.getSelectedValue();
-			txtGameName.setText(s);
+			gameNameSelected = s;
 			ModelGames mg = new ModelGames();
 
-			gameIdSelected = mg.getIdFromGameName(txtGameName.getText());
+			gameIdSelected = mg.getIdFromGameName(gameNameSelected);
 			if(gameIdSelected != 0) {
 				String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
-				txtGames.setText(" Juego: " + txtGameName.getText() + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
+				txtGames.setText(" Juego: " + gameNameSelected + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
 						+ mg.getDateLastSession(gameIdSelected));
 				
 				String lib = mg.getLibraryName(gameIdSelected);
@@ -486,7 +488,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 	}
 
 	private void launchGame() {
-		if(txtGameName.getText().isEmpty()) {
+		if(gameNameSelected.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Primero selecciona que juego quieres lanzar", "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -508,7 +510,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 		try {
 			p = pb.start();
 			if(p.isAlive()) {
-				InGame ig = new InGame(gameIdSelected, txtGameName.getText());
+				InGame ig = new InGame(gameIdSelected, gameNameSelected);
 				gameIdLaunched = gameIdSelected;
 
 				new Thread(new Runnable() {

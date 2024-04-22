@@ -25,7 +25,6 @@ public class InGame {
 			initTime = LocalDateTime.now();
 
 			ModelGames mg = new ModelGames();
-			mg.setLastPlayed(IdLaunched);
 			gameTimePlayedInitCurrentGame = mg.getSecondsPlayed(IdLaunched);
 			gameTimePlayedTotalInit = mg.getSecondsTotalPlayed();
 			current_session_number = mg.getTotalSessions()  + 1;
@@ -123,11 +122,12 @@ public class InGame {
 
 			ModelGames mg = new ModelGames();
 
-			if(totalSecondsSession > 300) { // 5 minutos
+			if(totalSecondsSession > 300) {
 				mg.saveGameHistory(gameIdLaunched, totalSecondsSession, gameName);
 				mg.saveLastGame(gameName, sGameTimePlayed);
 				mg.newSession(gameIdLaunched);
 				mg.saveGameTime(gameIdLaunched, totalSecondsSession);
+				mg.setLastPlayed(gameIdLaunched);
 			} else {
 				new Thread(new Runnable() {
 					public void run() {

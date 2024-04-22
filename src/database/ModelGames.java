@@ -747,6 +747,7 @@ public class ModelGames {
             p.setString(1, Utils.getFormattedDateTime());
             p.setInt(2, gameId);
             p.executeUpdate();
+            System.out.println("-----------");
 
             p.close();
             conex.close();

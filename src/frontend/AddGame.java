@@ -392,7 +392,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         if(Validations.isEmpty(txtPath)) txtPath.setText("N/A");
         if(Validations.isEmpty(txtCompletedDate)) txtCompletedDate.setText("1900-01-01");
         if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01");
-        if(Validations.isEmpty(txtaNotes)) txtaNotes.setText("N/A");
+        if(Validations.isEmpty(txtaNotes)) txtaNotes.setText(" ");
 
         String completed = "0", ghost = "0";
         int hide = 0, favorite = 0, statistic = 0, portable = 0;
