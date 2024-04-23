@@ -35,14 +35,23 @@ public class ModelConfig {
 
             query = "TRUNCATE games_sessions_history";
             stmt.execute(query);
+            
+            query = "TRUNCATE games_sessions_backup";
+            stmt.execute(query);
 
             query = "TRUNCATE library";
             stmt.execute(query);
 
             query = "TRUNCATE player_activities";
             stmt.execute(query);
+            
+            query = "TRUNCATE platforms";
+            stmt.execute(query);
 
             query = "INSERT INTO config (name) VALUES ('Usuario')";
+            stmt.execute(query);
+            
+            query = "INSERT INTO platforms (name) VALUES ('PC')";
             stmt.execute(query);
 
             query = "INSERT INTO category (name_category) VALUES ('Ninguna')";

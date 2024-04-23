@@ -343,9 +343,9 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         dcReleaseDate.setDateFormat("yyyy-MM-dd");
         dcReleaseDate.setTextRefernce(txtReleaseDate);
         dcReleaseDate.hidePopup();
-        dcCompletedDate.setSelectedDate(new Date(1));
-        dcReleaseDate.setSelectedDate(new Date(1));
-
+        dcCompletedDate.setSelectedDate(new Date(System.currentTimeMillis()));
+        dcReleaseDate.setSelectedDate(new Date(System.currentTimeMillis()));
+        
         txtLastPlayed.setEditable(false);
 
         chStatistic.setSelected(true);

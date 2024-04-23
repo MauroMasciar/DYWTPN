@@ -624,7 +624,7 @@ public class ModelGames {
     
     public ArrayList<String> getRatingList() {
         ArrayList<String> rating = new ArrayList<>();
-        String query = "SELECT * FROM rating ORDER BY name";
+        String query = "SELECT * FROM rating ORDER BY id";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();

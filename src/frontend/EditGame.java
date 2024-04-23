@@ -21,6 +21,8 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
+
 import com.raven.datechooser.DateChooser;
 
 import database.ModelGames;
@@ -345,9 +347,11 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         dcCompletedDate.setDateFormat("yyyy-MM-dd");
         dcCompletedDate.setTextRefernce(txtCompletedDate);
         dcCompletedDate.hidePopup();
+        dcCompletedDate.setSelectedDate(new Date(System.currentTimeMillis()));
         dcReleaseDate.setDateFormat("yyyy-MM-dd");
         dcReleaseDate.setTextRefernce(txtReleaseDate);
         dcReleaseDate.hidePopup();
+        
 
         txtLastPlayed.setEditable(false);
 

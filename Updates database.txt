@@ -60,4 +60,4 @@ ALTER TABLE `games` CHANGE `platform` `platform` INT(10) NULL DEFAULT '1';
 -- 1.2.4.126
 CREATE TABLE `dywtpn`.`rating` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(60) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 ALTER TABLE `games` CHANGE `rating` `rating` INT(10) NULL DEFAULT '1';
-INSERT INTO rating (name) values ('E'), ('E10+'), ('T'), ('M'), ('A'), ('RP'), ('EC');
+INSERT INTO rating (name) values ('E - Everyone'), ('E10+ - Everyone 10+'), ('T - Teen'), ('M - Mature 17+'), ('A - Adults Only 18+'), ('RP - Rating Pending'), ('EC - Early Childhood');
