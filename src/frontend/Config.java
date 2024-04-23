@@ -14,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import backend.Utils;
 import backend.Validations;
 import database.ModelConfig;
 
@@ -142,7 +141,7 @@ public class Config extends JInternalFrame implements ActionListener {
 
         setVisible(true);
 
-        Utils.getSize(this);
+        //Utils.getSize(this);
     }
 
     public void loadData() {

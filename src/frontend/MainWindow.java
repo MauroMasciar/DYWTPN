@@ -30,18 +30,17 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     public static final JFrame j = new JFrame();
     private final JMenuBar menubar = new JMenuBar();
     private final JMenu mnuGames = new JMenu("Juegos");
-    private final JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("gfx/new_game.png"));
-    private final JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesión", new ImageIcon("gfx/new_session.png"));
-    private final JMenuItem mnuiGamesEdit = new JMenuItem("Editar juego");
-    private final JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("gfx/refresh.png"));
-    private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("gfx/games_list.png"));
-    private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
+    private final JMenuItem mnuiGamesAdd = new JMenuItem("Nuevo", new ImageIcon("gfx/new_game.png"));
+    private final JMenuItem mnuiGamesEdit = new JMenuItem("Editar");
+    private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista", new ImageIcon("gfx/games_list.png"));
+    private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver ocultos");
     private final JCheckBoxMenuItem mnuiGamesOrderByDate = new JCheckBoxMenuItem("Ordenar por última vez");
-    private final JMenu mnuGamesStatistics = new JMenu("Estadísticas");
-    private final JMenuItem mnuiGamesStatisticsPlayCount = new JMenuItem("Sesiones");
-    private final JMenuItem mnuiGamesStatisticsTotalHours = new JMenuItem("Tiempo");
+    private final JMenu mnuPlayerStatistics = new JMenu("Estadísticas");
+    private final JMenuItem mnuiPlayerStatisticsPlayCount = new JMenuItem("Sesiones");
+    private final JMenuItem mnuiPlayerStatisticsTotalHours = new JMenuItem("Tiempo");
     private final JMenu mnuPlayer = new JMenu("Jugador");
-    private final JMenuItem mnuiAddAchiev = new JMenuItem("Añadir hazaña", new ImageIcon("gfx/x.png"));
+    private final JMenuItem mnuiPlayerAddSession = new JMenuItem("Añadir sesión", new ImageIcon("gfx/new_session.png"));
+    private final JMenuItem mnuiPlayerAddAchiev = new JMenuItem("Añadir hazaña", new ImageIcon("gfx/x.png"));
     private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("gfx/history.png"));
     private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("gfx/activity.png"));
     private final JMenu mnuData = new JMenu("Datos");
@@ -49,6 +48,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiDataCollections = new JMenuItem("Colecciones", new ImageIcon("gfx/collections.png"));
     private final JMenuItem mnuiDataLibrary = new JMenuItem("Bibliotecas", new ImageIcon("gfx/library.png"));
     private final JMenuItem mnuiDataPlatforms = new JMenuItem("Plataformas", new ImageIcon("gfx/library.png"));
+    private final JMenuItem mnuiDataRefresh = new JMenuItem("Actualizar", new ImageIcon("gfx/refresh.png"));
     private final JMenu mnuHelp = new JMenu("Ayuda");
     private final JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("gfx/config.png"));
     private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("gfx/update.png"));
@@ -80,24 +80,25 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         menubar.add(mnuData);
         menubar.add(mnuHelp);
         mnuGames.add(mnuiGamesAdd);
-        mnuGames.add(mnuiGamesAddSession);
         mnuGames.add(mnuiGamesEdit);
         mnuGames.add(mnuiGamesList);
         mnuGames.add(mnuiGamesHidden);
         mnuGames.add(mnuiGamesOrderByDate);
         mnuGames.addSeparator();
-        mnuGames.add(mnuiGamesRefresh);
         mnuGames.add(mnuiGamesExit);
-        mnuPlayer.add(mnuiAddAchiev);
+        mnuPlayer.add(mnuiPlayerAddSession);
+        mnuPlayer.add(mnuiPlayerAddAchiev);
         mnuPlayer.add(mnuiPlayerHistory);
         mnuPlayer.add(mnuiPlayerActivities);
-        mnuPlayer.add(mnuGamesStatistics);
-        mnuGamesStatistics.add(mnuiGamesStatisticsPlayCount);
-        mnuGamesStatistics.add(mnuiGamesStatisticsTotalHours);
+        mnuPlayer.add(mnuPlayerStatistics);
+        mnuPlayerStatistics.add(mnuiPlayerStatisticsPlayCount);
+        mnuPlayerStatistics.add(mnuiPlayerStatisticsTotalHours);
         mnuData.add(mnuiDataCategory);
         mnuData.add(mnuiDataCollections);
         mnuData.add(mnuiDataLibrary);
         mnuData.add(mnuiDataPlatforms);
+        mnuData.addSeparator();
+        mnuData.add(mnuiDataRefresh);
         mnuHelp.add(mnuiHelpConfig);
         mnuHelp.add(mnuiHelpDebug);
         mnuHelp.add(mnuiHelpUpdate);
@@ -105,10 +106,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuHelp.add(mnuiHelpAbout);
 
         mnuiGamesExit.addActionListener(this);
-        mnuiGamesRefresh.addActionListener(this);
+        mnuiDataRefresh.addActionListener(this);
         mnuiGamesAdd.addActionListener(this);
         mnuiGamesEdit.addActionListener(this);
-        mnuiGamesAddSession.addActionListener(this);
         mnuiGamesOrderByDate.addActionListener(this);
         mnuiGamesList.addActionListener(this);
         mnuiGamesHidden.addActionListener(this);
@@ -118,9 +118,10 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiDataPlatforms.addActionListener(this);
         mnuiHelpConfig.addActionListener(this);
         mnuiPlayerActivities.addActionListener(this);
-        mnuiGamesStatisticsPlayCount.addActionListener(this);
-        mnuiGamesStatisticsTotalHours.addActionListener(this);
-        mnuiAddAchiev.addActionListener(this);
+        mnuiPlayerStatisticsPlayCount.addActionListener(this);
+        mnuiPlayerStatisticsTotalHours.addActionListener(this);
+        mnuiPlayerAddSession.addActionListener(this);
+        mnuiPlayerAddAchiev.addActionListener(this);
         mnuiPlayerHistory.addActionListener(this);
         mnuiHelpAbout.addActionListener(this);
         mnuiHelpUpdate.addActionListener(this);
@@ -160,7 +161,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             j.add(new AddGame());
         } else if(e.getSource() == mnuiGamesEdit) {
             j.add(new EditGame(0));
-        } else if(e.getSource() == mnuiGamesAddSession) {
+        } else if(e.getSource() == mnuiPlayerAddSession) {
             j.add(new AddSessionGame());
         } else if (e.getSource() == mnuiGamesList) {
             j.add(new GameList());
@@ -196,15 +197,15 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             j.add(new Config());
         } else if (e.getSource() == mnuiPlayerActivities) {
             j.add(new PlayerActivities());
-        } else if(e.getSource() == mnuiGamesStatisticsPlayCount) {
+        } else if(e.getSource() == mnuiPlayerStatisticsPlayCount) {
             j.add(new StatisticsPlayCount());
-        } else if(e.getSource() == mnuiGamesStatisticsTotalHours) {
+        } else if(e.getSource() == mnuiPlayerStatisticsTotalHours) {
             j.add(new StatisticsTotalHours());
-        } else if(e.getSource() == mnuiAddAchiev) {
+        } else if(e.getSource() == mnuiPlayerAddAchiev) {
             j.add(new AddAchievement());
         } else if(e.getSource() == mnuiPlayerHistory) {
             j.add(new PlayerHistory());
-        } else if(e.getSource() == mnuiGamesRefresh) {
+        } else if(e.getSource() == mnuiDataRefresh) {
             MainUI.loadData(false);
         } else if(e.getSource() == mnuiHelpUpdate) {
             j.add(new UpdateGUI());
