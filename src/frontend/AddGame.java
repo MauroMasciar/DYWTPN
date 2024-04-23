@@ -57,7 +57,6 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     private final JLabel lblCategory = new JLabel("Categoria:");
     private final JTextField txtGameName = new JTextField(20);
     private final JTextField txtReleaseDate = new JTextField(20);
-    private final JTextField txtRating = new JTextField(20);
     private final JTextField txtGenre = new JTextField(10);
     private final JComboBox<String> cbPlatform = new JComboBox<>();
     private final JTextField txtDeveloper = new JTextField(10);
@@ -79,6 +78,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
     private final JCheckBox chGhost = new JCheckBox("Fantasma");
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
+    private final JComboBox<String> cbRating = new JComboBox<>();
     private final JComboBox<String> cbCategory = new JComboBox<>();
     private final JComboBox<String> cbLibrary = new JComboBox<>();
     private final SpinnerNumberModel spinnerNumberModelScore = new SpinnerNumberModel();
@@ -139,7 +139,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         pnlDetails.add(lblRating, gbc);
         gbc.gridx++;
         gbc.gridwidth = 3;
-        pnlDetails.add(txtRating, gbc);
+        pnlDetails.add(cbRating, gbc);
         gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.gridx = 0;
@@ -321,6 +321,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         loadCategory();
         loadLibrary();
         loadPlatform();
+        loadRating();
 
         chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicación");
         txtPath.setToolTipText("Especifique la ruta completa al ejecutable");
@@ -387,10 +388,20 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
             cbPlatform.addItem(listPlatform.get(i));
         }
     }
+    
+    private void loadRating() {
+        cbRating.removeAllItems();
+        ArrayList<String> listRating = new ArrayList<>();
+        listRating.clear();
+        ModelGames mg = new ModelGames();
+        listRating = mg.getRatingList();
+        for(int i = 0; i < listRating.size(); i++) {
+            cbRating.addItem(listRating.get(i));
+        }
+    }
 
     private void saveData() {
         if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
-        if(Validations.isEmpty(txtRating)) txtRating.setText("N/A");
         if(Validations.isEmpty(txtGenre)) txtGenre.setText("N/A");
         if(Validations.isEmpty(txtDeveloper)) txtDeveloper.setText("N/A");
         if(Validations.isEmpty(txtPublisher)) txtPublisher.setText("N/A");
@@ -417,7 +428,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         if(chHide.isSelected()) hide = 1;
 
         String releasedate = txtReleaseDate.getText();
-        String rating = txtRating.getText();
+        int rating = mg.getRatingIdFromName(cbRating.getSelectedItem().toString());
         String genre = txtGenre.getText();
         int platform = mg.getPlatformIdFromName(cbPlatform.getSelectedItem().toString());
         String developer = txtDeveloper.getText();

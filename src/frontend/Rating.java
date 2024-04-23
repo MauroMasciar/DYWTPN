@@ -20,16 +20,16 @@ import java.util.ArrayList;
 
 import database.ModelGames;
 
-public class Platforms extends JInternalFrame implements ActionListener, MouseListener, InternalFrameListener {
+public class Rating extends JInternalFrame implements ActionListener, MouseListener, InternalFrameListener {
     private static final long serialVersionUID = -1072944751022628676L;
-    private final JComboBox<String> cbPlatforms = new JComboBox<>();
+    private final JComboBox<String> cbRating = new JComboBox<>();
     private static JList<String> jlistGames = new JList<>();
     private final JScrollPane scrListGame = new JScrollPane(jlistGames);
     private static DefaultListModel<String> modelList = new DefaultListModel<>();
     private final JButton btnEdit = new JButton("Editar");
     private final JButton btnAdd = new JButton("Añadir");
 
-    public Platforms() {
+    public Rating() {
         try {
             ImageIcon icon = new ImageIcon(ClassLoader.getSystemResource("gfx/category.png"));
             this.setFrameIcon(icon);
@@ -37,7 +37,7 @@ public class Platforms extends JInternalFrame implements ActionListener, MouseLi
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
         }
-        setBounds(100, 100, 330, 600);
+        setBounds(100, 100, 310, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setClosable(true);
         setResizable(true);
@@ -49,7 +49,7 @@ public class Platforms extends JInternalFrame implements ActionListener, MouseLi
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        add(cbPlatforms, gbc);
+        add(cbRating, gbc);
         gbc.gridx++;
         add(btnEdit, gbc);
         gbc.gridx++;
@@ -65,7 +65,7 @@ public class Platforms extends JInternalFrame implements ActionListener, MouseLi
 
         btnAdd.addActionListener(this);
         btnEdit.addActionListener(this);
-        cbPlatforms.addActionListener(this);
+        cbRating.addActionListener(this);
         jlistGames.addMouseListener(this);
 
         updateData();
@@ -79,22 +79,22 @@ public class Platforms extends JInternalFrame implements ActionListener, MouseLi
         modelList.clear();
 
         ModelGames mg = new ModelGames();
-        ArrayList<String> listPlatforms = new ArrayList<>();
-        listPlatforms = mg.getGamesNameListPlatform(mg.getPlatformIdFromName(cbPlatforms.getSelectedItem().toString()));
-        for(int i = 1; i < listPlatforms.size(); i++) {
-            modelList.addElement(listPlatforms.get(i));
+        ArrayList<String> listRating = new ArrayList<>();
+        listRating = mg.getGamesNameListRating(mg.getRatingIdFromName(cbRating.getSelectedItem().toString()));
+        for(int i = 1; i < listRating.size(); i++) {
+            modelList.addElement(listRating.get(i));
         }
         jlistGames.setModel(modelList);
-        int nGames = listPlatforms.size() - 1;
-        setTitle("Plataforma " + cbPlatforms.getSelectedItem().toString() + " | " + nGames + " juegos");
+        int nGames = listRating.size() - 1;
+        setTitle("Rating " + cbRating.getSelectedItem().toString() + " | " + nGames + " juegos");
     }
 
     private void updateData() {
         ModelGames mg = new ModelGames();
-        ArrayList<String> platforms = mg.getPlatformList();
-        cbPlatforms.removeAllItems();
-        for(int i = 0; i < platforms.size(); i++) {
-            cbPlatforms.addItem(platforms.get(i));
+        ArrayList<String> rating = mg.getRatingList();
+        cbRating.removeAllItems();
+        for(int i = 0; i < rating.size(); i++) {
+            cbRating.addItem(rating.get(i));
         }
         updateGameList();
     }
@@ -102,7 +102,7 @@ public class Platforms extends JInternalFrame implements ActionListener, MouseLi
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btnAdd) {
-            String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre de la plataforma");
+            String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre del rating");
             try {
                 if(cat.length() == 0) return;
             } catch(@SuppressWarnings("unused") NullPointerException ex) {
@@ -110,29 +110,29 @@ public class Platforms extends JInternalFrame implements ActionListener, MouseLi
             }
             if(cat != "") {
                 ModelGames mg = new ModelGames();
-                int rp = mg.addPlatform(cat);
+                int rp = mg.addRating(cat);
                 if(rp == 1) {
-                    JOptionPane.showMessageDialog(this, "La plataforma ha sido guardada");
+                    JOptionPane.showMessageDialog(this, "El rating ha sido guardado");
                     updateData();
                 } else {
                     JOptionPane.showMessageDialog(this, "Ha habido un error al guardar los datos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else if(e.getSource() == btnEdit) {
-            String cat = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre de la plataforma", cbPlatforms.getSelectedItem().toString());
+            String cat = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del rating", cbRating.getSelectedItem().toString());
             if(cat == null)
                 return;
             if(cat != "") {
                 ModelGames mg = new ModelGames();
-                int rp = mg.editPlatform(cbPlatforms.getSelectedItem().toString(), cat);
+                int rp = mg.editRating(cbRating.getSelectedItem().toString(), cat);
                 if(rp == 1) {
-                    JOptionPane.showMessageDialog(this, "La plataforma ha sido actualizada");
+                    JOptionPane.showMessageDialog(this, "El rating ha sido actualizado");
                     updateData();
                 } else {
                     JOptionPane.showMessageDialog(this, "Ha habido un error al actualizar los datos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        } else if(e.getSource() == cbPlatforms) {
+        } else if(e.getSource() == cbRating) {
             updateGameList();
         }
     }

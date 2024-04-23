@@ -49,6 +49,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiDataLibrary = new JMenuItem("Bibliotecas", new ImageIcon("gfx/library.png"));
     private final JMenuItem mnuiDataPlatforms = new JMenuItem("Plataformas", new ImageIcon("gfx/library.png"));
     private final JMenuItem mnuiDataRefresh = new JMenuItem("Actualizar", new ImageIcon("gfx/refresh.png"));
+    private final JMenuItem mnuiDataRating = new JMenuItem("Rating");
     private final JMenu mnuHelp = new JMenu("Ayuda");
     private final JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("gfx/config.png"));
     private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("gfx/update.png"));
@@ -97,6 +98,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuData.add(mnuiDataCollections);
         mnuData.add(mnuiDataLibrary);
         mnuData.add(mnuiDataPlatforms);
+        mnuData.add(mnuiDataRating);
         mnuData.addSeparator();
         mnuData.add(mnuiDataRefresh);
         mnuHelp.add(mnuiHelpConfig);
@@ -116,6 +118,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiDataCategory.addActionListener(this);
         mnuiDataLibrary.addActionListener(this);
         mnuiDataPlatforms.addActionListener(this);
+        mnuiDataRating.addActionListener(this);
         mnuiHelpConfig.addActionListener(this);
         mnuiPlayerActivities.addActionListener(this);
         mnuiPlayerStatisticsPlayCount.addActionListener(this);
@@ -192,7 +195,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         } else if(e.getSource() == mnuiDataLibrary) {
             j.add(new Library());
         } else if(e.getSource() == mnuiDataPlatforms) {
-            j.add(new Platforms());
+            j.add(new Platform());
+        } else if(e.getSource() == mnuiDataRating) {
+            j.add(new Rating());
         } else if (e.getSource() == mnuiHelpConfig) {
             j.add(new Config());
         } else if (e.getSource() == mnuiPlayerActivities) {

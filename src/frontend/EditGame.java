@@ -54,7 +54,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JLabel lblScore = new JLabel(" Puntaje:");
     private final JLabel lblCategory = new JLabel("categoría:");
     private final JTextField txtReleaseDate = new JTextField(20);
-    private final JTextField txtRating = new JTextField(20);
     private final JTextField txtGenre = new JTextField(10);
     private final JTextField txtDeveloper = new JTextField(10);
     private final JTextField txtPublisher = new JTextField(10);
@@ -74,6 +73,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JCheckBox chGhost = new JCheckBox("Fantasma");
     private final JCheckBox chPortable = new JCheckBox("Portable");
     private final JCheckBox chHide = new JCheckBox("Oculto");
+    private final JComboBox<String> cbRating = new JComboBox<>();
     private final JComboBox<String> cbPlatform = new JComboBox<>();
     private final JComboBox<String> cbCategory = new JComboBox<>();
     private final JComboBox<String> cbLibrary = new JComboBox<>();
@@ -142,7 +142,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         pnlDetails.add(lblRating, gbc);
         gbc.gridx++;
         gbc.gridwidth = 3;
-        pnlDetails.add(txtRating, gbc);
+        pnlDetails.add(cbRating, gbc);
         gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.gridx = 0;
@@ -328,6 +328,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         loadCategory();
         loadLibrary();
         loadPlatform();
+        loadRating();
         loadGameList();
 
         chGhost.setToolTipText("Especifica si quieres iniciar el juego manualmente en vez de que lo inicie la aplicación");
@@ -362,7 +363,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("-");
         if(Validations.isEmpty(txtStatus)) txtStatus.setText("-");
         if(Validations.isEmpty(txtPath)) txtPath.setText("-");
-        if(Validations.isEmpty(txtRating)) txtRating.setText("-");
         if(Validations.isEmpty(txtPublisher)) txtPublisher.setText("-");
         if(Validations.isEmpty(txtRegion)) txtRegion.setText("-");
         if(Validations.isEmpty(txtVersion)) txtVersion.setText("-");
@@ -403,6 +403,17 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
             cbPlatform.addItem(listPlatform.get(i));
         }
     }
+    
+    private void loadRating() {
+        cbRating.removeAllItems();
+        ArrayList<String> listRating = new ArrayList<>();
+        listRating.clear();
+        ModelGames mg = new ModelGames();
+        listRating = mg.getRatingList();
+        for(int i = 0; i < listRating.size(); i++) {
+            cbRating.addItem(listRating.get(i));
+        }
+    }
 
     private void loadGameList() {
         cbTitle.removeAllItems();
@@ -423,9 +434,9 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         int score = mg.getScore(gameId);
 
         txtReleaseDate.setText(mg.getReleaseDate(gameId));
-        txtRating.setText(mg.getRating(gameId));
         txtGenre.setText(mg.getGenre(gameId));
         cbPlatform.setSelectedItem(mg.getGamePlatformName(gameId));
+        cbRating.setSelectedItem(mg.getGameRatingName(gameId));
         txtDeveloper.setText(mg.getDeveloper(gameId));
         txtPublisher.setText(mg.getPublisher(gameId));
         txtSeries.setText(mg.getSeries(gameId));
@@ -459,7 +470,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     }
 
     private void saveData(int gameId) {
-        if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtRating) || Validations.isEmpty(txtGenre) ||
+        if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtGenre) ||
                 Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
                 Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) ||
                 Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtCompletedDate)) {
@@ -481,7 +492,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         if(chHide.isSelected()) hide = 1;
 
         String releasedate = txtReleaseDate.getText();
-        String rating = txtRating.getText();
+        int rating = mg.getRatingIdFromName(cbRating.getSelectedItem().toString());
         String genre = txtGenre.getText();
         int platform = mg.getPlatformIdFromName(cbPlatform.getSelectedItem().toString());
         String developer = txtDeveloper.getText();
