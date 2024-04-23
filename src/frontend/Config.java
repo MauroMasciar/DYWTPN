@@ -182,7 +182,7 @@ public class Config extends JInternalFrame implements ActionListener {
                     MainUI.loadData(true);
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "No se han podido borrar los datos. Prueba a reiniciar la aplicacion y volver a intentarlo", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No se han podido borrar los datos. Prueba a reiniciar la aplicación y volver a intentarlo", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else if (e.getSource() == btnSave) {
@@ -203,7 +203,7 @@ public class Config extends JInternalFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Los datos han sido guardados", "Datos guardados", JOptionPane.INFORMATION_MESSAGE);
             } catch(NumberFormatException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Algunos campos tienen datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Algunos campos contienen valores incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
             int n = 0;

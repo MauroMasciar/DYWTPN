@@ -121,9 +121,9 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
                 mg.saveLastGame(cbGame.getSelectedItem().toString(), sGameTimePlayed);
                 MainUI.loadData(false);                
                 this.dispose();
-                JOptionPane.showMessageDialog(this, "La sesion de juego se ha agregado satisfactoriamente", "Sesion añadida", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La sesión de juego se ha agregado satisfactoriamente", "Sesión añadida", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "La sesion de juego no se ha podido agregar. Verifica que todos los datos sean correctos", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La sesión de juego no se ha podido agregar. Verifica que todos los datos sean correctos", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

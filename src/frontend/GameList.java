@@ -71,7 +71,7 @@ public class GameList extends JInternalFrame implements ActionListener {
         cbFilter.addItem("Nombre");
         cbFilter.addItem("Tiempo");
         cbFilter.addItem("Veces");
-        cbFilter.addItem("Categoria");
+        cbFilter.addItem("Categoría");
         cbFilter.addItem("Completado");
         cbFilter.addItem("Puntos");
         cbFilter.addItem("Última vez");

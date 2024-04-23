@@ -24,7 +24,7 @@ public class StatisticsPlayCount extends JInternalFrame {
             JOptionPane.showMessageDialog(this, "No tienes juegos en tu biblioteca", "No hay juegos", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        setTitle("Estadisticas de sesiones");
+        setTitle("Estadísticas de sesiones");
         setBounds(50, 50, 850, 550);
         setClosable(true);
         setResizable(true);

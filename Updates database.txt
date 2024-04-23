@@ -53,3 +53,7 @@ ALTER TABLE `games_sessions_backup` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `games` DROP `show_sta`
 -- 1.2.4.116
 ALTER TABLE `config` ADD `orderbydate_newsession` TINYINT(2) NOT NULL DEFAULT '0' AFTER `History_y`, ADD `orderbydate_newachiev` TINYINT(2) NOT NULL DEFAULT '0' AFTER `orderbydate_newsession`;
+-- 1.2.4.124
+CREATE TABLE `dywtpn`.`platforms` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+INSERT INTO `dywtpn`.`platforms` (`id`, `name`) VALUES (NULL, 'PC');
+ALTER TABLE `games` CHANGE `platform` `platform` INT(10) NULL DEFAULT '0';

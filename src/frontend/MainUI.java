@@ -222,7 +222,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         txtTotalInfo.setText(" CARGANDO ...");
         txtLastAchie.setText(" CARGANDO ...");
 
-
         txtStatistics.setEditable(false);
         txtLastDays.setEditable(false);
         txtTotalInfo.setEditable(false);
@@ -251,7 +250,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 while (true) {
                     try {
                         if(gameIdLaunched != 0) {
-                            System.out.println("Runnable constructor");
                             loadData(true);
                         }
                         Thread.sleep(600000);
@@ -303,7 +301,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
         String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
 
-        txtLastDays.setText(" Horas el ultimo dia: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
+        txtLastDays.setText(" Horas el último día: " + uno + " | Semana: " + siete + " | 2 semanas: " + catorce + " | Mes: " + treinta);
     }
 
     public static void loadTotal() {
@@ -315,7 +313,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     public static void loadAchievs() {
         ModelPlayer mp = new ModelPlayer();
-        String lastAchie = " Ultima hazaña: " + mp.getLastAchievement();
+        String lastAchie = " Última hazaña: " + mp.getLastAchievement();
         txtLastAchie.setText(lastAchie);
     }
 
@@ -463,7 +461,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
             gameIdSelected = mg.getIdFromGameName(gameNameSelected);
             if(gameIdSelected != 0) {
                 String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
-                txtGames.setText(" Juego: " + gameNameSelected + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Ultima sesion: "
+                txtGames.setText(" Juego: " + gameNameSelected + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Última sesión: "
                         + mg.getDateLastSession(gameIdSelected));
 
                 String lib = mg.getLibraryName(gameIdSelected);
@@ -481,7 +479,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
                 String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
                 String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
-                txtGamesTime.setText(" Última sesión: " + ses + " | Día: " + uno + " | 7 dias: " + siete + " | 14 dias: " + catorce + " | 30 dias: " + treinta);
+                txtGamesTime.setText(" Última sesión: " + ses + " | Día: " + uno + " | 7 días: " + siete + " | 14 días: " + catorce + " | 30 días: " + treinta);
 
                 txtGameNotes.setText(mg.getNotes(gameIdSelected));
             }

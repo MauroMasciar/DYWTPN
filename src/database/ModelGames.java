@@ -420,6 +420,27 @@ public class ModelGames {
         return gameName;
     }
     
+    public ArrayList<String> getGamesNameListPlatform(int platform) {
+        ArrayList<String> gameName = new ArrayList<>();
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            gameName.add("null");
+            String query = "SELECT name FROM games WHERE platform = " + platform + " ORDER BY name";
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                gameName.add(rs.getString("name"));
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return gameName;
+    }
+    
     public ArrayList<String> getGamesNameListLibrary(int library) {
         ArrayList<String> gameName = new ArrayList<>();
         try {
@@ -579,7 +600,27 @@ public class ModelGames {
         }
         return category;
     }
-
+    
+    public ArrayList<String> getPlatformList() {
+        ArrayList<String> platform = new ArrayList<>();
+        String query = "SELECT * FROM platforms ORDER BY name";
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                platform.add(rs.getString("name"));
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return platform;
+    }
+    
     public int getScore(int gameId) {
         int score = 0;
         String query = "SELECT score FROM games WHERE id = " + gameId;
@@ -736,7 +777,7 @@ public class ModelGames {
             p.close();
             conex.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesión\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
         }
@@ -756,7 +797,7 @@ public class ModelGames {
             p.close();
             conex.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesion\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se ha podido guardar la sesión\n" + ex.getMessage(), "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
         }
@@ -791,7 +832,7 @@ public class ModelGames {
 
     public int addGame(String name, int gameTime, String path, String ghost, int playCount, String completed,
             int score, int category, int hide, int favorite, int statistic, int portable, String releasedate,
-            String rating, String genre, String platform, String developer, String publisher, String series,
+            String rating, String genre, int platform, String developer, String publisher, String series,
             String region, String playMode, String version, String status, String lastPlayed,
             String added, String modified, String completed_date, int library, String notes) {
         try {
@@ -815,7 +856,7 @@ public class ModelGames {
             p.setString(13, releasedate);
             p.setString(14, rating);
             p.setString(15, genre);
-            p.setString(16, platform);
+            p.setInt(16, platform);
             p.setString(17, developer);
             p.setString(18, publisher);
             p.setString(19, series);
@@ -843,7 +884,7 @@ public class ModelGames {
 
     public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
             String completed, int score, int category, int hidden, int favorite, int statistic, int portable,
-            String releasedate, String rating, String genre, String platform, String developer, String publisher,
+            String releasedate, String rating, String genre, int platform, String developer, String publisher,
             String series, String region, String playMode, String version, String status,
             String lastPlayed, String completed_date, int library, String notes) {
         try {
@@ -880,7 +921,7 @@ public class ModelGames {
             p.setString(13, releasedate);
             p.setString(14, rating);
             p.setString(15, genre);
-            p.setString(16, platform);
+            p.setInt(16, platform);
             p.setString(17, developer);
             p.setString(18, publisher);
             p.setString(19, series);
@@ -933,11 +974,46 @@ public class ModelGames {
         }
         return resultado;
     }
+    
+    public int addPlatform(String name) {
+        int resultado = 0;
+        try {
+            String query = "INSERT INTO platforms (name) VALUES (?)";
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = conex.prepareStatement(query);
+            p.setString(1, name);
+            resultado = p.executeUpdate();
+            conex.close();
+            p.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return resultado;
+    }
 
     public int editCategory(String oldName, String newName) {
         int resultado = 0;
         try {
             String query = "UPDATE category SET name_category = ? WHERE name_category = ?";
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = conex.prepareStatement(query);
+            p.setString(1, newName);
+            p.setString(2, oldName);
+            resultado = p.executeUpdate();
+            conex.close();
+            p.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return resultado;
+    }
+    
+    public int editPlatform(String oldName, String newName) {
+        int resultado = 0;
+        try {
+            String query = "UPDATE platforms SET name = ? WHERE name = ?";
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             PreparedStatement p = conex.prepareStatement(query);
             p.setString(1, newName);
@@ -992,9 +1068,50 @@ public class ModelGames {
         }
         return category;
     }
+    
+    public String getGamePlatformName(int gameId) {
+        String query = "SELECT platforms.name FROM `games` inner join platforms on platforms.id = games.platform where games.id = "
+                + gameId;
+        String platform = "Ninguna";
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                platform = rs.getString("name");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return platform;
+    }
 
     public int getCategoryIdFromName(String name) {
         String query = "SELECT id FROM category WHERE name_category = '" + name + "'";
+        int id = 0;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                id = rs.getInt("id");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return id;
+    }
+    
+    public int getPlatformIdFromName(String name) {
+        String query = "SELECT id FROM platforms WHERE name = '" + name + "'";
         int id = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -1073,15 +1190,15 @@ public class ModelGames {
         return res;
     }
 
-    public String getPlatform(int gameId) {
+    public int getPlatform(int gameId) {
         String query = "SELECT platform FROM games WHERE id = " + gameId;
-        String res = "";
+        int res = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             rs = stmt.executeQuery(query);
             if (rs.next()) {
-                res = rs.getString("platform");
+                res = rs.getInt("platform");
             }
             conex.close();
             stmt.close();

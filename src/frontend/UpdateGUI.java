@@ -69,12 +69,12 @@ public class UpdateGUI extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btnApply) {
             if(Validations.isEmpty(txtSql)) {
-                JOptionPane.showMessageDialog(this, "Debe escribir el codigo para poder actualizar", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Debe escribir el código para poder actualizar", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             ModelConfig mc = new ModelConfig();
             int res = mc.update(txtSql.getText());
-            if(res != 0) JOptionPane.showMessageDialog(this, "Actualizacion añadida", "Actualizacion", JOptionPane.INFORMATION_MESSAGE);
+            if(res != 0) JOptionPane.showMessageDialog(this, "Actualización añadida", "Actualización", JOptionPane.INFORMATION_MESSAGE);
             else JOptionPane.showMessageDialog(this, "Ha habido un error al actualizar", "Error", JOptionPane.ERROR_MESSAGE);
             txtSql.setText("");
         }	

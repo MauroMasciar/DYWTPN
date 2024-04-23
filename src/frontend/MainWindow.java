@@ -31,22 +31,24 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuBar menubar = new JMenuBar();
     private final JMenu mnuGames = new JMenu("Juegos");
     private final JMenuItem mnuiGamesAdd = new JMenuItem("Añadir nuevo juego", new ImageIcon("gfx/new_game.png"));
-    private final JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesion", new ImageIcon("gfx/new_session.png"));
+    private final JMenuItem mnuiGamesAddSession = new JMenuItem("Añadir sesión", new ImageIcon("gfx/new_session.png"));
     private final JMenuItem mnuiGamesEdit = new JMenuItem("Editar juego");
     private final JMenuItem mnuiGamesRefresh = new JMenuItem("Actualizar datos", new ImageIcon("gfx/refresh.png"));
     private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista de juegos", new ImageIcon("gfx/games_list.png"));
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver juegos ocultos");
     private final JCheckBoxMenuItem mnuiGamesOrderByDate = new JCheckBoxMenuItem("Ordenar por última vez");
-    private final JMenuItem mnuiGamesCategory = new JMenuItem("Ver categorias", new ImageIcon("gfx/category.png"));
-    private final JMenuItem mnuiGamesCollections = new JMenuItem("Ver colecciones", new ImageIcon("gfx/collections.png"));
-    private final JMenuItem mnuiGamesLibrary = new JMenuItem("Ver bibliotecas", new ImageIcon("gfx/library.png"));
-    private final JMenu mnuGamesStatistics = new JMenu("Estadisticas");
+    private final JMenu mnuGamesStatistics = new JMenu("Estadísticas");
     private final JMenuItem mnuiGamesStatisticsPlayCount = new JMenuItem("Sesiones");
     private final JMenuItem mnuiGamesStatisticsTotalHours = new JMenuItem("Tiempo");
     private final JMenu mnuPlayer = new JMenu("Jugador");
     private final JMenuItem mnuiAddAchiev = new JMenuItem("Añadir hazaña", new ImageIcon("gfx/x.png"));
     private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("gfx/history.png"));
     private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("gfx/activity.png"));
+    private final JMenu mnuData = new JMenu("Datos");
+    private final JMenuItem mnuiDataCategory = new JMenuItem("Categorías", new ImageIcon("gfx/category.png"));
+    private final JMenuItem mnuiDataCollections = new JMenuItem("Colecciones", new ImageIcon("gfx/collections.png"));
+    private final JMenuItem mnuiDataLibrary = new JMenuItem("Bibliotecas", new ImageIcon("gfx/library.png"));
+    private final JMenuItem mnuiDataPlatforms = new JMenuItem("Plataformas", new ImageIcon("gfx/library.png"));
     private final JMenu mnuHelp = new JMenu("Ayuda");
     private final JMenuItem mnuiHelpConfig = new JMenuItem("Configuración", new ImageIcon("gfx/config.png"));
     private final JMenuItem mnuiHelpUpdate = new JMenuItem("Actualizar", new ImageIcon("gfx/update.png"));
@@ -75,6 +77,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
         menubar.add(mnuGames);
         menubar.add(mnuPlayer);
+        menubar.add(mnuData);
         menubar.add(mnuHelp);
         mnuGames.add(mnuiGamesAdd);
         mnuGames.add(mnuiGamesAddSession);
@@ -82,9 +85,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuGames.add(mnuiGamesList);
         mnuGames.add(mnuiGamesHidden);
         mnuGames.add(mnuiGamesOrderByDate);
-        mnuGames.add(mnuiGamesCategory);
-        mnuGames.add(mnuiGamesCollections);
-        mnuGames.add(mnuiGamesLibrary);
         mnuGames.addSeparator();
         mnuGames.add(mnuiGamesRefresh);
         mnuGames.add(mnuiGamesExit);
@@ -94,6 +94,10 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuPlayer.add(mnuGamesStatistics);
         mnuGamesStatistics.add(mnuiGamesStatisticsPlayCount);
         mnuGamesStatistics.add(mnuiGamesStatisticsTotalHours);
+        mnuData.add(mnuiDataCategory);
+        mnuData.add(mnuiDataCollections);
+        mnuData.add(mnuiDataLibrary);
+        mnuData.add(mnuiDataPlatforms);
         mnuHelp.add(mnuiHelpConfig);
         mnuHelp.add(mnuiHelpDebug);
         mnuHelp.add(mnuiHelpUpdate);
@@ -105,12 +109,13 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiGamesAdd.addActionListener(this);
         mnuiGamesEdit.addActionListener(this);
         mnuiGamesAddSession.addActionListener(this);
-        mnuiGamesCollections.addActionListener(this);
         mnuiGamesOrderByDate.addActionListener(this);
-        mnuiGamesCategory.addActionListener(this);
-        mnuiGamesLibrary.addActionListener(this);
         mnuiGamesList.addActionListener(this);
         mnuiGamesHidden.addActionListener(this);
+        mnuiDataCollections.addActionListener(this);
+        mnuiDataCategory.addActionListener(this);
+        mnuiDataLibrary.addActionListener(this);
+        mnuiDataPlatforms.addActionListener(this);
         mnuiHelpConfig.addActionListener(this);
         mnuiPlayerActivities.addActionListener(this);
         mnuiGamesStatisticsPlayCount.addActionListener(this);
@@ -171,7 +176,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             if(!Main.test) {
                 ExitApplication();
             }
-        } else if(e.getSource() == mnuiGamesCategory) {
+        } else if(e.getSource() == mnuiDataCategory) {
             j.add(new Category());
         } else if(e.getSource() == mnuiGamesOrderByDate) {
             ModelConfig mc = new ModelConfig();
@@ -181,10 +186,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
                 mc.setOrderByDate(0);
             }
             MainUI.loadData(false);
-        } else if(e.getSource() == mnuiGamesCollections) {
+        } else if(e.getSource() == mnuiDataCollections) {
             j.add(new Collections());
-        } else if(e.getSource() == mnuiGamesLibrary) {
+        } else if(e.getSource() == mnuiDataLibrary) {
             j.add(new Library());
+        } else if(e.getSource() == mnuiDataPlatforms) {
+            j.add(new Platforms());
         } else if (e.getSource() == mnuiHelpConfig) {
             j.add(new Config());
         } else if (e.getSource() == mnuiPlayerActivities) {
