@@ -370,23 +370,23 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                     loadStatistics(0, 0);
                     if(res) Thread.sleep(500);
                     //loadLastDays();
-                    //if(res) Thread.sleep(500);                    
-                    //loadTotal();
+                    if(res) Thread.sleep(500);                    
+                    loadTotal();
                     //if(res) Thread.sleep(500);
                     //loadAchievs();
                     //if(res) Thread.sleep(500);
                     //if(gameIdLaunched == 0) loadLast();                    
                     //if(res) Thread.sleep(500);
                     //loadTables();
-                    if(res) Thread.sleep(500);
+                    if(res) Thread.sleep(1000);
                     verifyLoadStatistics();
-                    if(res) Thread.sleep(500);
+                    if(res) Thread.sleep(1000);
                     verifyLoadLastDays();
-                    if(res) Thread.sleep(500);
+                    if(res) Thread.sleep(1000);
                     verifyLoadTotal();
-                    if(res) Thread.sleep(500);
+                    if(res) Thread.sleep(1000);
                     verifyLoadLastAchie();
-                    if(res) Thread.sleep(500);
+                    if(res) Thread.sleep(1000);
                     if(gameIdLaunched == 0) {
                         loadGames();
                     }

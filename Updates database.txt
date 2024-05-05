@@ -61,3 +61,8 @@ ALTER TABLE `games` CHANGE `platform` `platform` INT(10) NULL DEFAULT '1';
 CREATE TABLE `dywtpn`.`rating` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(60) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 ALTER TABLE `games` CHANGE `rating` `rating` INT(10) NULL DEFAULT '1';
 INSERT INTO rating (name) values ('E - Everyone'), ('E10+ - Everyone 10+'), ('T - Teen'), ('M - Mature 17+'), ('A - Adults Only 18+'), ('RP - Rating Pending'), ('EC - Early Childhood');
+-- 1.2.4.129
+ALTER TABLE `games` CHANGE `genre` `actual_library` INT(0) NOT NULL;
+ALTER TABLE `library` ADD `time_played` INT NOT NULL AFTER `name`;
+ALTER TABLE `library` ADD `total_sessions` INT NOT NULL AFTER `time_played`;
+ALTER TABLE `platforms` ADD `time_played` INT NOT NULL AFTER `name`, ADD `total_sessions` INT NOT NULL AFTER `time_played`;

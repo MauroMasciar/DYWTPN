@@ -336,6 +336,8 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         spinPlayCount.setModel(spinnerNumberModelPlayCount);
         txtAdded.setText(Utils.getFormattedDate());
         txtModified.setText(Utils.getFormattedDateTime());
+        
+        txtGenre.setEditable(false);
 
         dcCompletedDate.setDateFormat("yyyy-MM-dd");
         dcCompletedDate.setTextRefernce(txtCompletedDate);
@@ -429,7 +431,6 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 
         String releasedate = txtReleaseDate.getText();
         int rating = mg.getRatingIdFromName(cbRating.getSelectedItem().toString());
-        String genre = txtGenre.getText();
         int platform = mg.getPlatformIdFromName(cbPlatform.getSelectedItem().toString());
         String developer = txtDeveloper.getText();
         String publisher = txtPublisher.getText();
@@ -452,9 +453,10 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
         
         name.replace("'", "");
+        name.replace("\"", "");
 
         int res = mg.addGame(name, gameTime, path, ghost, playCount, completed, score, category, hide, 
-                favorite, statistic, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
+                favorite, statistic, portable, releasedate, rating, platform, developer, publisher, series, region, 
                 playMode, version, status, lastPlayed, added, modified, completed_date, library, notes);
         if(res == 1) {
             JOptionPane.showMessageDialog(this, "El juego ha sido guardado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);

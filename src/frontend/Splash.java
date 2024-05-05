@@ -57,7 +57,7 @@ public class Splash extends JDialog {
                         Thread.sleep(1000);
                         MainWindow mainWindow = new MainWindow();
                         MainWindow.showWindow();
-                        Thread.sleep(2000);
+                        Thread.sleep(7000);
                         dispose();
                     }
                 } catch (InterruptedException ex) {

@@ -662,6 +662,26 @@ public class ModelGames {
         return platform;
     }
     
+    public int getPlatformTimePlayed(int library_id) {
+        String query = "SELECT time_played FROM platforms WHERE id = " + library_id;
+        int hours = 0;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                hours = rs.getInt("time_played");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return hours;
+    }
+    
     public int getScore(int gameId) {
         int score = 0;
         String query = "SELECT score FROM games WHERE id = " + gameId;
@@ -860,6 +880,11 @@ public class ModelGames {
             int r = setTimePlayed(gameId, secs);
             if(r == 0) {
                 JOptionPane.showMessageDialog(null, "No se ha podido sumar el tiempo jugado", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
+            } else {
+                addTimeLibrary(gameId, minsPlayed * 60);
+                addSessionLibrary(gameId);
+                addTimePlatform(gameId, minsPlayed * 60);
+                addSessionPlatform(gameId);
             }
             p.close();
             conex.close();
@@ -870,16 +895,102 @@ public class ModelGames {
         }
         return resultado;
     }
+    
+    public void addTimeLibrary(int gameId, int secs) {
+        int time_played = 0;
+        int library_id = getLibraryIdFromGame(gameId);
+        try {
+            String query = "SELECT time_played FROM library WHERE id = " + library_id;
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                time_played = rs.getInt("time_played");
+                time_played += secs;
+                query = "UPDATE library SET time_played = " + time_played + " WHERE id = " + library_id;
+                stmt.execute(query);
+            }            
+            rs.close();
+            stmt.close();
+            conex.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    public void addSessionLibrary(int gameId) {
+        int total_sessions;
+        int library_id = getLibraryIdFromGame(gameId);
+        try {
+            String query = "SELECT total_sessions FROM library WHERE id = " + library_id;
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                total_sessions = rs.getInt("total_sessions");
+                total_sessions ++;
+                query = "UPDATE library SET total_sessions = " + total_sessions + " WHERE id = " + library_id;
+                stmt.execute(query);
+            }
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    public void addTimePlatform(int gameId, int secs) {
+        int time_played = 0;
+        int platform_id = getPlatformIdFromGame(gameId);
+        try {
+            String query = "SELECT time_played FROM platforms WHERE id = " + platform_id;
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                time_played = rs.getInt("time_played");
+                time_played += secs;
+                query = "UPDATE platforms SET time_played = " + time_played + " WHERE id = " + platform_id;
+                stmt.execute(query);
+            }            
+            rs.close();
+            stmt.close();
+            conex.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    public void addSessionPlatform(int gameId) {
+        int total_sessions;
+        int platform_id = getPlatformIdFromGame(gameId);
+        try {
+            String query = "SELECT total_sessions FROM platforms WHERE id = " + platform_id;
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                total_sessions = rs.getInt("total_sessions");
+                total_sessions ++;
+                query = "UPDATE platforms SET total_sessions = " + total_sessions + " WHERE id = " + platform_id;
+                stmt.execute(query);
+            }
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 
     public int addGame(String name, int gameTime, String path, String ghost, int playCount, String completed,
             int score, int category, int hide, int favorite, int statistic, int portable, String releasedate,
-            int rating, String genre, int platform, String developer, String publisher, String series,
+            int rating, int platform, String developer, String publisher, String series,
             String region, String playMode, String version, String status, String lastPlayed,
             String added, String modified, String completed_date, int library, String notes) {
         try {
             String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, statistic, portable, release_date, "
-                    + "rating, genre, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, notes) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "rating, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, notes) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             PreparedStatement p = conex.prepareStatement(query);
             p.setString(1, name);
@@ -896,21 +1007,20 @@ public class ModelGames {
             p.setInt(12, portable);
             p.setString(13, releasedate);
             p.setInt(14, rating);
-            p.setString(15, genre);
-            p.setInt(16, platform);
-            p.setString(17, developer);
-            p.setString(18, publisher);
-            p.setString(19, series);
-            p.setString(20, region);
-            p.setString(21, playMode);
-            p.setString(22, version);
-            p.setString(23, status);
-            p.setString(24, lastPlayed);
-            p.setString(25, added);
-            p.setString(26, modified);
-            p.setString(27, completed_date);
-            p.setInt(28, library);
-            p.setString(29, notes);
+            p.setInt(15, platform);
+            p.setString(16, developer);
+            p.setString(17, publisher);
+            p.setString(18, series);
+            p.setString(19, region);
+            p.setString(20, playMode);
+            p.setString(21, version);
+            p.setString(22, status);
+            p.setString(23, lastPlayed);
+            p.setString(24, added);
+            p.setString(25, modified);
+            p.setString(26, completed_date);
+            p.setInt(27, library);
+            p.setString(28, notes);
 
             int resultado = p.executeUpdate();
             conex.close();
@@ -925,7 +1035,7 @@ public class ModelGames {
 
     public int editGame(int gameId, String name, int secondsPlayed, String path, String ghost, int playCount,
             String completed, int score, int category, int hidden, int favorite, int statistic, int portable,
-            String releasedate, int rating, String genre, int platform, String developer, String publisher,
+            String releasedate, int rating, int platform, String developer, String publisher,
             String series, String region, String playMode, String version, String status,
             String lastPlayed, String completed_date, int library, String notes) {
         try {
@@ -942,7 +1052,7 @@ public class ModelGames {
             if(completed.equals("0")) completed_date = "0000-00-00";
 
             query = "UPDATE games SET name = ?, time_played = ?, path = ?, ghost = ?, play_count = ?, completed = ?, score = ?, category = ?, hidden = ?, "
-                    + "favorite = ?, statistic = ?, portable = ?, release_date = ?, rating = ?, genre = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
+                    + "favorite = ?, statistic = ?, portable = ?, release_date = ?, rating = ?, platform = ?, developer = ?, publisher = ?, series = ?, "
                     + "region = ?, play_mode = ?, version = ?, status = ?, last_played = ?, modified = ?, completed_date = ?, library = ?, notes = ? WHERE id = ?";
 
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -961,21 +1071,20 @@ public class ModelGames {
             p.setInt(12, portable);
             p.setString(13, releasedate);
             p.setInt(14, rating);
-            p.setString(15, genre);
-            p.setInt(16, platform);
-            p.setString(17, developer);
-            p.setString(18, publisher);
-            p.setString(19, series);
-            p.setString(20, region);
-            p.setString(21, playMode);
-            p.setString(22, version);
-            p.setString(23, status);
-            p.setString(24, lastPlayed);
-            p.setString(25, Utils.getFormattedDateTime());
-            p.setString(26, completed_date);
-            p.setInt(27, library);
-            p.setString(28, notes);
-            p.setInt(29, gameId);
+            p.setInt(15, platform);
+            p.setString(16, developer);
+            p.setString(17, publisher);
+            p.setString(18, series);
+            p.setString(19, region);
+            p.setString(20, playMode);
+            p.setString(21, version);
+            p.setString(22, status);
+            p.setString(23, lastPlayed);
+            p.setString(24, Utils.getFormattedDateTime());
+            p.setString(25, completed_date);
+            p.setInt(26, library);
+            p.setString(27, notes);
+            p.setInt(28, gameId);
 
             int res = p.executeUpdate();
             query = "UPDATE games_sessions_history SET game_name = ? WHERE game_id = ?";
@@ -1744,6 +1853,40 @@ public class ModelGames {
         }
         return res;
     }
+    
+    private int getLibraryIdFromGame(int gameId) {
+        int id = 0;
+        String query = "SELECT library FROM games WHERE id = " + gameId;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                id = rs.getInt("library");
+            }
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return id;
+    }
+    
+    private int getPlatformIdFromGame(int gameId) {
+        int id = 0;
+        String query = "SELECT platform FROM games WHERE id = " + gameId;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                id = rs.getInt("platform");
+            }
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return id;
+    }
 
     public ArrayList<String> getLibraryList() {
         ArrayList<String> library = new ArrayList<>();
@@ -1838,6 +1981,26 @@ public class ModelGames {
             ex.printStackTrace();
         }
         return id;
+    }
+    
+    public int getLibraryTimePlayed(int library_id) {
+        String query = "SELECT time_played FROM library WHERE id = " + library_id;
+        int hours = 0;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                hours = rs.getInt("time_played");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return hours;
     }
 
     public void initSession(int current_session_number, int game_id) {

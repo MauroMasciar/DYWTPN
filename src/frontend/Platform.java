@@ -6,6 +6,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+
+import backend.Utils;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -79,14 +82,16 @@ public class Platform extends JInternalFrame implements ActionListener, MouseLis
         modelList.clear();
 
         ModelGames mg = new ModelGames();
+        int platform_id = mg.getPlatformIdFromName(cbPlatforms.getSelectedItem().toString());
         ArrayList<String> listPlatforms = new ArrayList<>();
-        listPlatforms = mg.getGamesNameListPlatform(mg.getPlatformIdFromName(cbPlatforms.getSelectedItem().toString()));
+        listPlatforms = mg.getGamesNameListPlatform(platform_id);
         for(int i = 1; i < listPlatforms.size(); i++) {
             modelList.addElement(listPlatforms.get(i));
         }
         jlistGames.setModel(modelList);
         int nGames = listPlatforms.size() - 1;
-        setTitle("Plataforma " + cbPlatforms.getSelectedItem().toString() + " | " + nGames + " juegos");
+        int time_played = mg.getPlatformTimePlayed(platform_id);
+        setTitle(cbPlatforms.getSelectedItem().toString() + " | " + nGames + " juegos | " + Utils.getTotalHoursFromSeconds(time_played, true));
     }
 
     private void updateData() {

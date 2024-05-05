@@ -6,6 +6,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+
+import backend.Utils;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -37,7 +40,7 @@ public class Library extends JInternalFrame implements ActionListener, MouseList
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
         }
-        setBounds(100, 100, 310, 600);
+        setBounds(100, 100, 330, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setClosable(true);
         setResizable(true);
@@ -76,16 +79,18 @@ public class Library extends JInternalFrame implements ActionListener, MouseList
     private void updateGameList() {
         jlistGames.removeAll();
         modelList.clear();
-
+        
         ModelGames mg = new ModelGames();
+        int library_id = mg.getLibraryIdFromName((cbLibrary.getSelectedItem().toString()));
         ArrayList<String> listLibrary = new ArrayList<>();
-        listLibrary = mg.getGamesNameListLibrary(mg.getLibraryIdFromName((cbLibrary.getSelectedItem().toString())));
+        listLibrary = mg.getGamesNameListLibrary(library_id);
         for(int i = 1; i < listLibrary.size(); i++) {
             modelList.addElement(listLibrary.get(i));
         }
         jlistGames.setModel(modelList);
         int nGames = listLibrary.size() - 1;
-        setTitle("Biblioteca " + cbLibrary.getSelectedItem().toString() + " | " + nGames + " juegos");
+        int time_played = mg.getLibraryTimePlayed(library_id);
+        setTitle(cbLibrary.getSelectedItem().toString() + " | " + nGames + " juegos | " + Utils.getTotalHoursFromSeconds(time_played, true));
     }
 
     private void updateData() {

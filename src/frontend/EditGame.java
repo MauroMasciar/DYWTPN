@@ -327,6 +327,9 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         txtModified.setEditable(false);
         txtaNotes.setLineWrap(true);
         txtaNotes.setWrapStyleWord(true);
+        
+        txtGenre.setEditable(false);
+        
         loadCategory();
         loadLibrary();
         loadPlatform();
@@ -361,7 +364,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
         if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
         if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");
-        if(Validations.isEmpty(txtGenre)) txtGenre.setText("-");
         if(Validations.isEmpty(txtDeveloper)) txtDeveloper.setText("-");
         if(Validations.isEmpty(txtSeries)) txtSeries.setText("-");
         if(Validations.isEmpty(txtPlayMode)) txtPlayMode.setText("-");
@@ -497,7 +499,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
 
         String releasedate = txtReleaseDate.getText();
         int rating = mg.getRatingIdFromName(cbRating.getSelectedItem().toString());
-        String genre = txtGenre.getText();
         int platform = mg.getPlatformIdFromName(cbPlatform.getSelectedItem().toString());
         String developer = txtDeveloper.getText();
         String publisher = txtPublisher.getText();
@@ -517,7 +518,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
         int res = mg.editGame(gameId, cbTitle.getSelectedItem().toString(), gameTime, path, ghost, playCount, completed, score, category, hide, 
-                favorite, statistic, portable, releasedate, rating, genre, platform, developer, publisher, series, region, 
+                favorite, statistic, portable, releasedate, rating, platform, developer, publisher, series, region, 
                 playMode, version, status, lastPlayed, completedDate, library, notes);
         if(res == 1) {
             JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
