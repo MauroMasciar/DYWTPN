@@ -119,7 +119,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
                 mg.newSession(gameId);
                 String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(minsPlayed*60, true);
                 mg.saveLastGame(cbGame.getSelectedItem().toString(), sGameTimePlayed);
-                MainUI.loadData(false);                
+                MainUI.loadData(false, true);                
                 this.dispose();
                 JOptionPane.showMessageDialog(this, "La sesión de juego se ha agregado satisfactoriamente", "Sesión añadida", JOptionPane.INFORMATION_MESSAGE);
             } else {

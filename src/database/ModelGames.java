@@ -989,8 +989,8 @@ public class ModelGames {
             String added, String modified, String completed_date, int library, String notes) {
         try {
             String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, statistic, portable, release_date, "
-                    + "rating, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, notes) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "rating, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, actual_library, notes) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             PreparedStatement p = conex.prepareStatement(query);
             p.setString(1, name);
@@ -1020,7 +1020,8 @@ public class ModelGames {
             p.setString(25, modified);
             p.setString(26, completed_date);
             p.setInt(27, library);
-            p.setString(28, notes);
+            p.setInt(28, library);
+            p.setString(29, notes);
 
             int resultado = p.executeUpdate();
             conex.close();
@@ -1046,7 +1047,7 @@ public class ModelGames {
                 String gameName = getNameFromId(gameId);
                 String achievement = "Has terminado el juego " + gameName + " en " + Utils.getTotalHoursFromSeconds(secondsPlayed, true);
                 mp.saveAchievement(achievement, gameName, gameId);
-                MainUI.loadData(false);
+                MainUI.loadData(false, true);
                 if(completed_date.equals("0000-00-00")) completed_date = Utils.getFormattedDate();
             }
             if(completed.equals("0")) completed_date = "0000-00-00";
@@ -2042,6 +2043,46 @@ public class ModelGames {
             p.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void deleteItemHistory(int id) {
+        String query = "SELECT * FROM games_sessions_history WHERE id = " + id;
+        System.out.println(query);
+        int game_id = 0, mins_history = 0, play_count = 0, time_played = 0;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                game_id = rs.getInt("game_id");
+                mins_history = rs.getInt("mins");
+            }
+
+            query = "SELECT time_played, play_count FROM games WHERE id = " + game_id;
+            System.out.println(query);
+            ResultSet rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                time_played = rs.getInt("time_played");
+                play_count = rs.getInt("play_count");
+            }
+            
+            mins_history = mins_history * 60;
+            time_played -= mins_history;
+            play_count--;
+            
+            query = "UPDATE games SET time_played = " + time_played + ", play_count = " + play_count + " WHERE id = " + game_id;
+            System.out.println(query);
+            stmt.execute(query);
+            query = "DELETE FROM games_sessions_history WHERE id = " + id;
+            stmt.execute(query);
+            
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 }

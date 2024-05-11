@@ -250,7 +250,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 while (true) {
                     try {
                         if(gameIdLaunched != 0) {
-                            loadData(true);
+                            loadData(true, true);
                         }
                         Thread.sleep(600000);
                     } catch (InterruptedException ex) {
@@ -363,21 +363,19 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         }
     }
 
-    public static void loadData(boolean res) {
+    public static void loadData(boolean res, boolean gamelist) {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     loadStatistics(0, 0);
                     if(res) Thread.sleep(500);
-                    //loadLastDays();
+                    loadLastDays();
                     if(res) Thread.sleep(500);                    
                     loadTotal();
                     //if(res) Thread.sleep(500);
                     //loadAchievs();
                     //if(res) Thread.sleep(500);
-                    //if(gameIdLaunched == 0) loadLast();                    
-                    //if(res) Thread.sleep(500);
-                    //loadTables();
+                    //if(gameIdLaunched == 0) loadLast();
                     if(res) Thread.sleep(1000);
                     verifyLoadStatistics();
                     if(res) Thread.sleep(1000);
@@ -388,7 +386,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                     verifyLoadLastAchie();
                     if(res) Thread.sleep(1000);
                     if(gameIdLaunched == 0) {
-                        loadGames();
+                        if(gamelist) loadGames();
                     }
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
@@ -520,7 +518,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                             Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
                             gameIdLaunched = 0;
                             ig.closeGame();
-                            loadData(true);
+                            loadData(true, true);
                         } catch (InterruptedException ex) {
                             JOptionPane.showMessageDialog(null, "No se ha podido lanzar el juego. Verifique que la ruta sea correcta.\n\n" + ex.getMessage(), "Error al lanzar juego", JOptionPane.ERROR_MESSAGE);
                         }

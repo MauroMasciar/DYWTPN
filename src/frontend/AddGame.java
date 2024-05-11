@@ -460,7 +460,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
                 playMode, version, status, lastPlayed, added, modified, completed_date, library, notes);
         if(res == 1) {
             JOptionPane.showMessageDialog(this, "El juego ha sido guardado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-            MainUI.loadData(false);
+            MainUI.loadData(false, true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Ha habido un error al guardado el juego", "Error", JOptionPane.ERROR_MESSAGE);

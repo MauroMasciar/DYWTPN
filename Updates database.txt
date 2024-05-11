@@ -66,3 +66,8 @@ ALTER TABLE `games` CHANGE `genre` `actual_library` INT(0) NOT NULL;
 ALTER TABLE `library` ADD `time_played` INT NOT NULL AFTER `name`;
 ALTER TABLE `library` ADD `total_sessions` INT NOT NULL AFTER `time_played`;
 ALTER TABLE `platforms` ADD `time_played` INT NOT NULL AFTER `name`, ADD `total_sessions` INT NOT NULL AFTER `time_played`;
+ALTER TABLE `platforms` CHANGE `time_played` `time_played` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `platforms` CHANGE `total_sessions` `total_sessions` INT(11) NOT NULL DEFAULT '0';
+-- 1.2.4.130
+CREATE TABLE `dywtpn`.`wishlist` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(60) NOT NULL , `store` VARCHAR(60) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+ALTER TABLE `wishlist` ADD UNIQUE(`id`);

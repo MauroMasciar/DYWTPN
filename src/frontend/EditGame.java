@@ -54,7 +54,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     private final JLabel lblConvertedSeconds = new JLabel();
     private final JLabel lblPath = new JLabel("Directorio:");
     private final JLabel lblScore = new JLabel(" Puntaje:");
-    private final JLabel lblCategory = new JLabel("categoría:");
+    private final JLabel lblCategory = new JLabel("Categoría:");
     private final JTextField txtReleaseDate = new JTextField(20);
     private final JTextField txtGenre = new JTextField(10);
     private final JTextField txtDeveloper = new JTextField(10);
@@ -476,10 +476,10 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
     }
 
     private void saveData(int gameId) {
-        if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtGenre) ||
+        if(Validations.isEmpty(txtReleaseDate) || Validations.isEmpty(txtCompletedDate) ||
                 Validations.isEmpty(txtDeveloper) || Validations.isEmpty(txtPublisher) || Validations.isEmpty(txtSeries) || Validations.isEmpty(txtRegion) ||
                 Validations.isEmpty(txtPlayMode) || Validations.isEmpty(txtVersion) || Validations.isEmpty(txtStatus) ||
-                Validations.isEmpty(txtLastPlayed) || Validations.isEmpty(txtCompletedDate)) {
+                Validations.isEmpty(txtLastPlayed)) {
             JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "Campos incompletos", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -522,7 +522,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
                 playMode, version, status, lastPlayed, completedDate, library, notes);
         if(res == 1) {
             JOptionPane.showMessageDialog(this, "El juego ha sido editado satisfactoriamente", "Juego editado", JOptionPane.INFORMATION_MESSAGE);
-            MainUI.loadData(false);
+            MainUI.loadData(false, true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Ha habido un error al editar el juego", "Error", JOptionPane.ERROR_MESSAGE);
@@ -576,7 +576,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         		opcDropHistory = JOptionPane.showInternalConfirmDialog(null, "¿Desea borrar tambien el historial y actividad?", "Borrar juego", JOptionPane.YES_NO_OPTION);
         		if(opcDropHistory == 0) mg.deleteGame(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()), true);
         		else mg.deleteGame(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()), false);
-        		MainUI.loadData(false);
+        		MainUI.loadData(false, true);
                 dispose();
         	}
         }

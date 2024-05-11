@@ -49,6 +49,7 @@ public class ModelPlayer {
 
     public DefaultTableModel getHistory(String gameName) {
         DefaultTableModel m = new DefaultTableModel();
+        m.addColumn("ID");
         m.addColumn("Fecha");
         m.addColumn("Nombre");
         m.addColumn("Tiempo jugado");
@@ -57,16 +58,16 @@ public class ModelPlayer {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             if(gameName == "Todos") {
-                rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
             } else {
-                rs = stmt.executeQuery("SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
                         + gameName + "' ORDER BY id DESC");
             }
             
             while (rs.next()) {
-                Object[] f = new Object[3];
-                for (int i = 0; i < 3; i++) {
-                    if(i == 2) {
+                Object[] f = new Object[4];
+                for (int i = 0; i < 4; i++) {
+                    if(i == 3) {
                     	f[i] = Utils.getTotalHoursFromSeconds(rs.getInt(i + 1) * 60, false);
                     } else {
                     	f[i] = rs.getObject(i + 1);

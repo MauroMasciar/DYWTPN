@@ -7,6 +7,8 @@ import javax.swing.JTable;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -16,11 +18,12 @@ import database.ModelConfig;
 import database.ModelGames;
 import database.ModelPlayer;
 
-public class PlayerHistory extends JInternalFrame implements ActionListener {
+public class PlayerHistory extends JInternalFrame implements ActionListener, KeyListener {
     private static final long serialVersionUID = 4484286064012240569L;
     private final JComboBox<String> cbGames = new JComboBox<>();
     private final JScrollPane scrTable = new JScrollPane(tbPlayerHistory);
     public static final JTable tbPlayerHistory = new JTable();
+    private boolean upd = true;
 
     public PlayerHistory() {
         try {
@@ -59,6 +62,7 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
         loadHistory();
 
         cbGames.addActionListener(this);
+        tbPlayerHistory.addKeyListener(this);
 
         setVisible(true);
     }
@@ -84,8 +88,44 @@ public class PlayerHistory extends JInternalFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == cbGames) {
-            ModelPlayer model = new ModelPlayer();
-            tbPlayerHistory.setModel(model.getHistory(cbGames.getSelectedItem().toString()));
+            if(upd) {
+                ModelPlayer model = new ModelPlayer();
+                tbPlayerHistory.setModel(model.getHistory(cbGames.getSelectedItem().toString()));
+            }
         }
+    }
+
+    public void keyTyped(KeyEvent e) {
+        
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyChar() == KeyEvent.VK_DELETE) {
+            int re = JOptionPane.showConfirmDialog(this, "¿Desea borrar esta sesión del historial?", "Borrar del historial", JOptionPane.YES_NO_OPTION);
+            if(re == 0) {
+                ModelGames mg = new ModelGames();
+                int pos = (Integer)tbPlayerHistory.getValueAt(tbPlayerHistory.getSelectedRow(), 0);
+                mg.deleteItemHistory(pos);
+                upd = false;
+                loadHistory();
+                
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            Thread.sleep(1000);
+                            upd = true;
+                            MainUI.loadData(false, false);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                            System.exit(0);
+                        }
+                    }
+                }).start();
+            }
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+
     }
 }

@@ -45,7 +45,7 @@ public class Splash extends JDialog {
                         ModelConfig mc = new ModelConfig();
                         ModelConfig.loadTheme(mc.getTheme());
                         Thread.sleep(250);
-                        MainUI.loadData(true);
+                        MainUI.loadData(true, true);
                         Thread.sleep(1000);
                         dispose();
                     } else {
@@ -53,7 +53,7 @@ public class Splash extends JDialog {
                         ModelConfig mc = new ModelConfig();
                         ModelConfig.loadTheme(mc.getTheme());
                         Thread.sleep(250);
-                        MainUI.loadData(true);
+                        MainUI.loadData(true, true);
                         Thread.sleep(1000);
                         MainWindow mainWindow = new MainWindow();
                         MainWindow.showWindow();

@@ -178,7 +178,7 @@ public class Config extends JInternalFrame implements ActionListener {
                 ModelConfig mc = new ModelConfig();
                 int dataTruncated = mc.truncateData();
                 if(dataTruncated == 1) {
-                    MainUI.loadData(true);
+                    MainUI.loadData(true, true);
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se han podido borrar los datos. Prueba a reiniciar la aplicación y volver a intentarlo", "Error", JOptionPane.ERROR_MESSAGE);
