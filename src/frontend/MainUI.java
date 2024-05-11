@@ -286,6 +286,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
             statistics = " Nombre: " + name + " | Tiempo total: " + totalTimePlayed + " | Jugando a: " + mg.getNameFromId(gameId) + " - Tiempo jugando: " + Utils.getTotalHoursFromSeconds(sessionTime, true);
         }
 
+        boolean lost_session = mg.verifyLostSession();
+        if(lost_session) {
+            statistics += " --- " + mg.getLostSession();
+        }
+        
         MainWindow.updateStatusBar(statistics);
     }
 

@@ -398,7 +398,7 @@ public class ModelGames {
         }
         return gameName;
     }
-    
+
     public ArrayList<String> getGamesNameListCategory(int category) {
         ArrayList<String> gameName = new ArrayList<>();
         try {
@@ -419,7 +419,7 @@ public class ModelGames {
         }
         return gameName;
     }
-    
+
     public ArrayList<String> getGamesNameListPlatform(int platform) {
         ArrayList<String> gameName = new ArrayList<>();
         try {
@@ -440,7 +440,7 @@ public class ModelGames {
         }
         return gameName;
     }
-    
+
     public ArrayList<String> getGamesNameListLibrary(int library) {
         ArrayList<String> gameName = new ArrayList<>();
         try {
@@ -461,7 +461,7 @@ public class ModelGames {
         }
         return gameName;
     }
-    
+
     public ArrayList<String> getGamesNameListRating(int rating) {
         ArrayList<String> gameName = new ArrayList<>();
         try {
@@ -621,7 +621,7 @@ public class ModelGames {
         }
         return category;
     }
-    
+
     public ArrayList<String> getRatingList() {
         ArrayList<String> rating = new ArrayList<>();
         String query = "SELECT * FROM rating ORDER BY id";
@@ -641,7 +641,7 @@ public class ModelGames {
         }
         return rating;
     }
-    
+
     public ArrayList<String> getPlatformList() {
         ArrayList<String> platform = new ArrayList<>();
         String query = "SELECT * FROM platforms ORDER BY name";
@@ -661,7 +661,7 @@ public class ModelGames {
         }
         return platform;
     }
-    
+
     public int getPlatformTimePlayed(int library_id) {
         String query = "SELECT time_played FROM platforms WHERE id = " + library_id;
         int hours = 0;
@@ -681,7 +681,7 @@ public class ModelGames {
         }
         return hours;
     }
-    
+
     public int getScore(int gameId) {
         int score = 0;
         String query = "SELECT score FROM games WHERE id = " + gameId;
@@ -895,7 +895,7 @@ public class ModelGames {
         }
         return resultado;
     }
-    
+
     public void addTimeLibrary(int gameId, int secs) {
         int time_played = 0;
         int library_id = getLibraryIdFromGame(gameId);
@@ -918,7 +918,7 @@ public class ModelGames {
             ex.printStackTrace();
         }
     }
-    
+
     public void addSessionLibrary(int gameId) {
         int total_sessions;
         int library_id = getLibraryIdFromGame(gameId);
@@ -938,7 +938,7 @@ public class ModelGames {
             ex.printStackTrace();
         }
     }
-    
+
     public void addTimePlatform(int gameId, int secs) {
         int time_played = 0;
         int platform_id = getPlatformIdFromGame(gameId);
@@ -961,7 +961,7 @@ public class ModelGames {
             ex.printStackTrace();
         }
     }
-    
+
     public void addSessionPlatform(int gameId) {
         int total_sessions;
         int platform_id = getPlatformIdFromGame(gameId);
@@ -1125,7 +1125,7 @@ public class ModelGames {
         }
         return resultado;
     }
-    
+
     public int addRating(String name) {
         int resultado = 0;
         try {
@@ -1142,7 +1142,7 @@ public class ModelGames {
         }
         return resultado;
     }
-    
+
     public int addPlatform(String name) {
         int resultado = 0;
         try {
@@ -1177,7 +1177,7 @@ public class ModelGames {
         }
         return resultado;
     }
-    
+
     public int editRating(String oldName, String newName) {
         int resultado = 0;
         try {
@@ -1195,7 +1195,7 @@ public class ModelGames {
         }
         return resultado;
     }
-    
+
     public int editPlatform(String oldName, String newName) {
         int resultado = 0;
         try {
@@ -1254,7 +1254,7 @@ public class ModelGames {
         }
         return category;
     }
-    
+
     public String getGamePlatformName(int gameId) {
         String query = "SELECT platforms.name FROM `games` inner join platforms on platforms.id = games.platform where games.id = "
                 + gameId;
@@ -1275,7 +1275,7 @@ public class ModelGames {
         }
         return platform;
     }
-    
+
     public String getGameRatingName(int gameId) {
         String query = "SELECT rating.name FROM `games` inner join rating on rating.id = games.rating where games.id = "
                 + gameId;
@@ -1316,7 +1316,7 @@ public class ModelGames {
         }
         return id;
     }
-    
+
     public int getRatingIdFromName(String name) {
         String query = "SELECT id FROM rating WHERE name = '" + name + "'";
         int id = 0;
@@ -1336,7 +1336,7 @@ public class ModelGames {
         }
         return id;
     }
-    
+
     public int getPlatformIdFromName(String name) {
         String query = "SELECT id FROM platforms WHERE name = '" + name + "'";
         int id = 0;
@@ -1854,7 +1854,7 @@ public class ModelGames {
         }
         return res;
     }
-    
+
     private int getLibraryIdFromGame(int gameId) {
         int id = 0;
         String query = "SELECT library FROM games WHERE id = " + gameId;
@@ -1871,7 +1871,7 @@ public class ModelGames {
         }
         return id;
     }
-    
+
     private int getPlatformIdFromGame(int gameId) {
         int id = 0;
         String query = "SELECT platform FROM games WHERE id = " + gameId;
@@ -1983,7 +1983,7 @@ public class ModelGames {
         }
         return id;
     }
-    
+
     public int getLibraryTimePlayed(int library_id) {
         String query = "SELECT time_played FROM library WHERE id = " + library_id;
         int hours = 0;
@@ -2066,17 +2066,17 @@ public class ModelGames {
                 time_played = rs.getInt("time_played");
                 play_count = rs.getInt("play_count");
             }
-            
+
             mins_history = mins_history * 60;
             time_played -= mins_history;
             play_count--;
-            
+
             query = "UPDATE games SET time_played = " + time_played + ", play_count = " + play_count + " WHERE id = " + game_id;
             System.out.println(query);
             stmt.execute(query);
             query = "DELETE FROM games_sessions_history WHERE id = " + id;
             stmt.execute(query);
-            
+
             conex.close();
             stmt.close();
             rs.close();
@@ -2085,4 +2085,56 @@ public class ModelGames {
             ex.printStackTrace();
         }
     }
+
+    public boolean verifyLostSession() {
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery("SELECT id FROM games_sessions_backup");
+            if(rs.next()) return true;
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public String getLostSession() {
+        String s = "", datetime = "";
+        int session_number, game_id, seconds;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM games_sessions_backup");
+            if(rs.next()) {
+                session_number = rs.getInt("session_number");
+                game_id = rs.getInt("game_id");
+                datetime = rs.getString("datetime");
+                seconds = rs.getInt("seconds");
+
+                s = "Datos perdidos: Sesión: " + session_number + " de " + getNameFromId(game_id) + " el " + datetime + ". Tiempo: " + Utils.getTotalHoursFromSeconds(seconds, true);
+
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            Thread.sleep(120000);
+                            stmt.execute("DELETE FROM games_sessions_backup");
+                        } catch (InterruptedException | SQLException ex) {
+                            Log.Loguear(ex.getMessage());
+                        }
+                    }
+                }).start();
+
+
+            }
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return s;
+    }
 }
+
+
+

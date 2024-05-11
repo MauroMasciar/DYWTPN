@@ -72,7 +72,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         j.setLayout(null);
         String title = "DYWTPN v" + Main.VERSION_APP;
         j.setTitle(title);
-        j.setBounds(30, 30, 1400, 800);
+        j.setBounds(30, 30, 1400, 900);
         j.setDefaultCloseOperation(EXIT_ON_CLOSE);
         j.setLocationRelativeTo(null);
         // j.setExtendedState(MAXIMIZED_BOTH);
