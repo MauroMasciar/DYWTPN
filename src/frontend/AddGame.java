@@ -103,7 +103,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
             JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
         }
         setTitle("Añadir nuevo juego");
-        setBounds(50, 50, 850, 550);
+        setBounds(0, 0, 850, 550);
         setClosable(true);
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

@@ -269,6 +269,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         showHidden = mc.getIsHidden();
         orderByDate = mc.getOrderByDate();
         updateGameList();
+        
+        txtGamesTime.setText("");
+        txtGameNotes.setText("");
+        txtGameInfo.setText("");
+        txtGames.setText("");
     }
 
     public static void loadStatistics(int gameId, int sessionTime) {
@@ -282,15 +287,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
         if(gameIdLaunched == 0) {
             statistics = " Nombre: " + name + " | Tiempo total: " + totalTimePlayed + " | " + mc.getLastGame() + " - " + mc.getLastSessionTime();
+            if(mg.verifyLostSession()) {
+                statistics += " --- " + mg.getLostSession();
+            }
         } else {
             statistics = " Nombre: " + name + " | Tiempo total: " + totalTimePlayed + " | Jugando a: " + mg.getNameFromId(gameId) + " - Tiempo jugando: " + Utils.getTotalHoursFromSeconds(sessionTime, true);
         }
 
-        boolean lost_session = mg.verifyLostSession();
-        if(lost_session) {
-            statistics += " --- " + mg.getLostSession();
-        }
-        
         MainWindow.updateStatusBar(statistics);
     }
 
@@ -377,10 +380,11 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                     loadLastDays();
                     if(res) Thread.sleep(500);                    
                     loadTotal();
-                    //if(res) Thread.sleep(500);
-                    //loadAchievs();
+                    if(res) Thread.sleep(500);
+                    loadAchievs();
                     //if(res) Thread.sleep(500);
                     //if(gameIdLaunched == 0) loadLast();
+                    
                     if(res) Thread.sleep(1000);
                     verifyLoadStatistics();
                     if(res) Thread.sleep(1000);

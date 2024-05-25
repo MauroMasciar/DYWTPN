@@ -49,7 +49,7 @@ public class Splash extends JDialog {
                         Thread.sleep(1000);
                         dispose();
                     } else {
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                         ModelConfig mc = new ModelConfig();
                         ModelConfig.loadTheme(mc.getTheme());
                         Thread.sleep(250);
@@ -57,7 +57,7 @@ public class Splash extends JDialog {
                         Thread.sleep(1000);
                         MainWindow mainWindow = new MainWindow();
                         MainWindow.showWindow();
-                        Thread.sleep(7000);
+                        Thread.sleep(6500);
                         dispose();
                     }
                 } catch (InterruptedException ex) {

@@ -56,6 +56,8 @@ public class ModelGames {
             }
             query = "UPDATE games SET name = '" + newName + "' WHERE id = " + gameId;
             stmt.execute(query);
+            query = "UPDATE games_sessions_history SET game_name = '" + newName + "' WHERE game_id = " + gameId;
+            stmt.execute(query);
             stmt.close();
             rs.close();
             conex.close();
@@ -782,7 +784,7 @@ public class ModelGames {
     }
 
     public void saveLastGame(String gameName, String sGameTimePlayed) {
-        String sGameName = " Ultimo juego: " + gameName;
+        String sGameName = " Último juego: " + gameName;
         String query = "UPDATE config SET last_game = '" + sGameName + "', last_session_time = '" + sGameTimePlayed + "'";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -2117,7 +2119,7 @@ public class ModelGames {
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                            Thread.sleep(120000);
+                            Thread.sleep(10000);
                             stmt.execute("DELETE FROM games_sessions_backup");
                         } catch (InterruptedException | SQLException ex) {
                             Log.Loguear(ex.getMessage());

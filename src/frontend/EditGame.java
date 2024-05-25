@@ -104,7 +104,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         }
         if(gameId == 0) gameId = 1;
         setTitle("Editar juegos");
-        setBounds(50, 50, 870, 550);
+        setBounds(0, 0, 870, 550);
         setClosable(true);
         setResizable(true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
