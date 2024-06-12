@@ -4,8 +4,6 @@ Gestor de juegos que cuenta el tiempo total jugado y otras estadisticas.
 
 ![dywtpn124132](https://github.com/MauroMasciar/DYWTPN/assets/1477277/47bd3654-82fd-47b8-87a6-b70a25c06f5a)
 
-![Captura de pantalla 2024-05-31 00 07 59](https://github.com/MauroMasciar/DYWTPN/assets/1477277/c9f2db60-862c-4f53-b54f-8a212b26c37f)
-
 ![Captura de pantalla 2024-05-31 00 08 13](https://github.com/MauroMasciar/DYWTPN/assets/1477277/2ca80c77-3466-4c70-800b-4e03174f4ed4)
 
 ![Captura de pantalla 2024-05-31 00 08 24](https://github.com/MauroMasciar/DYWTPN/assets/1477277/d4c77e5c-bb2c-4efd-a38c-a0aaeebecc3b)
