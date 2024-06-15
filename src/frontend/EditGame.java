@@ -553,6 +553,8 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         } else if(e.getSource() == btnRename) {
         	String newName = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del juego", cbTitle.getSelectedItem().toString(), JOptionPane.QUESTION_MESSAGE);
         	if(newName == null || newName.length() == 0) return;
+        	newName.replace("'", "");
+        	newName.replace("\"", "");
         	ModelGames mg = new ModelGames();
         	int res = mg.changeGameName(mg.getIdFromGameName(cbTitle.getSelectedItem().toString()), newName);
         	if(res == 1) {

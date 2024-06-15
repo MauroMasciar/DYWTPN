@@ -71,3 +71,6 @@ ALTER TABLE `platforms` CHANGE `total_sessions` `total_sessions` INT(11) NOT NUL
 -- 1.2.4.130
 CREATE TABLE `dywtpn`.`wishlist` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(60) NOT NULL , `store` VARCHAR(60) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 ALTER TABLE `wishlist` ADD UNIQUE(`id`);
+-- 1.2.4.133
+ALTER TABLE `wishlist` ADD UNIQUE(`name`);
+ALTER TABLE `wishlist` DROP `store`;

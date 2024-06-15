@@ -32,7 +32,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenu mnuGames = new JMenu("Juegos");
     private final JMenuItem mnuiGamesAdd = new JMenuItem("Nuevo", new ImageIcon("gfx/new_game.png"));
     private final JMenuItem mnuiGamesEdit = new JMenuItem("Editar");
-    private final JMenuItem mnuiGamesList = new JMenuItem("Ver lista", new ImageIcon("gfx/games_list.png"));
+    private final JMenuItem mnuiGamesList = new JMenuItem("Ver biblioteca", new ImageIcon("gfx/games_list.png"));
     private final JMenuItem mnuiGamesWishlist = new JMenuItem("Ver lista de deseos");
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver ocultos");
     private final JCheckBoxMenuItem mnuiGamesOrderByDate = new JCheckBoxMenuItem("Ordenar por última vez");

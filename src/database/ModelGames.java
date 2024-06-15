@@ -110,13 +110,12 @@ public class ModelGames {
     public DefaultTableModel getFilteredGameList(String name, String completed, String category, String filter, boolean lastPlayed) {
         DefaultTableModel m = new DefaultTableModel();
         m.addColumn("Juego");
-        m.addColumn("Fantasma");
         m.addColumn("Tiempo");
         m.addColumn("Veces ejecutado");
         m.addColumn("Categoria");
         m.addColumn("Completado");
         m.addColumn("Puntos");
-        m.addColumn("Path");
+        m.addColumn("Biblioteca");
         int comp = 0;
 
         if(completed == "Todos") comp = 2;
@@ -137,34 +136,33 @@ public class ModelGames {
             Statement sstmt = conex.createStatement();
 
             if(name == "Todos" && comp == 2 && category == "Todos") {
-                query = "SELECT name, ghost, time_played, play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category ORDER BY " + filter;
+                query = "SELECT name, time_played, play_count, category.name_category, completed, score, actual_library FROM `games` INNER JOIN category ON category.id = games.category ORDER BY " + filter;
             } else if(name == "Todos" && comp != 2 && category == "Todos") {
-                query = "SELECT name, ghost, time_played, play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = "
+                query = "SELECT name, time_played, play_count, category.name_category, completed, score, actual_library FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = "
                         + comp + " ORDER BY " + filter;
             } else if(name != "Todos") {
-                query = "SELECT name, ghost, time_played, play_count, category.name_category, completed, score, path FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '"
+                query = "SELECT name, time_played, play_count, category.name_category, completed, score, actual_library FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '"
                         + name + "' ORDER BY " + filter;
             } else if(category != "Todos" && comp == 2) {
-                query = "SELECT name, ghost, time_played, play_count, category, completed, score, path FROM games WHERE category = "
+                query = "SELECT name, time_played, play_count, category, completed, score, actual_library FROM games WHERE category = "
                         + getCategoryIdFromName(category) + " ORDER BY " + filter;
             } else if(category != "Todos" && comp != 2) {
-                query = "SELECT name, ghost, time_played, play_count, category, completed, score, path FROM games WHERE category = "
+                query = "SELECT name, time_played, play_count, category, completed, score, actual_library FROM games WHERE category = "
                         + getCategoryIdFromName(category) + " AND completed = " + comp + " ORDER BY " + filter;
             }
 
             ResultSet rrs = sstmt.executeQuery(query);
 
             while(rrs.next()) {
-                Object[] f = new Object[8];
-                for (int i = 0; i < 8; i++) {
+                Object[] f = new Object[7];
+                for (int i = 0; i < 7; i++) {
                     if(i == 1) {
-                        if(rrs.getInt(i + 1) == 1) f[i] = "Si";
-                        else f[i] = "No";
-                    } else if(i == 2) {
                         f[i] = Utils.getTotalHoursFromSeconds(rrs.getInt(i + 1), true);
-                    } else if(i == 5) {
+                    } else if(i == 4) {
                         if(rrs.getInt(i + 1) == 1) f[i] = "Si";
                         else f[i] = "No";
+                    } else if(i == 6) {
+                        f[i] = getLibraryName(getIdFromGameName(rrs.getString("name")));
                     } else {
                         f[i] = rrs.getObject(i + 1);
                     }
@@ -2136,7 +2134,37 @@ public class ModelGames {
 
         return s;
     }
+
+    public void newWish(String name) {
+        try {
+            String query = "INSERT INTO wishlist (name) VALUES (?)";
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = conex.prepareStatement(query);
+            p.setString(1, name);
+            p.executeUpdate();
+            conex.close();
+            p.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public ArrayList<String> getWishlist() {
+        ArrayList<String> gameName = new ArrayList<>();
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            gameName.add("null");
+            String query = "SELECT name FROM wishlist";
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                gameName.add(rs.getString("name"));
+            }
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return gameName;
+    }
 }
-
-
-
