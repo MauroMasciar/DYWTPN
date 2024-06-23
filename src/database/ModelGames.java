@@ -111,7 +111,7 @@ public class ModelGames {
         DefaultTableModel m = new DefaultTableModel();
         m.addColumn("Juego");
         m.addColumn("Tiempo");
-        m.addColumn("Veces ejecutado");
+        m.addColumn("Veces");
         m.addColumn("Categoria");
         m.addColumn("Completado");
         m.addColumn("Puntos");
@@ -136,18 +136,18 @@ public class ModelGames {
             Statement sstmt = conex.createStatement();
 
             if(name == "Todos" && comp == 2 && category == "Todos") {
-                query = "SELECT name, time_played, play_count, category.name_category, completed, score, actual_library FROM `games` INNER JOIN category ON category.id = games.category ORDER BY " + filter;
+                query = "SELECT name, time_played, play_count, category.name_category, completed, score, library FROM `games` INNER JOIN category ON category.id = games.category ORDER BY " + filter;
             } else if(name == "Todos" && comp != 2 && category == "Todos") {
-                query = "SELECT name, time_played, play_count, category.name_category, completed, score, actual_library FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = "
+                query = "SELECT name, time_played, play_count, category.name_category, completed, score, library FROM `games` INNER JOIN category ON category.id = games.category WHERE completed = "
                         + comp + " ORDER BY " + filter;
             } else if(name != "Todos") {
-                query = "SELECT name, time_played, play_count, category.name_category, completed, score, actual_library FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '"
+                query = "SELECT name, time_played, play_count, category.name_category, completed, score, library FROM `games` INNER JOIN category ON category.id = games.category WHERE name = '"
                         + name + "' ORDER BY " + filter;
             } else if(category != "Todos" && comp == 2) {
-                query = "SELECT name, time_played, play_count, category, completed, score, actual_library FROM games WHERE category = "
+                query = "SELECT name, time_played, play_count, category, completed, score, library FROM games WHERE category = "
                         + getCategoryIdFromName(category) + " ORDER BY " + filter;
             } else if(category != "Todos" && comp != 2) {
-                query = "SELECT name, time_played, play_count, category, completed, score, actual_library FROM games WHERE category = "
+                query = "SELECT name, time_played, play_count, category, completed, score, library FROM games WHERE category = "
                         + getCategoryIdFromName(category) + " AND completed = " + comp + " ORDER BY " + filter;
             }
 
@@ -989,8 +989,8 @@ public class ModelGames {
             String added, String modified, String completed_date, int library, String notes) {
         try {
             String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, statistic, portable, release_date, "
-                    + "rating, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, actual_library, notes) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + "rating, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, notes) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             PreparedStatement p = conex.prepareStatement(query);
             p.setString(1, name);
@@ -1020,8 +1020,7 @@ public class ModelGames {
             p.setString(25, modified);
             p.setString(26, completed_date);
             p.setInt(27, library);
-            p.setInt(28, library);
-            p.setString(29, notes);
+            p.setString(28, notes);
 
             int resultado = p.executeUpdate();
             conex.close();

@@ -135,7 +135,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
 
         statusBar.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-        j.add(new MainUI());
+        j.add(new MainUI());       
+        
         updateGuiStatusBar();
         j.setJMenuBar(menubar);
         j.addWindowListener(this);

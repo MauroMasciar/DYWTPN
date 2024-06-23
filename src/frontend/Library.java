@@ -6,9 +6,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-
-import backend.Utils;
-
 import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -21,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import backend.Utils;
 import database.ModelGames;
 
 public class Library extends JInternalFrame implements ActionListener, MouseListener, InternalFrameListener {
