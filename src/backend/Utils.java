@@ -1,7 +1,10 @@
 package backend;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+
 import javax.swing.JInternalFrame;
 
 import debug.Log;
@@ -95,6 +98,27 @@ public class Utils {
                         Log.Loguear(ex.getMessage());
                     }
                 }
+            }
+        }).start();
+    }
+
+    public static void cronometer() {
+        LocalDateTime initTime;
+        initTime = LocalDateTime.now();
+        boolean b = true;        
+        new Thread(new Runnable() {
+            public void run() {
+                while(b) {
+                    LocalDateTime currentTime = LocalDateTime.now();
+                    int secondsBeetwenTimes = (int) ChronoUnit.SECONDS.between(initTime, currentTime);
+                    System.out.println(secondsBeetwenTimes);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }                        
+                }
+
             }
         }).start();
     }
