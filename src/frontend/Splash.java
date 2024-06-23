@@ -49,15 +49,14 @@ public class Splash extends JDialog {
                         Thread.sleep(1000);
                         dispose();
                     } else {
-                        Thread.sleep(1000);
+                        Thread.sleep(1500);
                         ModelConfig mc = new ModelConfig();
                         ModelConfig.loadTheme(mc.getTheme());
                         Thread.sleep(250);
                         MainUI.loadData(true, true);
-                        Thread.sleep(1000);
+                        Thread.sleep(1500);
                         MainWindow mainWindow = new MainWindow();
                         MainWindow.showWindow();
-                        Thread.sleep(6500);
                         dispose();
                     }
                 } catch (InterruptedException ex) {
