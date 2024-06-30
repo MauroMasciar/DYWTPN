@@ -1022,10 +1022,17 @@ public class ModelGames {
             p.setInt(27, library);
             p.setString(28, notes);
 
-            int resultado = p.executeUpdate();
+            int result = p.executeUpdate();
+
+            if(result == 1) {
+                int gameId = getIdFromGameName(name);
+                ModelPlayer mp = new ModelPlayer();
+                mp.saveAchievement("Ahora tienes " + name + " en " + getLibraryName(gameId), name, gameId);
+            }
+
             conex.close();
             p.close();
-            return resultado;
+            return result;
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
