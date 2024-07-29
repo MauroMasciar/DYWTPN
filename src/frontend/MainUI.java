@@ -44,6 +44,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     private static final JTextArea txtLastDays = new JTextArea();
     private static final JTextArea txtLastAchie = new JTextArea();
     public static final JTextArea txtGames = new JTextArea();
+    public static final JTextArea txtLastAchievGameSelected = new JTextArea();
     public static final JTextArea txtGamesTime = new JTextArea();
     public static final JTextArea txtGameInfo = new JTextArea();
     // private final JLabel lblPortrait = new JLabel();
@@ -127,6 +128,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         pnlTop.add(txtGameInfo, gbc);
         gbc.gridy++;
         pnlTop.add(txtGamesTime, gbc);
+        gbc.gridy++;
+        pnlTop.add(txtLastAchievGameSelected, gbc);
 
         // Interfaz inferior - controles
         JPanel pnlBottom = new JPanel();
@@ -226,6 +229,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         txtLastDays.setEditable(false);
         txtTotalInfo.setEditable(false);
         txtGames.setEditable(false);
+        txtLastAchievGameSelected.setEditable(false);
         txtGamesTime.setEditable(false);
         txtGameInfo.setEditable(false);
         txtLastAchie.setEditable(false);
@@ -238,6 +242,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         txtLastDays.setFont(new Font("Serief", Font.BOLD, 12));
         txtTotalInfo.setFont(new Font("Serief", Font.BOLD, 12));
         txtGames.setFont(new Font("Serief", Font.BOLD, 12));
+        txtLastAchievGameSelected.setFont(new Font("Serief", Font.BOLD, 12));
         txtGamesTime.setFont(new Font("Serief", Font.BOLD, 12));
         txtGameInfo.setFont(new Font("Serief", Font.BOLD, 12));
         txtGameNotes.setFont(new Font("Serief", Font.BOLD, 12));
@@ -270,6 +275,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         orderByDate = mc.getOrderByDate();
         updateGameList();
         
+        txtLastAchievGameSelected.setText("");
         txtGamesTime.setText("");
         txtGameNotes.setText("");
         txtGameInfo.setText("");
@@ -337,6 +343,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     }
 
     public static void loadLast() {
+        txtLastAchievGameSelected.setText("");
         txtGames.setText("");
         txtGamesTime.setText("");
         txtGameInfo.setText("");
@@ -352,6 +359,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 txtLastDays.setForeground(Color.RED);
                 txtTotalInfo.setForeground(Color.RED);
                 txtGames.setForeground(Color.RED);
+                txtLastAchievGameSelected.setForeground(Color.RED);
                 txtGamesTime.setForeground(Color.RED);
                 txtGameInfo.setForeground(Color.RED);
                 txtGameNotes.setForeground(Color.RED);
@@ -363,6 +371,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                     txtLastDays.setForeground(Color.BLACK);
                     txtTotalInfo.setForeground(Color.BLACK);
                     txtGames.setForeground(Color.BLACK);
+                    txtLastAchievGameSelected.setForeground(Color.BLACK);
                     txtGamesTime.setForeground(Color.BLACK);
                     txtGameInfo.setForeground(Color.BLACK);
                     txtGameNotes.setForeground(Color.BLACK);
@@ -489,6 +498,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 txtGamesTime.setText(" Última sesión: " + ses + " | Día: " + uno + " | 7 días: " + siete + " | 14 días: " + catorce + " | 30 días: " + treinta);
 
                 txtGameNotes.setText(mg.getNotes(gameIdSelected));
+                
+                txtLastAchievGameSelected.setText(" Última hazaña: " + mg.getLastAchiev(gameIdSelected));
             }
         }
     }

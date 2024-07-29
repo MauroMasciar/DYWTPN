@@ -466,7 +466,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
                 MainUI.loadData(false, true);
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Ha habido un error al guardado el juego", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ha habido un error al guardar el juego", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

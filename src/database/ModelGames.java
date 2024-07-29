@@ -1114,6 +1114,29 @@ public class ModelGames {
         }
         return 0;
     }
+    
+    public String getLastAchiev(int gameId) {
+        String query = "SELECT description, date FROM `player_activities` WHERE game_id = " + gameId + " ORDER BY id DESC LIMIT 1";
+        String achiev = "", desc = "", date = "";
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                desc = rs.getString("description");
+                date = rs.getString("date");
+            }
+            if(desc == "") achiev = "Ninguna";
+            else achiev = desc + " el " + date;
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return achiev;
+    }
 
     public int addCategory(String name) {
         int resultado = 0;
