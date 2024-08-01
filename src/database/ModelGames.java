@@ -79,6 +79,7 @@ public class ModelGames {
         else if(play_count == 1500) achiev = "Has jugado 1500 veces a " + getNameFromId(gameId);
         else if(play_count == 2500) achiev = "Has jugado 2500 veces a " + getNameFromId(gameId);
         else if(play_count == 5000) achiev = "Has jugado 5000 veces a " + getNameFromId(gameId);
+        else if(play_count == 7500) achiev = "Has jugado 7500 veces a " + getNameFromId(gameId);
         else if(play_count == 10000) achiev = "Has jugado 10000 veces a " + getNameFromId(gameId);
 
         if(achiev != "") {
@@ -90,14 +91,15 @@ public class ModelGames {
         achiev = "";
         int totalSessionCount = getTotalSessions();
         if(totalSessionCount != 0) {
-            if(totalSessionCount == 100) achiev = "Has tenido 100 sesiones de juego hasta ahora";
-            else if(totalSessionCount == 250) achiev = "Has tenido 250 sesiones de juego hasta ahora";
-            else if(totalSessionCount == 500) achiev = "Has tenido 500 sesiones de juego hasta ahora";
-            else if(totalSessionCount == 1000) achiev = "Has tenido 1000 sesiones de juego hasta ahora";
-            else if(totalSessionCount == 1500) achiev = "Has tenido 1500 sesiones de juego hasta ahora";
-            else if(totalSessionCount == 2500) achiev = "Has tenido 2500 sesiones de juego hasta ahora";
-            else if(totalSessionCount == 5000) achiev = "Has tenido 5000 sesiones de juego hasta ahora";
-            else if(totalSessionCount == 10000) achiev = "Has tenido 10000 sesiones de juego hasta ahora";
+            if(totalSessionCount == 100) achiev = "Has alcanzado 100 sesiones de juego";
+            else if(totalSessionCount == 250) achiev = "Has alcanzado 250 sesiones de juego";
+            else if(totalSessionCount == 500) achiev = "Has alcanzado 500 sesiones de juego";
+            else if(totalSessionCount == 1000) achiev = "Has alcanzado 1000 sesiones de juego";
+            else if(totalSessionCount == 1500) achiev = "Has alcanzado 1500 sesiones de juego";
+            else if(totalSessionCount == 2500) achiev = "Has alcanzado 2500 sesiones de juego";
+            else if(totalSessionCount == 5000) achiev = "Has alcanzado 5000 sesiones de juego";
+            else if(totalSessionCount == 7500) achiev = "Has alcanzado 7500 sesiones de juego";
+            else if(totalSessionCount == 10000) achiev = "Has alcanzado 10000 sesiones de juego";
 
             if(achiev != "") {
                 ModelPlayer mp = new ModelPlayer();
@@ -1051,7 +1053,7 @@ public class ModelGames {
             if(completed == "1" && !isCompleted(gameId)) {
                 ModelPlayer mp = new ModelPlayer();
                 String gameName = getNameFromId(gameId);
-                String achievement = "Has terminado el juego " + gameName + " en " + Utils.getTotalHoursFromSeconds(secondsPlayed, true);
+                String achievement = "Has terminado el juego " + gameName + " en " + Utils.getTotalHoursFromSeconds(secondsPlayed, false);
                 mp.saveAchievement(achievement, gameName, gameId);
                 MainUI.loadData(false, true);
                 if(completed_date.equals("0000-00-00")) completed_date = Utils.getFormattedDate();
@@ -1107,6 +1109,10 @@ public class ModelGames {
             p.close();
             stmt.close();
             conex.close();
+            if(completed.equals("1")) {
+                ModelPlayer mp = new ModelPlayer();
+                mp.checkAchievTotalCompletedGames();
+            }
             return res;
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
@@ -1415,26 +1421,6 @@ public class ModelGames {
             rs = stmt.executeQuery(query);
             if (rs.next()) {
                 res = rs.getString("rating");
-            }
-            conex.close();
-            stmt.close();
-            rs.close();
-        } catch (SQLException ex) {
-            Log.Loguear(ex.getMessage());
-            ex.printStackTrace();
-        }
-        return res;
-    }
-
-    public String getGenre(int gameId) {
-        String query = "SELECT genre FROM games WHERE id = " + gameId;
-        String res = "";
-        try {
-            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-            stmt = conex.createStatement();
-            rs = stmt.executeQuery(query);
-            if (rs.next()) {
-                res = rs.getString("genre");
             }
             conex.close();
             stmt.close();

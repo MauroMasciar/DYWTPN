@@ -103,18 +103,53 @@ public class ModelPlayer {
     }
 
     public String getLastAchievement() {
-        String s = "Ninguna";
+        String s = "", achiev = "", date = "";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
-            rs = stmt.executeQuery("SELECT description FROM player_activities ORDER BY id desc LIMIT 1");
+            rs = stmt.executeQuery("SELECT description, DATE_FORMAT(date, '%d/%m/%Y') AS date FROM player_activities ORDER BY id desc LIMIT 1");
             if(rs.next()) {
-                s = rs.getString(1);
+                achiev = rs.getString(1);
+                date = rs.getString(2);
             }
+            s = achiev + " el " + date;
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
         }
         return s;
+    }
+    
+    public void checkAchievTotalCompletedGames() {
+        int i = getTotalCompletedGames();
+        boolean achiev = false;
+        if(i == 10) achiev = true;
+        else if(i == 50) achiev = true;
+        else if(i == 100) achiev = true;
+        else if(i == 250) achiev = true;
+        else if(i == 500) achiev = true;
+        else if(i == 1000) achiev = true;
+        else if(i == 1500) achiev = true;
+        else if(i == 2000) achiev = true;
+        if(achiev) {
+            String string = "Has completado " + i + " juegos";
+            saveAchievement(string, "Ninguno", 0);
+        }
+    }
+
+    public int getTotalCompletedGames() {
+        int i = 0;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery("SELECT count(completed) AS n FROM games WHERE completed = 1");
+            if(rs.next()) {
+                i = rs.getInt("n");
+            }
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return i;
     }
 }

@@ -440,7 +440,6 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         int score = mg.getScore(gameId);
 
         txtReleaseDate.setText(mg.getReleaseDate(gameId));
-        txtGenre.setText(mg.getGenre(gameId));
         cbPlatform.setSelectedItem(mg.getGamePlatformName(gameId));
         cbRating.setSelectedItem(mg.getGameRatingName(gameId));
         txtDeveloper.setText(mg.getDeveloper(gameId));
