@@ -101,11 +101,12 @@ public class InGame {
             else if(minutesTotalPlayed == 60 * 1000) achiev = "Has alcanzado 1000 horas de juego en total";
             else if(minutesTotalPlayed == 60 * 2000) achiev = "Has alcanzado 2000 horas de juego en total";
             else if(minutesTotalPlayed == 60 * 5000) achiev = "Has alcanzado 5000 horas de juego en total";
+            else if(minutesTotalPlayed == 60 * 7500) achiev = "Has alcanzado 7500 horas de juego en total";
             else if(minutesTotalPlayed == 60 * 10000) achiev = "Has alcanzado 10000 horas de juego en total";
 
             if(achiev != "") {
                 ModelPlayer mp = new ModelPlayer();
-                mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), gameIdLaunched);
+                mp.saveAchievement(achiev, mg.getNameFromId(gameIdLaunched), 0);
                 MainUI.loadAchievs();
             }
         }

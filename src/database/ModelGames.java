@@ -1116,7 +1116,7 @@ public class ModelGames {
     }
     
     public String getLastAchiev(int gameId) {
-        String query = "SELECT description, date FROM `player_activities` WHERE game_id = " + gameId + " ORDER BY id DESC LIMIT 1";
+        String query = "SELECT description, DATE_FORMAT(date, '%d/%m/%Y') AS date FROM `player_activities` WHERE game_id = " + gameId + " ORDER BY id DESC LIMIT 1";
         String achiev = "", desc = "", date = "";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
