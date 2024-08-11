@@ -86,7 +86,8 @@ public class Platform extends JInternalFrame implements ActionListener, MouseLis
         ArrayList<String> listPlatforms = new ArrayList<>();
         listPlatforms = mg.getGamesNameListPlatform(platform_id);
         for(int i = 1; i < listPlatforms.size(); i++) {
-            modelList.addElement(listPlatforms.get(i));
+            System.out.println(listPlatforms.get(i));
+            modelList.addElement(listPlatforms.get(i) + " (" + Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(mg.getIdFromGameName(listPlatforms.get(i))), true) + ")");
         }
         jlistGames.setModel(modelList);
         int nGames = listPlatforms.size() - 1;

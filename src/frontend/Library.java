@@ -83,7 +83,7 @@ public class Library extends JInternalFrame implements ActionListener, MouseList
         ArrayList<String> listLibrary = new ArrayList<>();
         listLibrary = mg.getGamesNameListLibrary(library_id);
         for(int i = 1; i < listLibrary.size(); i++) {
-            modelList.addElement(listLibrary.get(i));
+            modelList.addElement(listLibrary.get(i) + " (" + Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(mg.getIdFromGameName(listLibrary.get(i))), true) + ")");
         }
         jlistGames.setModel(modelList);
         int nGames = listLibrary.size() - 1;
