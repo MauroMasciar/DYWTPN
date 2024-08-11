@@ -19,7 +19,7 @@ public class ModelGames {
     private static Statement stmt;
     private static ResultSet rs;
 
-    public int newSession(int gameId) {
+    public int newSession(int gameId, int time) {
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
         int play_count = 0;
         try {
@@ -33,8 +33,22 @@ public class ModelGames {
             stmt.execute(query);
             stmt.close();
             rs.close();
-            conex.close();	    
+            conex.close();
+            
+            String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(time*60, true);
+            String game_name = getNameFromId(gameId);
+            
+            saveGameHistory(gameId, time, game_name);
+            saveGameTime(gameId, time);
+            setLastPlayed(gameId);
+            saveLastGame(game_name, sGameTimePlayed);
+            addTimeLibrary(gameId, time);
+            addSessionLibrary(gameId);
+            addTimePlatform(gameId, time);
+            addSessionPlatform(gameId);
             checkAchievement(gameId, play_count);
+            
+            MainUI.loadData(false, true);
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -72,15 +86,15 @@ public class ModelGames {
     private void checkAchievement(int gameId, int play_count) {
         String achiev = "";
         if(play_count == 1) achiev = "Has jugado a " + getNameFromId(gameId) + " por primera vez";
-        else if(play_count == 100) achiev = "Has jugado 100 veces a " + getNameFromId(gameId);
-        else if(play_count == 250) achiev = "Has jugado 250 veces a " + getNameFromId(gameId);
-        else if(play_count == 500) achiev = "Has jugado 500 veces a " + getNameFromId(gameId);
-        else if(play_count == 1000) achiev = "Has jugado 1000 veces a " + getNameFromId(gameId);
-        else if(play_count == 1500) achiev = "Has jugado 1500 veces a " + getNameFromId(gameId);
-        else if(play_count == 2500) achiev = "Has jugado 2500 veces a " + getNameFromId(gameId);
-        else if(play_count == 5000) achiev = "Has jugado 5000 veces a " + getNameFromId(gameId);
-        else if(play_count == 7500) achiev = "Has jugado 7500 veces a " + getNameFromId(gameId);
-        else if(play_count == 10000) achiev = "Has jugado 10000 veces a " + getNameFromId(gameId);
+        else if(play_count == 100) achiev = "Has alcanzado 100 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 250) achiev = "Has alcanzado 250 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 500) achiev = "Has alcanzado 500 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 1000) achiev = "Has alcanzado 1000 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 1500) achiev = "Has alcanzado 1500 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 2500) achiev = "Has alcanzado 2500 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 5000) achiev = "Has alcanzado 5000 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 7500) achiev = "Has alcanzado 7500 sesiones en " + getNameFromId(gameId);
+        else if(play_count == 10000) achiev = "Has alcanzado 10000 sesiones en " + getNameFromId(gameId);
 
         if(achiev != "") {
             ModelPlayer mp = new ModelPlayer();
@@ -776,7 +790,6 @@ public class ModelGames {
             stmt.execute(query);
             stmt.close();
             conex.close();
-            //saveLastGame(gameName, sGameTimePlayed);
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -864,38 +877,6 @@ public class ModelGames {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
         }
-    }
-
-    public int addSessionGame(int gameId, String name, int minsPlayed, String date) {
-        int resultado = 0;
-        try {
-            String query = "INSERT INTO games_sessions_history (game_id, game_name, mins, datetime) VALUES (?,?,?,?)";
-            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-            PreparedStatement p = conex.prepareStatement(query);
-            p.setInt(1, gameId);
-            p.setString(2, name);
-            p.setString(3, String.valueOf(minsPlayed));
-            p.setString(4, date);
-            resultado = p.executeUpdate();
-            int secs = getSecondsPlayed(gameId);
-            secs += minsPlayed * 60;
-            int r = setTimePlayed(gameId, secs);
-            if(r == 0) {
-                JOptionPane.showMessageDialog(null, "No se ha podido sumar el tiempo jugado", "Error al guardar los datos", JOptionPane.ERROR_MESSAGE);
-            } else {
-                addTimeLibrary(gameId, minsPlayed * 60);
-                addSessionLibrary(gameId);
-                addTimePlatform(gameId, minsPlayed * 60);
-                addSessionPlatform(gameId);
-            }
-            p.close();
-            conex.close();
-        } catch (SQLException ex) {
-            Log.Loguear(ex.getMessage());
-            ex.printStackTrace();
-            return 0;
-        }
-        return resultado;
     }
 
     public void addTimeLibrary(int gameId, int secs) {
@@ -1998,7 +1979,7 @@ public class ModelGames {
         }
         return id;
     }
-
+    
     public int getLibraryTimePlayed(int library_id) {
         String query = "SELECT time_played FROM library WHERE id = " + library_id;
         int hours = 0;

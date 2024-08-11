@@ -527,7 +527,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         try {
             p = pb.start();
             if(p.isAlive()) {
-                InGame ig = new InGame(gameIdSelected, gameNameSelected);
+                InGame ig = new InGame(gameIdSelected);
                 gameIdLaunched = gameIdSelected;
 
                 new Thread(new Runnable() {

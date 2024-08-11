@@ -11,16 +11,14 @@ import frontend.MainUI;
 
 public class InGame {
     private int gameIdLaunched = 0;
-    private String gameName = "Nada";
     private final int HOUR_GAME = 3600;
     private int gameTimePlayedInitCurrentGame, gameTimePlayedCurrentGame, gameTimePlayedTotalInit, gameTimePlayedTotal;
     private LocalDateTime initTime;
     private int current_session_number = 0;
 
-    public InGame(int IdLaunched, String gameName) {
+    public InGame(int IdLaunched) {
         if(IdLaunched != 0) {
             this.gameIdLaunched = IdLaunched;
-            this.gameName = gameName;
 
             initTime = LocalDateTime.now();
 
@@ -119,16 +117,10 @@ public class InGame {
             long secondsBeetwenTimes = ChronoUnit.SECONDS.between(initTime, closeTime);
             int totalSecondsSession = (int) secondsBeetwenTimes;
 
-            String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(totalSecondsSession, true);
-
             ModelGames mg = new ModelGames();
 
             if(totalSecondsSession > 300) {
-                mg.saveGameHistory(gameIdLaunched, totalSecondsSession, gameName);
-                mg.saveLastGame(gameName, sGameTimePlayed);
-                mg.newSession(gameIdLaunched);
-                mg.saveGameTime(gameIdLaunched, totalSecondsSession);
-                mg.setLastPlayed(gameIdLaunched);
+                mg.newSession(gameIdLaunched, totalSecondsSession);
             } else {
                 new Thread(new Runnable() {
                     public void run() {
@@ -142,7 +134,6 @@ public class InGame {
             mg.deleteSessionBackup(current_session_number);
 
             gameIdLaunched = 0;
-            gameName = "Nada";
 
             new Thread(new Runnable() {
                 public void run() {
