@@ -19,7 +19,7 @@ public class ModelGames {
     private static Statement stmt;
     private static ResultSet rs;
 
-    public int newSession(int gameId, int time) {
+    public int saveSession(int gameId, int time) {
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
         int play_count = 0;
         try {
@@ -55,34 +55,7 @@ public class ModelGames {
         }
         return play_count;
     }
-
-    public int changeGameName(int gameId, String newName) {
-        String query = "SELECT name FROM games WHERE name = '" + newName + "'";
-        try {
-            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-            stmt = conex.createStatement();
-            rs = stmt.executeQuery(query);
-            if(rs.next()) {
-                stmt.close();
-                rs.close();
-                conex.close();
-                return 3;
-            }
-            query = "UPDATE games SET name = '" + newName + "' WHERE id = " + gameId;
-            stmt.execute(query);
-            query = "UPDATE games_sessions_history SET game_name = '" + newName + "' WHERE game_id = " + gameId;
-            stmt.execute(query);
-            stmt.close();
-            rs.close();
-            conex.close();
-            return 1;
-        } catch (Exception ex) {
-            Log.Loguear(ex.getMessage());
-            ex.printStackTrace();
-            return 2;
-        }
-    }
-
+    
     private void checkAchievement(int gameId, int play_count) {
         String achiev = "";
         if(play_count == 1) achiev = "Has jugado a " + getNameFromId(gameId) + " por primera vez";
@@ -120,6 +93,73 @@ public class ModelGames {
                 mp.saveAchievement(achiev, getNameFromId(gameId), gameId);
                 MainUI.loadAchievs();
             }
+        }
+        
+        achiev = "";
+        int totalSessionCountLibrary = getLibraryTotalSessions(getLibraryIdFromGame(gameId));
+        if(totalSessionCountLibrary != 0) {
+            if(totalSessionCountLibrary == 100) achiev = "Has alcanzado 100 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 250) achiev = "Has alcanzado 250 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 500) achiev = "Has alcanzado 500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            else if(totalSessionCountLibrary == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+
+            if(achiev != "") {
+                ModelPlayer mp = new ModelPlayer();
+                mp.saveAchievement(achiev, getNameFromId(gameId), 0);
+                MainUI.loadAchievs();
+            }
+        }
+        
+        achiev = "";
+        int totalSessionCountPlatform = getPlatformTotalSessions(getPlatformIdFromGame(gameId));
+        if(totalSessionCountPlatform != 0) {
+            if(totalSessionCountPlatform == 100) achiev = "Has alcanzado 100 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 250) achiev = "Has alcanzado 250 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 500) achiev = "Has alcanzado 500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            else if(totalSessionCountPlatform == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+
+            if(achiev != "") {
+                ModelPlayer mp = new ModelPlayer();
+                mp.saveAchievement(achiev, getNameFromId(gameId), 0);
+                MainUI.loadAchievs();
+            }
+        }
+    }
+
+    public int changeGameName(int gameId, String newName) {
+        String query = "SELECT name FROM games WHERE name = '" + newName + "'";
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                stmt.close();
+                rs.close();
+                conex.close();
+                return 3;
+            }
+            query = "UPDATE games SET name = '" + newName + "' WHERE id = " + gameId;
+            stmt.execute(query);
+            query = "UPDATE games_sessions_history SET game_name = '" + newName + "' WHERE game_id = " + gameId;
+            stmt.execute(query);
+            stmt.close();
+            rs.close();
+            conex.close();
+            return 1;
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+            return 2;
         }
     }
 
@@ -1851,23 +1891,6 @@ public class ModelGames {
         return res;
     }
 
-    private int getLibraryIdFromGame(int gameId) {
-        int id = 0;
-        String query = "SELECT library FROM games WHERE id = " + gameId;
-        try {
-            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-            stmt = conex.createStatement();
-            rs = stmt.executeQuery(query);
-            if(rs.next()) {
-                id = rs.getInt("library");
-            }
-        } catch (SQLException ex) {
-            Log.Loguear(ex.getMessage());
-            ex.printStackTrace();
-        }
-        return id;
-    }
-
     private int getPlatformIdFromGame(int gameId) {
         int id = 0;
         String query = "SELECT platform FROM games WHERE id = " + gameId;
@@ -1883,6 +1906,46 @@ public class ModelGames {
             ex.printStackTrace();
         }
         return id;
+    }
+    
+    public String getPlatformName(int gameId) {
+        String query = "SELECT platforms.name FROM `games` inner join platforms on platform.id = games.platform where games.id = " + gameId;
+        String platform = "Ninguna";
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                platform = rs.getString("name");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return platform;
+    }
+    
+    public int getPlatformTotalSessions(int platform_id) {
+        String query = "SELECT total_sessions FROM platforms WHERE id = " + platform_id;
+        int total_sessions = 0;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                total_sessions = rs.getInt("total_sessions");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return total_sessions;
     }
 
     public ArrayList<String> getLibraryList() {
@@ -1903,6 +1966,23 @@ public class ModelGames {
             ex.printStackTrace();
         }
         return library;
+    }
+    
+    private int getLibraryIdFromGame(int gameId) {
+        int id = 0;
+        String query = "SELECT library FROM games WHERE id = " + gameId;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                id = rs.getInt("library");
+            }
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return id;
     }
 
     public int addLibrary(String name) {
@@ -1959,7 +2039,7 @@ public class ModelGames {
         }
         return library;
     }
-
+    
     public int getLibraryIdFromName(String name) {
         String query = "SELECT id FROM library WHERE name = '" + name + "'";
         int id = 0;
@@ -1998,6 +2078,26 @@ public class ModelGames {
             ex.printStackTrace();
         }
         return hours;
+    }
+    
+    public int getLibraryTotalSessions(int library_id) {
+        String query = "SELECT total_sessions FROM library WHERE id = " + library_id;
+        int total_sessions = 0;
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                total_sessions = rs.getInt("total_sessions");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return total_sessions;
     }
 
     public void initSession(int current_session_number, int game_id) {

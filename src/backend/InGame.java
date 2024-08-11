@@ -120,16 +120,14 @@ public class InGame {
             ModelGames mg = new ModelGames();
 
             if(totalSecondsSession > 300) {
-                mg.newSession(gameIdLaunched, totalSecondsSession);
+                mg.saveSession(gameIdLaunched, totalSecondsSession);
             } else {
                 new Thread(new Runnable() {
                     public void run() {
                         JOptionPane.showMessageDialog(null, "El tiempo de juego fue muy corto y no se han guardado datos", "Sesión muy corta", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }).start();
-
             }
-            checkAchievement();
 
             mg.deleteSessionBackup(current_session_number);
 

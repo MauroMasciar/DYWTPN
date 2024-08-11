@@ -121,7 +121,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(this, "La sesión de juego no se ha podido agregar. Verifica que todos los datos sean correctos", "Error", JOptionPane.ERROR_MESSAGE);
             }*/
-            mg.newSession(gameId, minsPlayed*60);
+            mg.saveSession(gameId, minsPlayed*60);
             JOptionPane.showMessageDialog(this, "La sesión de juego se ha agregado satisfactoriamente", "Sesión añadida", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         }
