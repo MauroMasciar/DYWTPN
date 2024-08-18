@@ -43,6 +43,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiPlayerAddSession = new JMenuItem("Añadir sesión", new ImageIcon("gfx/new_session.png"));
     private final JMenuItem mnuiPlayerAddAchiev = new JMenuItem("Añadir hazaña", new ImageIcon("gfx/x.png"));
     private final JMenuItem mnuiPlayerActivities = new JMenuItem("Actividad", new ImageIcon("gfx/history.png"));
+    private final JMenuItem mnuiPlayerNotes = new JMenuItem("Notas", new ImageIcon("gfx/notes.png"));
     private final JMenuItem mnuiPlayerHistory = new JMenuItem("Historial", new ImageIcon("gfx/activity.png"));
     private final JMenu mnuData = new JMenu("Datos");
     private final JMenuItem mnuiDataCategory = new JMenuItem("Categorías", new ImageIcon("gfx/category.png"));
@@ -93,6 +94,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuPlayer.add(mnuiPlayerAddAchiev);
         mnuPlayer.add(mnuiPlayerHistory);
         mnuPlayer.add(mnuiPlayerActivities);
+        mnuPlayer.add(mnuiPlayerNotes);
         mnuPlayer.add(mnuPlayerStatistics);
         mnuPlayerStatistics.add(mnuiPlayerStatisticsPlayCount);
         mnuPlayerStatistics.add(mnuiPlayerStatisticsTotalHours);
@@ -124,6 +126,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiDataRating.addActionListener(this);
         mnuiHelpConfig.addActionListener(this);
         mnuiPlayerActivities.addActionListener(this);
+        mnuiPlayerNotes.addActionListener(this);
         mnuiPlayerStatisticsPlayCount.addActionListener(this);
         mnuiPlayerStatisticsTotalHours.addActionListener(this);
         mnuiPlayerAddSession.addActionListener(this);
@@ -208,6 +211,8 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
             j.add(new Config());
         } else if (e.getSource() == mnuiPlayerActivities) {
             j.add(new PlayerActivities());
+        } else if (e.getSource() == mnuiPlayerNotes) {
+            j.add(new Notes());            
         } else if(e.getSource() == mnuiPlayerStatisticsPlayCount) {
             j.add(new StatisticsPlayCount());
         } else if(e.getSource() == mnuiPlayerStatisticsTotalHours) {

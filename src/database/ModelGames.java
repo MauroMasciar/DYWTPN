@@ -35,7 +35,7 @@ public class ModelGames {
             rs.close();
             conex.close();
             
-            String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(time*60, true);
+            String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(time, true);
             String game_name = getNameFromId(gameId);
             
             saveGameHistory(gameId, time, game_name);
@@ -1050,7 +1050,7 @@ public class ModelGames {
             if(result == 1) {
                 int gameId = getIdFromGameName(name);
                 ModelPlayer mp = new ModelPlayer();
-                mp.saveAchievement("Ahora tienes " + name + " en " + getLibraryName(gameId), name, gameId);
+                mp.saveAchievement("Obtuviste " + name + " en " + getLibraryName(gameId), name, gameId);
             }
 
             conex.close();
