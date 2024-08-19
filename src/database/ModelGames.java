@@ -21,7 +21,7 @@ public class ModelGames {
 
     public int saveSession(int gameId, int time, String date) {
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
-        int play_count = 0;
+        int play_count = 0, library_id = 0, platform_id = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
@@ -37,8 +37,10 @@ public class ModelGames {
             
             String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(time, true);
             String game_name = getNameFromId(gameId);
+            library_id = getLibraryIdFromGame(gameId);
+            platform_id = getPlatformIdFromGame(gameId);
             
-            saveGameHistory(gameId, time, game_name, date);
+            saveGameHistory(gameId, time, game_name, library_id, platform_id, date);
             saveGameTime(gameId, time);
             setLastPlayed(gameId);
             saveLastGame(game_name, sGameTimePlayed);
@@ -821,9 +823,10 @@ public class ModelGames {
         return false;
     }
 
-    public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, String date) {
+    public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, int library_id, int platform_id, String date) {
         int minsPlayed = gameTimePlayed / 60;
-        String query = "INSERT INTO games_sessions_history (game_id, mins, game_name, datetime) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "', '" + date + "')";
+        String query = "INSERT INTO games_sessions_history (game_id, mins, game_name, library_id, platform_id, datetime) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "', " + library_id + ", " + platform_id + ", '" + date + "')";
+        System.out.println(query);
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();

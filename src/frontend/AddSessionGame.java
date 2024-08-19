@@ -24,10 +24,10 @@ import database.ModelGames;
 
 public class AddSessionGame extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = -7862927860955738026L;
-    private final JLabel lblGame = new JLabel("Juego:");
-    private final JLabel lblTime = new JLabel("Minutos:");
-    private final JLabel lblDate = new JLabel("Fecha:");
-    private final JLabel lblHour = new JLabel("Hora:");
+    private final JLabel lblGame = new JLabel(" Juego:");
+    private final JLabel lblTime = new JLabel(" Minutos:");
+    private final JLabel lblDate = new JLabel(" Fecha:");
+    private final JLabel lblHour = new JLabel(" Hora:");
     private final JFormattedTextField txtTime = new JFormattedTextField();
     private final JTextField txtDate = new JTextField();
     private final DateChooser dcDate = new DateChooser();

@@ -22,15 +22,14 @@ public class InGame {
             this.gameIdLaunched = IdLaunched;
 
             initTime = LocalDateTime.now();
+            initDate = Utils.getFormattedDateTime();
 
             ModelGames mg = new ModelGames();
             gameTimePlayedInitCurrentGame = mg.getSecondsPlayed(IdLaunched);
             gameTimePlayedTotalInit = mg.getSecondsTotalPlayed();
             current_session_number = mg.getTotalSessions()  + 1;
             mg.initSession(current_session_number, gameIdLaunched);
-            
-            initDate = Utils.getFormattedDateTime();
-            
+                        
             launchGame();
         }
     }
@@ -52,7 +51,7 @@ public class InGame {
                         gameTimePlayedTotal = gameTimePlayedTotalInit + secondsBeetwenTimes;
                         System.out.println("Sesión: " + gameTimePlayedInitCurrentGame + " - " + gameTimePlayedCurrentGame + " - Total: " + gameTimePlayedTotalInit + " - " + gameTimePlayedTotal + " -- " + initTime + " - " + currentTime);
 
-                        if(secondsBeetwenTimes % 10 == 0) {
+                        if(secondsBeetwenTimes % 30 == 0) {
                             ModelGames mg = new ModelGames();
                             mg.updateSession(current_session_number, secondsBeetwenTimes);
                         }
