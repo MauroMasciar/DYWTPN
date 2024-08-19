@@ -58,9 +58,9 @@ public class ModelPlayer {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             if(gameName == "Todos") {
-                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
             } else {
-                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
                         + gameName + "' ORDER BY id DESC");
             }
             

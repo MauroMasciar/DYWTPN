@@ -118,7 +118,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
         for(int i = 1; i < gameList.size(); i++) {
             cbGame.addItem(gameList.get(i));
         }
-
+        
         setVisible(true);
     }
 

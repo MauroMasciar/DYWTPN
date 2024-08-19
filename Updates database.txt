@@ -67,6 +67,8 @@ ALTER TABLE `library` ADD `total_sessions` INT NOT NULL AFTER `time_played`;
 ALTER TABLE `platforms` ADD `time_played` INT NOT NULL AFTER `name`, ADD `total_sessions` INT NOT NULL AFTER `time_played`;
 ALTER TABLE `platforms` CHANGE `time_played` `time_played` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `platforms` CHANGE `total_sessions` `total_sessions` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `library` CHANGE `time_played` `time_played` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `library` CHANGE `total_sessions` `total_sessions` INT(11) NOT NULL DEFAULT '0';
 -- 1.2.4.130
 CREATE TABLE `dywtpn`.`wishlist` ( `id` INT NOT NULL AUTO_INCREMENT , `name` VARCHAR(60) NOT NULL , `store` VARCHAR(60) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 ALTER TABLE `wishlist` ADD UNIQUE(`id`);
@@ -75,4 +77,7 @@ ALTER TABLE `wishlist` ADD UNIQUE(`name`);
 ALTER TABLE `wishlist` DROP `store`;
 -- 1.2.4.150
 ALTER TABLE `games_sessions_history` ADD `library_id` INT NOT NULL DEFAULT '0' AFTER `game_name`, ADD `platform_id` INT NOT NULL DEFAULT '0' AFTER `library_id`;
+-- 1.2.4.151
+ALTER TABLE `games_sessions_history` ADD `datetime_end` TIMESTAMP NULL AFTER `datetime`;
+ALTER TABLE `games_sessions_history` CHANGE `datetime` `datetime_start` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
 

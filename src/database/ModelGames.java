@@ -3,10 +3,15 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,7 +24,7 @@ public class ModelGames {
     private static Statement stmt;
     private static ResultSet rs;
 
-    public int saveSession(int gameId, int time, String date) {
+    public int saveSession(int gameId, int time, String date_start) {
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
         int play_count = 0, library_id = 0, platform_id = 0;
         try {
@@ -37,10 +42,24 @@ public class ModelGames {
             
             String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(time, true);
             String game_name = getNameFromId(gameId);
+            String date_end = "";
             library_id = getLibraryIdFromGame(gameId);
-            platform_id = getPlatformIdFromGame(gameId);
+            platform_id = getPlatformIdFromGame(gameId);            
             
-            saveGameHistory(gameId, time, game_name, library_id, platform_id, date);
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date;
+                date = format.parse(date_start);
+                
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.MINUTE, time/60);
+                date_end = format.format(calendar.getTime());                
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            
+            saveGameHistory(gameId, time, game_name, library_id, platform_id, date_start, date_end);
             saveGameTime(gameId, time);
             setLastPlayed(gameId);
             saveLastGame(game_name, sGameTimePlayed);
@@ -375,7 +394,7 @@ public class ModelGames {
     }
 
     public int getTimeLastSession(int gameId) {
-        String query = "SELECT mins FROM `games_sessions_history` WHERE game_id = " + gameId + " ORDER BY datetime DESC limit 1";
+        String query = "SELECT mins FROM `games_sessions_history` WHERE game_id = " + gameId + " ORDER BY datetime_start DESC limit 1";
         int time = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -397,15 +416,15 @@ public class ModelGames {
         int mins = 0;
         String query;
         if (gameId == 0) {
-            if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-1) AND now()";
-            else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-7) AND now()";
-            else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now()";
-            else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now()";
+            if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-1) AND now()";
+            else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-7) AND now()";
+            else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-14) AND now()";
+            else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-30) AND now()";
         } else {
-            if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-1) AND now() AND game_id = " + gameId;
-            else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-7) AND now() AND game_id = " + gameId;
-            else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-14) AND now() AND game_id = " + gameId;
-            else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime` BETWEEN adddate(now(),-30) AND now() AND game_id = " + gameId;
+            if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-1) AND now() AND game_id = " + gameId;
+            else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-7) AND now() AND game_id = " + gameId;
+            else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-14) AND now() AND game_id = " + gameId;
+            else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-30) AND now() AND game_id = " + gameId;
         }
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -640,8 +659,8 @@ public class ModelGames {
     public String getDateLastSession(int gameId) {
         String dateLastSession = "Nunca";
 
-        String query = "SELECT date_format(datetime, \"%d/%m/%Y\") as Fecha FROM `games_sessions_history` WHERE game_id = "
-                + gameId + " order by datetime desc limit 1";
+        String query = "SELECT date_format(datetime_start, \"%d/%m/%Y\") as Fecha FROM `games_sessions_history` WHERE game_id = "
+                + gameId + " order by datetime_start desc limit 1";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
@@ -823,9 +842,9 @@ public class ModelGames {
         return false;
     }
 
-    public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, int library_id, int platform_id, String date) {
+    public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, int library_id, int platform_id, String date_start, String date_end) {
         int minsPlayed = gameTimePlayed / 60;
-        String query = "INSERT INTO games_sessions_history (game_id, mins, game_name, library_id, platform_id, datetime) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "', " + library_id + ", " + platform_id + ", '" + date + "')";
+        String query = "INSERT INTO games_sessions_history (game_id, mins, game_name, library_id, platform_id, datetime_start, datetime_end) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "', " + library_id + ", " + platform_id + ", '" + date_start + "', '" + date_end + "')";
         System.out.println(query);
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);

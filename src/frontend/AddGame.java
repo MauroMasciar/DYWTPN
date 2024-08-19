@@ -452,9 +452,9 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
         int playCount = (Integer) spinPlayCount.getValue();
         int category = mg.getCategoryIdFromName(cbCategory.getSelectedItem().toString());
 
-        name.replace("'", "");
-        name.replace("\"", "");
-
+        name = name.replace("'", "");
+        name = name.replace("\"", "");
+        
         if(Validations.isEmpty(txtGameName)) {
             JOptionPane.showMessageDialog(this, "Debes al menos ingresar el nombre", "Error", JOptionPane.ERROR_MESSAGE);
         } else {
