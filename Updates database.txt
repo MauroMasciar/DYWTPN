@@ -73,3 +73,6 @@ ALTER TABLE `wishlist` ADD UNIQUE(`id`);
 -- 1.2.4.133
 ALTER TABLE `wishlist` ADD UNIQUE(`name`);
 ALTER TABLE `wishlist` DROP `store`;
+-- 1.2.4.150
+ALTER TABLE `games_sessions_history` ADD `library_id` INT NOT NULL DEFAULT '0' AFTER `game_name`, ADD `platform_id` INT NOT NULL DEFAULT '0' AFTER `library_id`;
+

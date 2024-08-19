@@ -19,7 +19,7 @@ public class ModelGames {
     private static Statement stmt;
     private static ResultSet rs;
 
-    public int saveSession(int gameId, int time) {
+    public int saveSession(int gameId, int time, String date) {
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
         int play_count = 0;
         try {
@@ -38,7 +38,7 @@ public class ModelGames {
             String sGameTimePlayed = " Jugaste durante: " + Utils.getTotalHoursFromSeconds(time, true);
             String game_name = getNameFromId(gameId);
             
-            saveGameHistory(gameId, time, game_name);
+            saveGameHistory(gameId, time, game_name, date);
             saveGameTime(gameId, time);
             setLastPlayed(gameId);
             saveLastGame(game_name, sGameTimePlayed);
@@ -821,9 +821,9 @@ public class ModelGames {
         return false;
     }
 
-    public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName) {
+    public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, String date) {
         int minsPlayed = gameTimePlayed / 60;
-        String query = "INSERT INTO games_sessions_history (game_id, mins, game_name) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "')";
+        String query = "INSERT INTO games_sessions_history (game_id, mins, game_name, datetime) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "', '" + date + "')";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();

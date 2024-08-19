@@ -14,6 +14,7 @@ public class InGame {
     private final int HOUR_GAME = 3600;
     private int gameTimePlayedInitCurrentGame, gameTimePlayedCurrentGame, gameTimePlayedTotalInit, gameTimePlayedTotal;
     private LocalDateTime initTime;
+    private String initDate;
     private int current_session_number = 0;
 
     public InGame(int IdLaunched) {
@@ -27,7 +28,9 @@ public class InGame {
             gameTimePlayedTotalInit = mg.getSecondsTotalPlayed();
             current_session_number = mg.getTotalSessions()  + 1;
             mg.initSession(current_session_number, gameIdLaunched);
-
+            
+            initDate = Utils.getFormattedDateTime();
+            
             launchGame();
         }
     }
@@ -120,7 +123,7 @@ public class InGame {
             ModelGames mg = new ModelGames();
 
             if(totalSecondsSession > 300) {
-                mg.saveSession(gameIdLaunched, totalSecondsSession);
+                mg.saveSession(gameIdLaunched, totalSecondsSession, initDate);
             } else {
                 new Thread(new Runnable() {
                     public void run() {
