@@ -32,6 +32,9 @@ public class ModelConfig {
 
             query = "TRUNCATE games";
             stmt.execute(query);
+            
+            query = "TRUNCATE wishlist";
+            stmt.execute(query);
 
             query = "TRUNCATE games_sessions_history";
             stmt.execute(query);

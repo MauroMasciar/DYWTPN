@@ -37,6 +37,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver ocultos");
     private final JCheckBoxMenuItem mnuiGamesOrderByDate = new JCheckBoxMenuItem("Ordenar por última vez");
     private final JMenu mnuPlayerStatistics = new JMenu("Estadísticas");
+    private final JMenuItem mnuiPlayerViewStatistics = new JMenuItem("Ver estadisticas");
     private final JMenuItem mnuiPlayerStatisticsPlayCount = new JMenuItem("Sesiones");
     private final JMenuItem mnuiPlayerStatisticsTotalHours = new JMenuItem("Tiempo");
     private final JMenu mnuPlayer = new JMenu("Jugador");
@@ -96,6 +97,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuPlayer.add(mnuiPlayerActivities);
         mnuPlayer.add(mnuiPlayerNotes);
         mnuPlayer.add(mnuPlayerStatistics);
+        mnuPlayerStatistics.add(mnuiPlayerViewStatistics);
         mnuPlayerStatistics.add(mnuiPlayerStatisticsPlayCount);
         mnuPlayerStatistics.add(mnuiPlayerStatisticsTotalHours);
         mnuData.add(mnuiDataCategory);
@@ -127,6 +129,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiHelpConfig.addActionListener(this);
         mnuiPlayerActivities.addActionListener(this);
         mnuiPlayerNotes.addActionListener(this);
+        mnuiPlayerViewStatistics.addActionListener(this);
         mnuiPlayerStatisticsPlayCount.addActionListener(this);
         mnuiPlayerStatisticsTotalHours.addActionListener(this);
         mnuiPlayerAddSession.addActionListener(this);
@@ -212,7 +215,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         } else if (e.getSource() == mnuiPlayerActivities) {
             j.add(new PlayerActivities());
         } else if (e.getSource() == mnuiPlayerNotes) {
-            j.add(new Notes());            
+            j.add(new Notes());
+        } else if(e.getSource() == mnuiPlayerViewStatistics) {
+            j.add(new Statistics());
         } else if(e.getSource() == mnuiPlayerStatisticsPlayCount) {
             j.add(new StatisticsPlayCount());
         } else if(e.getSource() == mnuiPlayerStatisticsTotalHours) {

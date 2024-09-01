@@ -42,7 +42,7 @@ public class StatisticsTotalHours extends JInternalFrame {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         ModelGames mg = new ModelGames();
         ArrayList<String> gameNameList = new ArrayList<>();
-        gameNameList = mg.getStatisticsGamesNameList();
+        gameNameList = mg.getStatisticsGamesNameList(true);
         int id, count;
         for(int i = 0; i < gameNameList.size(); i++) {
             id = mg.getIdFromGameName(gameNameList.get(i));

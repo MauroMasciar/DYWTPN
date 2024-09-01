@@ -32,7 +32,7 @@ public class StatisticsPlayCount extends JInternalFrame {
         setLayout(new FlowLayout());
 
         ChartPanel chartPanel = new ChartPanel(barChart);
-        chartPanel.setPreferredSize(new Dimension(560, 367) );        
+        chartPanel.setPreferredSize(new Dimension(560, 367));        
         setContentPane(chartPanel); 
 
         setVisible(true);
@@ -42,7 +42,7 @@ public class StatisticsPlayCount extends JInternalFrame {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         ModelGames mg = new ModelGames();
         ArrayList<String> gameNameList = new ArrayList<>();
-        gameNameList = mg.getStatisticsGamesNameList();
+        gameNameList = mg.getStatisticsGamesNameList(true);
         int id, count;
         for(int i = 0; i < gameNameList.size(); i++) {
             id = mg.getIdFromGameName(gameNameList.get(i));

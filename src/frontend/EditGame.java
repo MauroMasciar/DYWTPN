@@ -449,7 +449,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         txtPlayMode.setText(mg.getPlayMode(gameId));
         txtVersion.setText(mg.getVersion(gameId));
         txtStatus.setText(mg.getStatus(gameId));
-        cbLibrary.setSelectedItem(mg.getLibraryName((gameId)));
+        cbLibrary.setSelectedItem(mg.getLibraryNameFromGameId((gameId)));
         txtLastPlayed.setText(mg.getLastPlayed(gameId));
         txtPath.setText(mg.getPathFromGame(gameId));	
         chFavorite.setSelected(mg.isFavorite(gameId));

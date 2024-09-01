@@ -480,7 +480,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 txtGames.setText(" Juego: " + gameNameSelected + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Última sesión: "
                         + mg.getDateLastSession(gameIdSelected));
 
-                String lib = mg.getLibraryName(gameIdSelected);
+                String lib = mg.getLibraryNameFromGameId(gameIdSelected);
                 String cat = mg.getGameCategoryName(gameIdSelected);
                 int score = mg.getScore(gameIdSelected);
                 txtGameInfo.setText(" Biblioteca: " + lib + " |  Categoría: " + cat + " | Puntaje: " + score + "/100");

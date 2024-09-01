@@ -44,7 +44,7 @@ public class ModelGames {
             String game_name = getNameFromId(gameId);
             String date_end = "";
             library_id = getLibraryIdFromGame(gameId);
-            platform_id = getPlatformIdFromGame(gameId);            
+            platform_id = getPlatformIdFromGame(gameId);
             
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -53,8 +53,8 @@ public class ModelGames {
                 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                calendar.add(Calendar.MINUTE, time/60);
-                date_end = format.format(calendar.getTime());                
+                calendar.add(Calendar.MINUTE, time / 60);
+                date_end = format.format(calendar.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -119,15 +119,15 @@ public class ModelGames {
         achiev = "";
         int totalSessionCountLibrary = getLibraryTotalSessions(getLibraryIdFromGame(gameId));
         if(totalSessionCountLibrary != 0) {
-            if(totalSessionCountLibrary == 100) achiev = "Has alcanzado 100 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 250) achiev = "Has alcanzado 250 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 500) achiev = "Has alcanzado 500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
-            else if(totalSessionCountLibrary == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la biblioteca " + getLibraryName(getLibraryIdFromGame(gameId));
+            if(totalSessionCountLibrary == 100) achiev = "Has alcanzado 100 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 250) achiev = "Has alcanzado 250 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 500) achiev = "Has alcanzado 500 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
+            else if(totalSessionCountLibrary == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la biblioteca " + getLibraryNameFromGameId(gameId);
 
             if(achiev != "") {
                 ModelPlayer mp = new ModelPlayer();
@@ -139,15 +139,15 @@ public class ModelGames {
         achiev = "";
         int totalSessionCountPlatform = getPlatformTotalSessions(getPlatformIdFromGame(gameId));
         if(totalSessionCountPlatform != 0) {
-            if(totalSessionCountPlatform == 100) achiev = "Has alcanzado 100 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 250) achiev = "Has alcanzado 250 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 500) achiev = "Has alcanzado 500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
-            else if(totalSessionCountPlatform == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la plataforma " + getPlatformName(getPlatformIdFromGame(gameId));
+            if(totalSessionCountPlatform == 100) achiev = "Has alcanzado 100 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 250) achiev = "Has alcanzado 250 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 500) achiev = "Has alcanzado 500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            else if(totalSessionCountPlatform == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
 
             if(achiev != "") {
                 ModelPlayer mp = new ModelPlayer();
@@ -239,7 +239,7 @@ public class ModelGames {
                         if(rrs.getInt(i + 1) == 1) f[i] = "Si";
                         else f[i] = "No";
                     } else if(i == 6) {
-                        f[i] = getLibraryName(getIdFromGameName(rrs.getString("name")));
+                        f[i] = getLibraryNameFromGameId(getIdFromGameName(rrs.getString("name")));
                     } else {
                         f[i] = rrs.getObject(i + 1);
                     }
@@ -582,13 +582,14 @@ public class ModelGames {
         return gameName;
     }
 
-    public ArrayList<String> getStatisticsGamesNameList() {
+    public ArrayList<String> getStatisticsGamesNameList(boolean filtered) {
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
             String query;
-            query = "SELECT name FROM games WHERE statistic = 1 ORDER BY name";
+            if(filtered) query = "SELECT name FROM games WHERE statistic = 1 ORDER BY name";
+            else query = "SELECT name FROM games ORDER BY name";
             stmt = conex.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -1072,7 +1073,7 @@ public class ModelGames {
             if(result == 1) {
                 int gameId = getIdFromGameName(name);
                 ModelPlayer mp = new ModelPlayer();
-                mp.saveAchievement("Obtuviste " + name + " en " + getLibraryName(gameId), name, gameId);
+                mp.saveAchievement("Obtuviste " + name + " en " + getLibraryNameFromGameId(gameId), name, gameId);
             }
 
             conex.close();
@@ -1930,7 +1931,7 @@ public class ModelGames {
         return id;
     }
     
-    public String getPlatformName(int gameId) {
+    public String getPlatformNameFromGameId(int gameId) {
         String query = "SELECT platforms.name FROM `games` inner join platforms on platform.id = games.platform where games.id = " + gameId;
         String platform = "Ninguna";
         try {
@@ -2042,7 +2043,7 @@ public class ModelGames {
         return resultado;
     }
 
-    public String getLibraryName(int gameId) {
+    public String getLibraryNameFromGameId(int gameId) {
         String query = "SELECT library.name FROM `games` inner join library on library.id = games.library where games.id = " + gameId;
         String library = "Ninguna";
         try {

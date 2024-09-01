@@ -25,17 +25,20 @@ public class ModelPlayer {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             if(gameName == "Todos") {
-                rs = stmt.executeQuery("SELECT description FROM player_activities ORDER BY id DESC");
+                rs = stmt.executeQuery("SELECT description, date_format(date, \"%d/%m/%Y %H:%i\") AS date FROM player_activities ORDER BY id DESC");
             } else {
-                rs = stmt.executeQuery("SELECT description FROM player_activities WHERE game_name = '" + gameName + "' ORDER BY id DESC");
+                rs = stmt.executeQuery("SELECT description, date_format(date, \"%d/%m/%Y %H:%i\") AS date FROM player_activities WHERE game_name = '" + gameName + "' ORDER BY id DESC");
             }
 
             while (rs.next()) {
-                Object[] f = new Object[1];
-                for (int i = 0; i < 1; i++) {
-                    f[i] = rs.getObject(i + 1);
+                String description, date;
+                Object[] f = new Object[2];
+                for(int i = 0; i < 2; i++) {
+                    description = rs.getString("description");
+                    date = rs.getString("date");
+                    f[0] = description + " el " + date;
                 }
-                m.addRow(f);
+                m.addRow(f);   
             }
             conex.close();
             stmt.close();
@@ -58,9 +61,9 @@ public class ModelPlayer {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             if(gameName == "Todos") {
-                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y %H:%i\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
             } else {
-                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y %H:%i\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
                         + gameName + "' ORDER BY id DESC");
             }
             

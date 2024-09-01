@@ -12,12 +12,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-
 import raven.datetime.component.time.TimePicker;
-import com.formdev.flatlaf.extras.components.FlatButton;
 import com.raven.datechooser.DateChooser;
 import database.ModelConfig;
 import database.ModelGames;
@@ -35,7 +34,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
     private final JComboBox<String> cbGame = new JComboBox<>();
     private final JSpinner spinTime = new JSpinner();
     private final SpinnerNumberModel spnModelTime = new SpinnerNumberModel();
-    private final FlatButton btnAdd = new FlatButton();
+    private final JButton btnAdd = new JButton();
     private final ModelGames mg = new ModelGames();
 
     public AddSessionGame() {

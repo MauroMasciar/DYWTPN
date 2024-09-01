@@ -4,6 +4,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
@@ -18,12 +20,13 @@ import database.ModelConfig;
 import database.ModelGames;
 import database.ModelPlayer;
 
-public class PlayerHistory extends JInternalFrame implements ActionListener, KeyListener {
+public class PlayerHistory extends JInternalFrame implements ActionListener, KeyListener, InternalFrameListener {
     private static final long serialVersionUID = 4484286064012240569L;
     private final JComboBox<String> cbGames = new JComboBox<>();
     private final JScrollPane scrTable = new JScrollPane(tbPlayerHistory);
     public static final JTable tbPlayerHistory = new JTable();
     private boolean upd = true;
+    private boolean open = true;
 
     public PlayerHistory() {
         try {
@@ -63,6 +66,8 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
 
         cbGames.addActionListener(this);
         tbPlayerHistory.addKeyListener(this);
+        
+        this.addInternalFrameListener(this);
 
         setVisible(true);
     }
@@ -100,7 +105,7 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
     }
 
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyChar() == KeyEvent.VK_DELETE) {
+        if(e.getKeyChar() == KeyEvent.VK_DELETE && open) {
             int re = JOptionPane.showConfirmDialog(this, "¿Desea borrar esta sesión del historial?", "Borrar del historial", JOptionPane.YES_NO_OPTION);
             if(re == 0) {
                 ModelGames mg = new ModelGames();
@@ -127,5 +132,27 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
 
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void internalFrameOpened(InternalFrameEvent e) {
+    }
+
+    public void internalFrameClosing(InternalFrameEvent e) {
+        open = false;
+    }
+
+    public void internalFrameClosed(InternalFrameEvent e) {
+    }
+
+    public void internalFrameIconified(InternalFrameEvent e) {
+    }
+
+    public void internalFrameDeiconified(InternalFrameEvent e) {
+    }
+
+    public void internalFrameActivated(InternalFrameEvent e) {
+    }
+
+    public void internalFrameDeactivated(InternalFrameEvent e) {
     }
 }
