@@ -18,6 +18,7 @@ public class ModelPlayer {
     private static ResultSet rs;
 
     public DefaultTableModel getActivities(String gameName) {
+        Log.Loguear("getActivities(String gameName)");
         DefaultTableModel m = new DefaultTableModel();
         m.addColumn("Actividad");
 
@@ -51,6 +52,7 @@ public class ModelPlayer {
     }
 
     public DefaultTableModel getHistory(String gameName) {
+        Log.Loguear("getHistory(String gameName)");
         DefaultTableModel m = new DefaultTableModel();
         m.addColumn("ID");
         m.addColumn("Fecha");
@@ -89,6 +91,7 @@ public class ModelPlayer {
     }
 
     public void saveAchievement(String achievement, String gamename, int gameid) {
+        Log.Loguear("saveAchievement(String achievement, String gamename, int gameid)");
         String query = "INSERT INTO player_activities (game_name, description, game_id) VALUES (?,?,?)";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -106,6 +109,7 @@ public class ModelPlayer {
     }
 
     public String getLastAchievement() {
+        Log.Loguear("getLastAchievement()");
         String s = "", achiev = "", date = "";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -124,6 +128,7 @@ public class ModelPlayer {
     }
     
     public void checkAchievTotalCompletedGames() {
+        Log.Loguear("checkAchievTotalCompletedGames()");
         int i = getTotalCompletedGames();
         boolean achiev = false;
         if(i == 10) achiev = true;
@@ -141,6 +146,7 @@ public class ModelPlayer {
     }
 
     public int getTotalCompletedGames() {
+        Log.Loguear("getTotalCompletedGames()");
         int i = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);

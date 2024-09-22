@@ -1,5 +1,6 @@
 package database;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -77,6 +78,7 @@ public class ModelConfig {
     }
 
     public String getUsername() {
+        Log.Loguear("getUsername()");
         String query = "SELECT name FROM config";
         String name = "";
         try {
@@ -99,6 +101,7 @@ public class ModelConfig {
     }
 
     public String getLastGame() {
+        Log.Loguear("getLastGame()");
         String query = "SELECT last_game FROM config";
         String last_game = "";
         try {
@@ -121,6 +124,7 @@ public class ModelConfig {
     }
 
     public String getLastSessionTime() {
+        Log.Loguear("getLastSessionTime()");
         String query = "SELECT last_session_time FROM config";
         String last_session_time = "";
         try {
@@ -143,6 +147,7 @@ public class ModelConfig {
     }
 
     public boolean getIsHidden() {
+        Log.Loguear("getIsHidden()");
         String query = "SELECT show_hidden FROM config";
         int sH = 0;
         try {
@@ -162,6 +167,7 @@ public class ModelConfig {
     }
 
     public void setIsHidden(int args) {
+        Log.Loguear("setIsHidden()");
         String query = "UPDATE config SET show_hidden = " + args;
         try {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -176,6 +182,7 @@ public class ModelConfig {
     }
     
     public boolean getOrderByDate() {
+        Log.Loguear("getOrderByDate()");
         String query = "SELECT show_orderbydate FROM config";
         int sH = 0;
         try {
@@ -195,6 +202,7 @@ public class ModelConfig {
     }    
     
     public void setOrderByDate(int args) {
+        Log.Loguear("setOrderByDate(int args)");
         String query = "UPDATE config SET show_orderbydate = " + args;
         try {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -209,6 +217,7 @@ public class ModelConfig {
     }
 
     public void saveUserName(String newName) {
+        Log.Loguear("saveUserName(String newName)");
         String query = "UPDATE config SET name = '" + newName + "';";
         try {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -223,6 +232,7 @@ public class ModelConfig {
     }
 
     public int getBounds_x(String window) {
+        Log.Loguear("getBounds_x(String window)");
         int x = 30;
         String query = "";
         try {
@@ -252,6 +262,7 @@ public class ModelConfig {
     }
 
     public int getBounds_y(String window) {
+        Log.Loguear("getBounds_y(String window)");
         int y = 30;
         String query = "";
         try {
@@ -274,6 +285,7 @@ public class ModelConfig {
     }
 
     public void setSavedBounds(String window, double d, double e) {
+        Log.Loguear("setSavedBounds(String window, double d, double e)");
         String query = "";
         int x = (int)d;
         int y = (int)e;
@@ -296,6 +308,7 @@ public class ModelConfig {
     }
 
     public int update(String query) {
+        Log.Loguear("update(String query)");
         int r = 0;
         try {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -312,6 +325,7 @@ public class ModelConfig {
     }
 
     public int getTheme() {
+        Log.Loguear("getTheme()");
         String query = "SELECT theme FROM config";
         int r = 1;
         try {
@@ -322,6 +336,7 @@ public class ModelConfig {
             stmt.close();
             this.conex.close();
             rs.close();
+            Log.Loguear("Cargando el theme " + r);
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -330,6 +345,7 @@ public class ModelConfig {
     }
 
     public void setTheme(int theme) {
+        Log.Loguear("setTheme(int theme)");
         String query = "UPDATE config SET theme = ?";
         try {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -346,6 +362,7 @@ public class ModelConfig {
     }
 
     public static void loadTheme(int theme) {
+        Log.Loguear("loadTheme(int theme)");
         try {
             if(theme == 1) UIManager.setLookAndFeel(new FlatIntelliJLaf());
             else if(theme == 2) UIManager.setLookAndFeel(new FlatMacDarkLaf());
@@ -355,6 +372,7 @@ public class ModelConfig {
     }
 
     public boolean getOrderByDateSession() {
+        Log.Loguear("getOrderByDateSession()");
         String query = "SELECT orderbydate_newsession FROM config";
         int r = 0;
         try {
@@ -374,6 +392,7 @@ public class ModelConfig {
     }
     
     public boolean getOrderByDateAchiev() {
+        Log.Loguear("getOrderByDateAchiev()");
         String query = "SELECT orderbydate_newachiev FROM config";
         int r = 0;
         try {
@@ -393,6 +412,7 @@ public class ModelConfig {
     }
     
     public void setOrderByDateNewSession(int n) {
+        Log.Loguear("setOrderByDateNewSession(int n)");
         String query = "UPDATE config SET orderbydate_newsession = ?";
         try {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -408,6 +428,7 @@ public class ModelConfig {
     }
 
     public void setOrderByDateNewAchiev(int n) {
+        Log.Loguear("setOrderByDateNewAchiev(int n)");
         String query = "UPDATE config SET orderbydate_newachiev = ?";
         try {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -420,5 +441,10 @@ public class ModelConfig {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
         }
+    }
+
+    public static void deleteDebugLog() {
+        File f = new File("debug.log");
+        f.delete();
     }
 }

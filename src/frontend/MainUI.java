@@ -250,6 +250,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         txtGameNotes.setEditable(false);
         btnEditGame.setEnabled(false);
 
+        loadData(true, false);
         new Thread(new Runnable() {
             public void run() {
                 while (true) {
@@ -393,7 +394,6 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                     loadAchievs();
                     //if(res) Thread.sleep(500);
                     //if(gameIdLaunched == 0) loadLast();
-                    
                     if(res) Thread.sleep(1000);
                     verifyLoadStatistics();
                     if(res) Thread.sleep(1000);
@@ -483,7 +483,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 String lib = mg.getLibraryNameFromGameId(gameIdSelected);
                 String cat = mg.getGameCategoryName(gameIdSelected);
                 int score = mg.getScore(gameIdSelected);
-                txtGameInfo.setText(" Biblioteca: " + lib + " |  Categoría: " + cat + " | Puntaje: " + score + "/100");
+                txtGameInfo.setText(" Biblioteca: " + lib + " | Categoría: " + cat + " | Puntaje: " + score + "/100");
 
                 int tses = mg.getTimeLastSession(gameIdSelected) * 60;
                 int tuno = mg.getLastDays(gameIdSelected, 1, true);
@@ -532,10 +532,8 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
                 new Thread(new Runnable() {
                     public void run() {
-                        int statusProcess;
                         try {
-                            statusProcess = p.waitFor();
-                            Log.Loguear("Estado del proceso al cerrar: " + statusProcess);
+                             p.waitFor();
                             gameIdLaunched = 0;
                             ig.closeGame();
                             loadData(true, true);

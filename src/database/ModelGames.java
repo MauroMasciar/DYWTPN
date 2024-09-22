@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,6 +24,7 @@ public class ModelGames {
     private static ResultSet rs;
 
     public int saveSession(int gameId, int time, String date_start) {
+        Log.Loguear("saveSession(int gameId, int time, String date_start)");
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
         int play_count = 0, library_id = 0, platform_id = 0;
         try {
@@ -78,6 +78,7 @@ public class ModelGames {
     }
     
     private void checkAchievement(int gameId, int play_count) {
+        Log.Loguear("checkAchievement(int gameId, int play_count)");
         String achiev = "";
         if(play_count == 1) achiev = "Has jugado a " + getNameFromId(gameId) + " por primera vez";
         else if(play_count == 100) achiev = "Has alcanzado 100 sesiones en " + getNameFromId(gameId);
@@ -158,6 +159,7 @@ public class ModelGames {
     }
 
     public int changeGameName(int gameId, String newName) {
+        Log.Loguear("changeGameName(int gameId, String newName)");
         String query = "SELECT name FROM games WHERE name = '" + newName + "'";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -185,6 +187,7 @@ public class ModelGames {
     }
 
     public DefaultTableModel getFilteredGameList(String name, String completed, String category, String filter, boolean lastPlayed) {
+        Log.Loguear("getFilteredGameList(String name, String completed, String category, String filter, boolean lastPlayed)");
         DefaultTableModel m = new DefaultTableModel();
         m.addColumn("Juego");
         m.addColumn("Tiempo");
@@ -257,6 +260,7 @@ public class ModelGames {
     }
 
     public String getPathFromGame(int gameId) {
+        Log.Loguear("getPathFromGame(int gameId)");
         String query = "SELECT path FROM games WHERE id = " + gameId;
         String path = "";
         try {
@@ -282,6 +286,7 @@ public class ModelGames {
     }
 
     public int getMinsPlayed(int gameId) {
+        Log.Loguear("getMinsPlayed(int gameId)");
         String query = "SELECT time_played FROM games WHERE id = " + gameId;
         int secondsPlayed = 0, minutesplayed = 0;
         try {
@@ -305,6 +310,7 @@ public class ModelGames {
     }
 
     public int getSecondsPlayed(int gameId) {
+        Log.Loguear("getSecondsPlayed(int gameId)");
         String query = "SELECT time_played FROM games WHERE id = " + gameId;
         int time_played = 0;
         try {
@@ -327,6 +333,7 @@ public class ModelGames {
     }
 
     public int getMinutesTotalPlayed() {
+        Log.Loguear("getMinutesTotalPlayed()");
         String query = "SELECT SUM(time_played) AS seconds FROM games";
         int seconds = 0, minutes = 0;
         try {
@@ -350,6 +357,7 @@ public class ModelGames {
     }
 
     public int getSecondsTotalPlayed() {
+        Log.Loguear("getSecondsTotalPlayed()");
         String query = "SELECT SUM(time_played) AS seconds FROM games";
         int seconds = 0;
         try {
@@ -372,6 +380,7 @@ public class ModelGames {
     }
 
     public int getPlayCount(int gameId) {
+        Log.Loguear("getPlayCount(int gameId)");
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
         int play_count = 0;
         try {
@@ -394,6 +403,7 @@ public class ModelGames {
     }
 
     public int getTimeLastSession(int gameId) {
+        Log.Loguear("getTimeLastSession(int gameId)");
         String query = "SELECT mins FROM `games_sessions_history` WHERE game_id = " + gameId + " ORDER BY datetime_start DESC limit 1";
         int time = 0;
         try {
@@ -413,6 +423,7 @@ public class ModelGames {
     }
 
     public int getLastDays(int gameId, int days, boolean hours) {
+        Log.Loguear("getLastDays(int gameId, int days, boolean hours)");
         int mins = 0;
         String query;
         if (gameId == 0) {
@@ -445,6 +456,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getGamesNameList(boolean hidden, boolean orderByDate) {
+        Log.Loguear("getGamesNameList(boolean hidden, boolean orderByDate)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -477,6 +489,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getGamesNameListCategory(int category) {
+        Log.Loguear("getGamesNameListCategory(int category)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -498,6 +511,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getGamesNameListPlatform(int platform) {
+        Log.Loguear("getGamesNameListPlatform(int platform)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -519,6 +533,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getGamesNameListLibrary(int library) {
+        Log.Loguear("getGamesNameListLibrary(int library)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -540,6 +555,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getGamesNameListRating(int rating) {
+        Log.Loguear("getGamesNameListRating(int rating)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -561,6 +577,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getGameNameLike(String name) {
+        Log.Loguear("getGameNameLike(String name)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -583,6 +600,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getStatisticsGamesNameList(boolean filtered) {
+        Log.Loguear("getStatisticsGamesNameList(boolean filtered)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -606,6 +624,7 @@ public class ModelGames {
     }    
 
     public int getIdFromGameName(String name) {
+        Log.Loguear("getIdFromGameName(String name)");
         if (name != "") {
             String query = "SELECT id FROM games WHERE name = '" + name + "'";
             int id = 0;
@@ -631,6 +650,7 @@ public class ModelGames {
     }
 
     public String getNameFromId(int gameId) {
+        Log.Loguear("getNameFromId(int gameId)");
         String query = "SELECT name FROM games WHERE id = " + gameId;
         String name;
         try {
@@ -658,6 +678,7 @@ public class ModelGames {
     }
 
     public String getDateLastSession(int gameId) {
+        Log.Loguear("getDateLastSession(int gameId)");
         String dateLastSession = "Nunca";
 
         String query = "SELECT date_format(datetime_start, \"%d/%m/%Y\") as Fecha FROM `games_sessions_history` WHERE game_id = "
@@ -681,6 +702,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getCategoryList() {
+        Log.Loguear("getCategoryList()");
         ArrayList<String> category = new ArrayList<>();
         String query = "SELECT * FROM category ORDER BY name_category";
         try {
@@ -701,6 +723,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getRatingList() {
+        Log.Loguear("getRatingList()");
         ArrayList<String> rating = new ArrayList<>();
         String query = "SELECT * FROM rating ORDER BY id";
         try {
@@ -721,6 +744,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getPlatformList() {
+        Log.Loguear("getPlatformList()");
         ArrayList<String> platform = new ArrayList<>();
         String query = "SELECT * FROM platforms ORDER BY name";
         try {
@@ -741,6 +765,7 @@ public class ModelGames {
     }
 
     public int getPlatformTimePlayed(int library_id) {
+        Log.Loguear("getPlatformTimePlayed(int library_id)");
         String query = "SELECT time_played FROM platforms WHERE id = " + library_id;
         int hours = 0;
         try {
@@ -761,6 +786,7 @@ public class ModelGames {
     }
 
     public int getScore(int gameId) {
+        Log.Loguear("getScore(int gameId)");
         int score = 0;
         String query = "SELECT score FROM games WHERE id = " + gameId;
         try {
@@ -781,6 +807,7 @@ public class ModelGames {
     }
 
     public boolean isGhost(int gameId) {
+        Log.Loguear("isGhost(int gameId)");
         String query = "SELECT ghost FROM games WHERE id = " + gameId;
         int ghost = 1;
         try {
@@ -802,6 +829,7 @@ public class ModelGames {
     }
 
     public boolean isCompleted(int gameId) {
+        Log.Loguear("isCompleted(int gameId)");
         String query = "SELECT completed FROM games WHERE id = " + gameId;
         int completed = 0;
         try {
@@ -823,6 +851,7 @@ public class ModelGames {
     }
 
     public boolean isHidden(int gameId) {
+        Log.Loguear("isHidden(int gameId)");
         String query = "SELECT hidden FROM games WHERE id = " + gameId;
         int hidden = 0;
         try {
@@ -844,6 +873,7 @@ public class ModelGames {
     }
 
     public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, int library_id, int platform_id, String date_start, String date_end) {
+        Log.Loguear("saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, int library_id, int platform_id, String date_start, String date_end)");
         int minsPlayed = gameTimePlayed / 60;
         String query = "INSERT INTO games_sessions_history (game_id, mins, game_name, library_id, platform_id, datetime_start, datetime_end) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "', " + library_id + ", " + platform_id + ", '" + date_start + "', '" + date_end + "')";
         System.out.println(query);
@@ -860,6 +890,7 @@ public class ModelGames {
     }
 
     public void saveLastGame(String gameName, String sGameTimePlayed) {
+        Log.Loguear("saveLastGame(String gameName, String sGameTimePlayed)");
         String sGameName = " Último juego: " + gameName;
         String query = "UPDATE config SET last_game = '" + sGameName + "', last_session_time = '" + sGameTimePlayed + "'";
         try {
@@ -875,6 +906,7 @@ public class ModelGames {
     }
 
     public void saveGameTime(int gameId, int time) {
+        Log.Loguear("saveGameTime(int gameId, int time)");
         if(gameId != 0) {
             String query = "SELECT time_played FROM games WHERE id = '" + gameId + "'";
             try {
@@ -904,6 +936,7 @@ public class ModelGames {
     }
 
     public int setTimePlayed(int gameId, int timePlayed) {
+        Log.Loguear("setTimePlayed(int gameId, int timePlayed)");
         int r = 0;
         try {
             String query = "UPDATE games SET time_played = ? WHERE id = ?";
@@ -924,6 +957,7 @@ public class ModelGames {
     }
 
     public void setLastPlayed(int gameId) {
+        Log.Loguear("setLastPlayed(int gameId)");
         try {
             String query = "UPDATE games SET last_played = ? WHERE id = ?";
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -943,6 +977,7 @@ public class ModelGames {
     }
 
     public void addTimeLibrary(int gameId, int secs) {
+        Log.Loguear("addTimeLibrary(int gameId, int secs)");
         int time_played = 0;
         int library_id = getLibraryIdFromGame(gameId);
         try {
@@ -966,6 +1001,7 @@ public class ModelGames {
     }
 
     public void addSessionLibrary(int gameId) {
+        Log.Loguear("addSessionLibrary(int gameId)");
         int total_sessions;
         int library_id = getLibraryIdFromGame(gameId);
         try {
@@ -986,6 +1022,7 @@ public class ModelGames {
     }
 
     public void addTimePlatform(int gameId, int secs) {
+        Log.Loguear("addTimePlatform(int gameId, int secs)");
         int time_played = 0;
         int platform_id = getPlatformIdFromGame(gameId);
         try {
@@ -1009,6 +1046,7 @@ public class ModelGames {
     }
 
     public void addSessionPlatform(int gameId) {
+        Log.Loguear("addSessionPlatform(int gameId)");
         int total_sessions;
         int platform_id = getPlatformIdFromGame(gameId);
         try {
@@ -1033,6 +1071,7 @@ public class ModelGames {
             int rating, int platform, String developer, String publisher, String series,
             String region, String playMode, String version, String status, String lastPlayed,
             String added, String modified, String completed_date, int library, String notes) {
+        Log.Loguear("addGame(......)");
         try {
             String query = "INSERT INTO games (name, time_played, path, ghost, play_count, completed, score, category, hidden, favorite, statistic, portable, release_date, "
                     + "rating, platform, developer, publisher, series, region, play_mode, version, status, last_played, added, modified, completed_date, library, notes) "
@@ -1091,6 +1130,7 @@ public class ModelGames {
             String releasedate, int rating, int platform, String developer, String publisher,
             String series, String region, String playMode, String version, String status,
             String lastPlayed, String completed_date, int library, String notes) {
+        Log.Loguear("editGame(..........)");
         try {
             String query;
 
@@ -1166,6 +1206,7 @@ public class ModelGames {
     }
     
     public String getLastAchiev(int gameId) {
+        Log.Loguear("getLastAchiev(int gameId)");
         String query = "SELECT description, DATE_FORMAT(date, '%d/%m/%Y') AS date FROM `player_activities` WHERE game_id = " + gameId + " ORDER BY id DESC LIMIT 1";
         String achiev = "", desc = "", date = "";
         try {
@@ -1189,6 +1230,7 @@ public class ModelGames {
     }
 
     public int addCategory(String name) {
+        Log.Loguear("addCategory(String name)");
         int resultado = 0;
         try {
             String query = "INSERT INTO category (name_category) VALUES (?)";
@@ -1206,6 +1248,7 @@ public class ModelGames {
     }
 
     public int addRating(String name) {
+        Log.Loguear("addRating(String name)");
         int resultado = 0;
         try {
             String query = "INSERT INTO rating (name) VALUES (?)";
@@ -1223,6 +1266,7 @@ public class ModelGames {
     }
 
     public int addPlatform(String name) {
+        Log.Loguear("addPlatform(String name)");
         int resultado = 0;
         try {
             String query = "INSERT INTO platforms (name) VALUES (?)";
@@ -1240,6 +1284,7 @@ public class ModelGames {
     }
 
     public int editCategory(String oldName, String newName) {
+        Log.Loguear("editCategory(String oldName, String newName)");
         int resultado = 0;
         try {
             String query = "UPDATE category SET name_category = ? WHERE name_category = ?";
@@ -1258,6 +1303,7 @@ public class ModelGames {
     }
 
     public int editRating(String oldName, String newName) {
+        Log.Loguear("editRating(String oldName, String newName)");
         int resultado = 0;
         try {
             String query = "UPDATE rating SET name = ? WHERE name = ?";
@@ -1276,6 +1322,7 @@ public class ModelGames {
     }
 
     public int editPlatform(String oldName, String newName) {
+        Log.Loguear("editPlatform(String oldName, String newName)");
         int resultado = 0;
         try {
             String query = "UPDATE platforms SET name = ? WHERE name = ?";
@@ -1294,6 +1341,7 @@ public class ModelGames {
     }
 
     public int getGameCategoryId(int gameId) {
+        Log.Loguear("getGameCategoryId(int gameId)");
         String query = "SELECT category FROM games WHERE id = " + gameId;
         int category = 0;
         try {
@@ -1314,6 +1362,7 @@ public class ModelGames {
     }
 
     public String getGameCategoryName(int gameId) {
+        Log.Loguear("getGameCategoryName(int gameId)");
         String query = "SELECT category.name_category FROM `games` inner join category on category.id = games.category where games.id = "
                 + gameId;
         String category = "Ninguna";
@@ -1335,6 +1384,7 @@ public class ModelGames {
     }
 
     public String getGamePlatformName(int gameId) {
+        Log.Loguear("getGamePlatformName(int gameId)");
         String query = "SELECT platforms.name FROM `games` inner join platforms on platforms.id = games.platform where games.id = "
                 + gameId;
         String platform = "Ninguna";
@@ -1356,6 +1406,7 @@ public class ModelGames {
     }
 
     public String getGameRatingName(int gameId) {
+        Log.Loguear("getGameRatingName(int gameId)");
         String query = "SELECT rating.name FROM `games` inner join rating on rating.id = games.rating where games.id = "
                 + gameId;
         String rating = "Ninguna";
@@ -1377,6 +1428,7 @@ public class ModelGames {
     }
 
     public int getCategoryIdFromName(String name) {
+        Log.Loguear("getCategoryIdFromName(String name)");
         String query = "SELECT id FROM category WHERE name_category = '" + name + "'";
         int id = 0;
         try {
@@ -1397,6 +1449,7 @@ public class ModelGames {
     }
 
     public int getRatingIdFromName(String name) {
+        Log.Loguear("getRatingIdFromName(String name)");
         String query = "SELECT id FROM rating WHERE name = '" + name + "'";
         int id = 0;
         try {
@@ -1417,6 +1470,7 @@ public class ModelGames {
     }
 
     public int getPlatformIdFromName(String name) {
+        Log.Loguear("getPlatformIdFromName(String name)");
         String query = "SELECT id FROM platforms WHERE name = '" + name + "'";
         int id = 0;
         try {
@@ -1437,6 +1491,7 @@ public class ModelGames {
     }
 
     public String getReleaseDate(int gameId) {
+        Log.Loguear("getReleaseDate(int gameId)");
         String query = "SELECT release_date FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1457,6 +1512,7 @@ public class ModelGames {
     }
 
     public String getRating(int gameId) {
+        Log.Loguear("getRating(int gameId)");
         String query = "SELECT rating FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1477,6 +1533,7 @@ public class ModelGames {
     }
 
     public int getPlatform(int gameId) {
+        Log.Loguear("getPlatform(int gameId)");
         String query = "SELECT platform FROM games WHERE id = " + gameId;
         int res = 0;
         try {
@@ -1497,6 +1554,7 @@ public class ModelGames {
     }
 
     public String getDeveloper(int gameId) {
+        Log.Loguear("getDeveloper(int gameId)");
         String query = "SELECT developer FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1517,6 +1575,7 @@ public class ModelGames {
     }
 
     public String getPublisher(int gameId) {
+        Log.Loguear("getPublisher(int gameId)");
         String query = "SELECT publisher FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1537,6 +1596,7 @@ public class ModelGames {
     }
 
     public String getSeries(int gameId) {
+        Log.Loguear("getSeries(int gameId)");
         String query = "SELECT series FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1557,6 +1617,7 @@ public class ModelGames {
     }
 
     public String getRegion(int gameId) {
+        Log.Loguear("getRegion(int gameId)");
         String query = "SELECT region FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1577,6 +1638,7 @@ public class ModelGames {
     }
 
     public String getPlayMode(int gameId) {
+        Log.Loguear("getPlayMode(int gameId)");
         String query = "SELECT play_mode FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1597,6 +1659,7 @@ public class ModelGames {
     }
 
     public String getVersion(int gameId) {
+        Log.Loguear("getVersion(int gameId)");
         String query = "SELECT version FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1617,6 +1680,7 @@ public class ModelGames {
     }
 
     public String getStatus(int gameId) {
+        Log.Loguear("getStatus(int gameId)");
         String query = "SELECT status FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1637,6 +1701,7 @@ public class ModelGames {
     }
 
     public String getSource(int gameId) {
+        Log.Loguear("getSource(int gameId)");
         String query = "SELECT source FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1657,6 +1722,7 @@ public class ModelGames {
     }
 
     public String getLastPlayed(int gameId) {
+        Log.Loguear("getLastPlayed(int gameId)");
         String query = "SELECT last_played FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1677,6 +1743,7 @@ public class ModelGames {
     }
 
     public boolean isFavorite(int gameId) {
+        Log.Loguear("isFavorite(int gameId)");
         String query = "SELECT favorite FROM games WHERE id = " + gameId;
         boolean res = false;
         try {
@@ -1697,6 +1764,7 @@ public class ModelGames {
     }
 
     public boolean isStatistic(int gameId) {
+        Log.Loguear("isStatistic(int gameId)");
         String query = "SELECT statistic FROM games WHERE id = " + gameId;
         boolean res = false;
         try {
@@ -1717,6 +1785,7 @@ public class ModelGames {
     }
 
     public boolean isPortable(int gameId) {
+        Log.Loguear("isPortable(int gameId)");
         String query = "SELECT portable FROM games WHERE id = " + gameId;
         boolean res = false;
         try {
@@ -1737,6 +1806,7 @@ public class ModelGames {
     }
 
     public String getAddedDate(int gameId) {
+        Log.Loguear("getAddedDate(int gameId)");
         String query = "SELECT added FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1757,6 +1827,7 @@ public class ModelGames {
     }
 
     public String getCompletedDate(int gameId) {
+        Log.Loguear("getCompletedDate(int gameId)");
         String query = "SELECT completed_date FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1777,6 +1848,7 @@ public class ModelGames {
     }
 
     public String getNotes(int gameId) {
+        Log.Loguear("getNotes(int gameId)");
         String query = "SELECT notes FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1797,6 +1869,7 @@ public class ModelGames {
     }
 
     public String getModified(int gameId) {
+        Log.Loguear("getModified(int gameId)");
         String query = "SELECT modified FROM games WHERE id = " + gameId;
         String res = "";
         try {
@@ -1817,6 +1890,7 @@ public class ModelGames {
     }
 
     public int getNumberCompletedGames() {
+        Log.Loguear("getNumberCompletedGames()");
         String query = "SELECT name FROM games WHERE completed = 1";
         int res = 0;
         try {
@@ -1834,6 +1908,7 @@ public class ModelGames {
     }
 
     public int getTotalSessions() {
+        Log.Loguear("getTotalSessions()");
         String query = "SELECT SUM(play_count) AS total_sessions FROM games";
         int res = 0;
         try {
@@ -1851,6 +1926,7 @@ public class ModelGames {
     }
 
     public int getTotalGames() {
+        Log.Loguear("getTotalGames()");
         String query = "SELECT count(name) AS total FROM games";
         int res = 0;
         try {
@@ -1868,6 +1944,7 @@ public class ModelGames {
     }
 
     public int getCountGamesPlayed() {
+        Log.Loguear("getCountGamesPlayed()");
         String query = "SELECT count(time_played) AS games_played FROM games WHERE time_played > 60";
         int res = 0;
         try {
@@ -1885,6 +1962,7 @@ public class ModelGames {
     }
 
     public int deleteGame(int gameId, boolean dropAll) {
+        Log.Loguear("deleteGame(int gameId, boolean dropAll)");
         int res = 0;
         try {
             String query = "DELETE FROM games WHERE id = ?";
@@ -1915,6 +1993,7 @@ public class ModelGames {
     }
 
     private int getPlatformIdFromGame(int gameId) {
+        Log.Loguear("getPlatformIdFromGame(int gameId)");
         int id = 0;
         String query = "SELECT platform FROM games WHERE id = " + gameId;
         try {
@@ -1932,6 +2011,7 @@ public class ModelGames {
     }
     
     public String getPlatformNameFromGameId(int gameId) {
+        Log.Loguear("getPlatformNameFromGameId(int gameId)");
         String query = "SELECT platforms.name FROM `games` inner join platforms on platform.id = games.platform where games.id = " + gameId;
         String platform = "Ninguna";
         try {
@@ -1952,6 +2032,7 @@ public class ModelGames {
     }
     
     public int getPlatformTotalSessions(int platform_id) {
+        Log.Loguear("getPlatformTotalSessions(int platform_id)");
         String query = "SELECT total_sessions FROM platforms WHERE id = " + platform_id;
         int total_sessions = 0;
         try {
@@ -1972,6 +2053,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getLibraryList() {
+        Log.Loguear("ArrayList<String> getLibraryList()");
         ArrayList<String> library = new ArrayList<>();
         String query = "SELECT * FROM library ORDER BY name";
         try {
@@ -1992,6 +2074,7 @@ public class ModelGames {
     }
     
     private int getLibraryIdFromGame(int gameId) {
+        Log.Loguear("getLibraryIdFromGame(int gameId)");
         int id = 0;
         String query = "SELECT library FROM games WHERE id = " + gameId;
         try {
@@ -2009,6 +2092,7 @@ public class ModelGames {
     }
 
     public int addLibrary(String name) {
+        Log.Loguear("addLibrary(String name)");
         int resultado = 0;
         try {
             String query = "INSERT INTO library (name) VALUES (?)";
@@ -2026,6 +2110,7 @@ public class ModelGames {
     }
 
     public int editLibrary(String oldName, String newName) {
+        Log.Loguear("editLibrary(String oldName, String newName)");
         int resultado = 0;
         try {
             String query = "UPDATE library SET name = ? WHERE name = ?";
@@ -2044,6 +2129,7 @@ public class ModelGames {
     }
 
     public String getLibraryNameFromGameId(int gameId) {
+        Log.Loguear("getLibraryNameFromGameId(int gameId)");
         String query = "SELECT library.name FROM `games` inner join library on library.id = games.library where games.id = " + gameId;
         String library = "Ninguna";
         try {
@@ -2064,6 +2150,7 @@ public class ModelGames {
     }
     
     public int getLibraryIdFromName(String name) {
+        Log.Loguear("getLibraryIdFromName(String name)");
         String query = "SELECT id FROM library WHERE name = '" + name + "'";
         int id = 0;
         try {
@@ -2084,6 +2171,7 @@ public class ModelGames {
     }
     
     public int getLibraryTimePlayed(int library_id) {
+        Log.Loguear("getLibraryTimePlayed(int library_id)");
         String query = "SELECT time_played FROM library WHERE id = " + library_id;
         int hours = 0;
         try {
@@ -2104,6 +2192,7 @@ public class ModelGames {
     }
     
     public int getLibraryTotalSessions(int library_id) {
+        Log.Loguear("getLibraryTotalSessions(int library_id)");
         String query = "SELECT total_sessions FROM library WHERE id = " + library_id;
         int total_sessions = 0;
         try {
@@ -2124,6 +2213,7 @@ public class ModelGames {
     }
 
     public void initSession(int current_session_number, int game_id) {
+        Log.Loguear("initSession(int current_session_number, int game_id)");
         try {
             String query = "INSERT INTO games_sessions_backup (session_number, game_id) VALUES (?, ?)";
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -2140,6 +2230,7 @@ public class ModelGames {
     }
 
     public void updateSession(int current_session_number, int seconds) {
+        Log.Loguear("updateSession(int current_session_number, int seconds)");
         String query = "UPDATE games_sessions_backup SET seconds = " + seconds + " WHERE session_number = " + current_session_number;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -2154,6 +2245,7 @@ public class ModelGames {
     }
 
     public void deleteSessionBackup(int current_session_number) {
+        Log.Loguear("deleteSessionBackup(int current_session_number)");
         String query = "DELETE FROM games_sessions_backup WHERE session_number = " + current_session_number;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -2166,6 +2258,7 @@ public class ModelGames {
     }
 
     public void deleteItemHistory(int id) {
+        Log.Loguear("deleteItemHistory(int id)");
         String query = "SELECT * FROM games_sessions_history WHERE id = " + id;
         System.out.println(query);
         int game_id = 0, mins_history = 0, play_count = 0, time_played = 0;
@@ -2206,6 +2299,7 @@ public class ModelGames {
     }
 
     public boolean verifyLostSession() {
+        Log.Loguear("verifyLostSession()");
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
@@ -2219,6 +2313,7 @@ public class ModelGames {
     }
 
     public String getLostSession() {
+        Log.Loguear("getLostSession()");
         String s = "", datetime = "";
         int session_number, game_id, seconds;
         try {
@@ -2255,6 +2350,7 @@ public class ModelGames {
     }
 
     public void newWish(String name) {
+        Log.Loguear("newWish(String name)");
         try {
             String query = "INSERT INTO wishlist (name) VALUES (?)";
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -2270,6 +2366,7 @@ public class ModelGames {
     }
 
     public ArrayList<String> getWishlist() {
+        Log.Loguear("getWishlist()");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
