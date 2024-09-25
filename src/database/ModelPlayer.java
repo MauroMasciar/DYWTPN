@@ -101,7 +101,7 @@ public class ModelPlayer {
             p.setInt(3, gameid);
             p.executeUpdate();
             conex.close();
-            p.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -120,6 +120,9 @@ public class ModelPlayer {
                 date = rs.getString(2);
             }
             s = achiev + " el " + date;
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -155,6 +158,9 @@ public class ModelPlayer {
             if(rs.next()) {
                 i = rs.getInt("n");
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();

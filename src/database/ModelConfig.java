@@ -22,8 +22,8 @@ public class ModelConfig {
 
     public int truncateData() {
         try {
-            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-            stmt = this.conex.createStatement();
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
 
             String query = "TRUNCATE category";
             stmt.execute(query);
@@ -64,8 +64,8 @@ public class ModelConfig {
             query = "INSERT INTO `dywtpn`.`library` (`id`, `name`) VALUES (NULL, 'Ninguna');";
             stmt.execute(query);
 
+            conex.close();
             stmt.close();
-            this.conex.close();
             Log.Loguear("Datos borrados");
             JOptionPane.showMessageDialog(null, "La aplicacion se cerrara", "Datos borrados", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
@@ -90,8 +90,8 @@ public class ModelConfig {
             } else {
                 name = "ERROR";
             }
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -113,8 +113,8 @@ public class ModelConfig {
             } else {
                 last_game = "ERROR";
             }
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -136,8 +136,8 @@ public class ModelConfig {
             } else {
                 last_session_time = "ERROR";
             }
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -155,8 +155,8 @@ public class ModelConfig {
             stmt = this.conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) sH = rs.getInt("show_hidden");
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -173,8 +173,8 @@ public class ModelConfig {
             this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = this.conex.createStatement();
             stmt.execute(query);
+            conex.close();
             stmt.close();
-            this.conex.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -190,8 +190,8 @@ public class ModelConfig {
             stmt = this.conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) sH = rs.getInt("show_orderbydate");
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -205,11 +205,11 @@ public class ModelConfig {
         Log.Loguear("setOrderByDate(int args)");
         String query = "UPDATE config SET show_orderbydate = " + args;
         try {
-            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = this.conex.createStatement();
             stmt.execute(query);
+            conex.close();
             stmt.close();
-            this.conex.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -224,7 +224,7 @@ public class ModelConfig {
             stmt = this.conex.createStatement();
             stmt.execute(query);
             stmt.close();
-            this.conex.close();
+            conex.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -245,7 +245,7 @@ public class ModelConfig {
             rs = stmt.executeQuery(query);
             if(rs.next()) x = rs.getInt(1);
             stmt.close();
-            this.conex.close();
+            conex.close();
             rs.close();
         } catch(Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -275,7 +275,7 @@ public class ModelConfig {
             rs = stmt.executeQuery(query);
             if(rs.next()) y = rs.getInt(1);
             stmt.close();
-            this.conex.close();
+            conex.close();
             rs.close();
         } catch(Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -294,12 +294,12 @@ public class ModelConfig {
         if(window.equals("History")) query = "UPDATE config SET History_x = ?, History_y = ?";
 
         try {
-            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             PreparedStatement p = this.conex.prepareStatement(query);
             p.setInt(1, x);
             p.setInt(2, y);
             p.executeUpdate();
-            this.conex.close();
+            conex.close();
             p.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -333,8 +333,8 @@ public class ModelConfig {
             stmt = this.conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) r = rs.getInt("theme");
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
             Log.Loguear("Cargando el theme " + r);
         } catch (Exception ex) {
@@ -380,8 +380,8 @@ public class ModelConfig {
             stmt = this.conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) r = rs.getInt("orderbydate_newsession");
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
@@ -400,8 +400,8 @@ public class ModelConfig {
             stmt = this.conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) r = rs.getInt("orderbydate_newachiev");
+            conex.close();
             stmt.close();
-            this.conex.close();
             rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());

@@ -140,15 +140,15 @@ public class ModelGames {
         achiev = "";
         int totalSessionCountPlatform = getPlatformTotalSessions(getPlatformIdFromGame(gameId));
         if(totalSessionCountPlatform != 0) {
-            if(totalSessionCountPlatform == 100) achiev = "Has alcanzado 100 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 250) achiev = "Has alcanzado 250 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 500) achiev = "Has alcanzado 500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
-            else if(totalSessionCountPlatform == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la plataforma " + getPlatformNameFromGameId(gameId);
+            if(totalSessionCountPlatform == 100) achiev = "Has alcanzado 100 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 250) achiev = "Has alcanzado 250 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 500) achiev = "Has alcanzado 500 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 1000) achiev = "Has alcanzado 1000 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 1500) achiev = "Has alcanzado 1500 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 2500) achiev = "Has alcanzado 2500 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 5000) achiev = "Has alcanzado 5000 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 7500) achiev = "Has alcanzado 7500 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
+            else if(totalSessionCountPlatform == 10000) achiev = "Has alcanzado 10000 sesiones de juego en la plataforma " + getGamePlatformName(gameId);
 
             if(achiev != "") {
                 ModelPlayer mp = new ModelPlayer();
@@ -157,7 +157,7 @@ public class ModelGames {
             }
         }
     }
-
+    
     public int changeGameName(int gameId, String newName) {
         Log.Loguear("changeGameName(int gameId, String newName)");
         String query = "SELECT name FROM games WHERE name = '" + newName + "'";
@@ -965,7 +965,6 @@ public class ModelGames {
             p.setString(1, Utils.getFormattedDateTime());
             p.setInt(2, gameId);
             p.executeUpdate();
-            System.out.println("-----------");
 
             p.close();
             conex.close();
@@ -1015,6 +1014,9 @@ public class ModelGames {
                 query = "UPDATE library SET total_sessions = " + total_sessions + " WHERE id = " + library_id;
                 stmt.execute(query);
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -1060,6 +1062,9 @@ public class ModelGames {
                 query = "UPDATE platforms SET total_sessions = " + total_sessions + " WHERE id = " + platform_id;
                 stmt.execute(query);
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -1381,28 +1386,6 @@ public class ModelGames {
             ex.printStackTrace();
         }
         return category;
-    }
-
-    public String getGamePlatformName(int gameId) {
-        Log.Loguear("getGamePlatformName(int gameId)");
-        String query = "SELECT platforms.name FROM `games` inner join platforms on platforms.id = games.platform where games.id = "
-                + gameId;
-        String platform = "Ninguna";
-        try {
-            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
-            stmt = conex.createStatement();
-            rs = stmt.executeQuery(query);
-            if(rs.next()) {
-                platform = rs.getString("name");
-            }
-            conex.close();
-            stmt.close();
-            rs.close();
-        } catch (SQLException ex) {
-            Log.Loguear(ex.getMessage());
-            ex.printStackTrace();
-        }
-        return platform;
     }
 
     public String getGameRatingName(int gameId) {
@@ -1900,6 +1883,9 @@ public class ModelGames {
             while(rs.next()) {
                 res++;
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch(SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -1918,6 +1904,9 @@ public class ModelGames {
             if(rs.next()) {
                 res = rs.getInt("total_sessions");
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch(SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -1936,6 +1925,9 @@ public class ModelGames {
             if(rs.next()) {
                 res = rs.getInt("total");
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch(SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -1954,6 +1946,9 @@ public class ModelGames {
             if(rs.next()) {
                 res = rs.getInt("games_played");
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch(SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -2003,6 +1998,9 @@ public class ModelGames {
             if(rs.next()) {
                 id = rs.getInt("platform");
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -2010,9 +2008,10 @@ public class ModelGames {
         return id;
     }
     
-    public String getPlatformNameFromGameId(int gameId) {
-        Log.Loguear("getPlatformNameFromGameId(int gameId)");
-        String query = "SELECT platforms.name FROM `games` inner join platforms on platform.id = games.platform where games.id = " + gameId;
+    public String getGamePlatformName(int gameId) {
+        Log.Loguear("getGamePlatformName(int gameId)");
+        String query = "SELECT platforms.name FROM `games` inner join platforms on platforms.id = games.platform where games.id = "
+                + gameId;
         String platform = "Ninguna";
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -2084,6 +2083,9 @@ public class ModelGames {
             if(rs.next()) {
                 id = rs.getInt("library");
             }
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -2251,6 +2253,7 @@ public class ModelGames {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             PreparedStatement p = conex.prepareStatement(query);
             p.executeUpdate();
+            conex.close();
             p.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -2272,7 +2275,6 @@ public class ModelGames {
             }
 
             query = "SELECT time_played, play_count FROM games WHERE id = " + game_id;
-            System.out.println(query);
             ResultSet rs = stmt.executeQuery(query);
             if(rs.next()) {
                 time_played = rs.getInt("time_played");
@@ -2305,6 +2307,9 @@ public class ModelGames {
             stmt = conex.createStatement();
             rs = stmt.executeQuery("SELECT id FROM games_sessions_backup");
             if(rs.next()) return true;
+            conex.close();
+            stmt.close();
+            rs.close();
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -2333,13 +2338,18 @@ public class ModelGames {
                         try {
                             Thread.sleep(10000);
                             stmt.execute("DELETE FROM games_sessions_backup");
+                            stmt.close();
+                            conex.close();
+                            rs.close();
                         } catch (InterruptedException | SQLException ex) {
                             Log.Loguear(ex.getMessage());
                         }
                     }
                 }).start();
-
-
+            } else {
+                stmt.close();
+                conex.close();
+                rs.close();
             }
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
@@ -2377,6 +2387,9 @@ public class ModelGames {
             while(rs.next()) {
                 gameName.add(rs.getString("name"));
             }
+            stmt.close();
+            conex.close();
+            rs.close();
         } catch (Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
