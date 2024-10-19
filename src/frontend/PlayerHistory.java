@@ -75,7 +75,7 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
     public void loadHistory() {
         ArrayList<String> listGames = new ArrayList<>();
         ModelGames mg = new ModelGames();
-        listGames = mg.getGamesNameList(true, false);
+        listGames = mg.getGamesNameList(true, false, false);
         cbGames.removeAllItems();
         cbGames.addItem("Todos");
 

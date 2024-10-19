@@ -426,7 +426,7 @@ public class EditGame extends JInternalFrame implements ActionListener, ChangeLi
         ArrayList<String> listGames = new ArrayList<>();
         listGames.clear();
         ModelGames mg = new ModelGames();
-        listGames = mg.getGamesNameList(true, false);
+        listGames = mg.getGamesNameList(true, false, false);
         for(int i = 1; i < listGames.size(); i++) {
             cbTitle.addItem(listGames.get(i));
         }

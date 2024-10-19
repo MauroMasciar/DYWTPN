@@ -72,7 +72,7 @@ public class AddAchievement extends JInternalFrame implements ActionListener {
         ModelGames mg = new ModelGames();
         ModelConfig mc = new ModelConfig();
         ArrayList<String> gameList = new ArrayList<>();
-        gameList = mg.getGamesNameList(false, mc.getOrderByDateAchiev());
+        gameList = mg.getGamesNameList(false, mc.getOrderByDateAchiev(), false);
         for(int i = 1; i < gameList.size(); i++) {
             cbGame.addItem(gameList.get(i));
         }

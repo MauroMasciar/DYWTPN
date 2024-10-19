@@ -34,7 +34,9 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
     private final JMenuItem mnuiGamesEdit = new JMenuItem("Editar");
     private final JMenuItem mnuiGamesList = new JMenuItem("Ver biblioteca", new ImageIcon("gfx/games_list.png"));
     private final JMenuItem mnuiGamesWishlist = new JMenuItem("Ver lista de deseos");
+    private final JMenu mnuiGamesView = new JMenu("Ver");
     private final JCheckBoxMenuItem mnuiGamesHidden = new JCheckBoxMenuItem("Ver ocultos");
+    private final JCheckBoxMenuItem mnuiViewGamesInit = new JCheckBoxMenuItem("Ver solo iniciados");
     private final JCheckBoxMenuItem mnuiGamesOrderByDate = new JCheckBoxMenuItem("Ordenar por última vez");
     private final JMenu mnuPlayerStatistics = new JMenu("Estadísticas");
     private final JMenuItem mnuiPlayerViewStatistics = new JMenuItem("Ver estadisticas");
@@ -87,10 +89,12 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuGames.add(mnuiGamesEdit);
         mnuGames.add(mnuiGamesList);
         mnuGames.add(mnuiGamesWishlist);
-        mnuGames.add(mnuiGamesHidden);
-        mnuGames.add(mnuiGamesOrderByDate);
+        mnuGames.add(mnuiGamesView);
         mnuGames.addSeparator();
         mnuGames.add(mnuiGamesExit);
+        mnuiGamesView.add(mnuiGamesOrderByDate);
+        mnuiGamesView.add(mnuiGamesHidden);
+        mnuiGamesView.add(mnuiViewGamesInit);
         mnuPlayer.add(mnuiPlayerAddSession);
         mnuPlayer.add(mnuiPlayerAddAchiev);
         mnuPlayer.add(mnuiPlayerHistory);
@@ -120,6 +124,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         mnuiGamesOrderByDate.addActionListener(this);
         mnuiGamesList.addActionListener(this);
         mnuiGamesHidden.addActionListener(this);
+        mnuiViewGamesInit.addActionListener(this);
         mnuiGamesWishlist.addActionListener(this);
         mnuiDataCollections.addActionListener(this);
         mnuiDataCategory.addActionListener(this);
@@ -186,7 +191,16 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
                 mc.setIsHidden(0);
             }
             MainUI.loadData(false, true);
-        } else if(e.getSource() == mnuiGamesWishlist) {
+        } else if(e.getSource() == mnuiViewGamesInit) {
+            ModelConfig mc = new ModelConfig();
+            if(mnuiViewGamesInit.isSelected()) {
+                mc.setIsViewInit(1);
+            } else {
+                mc.setIsViewInit(0);
+            }
+            MainUI.loadData(false, true);
+        }
+        else if(e.getSource() == mnuiGamesWishlist) {
             j.add(new Wishlist());
         } else if(e.getSource() == mnuiGamesExit) {
             if(!Main.test) {
@@ -255,6 +269,7 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         ModelConfig mc = new ModelConfig();
         mnuiGamesHidden.setSelected(mc.getIsHidden());
         mnuiGamesOrderByDate.setSelected(mc.getOrderByDate());
+        mnuiViewGamesInit.setSelected(mc.getIsViewInit());
     }
 
     @Override

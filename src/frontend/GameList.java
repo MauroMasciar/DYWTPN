@@ -77,7 +77,7 @@ public class GameList extends JInternalFrame implements ActionListener {
         cbFilter.addItem("Última vez");
 
         ArrayList<String> list = new ArrayList<>();
-        list = mg.getGamesNameList(true, false);
+        list = mg.getGamesNameList(true, false, false);
         try {
             cbGames.addItem("Todos");
             for (int i = 1; i < list.size(); i++) {

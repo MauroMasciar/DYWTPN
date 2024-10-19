@@ -13,7 +13,6 @@ import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 import debug.Log;
-import frontend.Main;
 
 public class ModelConfig {
     private Connection conex = null;
@@ -181,6 +180,42 @@ public class ModelConfig {
         }
     }
     
+    public void setIsViewInit(int args) {
+        Log.Loguear("setIsViewInit()");
+        String query = "UPDATE config SET show_init = " + args;
+        System.out.println(query);
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            stmt.execute(query);
+            conex.close();
+            stmt.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    public boolean getIsViewInit() {
+        Log.Loguear("getIsViewInit()");
+        String query = "SELECT show_init FROM config";
+        int sI = 0;
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) sI = rs.getInt("show_init");
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        if(sI == 1) return true;
+        return false;
+    }
+    
     public boolean getOrderByDate() {
         Log.Loguear("getOrderByDate()");
         String query = "SELECT show_orderbydate FROM config";
@@ -250,13 +285,12 @@ public class ModelConfig {
         } catch(Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Ha habido un error al conectar con la base de datos.\nReinstalar la aplicacion puede solucionar el problema.\n\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            try {
+            /*try {
                 Main.p.destroy();
             } catch(NullPointerException exx) {
                 exx.printStackTrace();
                 System.exit(0);
-            }
+            }*/
         }
         return x;
     }

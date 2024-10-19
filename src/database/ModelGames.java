@@ -455,24 +455,59 @@ public class ModelGames {
         return mins;
     }
 
-    public ArrayList<String> getGamesNameList(boolean hidden, boolean orderByDate) {
+    public ArrayList<String> getGamesNameList(boolean hidden, boolean orderByDate, boolean init) {
         Log.Loguear("getGamesNameList(boolean hidden, boolean orderByDate)");
         ArrayList<String> gameName = new ArrayList<>();
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             gameName.add("null");
-            String query;
+            String query = "SELECT name FROM games ORDER BY name";
+            
+            if(hidden && init && !orderByDate) {
+                query = "SELECT name FROM games WHERE play_count > 0 ORDER BY name ASC";
+                System.out.println("1");
+            } else if(!hidden && init && !orderByDate) {
+                query = "SELECT name FROM games WHERE play_count > 0 AND hidden = 0 ORDER BY name ASC";
+                System.out.println("2");
+            } else if(hidden && orderByDate && init) {
+                query = "SELECT name FROM games WHERE play_count > 0 ORDER BY last_played DESC";
+                System.out.println("3");
+            } else if(hidden && orderByDate && !init) {
+                query = "SELECT name FROM games ORDER BY last_played DESC";
+                System.out.println("4");
+            } else if(hidden && !orderByDate && init) {
+                query = "SELECT name FROM games WHERE play_count > 0 ORDER BY name ASC";
+                System.out.println("5");
+            } else if(!hidden && orderByDate && init) {
+                query = "SELECT name FROM games WHERE play_count > 0 AND hidden = 0 ORDER BY last_played DESC";
+                System.out.println("5");
+            } else if(!hidden && orderByDate && !init) {
+                query = "SELECT name FROM games WHERE hidden = 0 ORDER BY last_played DESC";
+                System.out.println("5");
+            } else if(!hidden && !orderByDate && !init) {
+                query = "SELECT name FROM games WHERE hidden = 0 ORDER BY name ASC";
+                System.out.println("5");
+            }
+            
+            System.out.println(query);
+            
+            /*
             if(hidden) {
                 query = "SELECT name FROM games ORDER BY name";
-                if(orderByDate) {
+                if(orderByDate && !init) {
                     query = "SELECT * FROM games ORDER BY last_played DESC";
+                } else if(orderByDate && init) {
+                    query = "SELECT * FROM games WHERE play_count > 0 ORDER BY last_played DESC";
                 }
             } else {
                 query = "SELECT name FROM games WHERE hidden = 0 ORDER BY name";
-                if(orderByDate) {
+                if(orderByDate && init) {
                     query = "SELECT name FROM games WHERE hidden = 0 ORDER BY last_played DESC, name ASC";
+                } else if(orderByDate && !init) {
+                    query = "SELECT name FROM games WHERE hidden = 0, play_count > 0 ORDER BY last_played DESC, name ASC";
                 }
             }
+            */
             stmt = conex.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {

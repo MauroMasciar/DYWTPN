@@ -113,7 +113,7 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
         ModelConfig mc = new ModelConfig();
         
         ArrayList<String> gameList = new ArrayList<>();
-        gameList = mg.getGamesNameList(false, mc.getOrderByDateSession());
+        gameList = mg.getGamesNameList(false, mc.getOrderByDateSession(), false);
         for(int i = 1; i < gameList.size(); i++) {
             cbGame.addItem(gameList.get(i));
         }

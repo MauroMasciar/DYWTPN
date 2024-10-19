@@ -8,7 +8,7 @@ import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSION_APP = "1.2.4.156";
+    public static final String VERSION_APP = "1.2.4.158";
     public static boolean test = false;
 
     @SuppressWarnings("unused")
@@ -23,7 +23,7 @@ public class Main {
                         p = Runtime.getRuntime().exec(string);
                         Splash splash = new Splash();
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "No se ha podido cargar los datos, vuelva a intentarlo. Si el problema persiste, reinstale la aplicación.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "main() No se ha podido cargar los datos, vuelva a intentarlo. Si el problema persiste, reinstale la aplicación.\n\n" + ex.getMessage(), "Error al cargar", JOptionPane.ERROR_MESSAGE);
                         System.exit(0);
                     }
                 }

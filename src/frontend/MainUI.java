@@ -57,6 +57,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static int gameIdLaunched = 0;
     private static String gameNameSelected = "";
     private static boolean showHidden = false;
+    private static boolean showInit = false;
     private static boolean orderByDate = false;
 
     public MainUI() {
@@ -273,6 +274,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
     public static void loadGames() {
         ModelConfig mc = new ModelConfig();
         showHidden = mc.getIsHidden();
+        showInit = mc.getIsViewInit();
         orderByDate = mc.getOrderByDate();
         updateGameList();
         
@@ -444,7 +446,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
         ModelGames g = new ModelGames();
         ArrayList<String> listGames = new ArrayList<>();
-        listGames = g.getGamesNameList(showHidden, orderByDate);
+        listGames = g.getGamesNameList(showHidden, orderByDate, showInit);
         for(int i = 1; i < listGames.size(); i++) {
             modelList.addElement(listGames.get(i));
         }

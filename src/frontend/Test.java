@@ -63,7 +63,7 @@ public final class Test extends JPanel {
     private static ComboBoxModel<CheckableItem> makeModel() {
         ModelGames mg = new ModelGames();
         ArrayList<String> games = new ArrayList<>();
-        games = mg.getGamesNameList(true, false);
+        games = mg.getGamesNameList(true, false, false);
 
         CheckableItem[] m = {
                 new CheckableItem(games.get(1), false),
