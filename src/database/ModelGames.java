@@ -2409,6 +2409,22 @@ public class ModelGames {
             ex.printStackTrace();
         }
     }
+    
+    public void deleteWish(String name) {
+        Log.Loguear("deleteWish(String name)");
+        try {
+            String query = "DELETE FROM wishlist WHERE name = ?";
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            PreparedStatement p = conex.prepareStatement(query);
+            p.setString(1, name);
+            p.execute();
+            conex.close();
+            p.close();
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 
     public ArrayList<String> getWishlist() {
         Log.Loguear("getWishlist()");

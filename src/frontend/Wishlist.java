@@ -19,7 +19,6 @@ public class Wishlist extends JInternalFrame implements ActionListener {
     private JScrollPane scrLGames = new JScrollPane(jlGames);
     private DefaultListModel<String> modelList = new DefaultListModel<>();
     private JButton btnNew = new JButton("Nuevo");
-    private JButton btnEdit = new JButton("Editar");
     private JButton btnDelete = new JButton("Borrar");
     
     public Wishlist() {
@@ -44,11 +43,10 @@ public class Wishlist extends JInternalFrame implements ActionListener {
         gbc.weighty = 1.0;
         add(btnNew, gbc);
         gbc.gridx ++;
-        add(btnEdit, gbc);
-        gbc.gridx ++;
         add(btnDelete, gbc);
         
         btnNew.addActionListener(this);
+        btnDelete.addActionListener(this);
         
         updateList();
         
@@ -75,6 +73,16 @@ public class Wishlist extends JInternalFrame implements ActionListener {
             ModelGames mg = new ModelGames();
             mg.newWish(name);
             updateList();
+        } else if(e.getSource() == btnDelete) {
+            try {
+                String gameName = jlGames.getSelectedValue();
+                ModelGames mg = new ModelGames();
+                mg.deleteWish(gameName);
+                updateList();
+            } catch(NullPointerException ex) {
+                JOptionPane.showMessageDialog(btnDelete, "Primero selecciona un juego de la lista", "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
         }
     }
 }

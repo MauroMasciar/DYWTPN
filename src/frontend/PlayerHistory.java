@@ -75,7 +75,7 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
     public void loadHistory() {
         ArrayList<String> listGames = new ArrayList<>();
         ModelGames mg = new ModelGames();
-        listGames = mg.getGamesNameList(true, false, false);
+        listGames = mg.getGamesNameList(true, false, true);
         cbGames.removeAllItems();
         cbGames.addItem("Todos");
 
@@ -101,7 +101,6 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
     }
 
     public void keyTyped(KeyEvent e) {
-        
     }
 
     public void keyPressed(KeyEvent e) {
@@ -131,7 +130,6 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
     }
 
     public void keyReleased(KeyEvent e) {
-
     }
 
     public void internalFrameOpened(InternalFrameEvent e) {

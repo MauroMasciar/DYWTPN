@@ -79,7 +79,6 @@ public class MainWindow extends JFrame implements ActionListener, WindowListener
         j.setBounds(30, 30, 1400, 900);
         j.setDefaultCloseOperation(EXIT_ON_CLOSE);
         j.setLocationRelativeTo(null);
-        // j.setExtendedState(MAXIMIZED_BOTH);
 
         menubar.add(mnuGames);
         menubar.add(mnuPlayer);

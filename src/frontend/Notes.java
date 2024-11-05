@@ -1,11 +1,10 @@
 package frontend;
 
 import javax.swing.JTextArea;
-import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,10 +14,9 @@ import java.io.PrintWriter;
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 
-public class Notes extends JInternalFrame implements ActionListener {
+public class Notes extends JInternalFrame implements KeyListener {
     private JTextArea txtaNotes = new JTextArea();
     private JScrollPane scr = new JScrollPane(txtaNotes);
-    private JButton btnSave = new JButton("Guardar");
     private File f = new File("notes.txt");
     
     public Notes() {
@@ -29,6 +27,7 @@ public class Notes extends JInternalFrame implements ActionListener {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "No se ha podido cargar algunos recursos.", "Error en la carga de recursos", JOptionPane.ERROR_MESSAGE);
         }*/
+        
         setBounds(30, 30, 500, 500);
         setTitle("Notas");
         setClosable(true);
@@ -39,21 +38,18 @@ public class Notes extends JInternalFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         gbc.weightx = 1.0;
-        gbc.weighty = 2.0;
+        gbc.weighty = 1.0;
         gbc.ipadx = 1;
         gbc.ipady = 1;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(scr, gbc);
-        gbc.gridy += 1;
-        gbc.fill = GridBagConstraints.NONE;
-        add(btnSave, gbc);
         
-        btnSave.addActionListener(this);
-
+        txtaNotes.addKeyListener(this);
+        
         loadNote();
-
+        
         setVisible(true);
     }
 
@@ -69,17 +65,21 @@ public class Notes extends JInternalFrame implements ActionListener {
         }
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnSave) {
-            try {
-                FileWriter fw = new FileWriter("notes.txt", false);
-                PrintWriter pw = new PrintWriter(fw);
-                String s = txtaNotes.getText();
-                pw.println(s);
-                fw.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+    public void keyTyped(KeyEvent e) {
+    }
+
+    public void keyPressed(KeyEvent e) {
+    }
+
+    public void keyReleased(KeyEvent e) {
+        try {
+            FileWriter fw = new FileWriter("notes.txt", false);
+            PrintWriter pw = new PrintWriter(fw);
+            String s = txtaNotes.getText();
+            pw.println(s);
+            fw.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

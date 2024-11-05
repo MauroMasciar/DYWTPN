@@ -283,6 +283,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         txtGameNotes.setText("");
         txtGameInfo.setText("");
         txtGames.setText("");
+        MainWindow.j.repaint();
     }
 
     public static void loadStatistics(int gameId, int sessionTime) {
@@ -407,6 +408,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                     if(res) Thread.sleep(1000);
                     if(gameIdLaunched == 0) {
                         if(gamelist) loadGames();
+                        
                     }
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
@@ -553,9 +555,9 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getSource() == jlistGames && e.getClickCount() == 2) {
+        /*if(e.getSource() == jlistGames && e.getClickCount() == 2) {
             launchGame();
-        }
+        }*/
     }
 
     @Override
