@@ -82,3 +82,5 @@ ALTER TABLE `games_sessions_history` ADD `datetime_end` TIMESTAMP NULL AFTER `da
 ALTER TABLE `games_sessions_history` CHANGE `datetime` `datetime_start` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
 -- 1.2.4.158
 ALTER TABLE `config` ADD `show_init` BOOLEAN NOT NULL DEFAULT TRUE AFTER `show_orderbydate`;
+-- 1.2.4.164
+ALTER TABLE `games_sessions_history` CHANGE `mins` `seconds` INT(11) NOT NULL;

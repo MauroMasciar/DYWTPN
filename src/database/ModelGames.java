@@ -53,7 +53,7 @@ public class ModelGames {
                 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                calendar.add(Calendar.MINUTE, time / 60);
+                calendar.add(Calendar.SECOND, time);
                 date_end = format.format(calendar.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -404,14 +404,14 @@ public class ModelGames {
 
     public int getTimeLastSession(int gameId) {
         Log.Loguear("getTimeLastSession(int gameId)");
-        String query = "SELECT mins FROM `games_sessions_history` WHERE game_id = " + gameId + " ORDER BY datetime_start DESC limit 1";
+        String query = "SELECT seconds FROM `games_sessions_history` WHERE game_id = " + gameId + " ORDER BY datetime_start DESC limit 1";
         int time = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) {
-                time = rs.getInt("mins");
+                time = rs.getInt("seconds");
             }
             conex.close();
             stmt.close();
@@ -424,25 +424,27 @@ public class ModelGames {
 
     public int getLastDays(int gameId, int days, boolean hours) {
         Log.Loguear("getLastDays(int gameId, int days, boolean hours)");
-        int mins = 0;
+        int seconds = 0;
         String query;
-        if (gameId == 0) {
-            if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-1) AND now()";
-            else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-7) AND now()";
-            else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-14) AND now()";
-            else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-30) AND now()";
+        if(gameId == 0) {
+            if(days == 1) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-1) AND now()";
+            else if(days == 7) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-7) AND now()";
+            else if(days == 14) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-14) AND now()";
+            else if(days == 30) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-30) AND now()";
+            else query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-365) AND now()";
         } else {
-            if(days == 1) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-1) AND now() AND game_id = " + gameId;
-            else if(days == 7) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-7) AND now() AND game_id = " + gameId;
-            else if(days == 14) query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-14) AND now() AND game_id = " + gameId;
-            else query = "SELECT SUM(mins) as minutes FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-30) AND now() AND game_id = " + gameId;
+            if(days == 1) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-1) AND now() AND game_id = " + gameId;
+            else if(days == 7) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-7) AND now() AND game_id = " + gameId;
+            else if(days == 14) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-14) AND now() AND game_id = " + gameId;
+            else if(days == 30) query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-30) AND now() AND game_id = " + gameId;
+            else query = "SELECT SUM(seconds) AS seconds FROM games_sessions_history WHERE `datetime_start` BETWEEN adddate(now(),-365) AND now() AND game_id = " + gameId;
         }
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) {
-                mins = rs.getInt("minutes");
+                seconds = rs.getInt("seconds");
             }
             conex.close();
             stmt.close();
@@ -451,8 +453,8 @@ public class ModelGames {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
         }
-        if(hours) mins = mins * 60;
-        return mins;
+        if(hours) seconds = (seconds * 60) * 60;
+        return seconds;
     }
 
     public ArrayList<String> getGamesNameList(boolean hidden, boolean orderByDate, boolean init) {
@@ -909,8 +911,7 @@ public class ModelGames {
 
     public void saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, int library_id, int platform_id, String date_start, String date_end) {
         Log.Loguear("saveGameHistory(int gameIdLaunched, int gameTimePlayed, String gameName, int library_id, int platform_id, String date_start, String date_end)");
-        int minsPlayed = gameTimePlayed / 60;
-        String query = "INSERT INTO games_sessions_history (game_id, mins, game_name, library_id, platform_id, datetime_start, datetime_end) VALUES (" + gameIdLaunched + "," + minsPlayed + ",'" + gameName + "', " + library_id + ", " + platform_id + ", '" + date_start + "', '" + date_end + "')";
+        String query = "INSERT INTO games_sessions_history (game_id, seconds, game_name, library_id, platform_id, datetime_start, datetime_end) VALUES (" + gameIdLaunched + "," + gameTimePlayed + ",'" + gameName + "', " + library_id + ", " + platform_id + ", '" + date_start + "', '" + date_end + "')";
         System.out.println(query);
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
@@ -2299,14 +2300,14 @@ public class ModelGames {
         Log.Loguear("deleteItemHistory(int id)");
         String query = "SELECT * FROM games_sessions_history WHERE id = " + id;
         System.out.println(query);
-        int game_id = 0, mins_history = 0, play_count = 0, time_played = 0;
+        int game_id = 0, seconds_history = 0, play_count = 0, time_played = 0;
         try {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             rs = stmt.executeQuery(query);
             if(rs.next()) {
                 game_id = rs.getInt("game_id");
-                mins_history = rs.getInt("mins");
+                seconds_history = rs.getInt("seconds");
             }
 
             query = "SELECT time_played, play_count FROM games WHERE id = " + game_id;
@@ -2316,8 +2317,7 @@ public class ModelGames {
                 play_count = rs.getInt("play_count");
             }
 
-            mins_history = mins_history * 60;
-            time_played -= mins_history;
+            time_played -= seconds_history;
             play_count--;
 
             query = "UPDATE games SET time_played = " + time_played + ", play_count = " + play_count + " WHERE id = " + game_id;

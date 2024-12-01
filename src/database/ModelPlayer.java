@@ -63,9 +63,9 @@ public class ModelPlayer {
             conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
             stmt = conex.createStatement();
             if(gameName == "Todos") {
-                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y %H:%i\") as Fecha, game_name, mins FROM `games_sessions_history` ORDER BY id DESC");
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y %H:%i\") as Fecha, game_name, seconds FROM `games_sessions_history` ORDER BY id DESC");
             } else {
-                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y %H:%i\") as Fecha, game_name, mins FROM `games_sessions_history` WHERE game_name = '"
+                rs = stmt.executeQuery("SELECT id as ID, date_format(datetime_start, \"%d/%m/%Y %H:%i\") as Fecha, game_name, seconds FROM `games_sessions_history` WHERE game_name = '"
                         + gameName + "' ORDER BY id DESC");
             }
             
@@ -73,7 +73,7 @@ public class ModelPlayer {
                 Object[] f = new Object[4];
                 for (int i = 0; i < 4; i++) {
                     if(i == 3) {
-                    	f[i] = Utils.getTotalHoursFromSeconds(rs.getInt(i + 1) * 60, false);
+                    	f[i] = Utils.getTotalHoursFromSeconds(rs.getInt(i + 1), false);
                     } else {
                     	f[i] = rs.getObject(i + 1);
                     }

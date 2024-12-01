@@ -79,6 +79,7 @@ public class InGame {
         else if(gameTimePlayedCurrentGame == HOUR_GAME * 1000) achiev = "Has alcanzado 1000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedCurrentGame == HOUR_GAME * 2000) achiev = "Has alcanzado 2000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedCurrentGame == HOUR_GAME * 5000) achiev = "Has alcanzado 5000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
+        else if(gameTimePlayedCurrentGame == HOUR_GAME * 7500) achiev = "Has alcanzado 7500 horas de juego en " + mg.getNameFromId(gameIdLaunched);
         else if(gameTimePlayedCurrentGame == HOUR_GAME * 10000) achiev = "Has alcanzado 10000 horas de juego en " + mg.getNameFromId(gameIdLaunched);
 
         if(achiev != "") {

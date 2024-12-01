@@ -309,10 +309,10 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     public static void loadLastDays() {
         ModelGames mg = new ModelGames();
-        int tuno = mg.getLastDays(0, 1, true);
-        int tsiete = mg.getLastDays(0, 7, true);
-        int tcatorce = mg.getLastDays(0, 14, true);
-        int ttreinta = mg.getLastDays(0, 30, true);
+        int tuno = mg.getLastDays(0, 1, false);
+        int tsiete = mg.getLastDays(0, 7, false);
+        int tcatorce = mg.getLastDays(0, 14, false);
+        int ttreinta = mg.getLastDays(0, 30, false);
 
         String uno = Utils.getTotalHoursFromSeconds(tuno, false);
         String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
@@ -481,26 +481,31 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
             gameIdSelected = mg.getIdFromGameName(gameNameSelected);
             if(gameIdSelected != 0) {
                 String totalPlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(gameIdSelected), false);
-                txtGames.setText(" Juego: " + gameNameSelected + " | Tiempo: " + totalPlayed + " | Veces jugado: " + mg.getPlayCount(gameIdSelected) + " | Última sesión: "
+                String sCompleted = "No";
+                if(mg.isCompleted(gameIdSelected)) sCompleted = mg.getCompletedDate(gameIdSelected);
+                
+                txtGames.setText(" Juego: " + gameNameSelected + " | Tiempo: " + totalPlayed + " | Sesiones: " + mg.getPlayCount(gameIdSelected) + " | Última sesión: "
                         + mg.getDateLastSession(gameIdSelected));
 
                 String lib = mg.getLibraryNameFromGameId(gameIdSelected);
                 String cat = mg.getGameCategoryName(gameIdSelected);
                 String plat = mg.getGamePlatformName(gameIdSelected);
                 int score = mg.getScore(gameIdSelected);
-                txtGameInfo.setText(" Plataforma: " + plat + " | Biblioteca: " + lib + " | Categoría: " + cat + " | Puntaje: " + score + "/100");
+                txtGameInfo.setText(" Plataforma: " + plat + " | Biblioteca: " + lib + " | Categoría: " + cat + " | Puntaje: " + score + "/100 | Completado: " + sCompleted);
 
-                int tses = mg.getTimeLastSession(gameIdSelected) * 60;
-                int tuno = mg.getLastDays(gameIdSelected, 1, true);
-                int tsiete = mg.getLastDays(gameIdSelected, 7, true);
-                int tcatorce = mg.getLastDays(gameIdSelected, 14, true);
-                int ttreinta = mg.getLastDays(gameIdSelected, 30, true);
+                int tses = mg.getTimeLastSession(gameIdSelected);
+                int tuno = mg.getLastDays(gameIdSelected, 1, false);
+                int tsiete = mg.getLastDays(gameIdSelected, 7, false);
+                int tcatorce = mg.getLastDays(gameIdSelected, 14, false);
+                int ttreinta = mg.getLastDays(gameIdSelected, 30, false);
+                int ttagno = mg.getLastDays(gameIdSelected, 365, false);
                 String ses = Utils.getTotalHoursFromSeconds(tses, false);
                 String uno = Utils.getTotalHoursFromSeconds(tuno, false);
                 String siete = Utils.getTotalHoursFromSeconds(tsiete, false);
                 String catorce = Utils.getTotalHoursFromSeconds(tcatorce, false);
                 String treinta = Utils.getTotalHoursFromSeconds(ttreinta, false);
-                txtGamesTime.setText(" Última sesión: " + ses + " | Día: " + uno + " | 7 días: " + siete + " | 14 días: " + catorce + " | 30 días: " + treinta);
+                String agno = Utils.getTotalHoursFromSeconds(ttagno, false);
+                txtGamesTime.setText(" Última sesión: " + ses + " | Día: " + uno + " | 7 días: " + siete + " | 14 días: " + catorce + " | 30 días: " + treinta + " | Año: " + agno);
 
                 txtGameNotes.setText(mg.getNotes(gameIdSelected));
                 

@@ -3,12 +3,11 @@ package frontend;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 import database.ModelConfig;
 
 public class Main {
     public static Process p;
-    public static final String VERSION_APP = "1.2.4.160";
+    public static final String VERSION_APP = "1.2.4.164";
     public static boolean test = false;
 
     @SuppressWarnings("unused")

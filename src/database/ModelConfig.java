@@ -285,12 +285,6 @@ public class ModelConfig {
         } catch(Exception ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
-            /*try {
-                Main.p.destroy();
-            } catch(NullPointerException exx) {
-                exx.printStackTrace();
-                System.exit(0);
-            }*/
         }
         return x;
     }
