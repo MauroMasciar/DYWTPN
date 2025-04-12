@@ -108,11 +108,7 @@ public class Platform extends JInternalFrame implements ActionListener, MouseLis
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btnAdd) {
             String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre de la plataforma");
-            try {
-                if(cat.length() == 0) return;
-            } catch(@SuppressWarnings("unused") NullPointerException ex) {
-                return;
-            }
+            if(cat.length() == 0) return;
             if(cat != "") {
                 ModelGames mg = new ModelGames();
                 int rp = mg.addPlatform(cat);

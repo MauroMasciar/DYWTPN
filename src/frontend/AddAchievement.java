@@ -19,7 +19,8 @@ import database.ModelGames;
 import database.ModelPlayer;
 
 public class AddAchievement extends JInternalFrame implements ActionListener {
-    private JPanel pnl = new JPanel();
+	private static final long serialVersionUID = -3185206020387818582L;
+	private JPanel pnl = new JPanel();
     private final JLabel lblGame = new JLabel("Juego: ");
     private final JLabel lblAchiev = new JLabel("Hazaña: ");
     private JComboBox<String> cbGame = new JComboBox<>();

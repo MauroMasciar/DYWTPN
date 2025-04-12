@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Cronometer extends JInternalFrame implements ActionListener {
-    private JButton btn = new JButton("Iniciar");
+	private static final long serialVersionUID = -5161641925575734087L;
+	private JButton btn = new JButton("Iniciar");
     public Cronometer() {
         setSize(300, 200);
         setLayout(new FlowLayout());

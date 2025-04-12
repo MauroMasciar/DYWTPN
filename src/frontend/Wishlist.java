@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import database.ModelGames;
 
 public class Wishlist extends JInternalFrame implements ActionListener {
-    private JList<String> jlGames = new JList<>();
+	private static final long serialVersionUID = 149372559397158905L;
+	private JList<String> jlGames = new JList<>();
     private JScrollPane scrLGames = new JScrollPane(jlGames);
     private DefaultListModel<String> modelList = new DefaultListModel<>();
     private JButton btnNew = new JButton("Nuevo");

@@ -103,11 +103,7 @@ public class Rating extends JInternalFrame implements ActionListener, MouseListe
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btnAdd) {
             String cat = JOptionPane.showInputDialog(this, "Ingrese el nombre del rating");
-            try {
-                if(cat.length() == 0) return;
-            } catch(@SuppressWarnings("unused") NullPointerException ex) {
-                return;
-            }
+            if(cat.length() == 0) return;
             if(cat != "") {
                 ModelGames mg = new ModelGames();
                 int rp = mg.addRating(cat);

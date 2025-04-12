@@ -27,7 +27,8 @@ import com.raven.datechooser.DateChooser;
 import database.ModelGames;
 
 public class Statistics extends JInternalFrame implements ActionListener, ItemListener {
-    private final JLabel lblDateInit = new JLabel("Inicio");
+	private static final long serialVersionUID = -6616486842226855731L;
+	private final JLabel lblDateInit = new JLabel("Inicio");
     private final JLabel lblDateEnd = new JLabel("Fin");
     private final JTextField txtDateInit = new JTextField();
     private final JTextField txtDateEnd = new JTextField();    

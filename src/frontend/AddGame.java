@@ -350,7 +350,7 @@ public class AddGame extends JInternalFrame implements ActionListener, ChangeLis
 
         txtLastPlayed.setEditable(false);
 
-        chStatistic.setSelected(true);
+        chGhost.setSelected(true);
 
         if(Validations.isEmpty(txtReleaseDate)) txtReleaseDate.setText("1900-01-01");
         if(Validations.isEmpty(txtLastPlayed)) txtLastPlayed.setText("1900-01-01 00:00:00");

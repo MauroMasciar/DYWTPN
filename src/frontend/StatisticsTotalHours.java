@@ -16,7 +16,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import database.ModelGames;
 
 public class StatisticsTotalHours extends JInternalFrame {
-    private JFreeChart barChart = ChartFactory.createBarChart("", "Juegos", "Horas", createData(), PlotOrientation.VERTICAL, true, true, false);
+	private static final long serialVersionUID = -1019661207045132815L;
+	private JFreeChart barChart = ChartFactory.createBarChart("", "Juegos", "Horas", createData(), PlotOrientation.VERTICAL, true, true, false);
 
     public StatisticsTotalHours() {
         ModelGames mg = new ModelGames();

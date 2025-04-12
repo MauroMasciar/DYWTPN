@@ -10,6 +10,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public final class Test extends JPanel {
     /*public static void main(String[] args) {
 	JFrame frame = new JFrame("CheckedComboBox");

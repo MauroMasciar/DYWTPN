@@ -15,7 +15,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 
 public class Notes extends JInternalFrame implements KeyListener {
-    private JTextArea txtaNotes = new JTextArea();
+	private static final long serialVersionUID = 2780781915469170745L;
+	private JTextArea txtaNotes = new JTextArea();
     private JScrollPane scr = new JScrollPane(txtaNotes);
     private File f = new File("notes.txt");
     
