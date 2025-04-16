@@ -6,9 +6,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-
-import backend.Utils;
-
 import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -22,6 +19,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import database.ModelGames;
+import debug.Log;
+import backend.Utils;
 
 public class Platform extends JInternalFrame implements ActionListener, MouseListener, InternalFrameListener {
     private static final long serialVersionUID = -1072944751022628676L;
@@ -82,15 +81,21 @@ public class Platform extends JInternalFrame implements ActionListener, MouseLis
         modelList.clear();
 
         ModelGames mg = new ModelGames();
-        int platform_id = mg.getPlatformIdFromName(cbPlatforms.getSelectedItem().toString());
         ArrayList<String> listPlatforms = new ArrayList<>();
-        listPlatforms = mg.getGamesNameListPlatform(platform_id);
-        for(int i = 1; i < listPlatforms.size(); i++) {
-            modelList.addElement(listPlatforms.get(i) + " (" + Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(mg.getIdFromGameName(listPlatforms.get(i))), true) + ")");
+        int nGames = 0, time_played = 0;
+        try {
+        	int platform_id = mg.getPlatformIdFromName(cbPlatforms.getSelectedItem().toString());
+            listPlatforms = mg.getGamesNameListPlatform(platform_id);
+            for(int i = 1; i < listPlatforms.size(); i++) {
+                modelList.addElement(listPlatforms.get(i) + " (" + Utils.getTotalHoursFromSeconds(mg.getSecondsPlayed(mg.getIdFromGameName(listPlatforms.get(i))), true) + ")");
+            }
+            jlistGames.setModel(modelList);
+            nGames = listPlatforms.size() - 1;
+            time_played = mg.getPlatformTimePlayed(platform_id);
+        } catch(NullPointerException ex) {
+        	JOptionPane.showMessageDialog(getParent(), "Ha habido un error con los datos", "Error", JOptionPane.ERROR_MESSAGE);
+        	Log.Loguear("ERROR frontend.Platform.updateGameList()\n" + ex.getMessage());
         }
-        jlistGames.setModel(modelList);
-        int nGames = listPlatforms.size() - 1;
-        int time_played = mg.getPlatformTimePlayed(platform_id);
         setTitle(cbPlatforms.getSelectedItem().toString() + " | " + nGames + " juegos | " + Utils.getTotalHoursFromSeconds(time_played, true));
     }
 

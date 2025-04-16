@@ -68,7 +68,7 @@ public class PlayerActivities extends JInternalFrame implements ActionListener {
     private void loadActivity() {
         ArrayList<String> listGames = new ArrayList<>();
         ModelGames mg = new ModelGames();
-        listGames = mg.getGamesNameList(true, false, false);
+        listGames = mg.getGamesNameList(true, false, true);
         cbGames.removeAllItems();
         cbGames.addItem("Todos");
 

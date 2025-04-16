@@ -528,7 +528,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
         ModelGames mg = new ModelGames();
         String path = mg.getPathFromGame(gameIdSelected);
         ProcessBuilder pb;
-        if(mg.isGhost(gameIdSelected)) {
+        if(mg.isGhost(gameIdSelected) || mg.getPlatform(gameIdSelected) != 1) {
             pb = new ProcessBuilder("GhostGame.exe");
         } else {
             pb = new ProcessBuilder(path);
@@ -543,7 +543,7 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
                 new Thread(new Runnable() {
                     public void run() {
                         try {
-                             p.waitFor();
+                            p.waitFor();
                             gameIdLaunched = 0;
                             ig.closeGame();
                             loadData(true, true);

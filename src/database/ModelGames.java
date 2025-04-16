@@ -208,6 +208,7 @@ public class ModelGames {
         else if(filter == "Categoria") filter = "category DESC";
         else if(filter == "Completado") filter = "completed DESC";
         else if(filter == "Puntos") filter = "score DESC";
+        else if(filter == "Biblioteca") filter = "library DESC";
         else filter = "name ASC"; 
         if(lastPlayed) filter = "last_played DESC, name ASC";
 
