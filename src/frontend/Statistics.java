@@ -25,7 +25,9 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import com.raven.datechooser.DateChooser;
 
+import database.ModelConfig;
 import database.ModelGames;
+import database.ModelPlayer;
 
 public class Statistics extends JInternalFrame {
 	private static final long serialVersionUID = -6616486842226855731L;
@@ -279,6 +281,31 @@ class panelStatistics extends JPanel {
 		txtTopLibrary.setEditable(false);
 		txtTopPlatform.setEditable(false);
 		txtTopCategory.setEditable(false);
+	}
+	
+	public void loadData() {
+		ModelConfig mc = new ModelConfig();
+		ModelGames mg = new ModelGames();
+		txtName.setText(mc.getUsername());
+		txtRegisterDate.setText(mc.getRegisterDate());
+		txtHoursLastDay.setText(ModelPlayer.getTimeLastDay());
+		txtHoursLastWeek.setText(ModelPlayer.getTimeLastWeek());
+		txtHoursLastTwoWeek.setText(ModelPlayer.getTimeLastFourteen());
+		txtHoursLastMonth.setText(ModelPlayer.getTimeLastMonth());
+		txtHoursLastYear.setText(ModelPlayer.getTimeLastYear());
+		txtHoursTotal.setText(ModelPlayer.getTotalTimePlayer());
+		txtTotalInitGames.setText(String.valueOf(mg.getNumberCompletedGames()));
+		txtTotalCompletedGames.setText(String.valueOf(mg.getCountGamesPlayed()));
+		txtTotalPorcentCompletedGames.setText("0%");
+		txtTotalSessions.setText(mg.getTotalSessions());
+		txtGameMostPlayedHours.setText();
+		txtGameMostPlayerInit.setText();
+		txtGameTopAchievement.setText();
+		txtGameOfYear.setText();
+		txtGameOfMonth.setText();
+		txtTopLibrary.setText();
+		txtTopPlatform.setText();
+		txtTopCategory.setText();
 	}
 }
 

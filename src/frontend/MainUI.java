@@ -324,8 +324,13 @@ public class MainUI extends JInternalFrame implements ActionListener, ListSelect
 
     public static void loadTotal() {
         ModelGames mg = new ModelGames();
-        String totalInfo = " Total de juegos: " + mg.getTotalGames() + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: "
-                + String.valueOf(mg.getNumberCompletedGames()) + " | Sesiones: " + mg.getTotalSessions();
+        int totalGames, totalCompletedGames;
+        totalGames = mg.getTotalGames();
+        totalCompletedGames = mg.getNumberCompletedGames();
+        double percent = (totalCompletedGames / totalGames) * 100;
+        
+        String totalInfo = " Total de juegos: " + totalGames + " | Iniciados: " + String.valueOf(mg.getCountGamesPlayed()) + " | Completados: "
+                + String.valueOf(totalCompletedGames) + " (" + percent + "%) | Sesiones: " + mg.getTotalSessions();
         txtTotalInfo.setText(totalInfo);
     }
 

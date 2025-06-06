@@ -167,4 +167,51 @@ public class ModelPlayer {
         }
         return i;
     }
+    
+    public static String getTimeLastDay() {
+    	Log.Loguear("getTimeLastDay()");
+    	ModelGames mg = new ModelGames();
+    	int last = mg.getLastDays(0, 1, false);
+    	String string = Utils.getTotalHoursFromSeconds(last, false);
+    	return string;
+    }
+    
+    public static String getTimeLastWeek() {
+    	Log.Loguear("getTimeLastWeek()");
+    	ModelGames mg = new ModelGames();
+    	int last = mg.getLastDays(0, 7, false);
+    	String string = Utils.getTotalHoursFromSeconds(last, false);
+    	return string;
+    }
+    
+    public static String getTimeLastFourteen() {
+    	Log.Loguear("getTimeLastFourteen()");
+    	ModelGames mg = new ModelGames();
+    	int last = mg.getLastDays(0, 14, false);
+    	String string = Utils.getTotalHoursFromSeconds(last, false);
+    	return string;
+    }
+    
+    public static String getTimeLastMonth() {
+    	Log.Loguear("getTimeLastMonth()");
+    	ModelGames mg = new ModelGames();
+    	int last = mg.getLastDays(0, 30, false);
+    	String string = Utils.getTotalHoursFromSeconds(last, false);
+    	return string;
+    }
+    
+    public static String getTimeLastYear() {
+    	Log.Loguear("getTimeLastYear()");
+    	ModelGames mg = new ModelGames();
+    	int last = mg.getLastDays(0, 365, false);
+    	String string = Utils.getTotalHoursFromSeconds(last, false);
+    	return string;
+    }
+    
+    public static String getTotalTimePlayer() {
+    	Log.Loguear("getTotalTimePlayer()");
+    	ModelGames mg = new ModelGames();
+    	String totalTimePlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsTotalPlayed(), true);
+    	return totalTimePlayed;
+    }
 }
