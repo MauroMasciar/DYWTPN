@@ -297,15 +297,15 @@ class panelStatistics extends JPanel {
 		txtTotalInitGames.setText(String.valueOf(mg.getNumberCompletedGames()));
 		txtTotalCompletedGames.setText(String.valueOf(mg.getCountGamesPlayed()));
 		txtTotalPorcentCompletedGames.setText("0%");
-		txtTotalSessions.setText(mg.getTotalSessions());
-		txtGameMostPlayedHours.setText();
-		txtGameMostPlayerInit.setText();
-		txtGameTopAchievement.setText();
-		txtGameOfYear.setText();
-		txtGameOfMonth.setText();
-		txtTopLibrary.setText();
-		txtTopPlatform.setText();
-		txtTopCategory.setText();
+		txtTotalSessions.setText(String.valueOf(mg.getTotalSessions()));
+		txtGameMostPlayedHours.setText("");
+		txtGameMostPlayerInit.setText("");
+		txtGameTopAchievement.setText("");
+		txtGameOfYear.setText("");
+		txtGameOfMonth.setText("");
+		txtTopLibrary.setText("");
+		txtTopPlatform.setText("");
+		txtTopCategory.setText("");
 	}
 }
 

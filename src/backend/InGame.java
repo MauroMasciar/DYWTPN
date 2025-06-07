@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
+import database.ModelConfig;
 import database.ModelGames;
 import database.ModelPlayer;
 import debug.Log;
@@ -29,12 +30,14 @@ public class InGame {
             gameTimePlayedTotalInit = mg.getSecondsTotalPlayed();
             current_session_number = mg.getTotalSessions()  + 1;
             mg.initSession(current_session_number, gameIdLaunched);
-                        
-            launchGame();
+            
+            ModelConfig mc = new ModelConfig();
+            
+            launchGame(mc.getUsername(), mg.getNameFromId(IdLaunched), mc.getUserid());
         }
     }
 
-    private void launchGame() {
+    private void launchGame(String username, String gamename, String user_id) {
         new Thread(new Runnable() {
             public void run() {
                 if(gameIdLaunched == 0) Thread.currentThread().interrupt();
@@ -55,6 +58,10 @@ public class InGame {
                             ModelGames mg = new ModelGames();
                             mg.updateSession(current_session_number, secondsBeetwenTimes);
                         }
+                        if(secondsBeetwenTimes % 60 == 0) {
+                            WebApp.send(username, gamename, user_id, secondsBeetwenTimes, 1);
+                        }
+
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         Log.Loguear(ex.getMessage());
@@ -133,6 +140,9 @@ public class InGame {
             }
 
             mg.deleteSessionBackup(current_session_number);
+            
+            ModelConfig mc = new ModelConfig();
+            WebApp.send(mc.getUsername(), mg.getNameFromId(gameIdLaunched), mc.getUserid(), (int)secondsBeetwenTimes, 0);
 
             gameIdLaunched = 0;
 

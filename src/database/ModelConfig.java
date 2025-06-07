@@ -98,6 +98,29 @@ public class ModelConfig {
         }
         return name;
     }
+    
+    public String getUserid() {
+    	Log.Loguear("getUserid()");
+        String query = "SELECT user_id FROM config";
+        String user_id = "";
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+            	user_id = rs.getString("user_id");
+            } else {
+            	user_id = "ERROR";
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return user_id;
+	}
 
     public String getLastGame() {
         Log.Loguear("getLastGame()");
@@ -438,6 +461,25 @@ public class ModelConfig {
         if(r == 0) return false;
         return true;
     }
+    
+public String getRegisterDate() {
+		Log.Loguear("getRegisterDate()");
+		String query = "SELECT date FROM config";
+		String date = "";
+		try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) date = rs.getString("date");
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+		return date;
+	}
     
     public void setOrderByDateNewSession(int n) {
         Log.Loguear("setOrderByDateNewSession(int n)");
