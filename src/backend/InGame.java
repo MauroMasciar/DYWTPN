@@ -28,12 +28,12 @@ public class InGame {
             ModelGames mg = new ModelGames();
             gameTimePlayedInitCurrentGame = mg.getSecondsPlayed(IdLaunched);
             gameTimePlayedTotalInit = mg.getSecondsTotalPlayed();
-            current_session_number = mg.getTotalSessions()  + 1;
+            current_session_number = mg.getTotalSessions() + 1;
             mg.initSession(current_session_number, gameIdLaunched);
             
             ModelConfig mc = new ModelConfig();
             
-            launchGame(mc.getUsername(), mg.getNameFromId(IdLaunched), mc.getUserid());
+            launchGame(mc.getUsername(), mg.getNameFromId(IdLaunched), mc.getUserId());
         }
     }
 
@@ -52,14 +52,14 @@ public class InGame {
 
                         gameTimePlayedCurrentGame = gameTimePlayedInitCurrentGame + secondsBeetwenTimes;
                         gameTimePlayedTotal = gameTimePlayedTotalInit + secondsBeetwenTimes;
-                        System.out.println("Sesión: " + gameTimePlayedInitCurrentGame + " - " + gameTimePlayedCurrentGame + " - Total: " + gameTimePlayedTotalInit + " - " + gameTimePlayedTotal + " -- " + initTime + " - " + currentTime);
+                        //System.out.println("Sesión: " + gameTimePlayedInitCurrentGame + " - " + gameTimePlayedCurrentGame + " - Total: " + gameTimePlayedTotalInit + " - " + gameTimePlayedTotal + " -- " + initTime + " - " + currentTime);
 
                         if(secondsBeetwenTimes % 30 == 0) {
                             ModelGames mg = new ModelGames();
                             mg.updateSession(current_session_number, secondsBeetwenTimes);
                         }
                         if(secondsBeetwenTimes % 60 == 0) {
-                            WebApp.send(username, gamename, user_id, secondsBeetwenTimes, 1);
+                            WebApp.sendStatus(username, gamename, user_id, secondsBeetwenTimes, 1);
                         }
 
                         Thread.sleep(1000);
@@ -142,7 +142,7 @@ public class InGame {
             mg.deleteSessionBackup(current_session_number);
             
             ModelConfig mc = new ModelConfig();
-            WebApp.send(mc.getUsername(), mg.getNameFromId(gameIdLaunched), mc.getUserid(), (int)secondsBeetwenTimes, 0);
+            WebApp.sendStatus(mc.getUsername(), mg.getNameFromId(gameIdLaunched), mc.getUserId(), (int)secondsBeetwenTimes, 0);
 
             gameIdLaunched = 0;
 

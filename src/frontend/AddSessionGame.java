@@ -130,14 +130,6 @@ public class AddSessionGame extends JInternalFrame implements ActionListener {
             }
             int minsPlayed = (Integer) spinTime.getValue();
             int gameId = mg.getIdFromGameName(cbGame.getSelectedItem().toString());
-            /*if(mg.addSessionGame(gameId, cbGame.getSelectedItem().toString(), minsPlayed, txtDate.getText()) == 1) {
-                ModelGames mg = new ModelGames();
-                mg.newSession(gameId, minsPlayed*60);
-                this.dispose();
-                JOptionPane.showMessageDialog(this, "La sesión de juego se ha agregado satisfactoriamente", "Sesión añadida", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "La sesión de juego no se ha podido agregar. Verifica que todos los datos sean correctos", "Error", JOptionPane.ERROR_MESSAGE);
-            }*/
             String date = txtDate.getText() + " " + timePicker.getSelectedTime() + ":00";
             mg.saveSession(gameId, minsPlayed*60, date);
             JOptionPane.showMessageDialog(this, "La sesión de juego se ha agregado satisfactoriamente", "Sesión añadida", JOptionPane.INFORMATION_MESSAGE);

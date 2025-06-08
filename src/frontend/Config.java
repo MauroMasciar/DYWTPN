@@ -21,6 +21,8 @@ public class Config extends JInternalFrame implements ActionListener {
     private static final long serialVersionUID = 6985809216237042311L;
     private final JLabel lblName = new JLabel("Nombre");
     private final JTextField txtName = new JTextField(10);
+    private final JLabel lblUserId = new JLabel("ID");
+    private final JTextField txtUserId = new JTextField(10);
     private final JButton btnSave = new JButton("Guardar datos");
     private final JButton btnTruncate = new JButton("Resetear datos");
     private final JLabel lblMainUIx = new JLabel("Main X");
@@ -72,6 +74,15 @@ public class Config extends JInternalFrame implements ActionListener {
         gbc.gridwidth = 3;
         gbc.weightx = 3.0;
         pnl.add(txtName, gbc);
+        gbc.gridwidth = 1;
+        gbc.weightx = 1.0;
+        gbc.gridx = 0;
+        gbc.gridy++;
+        pnl.add(lblUserId, gbc);
+        gbc.gridx++;
+        gbc.gridwidth = 3;
+        gbc.weightx = 3.0;
+        pnl.add(txtUserId, gbc);        
         gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.gridx = 0;
@@ -150,6 +161,7 @@ public class Config extends JInternalFrame implements ActionListener {
 
         ModelConfig mc = new ModelConfig();
         txtName.setText(mc.getUsername());
+        txtUserId.setText(mc.getUserId());
         txtMainUIx.setText(String.valueOf(mc.getBounds_x("MainUI")));
         txtMainUIy.setText(String.valueOf(mc.getBounds_y("MainUI")));
         txtActivityx.setText(String.valueOf(mc.getBounds_y("Activity")));

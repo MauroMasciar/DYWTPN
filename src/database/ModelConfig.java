@@ -99,7 +99,7 @@ public class ModelConfig {
         return name;
     }
     
-    public String getUserid() {
+    public String getUserId() {
     	Log.Loguear("getUserid()");
         String query = "SELECT user_id FROM config";
         String user_id = "";

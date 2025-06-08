@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import backend.Utils;
+import backend.WebApp;
 import debug.Log;
 import frontend.MainUI;
 
@@ -24,7 +25,6 @@ public class ModelGames {
     private static ResultSet rs;
 
     public int saveSession(int gameId, int time, String date_start) {
-        Log.Loguear("saveSession(int gameId, int time, String date_start)");
         String query = "SELECT play_count FROM games WHERE id = " + gameId;
         int play_count = 0, library_id = 0, platform_id = 0;
         try {
@@ -46,6 +46,9 @@ public class ModelGames {
             library_id = getLibraryIdFromGame(gameId);
             platform_id = getPlatformIdFromGame(gameId);
             
+            ModelGames mg = new ModelGames();
+            int current_session_number = mg.getTotalSessions() + 1;
+            
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date;
@@ -58,6 +61,9 @@ public class ModelGames {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            
+            ModelConfig mc = new ModelConfig();
+            WebApp.sendSession(mc.getUserId(), mc.getUsername(), current_session_number, game_name, library_id, platform_id, date_start, date_end, time);
             
             saveGameHistory(gameId, time, game_name, library_id, platform_id, date_start, date_end);
             saveGameTime(gameId, time);
@@ -662,7 +668,7 @@ public class ModelGames {
     }    
 
     public int getIdFromGameName(String name) {
-        Log.Loguear("getIdFromGameName(String name)");
+        //Log.Loguear("getIdFromGameName(String name)");
         if (name != "") {
             String query = "SELECT id FROM games WHERE name = '" + name + "'";
             int id = 0;
