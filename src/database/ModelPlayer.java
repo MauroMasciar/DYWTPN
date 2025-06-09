@@ -11,6 +11,7 @@ import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 
 import backend.Utils;
+import backend.WebApp;
 
 public class ModelPlayer {
     private Connection conex = null;
@@ -214,4 +215,32 @@ public class ModelPlayer {
     	String totalTimePlayed = Utils.getTotalHoursFromSeconds(mg.getSecondsTotalPlayed(), true);
     	return totalTimePlayed;
     }
+
+	public void sendSession(int id, String user_id, String name) {
+		Log.Loguear("sendSession(int id, String user_id, String name)");
+		int library_id = 0, platform_id = 0, seconds = 0;
+		String game_name = "", datetime_start = "", datetime_end = ""; 
+		
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM games_sessions_history WHERE id = " + id);
+            if(rs.next()) {
+            	game_name = rs.getString("game_name");
+            	library_id = rs.getInt("library_id");
+            	platform_id = rs.getInt("platform_id");
+            	datetime_start = rs.getString("datetime_start");
+            	datetime_end = rs.getString("datetime_end");
+            	seconds = rs.getInt("seconds");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+            
+            WebApp.sendSession(user_id, name, game_name, library_id, platform_id, datetime_start, datetime_end, seconds);
+        } catch (SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+	}
 }

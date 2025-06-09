@@ -121,6 +121,21 @@ public class ModelConfig {
         }
         return user_id;
 	}
+    
+    public void setUserId(String args) {
+        Log.Loguear("setUserId()");
+        String query = "UPDATE config SET user_id = '" + args + "'";
+        try {
+            this.conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = this.conex.createStatement();
+            stmt.execute(query);
+            conex.close();
+            stmt.close();
+        } catch (Exception ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
 
     public String getLastGame() {
         Log.Loguear("getLastGame()");

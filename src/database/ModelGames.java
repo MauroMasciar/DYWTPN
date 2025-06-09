@@ -46,9 +46,6 @@ public class ModelGames {
             library_id = getLibraryIdFromGame(gameId);
             platform_id = getPlatformIdFromGame(gameId);
             
-            ModelGames mg = new ModelGames();
-            int current_session_number = mg.getTotalSessions() + 1;
-            
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date;
@@ -63,7 +60,7 @@ public class ModelGames {
             }
             
             ModelConfig mc = new ModelConfig();
-            WebApp.sendSession(mc.getUserId(), mc.getUsername(), current_session_number, game_name, library_id, platform_id, date_start, date_end, time);
+            WebApp.sendSession(mc.getUserId(), mc.getUsername(), game_name, library_id, platform_id, date_start, date_end, time);
             
             saveGameHistory(gameId, time, game_name, library_id, platform_id, date_start, date_end);
             saveGameTime(gameId, time);
@@ -1956,7 +1953,30 @@ public class ModelGames {
         }
         return res;
     }
+    
+    public int getLastSessionId() {
+    	int res = 0;
+    	String query = "SELECT id FROM `games_sessions_history` ORDER BY `games_sessions_history`.`id` DESC LIMIT 1";
+        try {
+            conex = DriverManager.getConnection(Data.url, Data.username, Data.password);
+            stmt = conex.createStatement();
+            rs = stmt.executeQuery(query);
+            if(rs.next()) {
+                res = rs.getInt("id");
+            }
+            conex.close();
+            stmt.close();
+            rs.close();
+        } catch(SQLException ex) {
+            Log.Loguear(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return res;
+    	
+    	
 
+    }
+    
     public int getTotalGames() {
         Log.Loguear("getTotalGames()");
         String query = "SELECT count(name) AS total FROM games";

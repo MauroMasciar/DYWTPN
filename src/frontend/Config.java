@@ -222,7 +222,8 @@ public class Config extends JInternalFrame implements ActionListener {
             mc.setOrderByDateNewAchiev(n);
             n = 0;
             if(chSessionGame.isSelected()) n = 1;
-            mc.setOrderByDateNewSession(n);            
+            mc.setOrderByDateNewSession(n);
+            mc.setUserId(txtUserId.getText());
         }
     }
 }

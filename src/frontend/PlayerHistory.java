@@ -1,11 +1,16 @@
 package frontend;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+
+import backend.WebApp;
+
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
@@ -24,6 +29,8 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
     private static final long serialVersionUID = 4484286064012240569L;
     private final JComboBox<String> cbGames = new JComboBox<>();
     private final JScrollPane scrTable = new JScrollPane(tbPlayerHistory);
+    private final JPopupMenu popUpMenu = new JPopupMenu();
+    private final JMenuItem mnuiSendWeb = new JMenuItem("Enviar a la web");
     public static final JTable tbPlayerHistory = new JTable();
     private boolean upd = true;
     private boolean open = true;
@@ -67,6 +74,10 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
         cbGames.addActionListener(this);
         tbPlayerHistory.addKeyListener(this);
         
+        tbPlayerHistory.setComponentPopupMenu(popUpMenu);
+        popUpMenu.add(mnuiSendWeb);
+        mnuiSendWeb.addActionListener(this);
+        
         this.addInternalFrameListener(this);
 
         setVisible(true);
@@ -94,9 +105,14 @@ public class PlayerHistory extends JInternalFrame implements ActionListener, Key
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == cbGames) {
             if(upd) {
-                ModelPlayer model = new ModelPlayer();
-                tbPlayerHistory.setModel(model.getHistory(cbGames.getSelectedItem().toString()));
+            	ModelPlayer mp = new ModelPlayer();
+                tbPlayerHistory.setModel(mp.getHistory(cbGames.getSelectedItem().toString()));
             }
+        } else if(e.getSource() == mnuiSendWeb) {
+        	int pos = (Integer)tbPlayerHistory.getValueAt(tbPlayerHistory.getSelectedRow(), 0);
+        	ModelPlayer mp = new ModelPlayer();
+        	ModelConfig mc = new ModelConfig();
+        	mp.sendSession(pos, mc.getUserId(), mc.getUsername());
         }
     }
 
