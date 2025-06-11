@@ -58,7 +58,8 @@ public class InGame {
                             ModelGames mg = new ModelGames();
                             mg.updateSession(current_session_number, secondsBeetwenTimes);
                         }
-                        if(secondsBeetwenTimes % 60 == 0) {
+                        if(secondsBeetwenTimes % 60 == 0 && !user_id.equals("0")) {
+                        	System.out.println("enviando estado");
                             WebApp.sendStatus(username, gamename, user_id, secondsBeetwenTimes, 1);
                         }
 
@@ -142,7 +143,8 @@ public class InGame {
             mg.deleteSessionBackup(current_session_number);
             
             ModelConfig mc = new ModelConfig();
-            WebApp.sendStatus(mc.getUsername(), mg.getNameFromId(gameIdLaunched), mc.getUserId(), (int)secondsBeetwenTimes, 0);
+            String user_id = mc.getUserId();
+            if(!user_id.equals("0")) WebApp.sendStatus(mc.getUsername(), mg.getNameFromId(gameIdLaunched), user_id, (int)secondsBeetwenTimes, 0);
 
             gameIdLaunched = 0;
 

@@ -1,25 +1,27 @@
 package frontend;
 
-import database.ModelGames;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.util.ArrayList;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 
 
 public final class Test extends JPanel {
-    /*public static void main(String[] args) {
-	JFrame frame = new JFrame("CheckedComboBox");
-	frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	frame.getContentPane().add(new Test());
-	frame.pack();
-	frame.setLocationRelativeTo(null);
-	frame.setVisible(true);
-    }*/
+	/*public static void main(String[] args) {
+    	/*JFrame frame = new JFrame("CheckedComboBox");
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.getContentPane().add(new Test());
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);*/
+    	
+    	/*for(int i=0; i<1250;i++) {
+
+    		System.out.println("ID: " + i);
+        	ModelPlayer mp = new ModelPlayer();
+        	ModelConfig mc = new ModelConfig();
+        	mp.sendSession(i, mc.getUserId(), mc.getUsername());
+        	
+        	System.out.println("----------------");
+    	}
+    }
 
     private Test() {
         super(new BorderLayout());
@@ -27,7 +29,7 @@ public final class Test extends JPanel {
         p.add(new CheckedComboBox<>(makeModel()));
         add(p, BorderLayout.NORTH);
         setPreferredSize(new Dimension(320, 240));
-    }
+    }*/
     
     /*public int addSessionGame(int gameId, String name, int minsPlayed, String date) {
         int resultado = 0;
@@ -61,7 +63,7 @@ public final class Test extends JPanel {
         return resultado;
     }*/
 
-    private static ComboBoxModel<CheckableItem> makeModel() {
+    /*private static ComboBoxModel<CheckableItem> makeModel() {
         ModelGames mg = new ModelGames();
         ArrayList<String> games = new ArrayList<>();
         games = mg.getGamesNameList(true, false, false);
@@ -75,5 +77,5 @@ public final class Test extends JPanel {
                 new CheckableItem("c", false)
         };
         return new DefaultComboBoxModel<>(m);
-    }
+    }*/
 }

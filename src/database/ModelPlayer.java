@@ -103,6 +103,10 @@ public class ModelPlayer {
             p.executeUpdate();
             conex.close();
             rs.close();
+            ModelConfig mc = new ModelConfig();
+            String user_id = mc.getUserId();            
+            
+            if(user_id != "0") WebApp.sendAchievement(user_id, achievement, Utils.getFormattedDateTime());
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
@@ -237,7 +241,9 @@ public class ModelPlayer {
             stmt.close();
             rs.close();
             
-            WebApp.sendSession(user_id, name, game_name, library_id, platform_id, datetime_start, datetime_end, seconds);
+            if(!user_id.equals("0")) {
+            	WebApp.sendSession(user_id, name, game_name, library_id, platform_id, datetime_start, datetime_end, seconds);
+            }
         } catch (SQLException ex) {
             Log.Loguear(ex.getMessage());
             ex.printStackTrace();
